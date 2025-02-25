@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - AgriGo</title>
+    <link rel="stylesheet" type="text/css" href="admin.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+  </head>
+  <body>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar" id="sidebar">
+      <div class="logo">
+        <img src="images/logo.png" alt="AgriGo Logo" />
+        <h2>AgriGo</h2>
+      </div>
+      <ul>
+        <li>
+          <a href="#dashboard" class="active"
+            ><i class="fas fa-tachometer-alt"></i> Dashboard</a
+          >
+        </li>
+        <li>
+          <a href="#users"><i class="fas fa-users"></i> Users</a>
+        </li>
+        <li>
+          <a href="#products"><i class="fas fa-shopping-basket"></i> Products</a>
+        </li>
+        <li>
+          <a href="#orders"><i class="fas fa-clipboard-list"></i> Orders</a>
+        </li>
+        <li>
+          <a href="#analytics"><i class="fas fa-chart-line"></i> Analytics</a>
+        </li>
+        <li>
+          <a href="#settings"><i class="fas fa-cog"></i> Settings</a>
+        </li>
+        <li>
+          <a href="#" id="logoutBtn"
+            ><i class="fas fa-sign-out-alt"></i> Logout</a
+          >
+        </li>
+      </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+      <!-- Header -->
+      <header>
+        <div class="header-left">
+          <div class="menu-icon" id="menuIcon">
+            <i class="fas fa-bars"></i>
+          </div>
+          <h1>Admin Dashboard</h1>
+        </div>
+        <div class="header-right">
+          <div class="notification">
+            <i class="fas fa-bell"></i>
+            <span class="badge">3</span>
+          </div>
+          <div class="profile">
+            <img src="images/admin-avatar.jpg" alt="Admin Avatar" />
+            <span>Admin</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Dashboard Tab -->
+      <section id="dashboard" class="tab-content active">
+        <!-- Key Metrics -->
+        <div class="metrics">
+          <div class="metric animate__animated animate__fadeIn">
+            <h3>Total Users</h3>
+            <p>1,234</p>
+          </div>
+          <div class="metric animate__animated animate__fadeIn">
+            <h3>Total Orders</h3>
+            <p>567</p>
+          </div>
+          <div class="metric animate__animated animate__fadeIn">
+            <h3>Revenue</h3>
+            <p>$12,345</p>
+          </div>
+          <div class="metric animate__animated animate__fadeIn">
+            <h3>Active Farmers</h3>
+            <p>89</p>
+          </div>
+        </div>
+
+        <!-- Recent Activities -->
+        <div class="recent-activities animate__animated animate__fadeInUp">
+          <h2>Recent Activities</h2>
+          <ul>
+            <li>New user registered: John Doe</li>
+            <li>Order #123 placed: 100kg Tomatoes</li>
+            <li>Product added: Organic Milk</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Users Tab -->
+      <section id="users" class="tab-content">
+        <h2>Users Management</h2>
+        <div class="search-filter">
+          <input type="text" placeholder="Search users..." />
+          <select>
+            <option>All</option>
+            <option>Buyers</option>
+            <option>Farmers</option>
+          </select>
+        </div>
+        <div class="user-list">
+          <!-- User cards will be dynamically loaded here -->
+        </div>
+      </section>
+
+      <!-- Products Tab -->
+      <section id="products" class="tab-content">
+        <h2>Products Management</h2>
+        <div class="product-actions">
+          <button class="btn-approve">Approve</button>
+          <button class="btn-reject">Reject</button>
+        </div>
+        <div class="product-list">
+          <!-- Product cards will be dynamically loaded here -->
+        </div>
+      </section>
+
+      <!-- Orders Tab -->
+      <section id="orders" class="tab-content">
+        <h2>Orders Management</h2>
+        <div class="order-filters">
+          <select>
+            <option>All</option>
+            <option>Pending</option>
+            <option>Shipped</option>
+            <option>Delivered</option>
+          </select>
+        </div>
+        <div class="order-list">
+          <!-- Order cards will be dynamically loaded here -->
+        </div>
+      </section>
+
+      <!-- Analytics Tab -->
+      <section id="analytics" class="tab-content">
+        <h2>Analytics</h2>
+        <div class="charts">
+          <canvas id="salesChart"></canvas>
+          <canvas id="userGrowthChart"></canvas>
+        </div>
+        <div class="export-options">
+          <button class="btn-export-csv">Export as CSV</button>
+          <button class="btn-export-pdf">Export as PDF</button>
+        </div>
+      </section>
+
+      <!-- Settings Tab -->
+      <section id="settings" class="tab-content">
+        <h2>Settings</h2>
+        <form class="settings-form">
+          <label for="theme">Theme:</label>
+          <select id="theme">
+            <option>Light</option>
+            <option>Dark</option>
+          </select>
+          <label for="notifications">Enable Notifications:</label>
+          <input type="checkbox" id="notifications" />
+          <button type="submit" class="btn-save">Save Changes</button>
+        </form>
+      </section>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script>
+      // Toggle sidebar on mobile
+      const menuIcon = document.getElementById("menuIcon");
+      const sidebar = document.getElementById("sidebar");
+      const mainContent = document.getElementById("mainContent");
+
+      menuIcon.addEventListener("click", () => {
+        sidebar.classList.toggle("active");
+        mainContent.classList.toggle("active");
+      });
+
+      // Logout functionality
+      const logoutBtn = document.getElementById("logoutBtn");
+      logoutBtn.addEventListener("click", () => {
+        alert("You have been logged out.");
+        window.location.href = "/templates/login.html"; // Redirect to login page
+      });
+
+      // Tab Switching
+      const tabs = document.querySelectorAll(".sidebar ul li a");
+      const tabContents = document.querySelectorAll(".tab-content");
+
+      tabs.forEach((tab) => {
+        tab.addEventListener("click", (e) => {
+          e.preventDefault();
+          const target = document.querySelector(tab.getAttribute("href"));
+
+          // Remove active class from all tabs and contents
+          tabs.forEach((t) => t.classList.remove("active"));
+          tabContents.forEach((tc) => tc.classList.remove("active"));
+
+          // Add active class to the clicked tab and content
+          tab.classList.add("active");
+          target.classList.add("active");
+        });
+      });
+
+      // Chart.js Initialization
+      const salesChart = new Chart(document.getElementById("salesChart"), {
+        type: "line",
+        data: {
+          labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+          datasets: [
+            {
+              label: "Sales",
+              data: [65, 59, 80, 81, 56, 55],
+              borderColor: "#3498db",
+              fill: false,
+            },
+          ],
+        },
+      });
+
+      const userGrowthChart = new Chart(document.getElementById("userGrowthChart"), {
+        type: "bar",
+        data: {
+          labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+          datasets: [
+            {
+              label: "User Growth",
+              data: [200, 300, 400, 500, 600, 700],
+              backgroundColor: "#27ae60",
+            },
+          ],
+        },
+      });
+    </script>
+  </body>
+</html>

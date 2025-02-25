@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - AgriGo</title>
+    <link rel="stylesheet" type="text/css" href="css/login.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+  </head>
+  <body>
+    <div class="login-container animate__animated animate__fadeIn">
+      <div class="login-header">
+        <img src="images/logo.png" alt="AgriGo Logo" class="logo" />
+        <h2>Login</h2>
+      </div>
+      <form id="loginForm">
+        <div class="input-group">
+          <label for="email"><i class="fas fa-envelope"></i> Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter your email"
+            required
+          />
+          <span class="error-message" id="emailError"></span>
+        </div>
+        <div class="input-group">
+          <label for="password"><i class="fas fa-lock"></i> Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter your password"
+            required
+          />
+          <span class="error-message" id="passwordError"></span>
+        </div>
+        <div class="input-group">
+          <label for="role"><i class="fas fa-user-tag"></i> Role</label>
+          <select id="role" name="role" required>
+            <option value="">Select Role</option>
+            <option value="admin">Admin</option>
+            <option value="farmer">Farmer</option>
+            <option value="buyer">Buyer</option>
+          </select>
+          <span class="error-message" id="roleError"></span>
+        </div>
+        <button type="submit" class="login-btn">Login</button>
+        <p class="signup-link">
+          Don't have an account?
+          <a href="register.html">Sign up as a Farmer or Buyer</a>
+        </p>
+        <p class="forgot-password"><a href="#">Forgot Password?</a></p>
+      </form>
+    </div>
+
+    <script>
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault(); // Prevent form submission
+
+          // Reset error messages
+          document.getElementById("emailError").textContent = "";
+          document.getElementById("passwordError").textContent = "";
+          document.getElementById("roleError").textContent = "";
+
+          // Get user input
+          const email = document.getElementById("email").value.trim();
+          const password = document.getElementById("password").value.trim();
+          const role = document.getElementById("role").value;
+
+          // Validation
+          let isValid = true;
+
+          if (!email) {
+            document.getElementById("emailError").textContent =
+              "Email is required.";
+            isValid = false;
+          } else if (!/\S+@\S+\.\S+/.test(email)) {
+            document.getElementById("emailError").textContent =
+              "Invalid email format.";
+            isValid = false;
+          }
+
+          if (!password) {
+            document.getElementById("passwordError").textContent =
+              "Password is required.";
+            isValid = false;
+          }
+
+          if (!role) {
+            document.getElementById("roleError").textContent =
+              "Role is required.";
+            isValid = false;
+          }
+
+          if (!isValid) return;
+
+          // Hardcoded credentials (for demo purposes only)
+          const users = [
+            { email: "admin@agrigo.com", password: "admin123", role: "admin" },
+            {
+              email: "farmer@agrigo.com",
+              password: "farmer123",
+              role: "farmer",
+            },
+            { email: "buyer@agrigo.com", password: "buyer123", role: "buyer" },
+          ];
+
+          // Find matching user
+          const user = users.find(
+            (u) =>
+              u.email === email && u.password === password && u.role === role
+          );
+
+          if (user) {
+            alert(`Login successful! Redirecting to ${user.role} dashboard...`);
+            switch (user.role) {
+              case "admin":
+                window.location.href = "/admin/admin-dashboard.html";
+                break;
+              case "farmer":
+                window.location.href = "/farmer/farmer-dashboard.html";
+                break;
+              case "buyer":
+                window.location.href = "/buyer/buyer-dashboard.html";
+                break;
+            }
+          } else {
+            alert("Invalid email, password, or role. Please try again.");
+          }
+        });
+    </script>
+  </body>
+</html>
