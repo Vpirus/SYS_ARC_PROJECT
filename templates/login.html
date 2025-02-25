@@ -123,16 +123,16 @@
           );
 
           if (user) {
-            alert(`Login successful! Redirecting to ${user.role} dashboard...`);
+            alert(`Login successful! ${user.role} dashboard...`);
             switch (user.role) {
               case "admin":
-                window.location.href = "/admin/admin-dashboard.html";
+                window.location.href = "/templates/admin/admin-dashboard.html";
                 break;
               case "farmer":
-                window.location.href = "/farmer/farmer-dashboard.html";
+                window.location.href = "/templates/farmer/farmer-dashboard.html";
                 break;
               case "buyer":
-                window.location.href = "/buyer/buyer-dashboard.html";
+                window.location.href = "/templates/buyer/buyer-dashboard.html";
                 break;
             }
           } else {
