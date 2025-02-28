@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Login - AgriGo</title>
+    <link rel="stylesheet" type="text/css" href="css/login.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <style>
+      /* Reset and Base Styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #f8fbf6 0%, #e8f5e4 100%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      /* Login Container */
+      .login-container {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        width: 100%;
+        max-width: 450px;
+        animation: fadeIn 0.6s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Login Header */
+      .login-header {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .login-header img {
+        width: 80px;
+        margin-bottom: 15px;
+      }
+
+      .login-header h2 {
+        font-size: 24px;
+        color: #2d3319;
+      }
+
+      /* Input Group */
+      .input-group {
+        margin-bottom: 20px;
+      }
+
+      .input-group label {
+        display: block;
+        font-size: 14px;
+        color: #2d3319;
+        margin-bottom: 8px;
+      }
+
+      .input-group input,
+      .input-group select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #e5e5e5;
+        border-radius: 5px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+      }
+
+      .input-group input:focus,
+      .input-group select:focus {
+        border-color: #5fad56;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(95, 173, 86, 0.2);
+      }
+
+      .input-group .error-message {
+        color: #ff4d4d;
+        font-size: 12px;
+        margin-top: 5px;
+        display: none;
+      }
+
+      /* Login Button */
+      .login-btn {
+        width: 100%;
+        padding: 12px;
+        background: #5fad56;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .login-btn:hover {
+        background: #4a8c42;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Links */
+      .signup-link,
+      .forgot-password {
+        text-align: center;
+        font-size: 14px;
+        color: #666;
+        margin-top: 15px;
+      }
+
+      .signup-link a,
+      .forgot-password a {
+        color: #5fad56;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .signup-link a:hover,
+      .forgot-password a:hover {
+        color: #4a8c42;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 480px) {
+        .login-container {
+          padding: 20px;
+        }
+
+        .login-header h2 {
+          font-size: 20px;
+        }
+
+        .input-group input,
+        .input-group select {
+          padding: 10px;
+          font-size: 12px;
+        }
+
+        .login-btn {
+          padding: 10px;
+          font-size: 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-container animate__animated animate__fadeIn">
+      <div class="login-header">
+        <img src="images/logo.png" alt="AgriGo Logo" class="logo" />
+        <h2>Admin Login</h2>
+      </div>
+      <form id="loginForm">
+        <div class="input-group">
+          <label for="email"><i class="fas fa-envelope"></i> Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter your email"
+            required
+          />
+          <span class="error-message" id="emailError"></span>
+        </div>
+        <div class="input-group">
+          <label for="password"><i class="fas fa-lock"></i> Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter your password"
+            required
+          />
+          <span class="error-message" id="passwordError"></span>
+        </div>
+        <button type="submit" class="login-btn">Login</button>
+        <p class="forgot-password">
+          <a href="#">Forgot Password?</a>
+        </p>
+      </form>
+    </div>
+
+    <script>
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault(); // Prevent form submission
+
+          // Reset error messages
+          document.getElementById("emailError").textContent = "";
+          document.getElementById("passwordError").textContent = "";
+
+          // Get user input
+          const email = document.getElementById("email").value.trim();
+          const password = document.getElementById("password").value.trim();
+
+          // Validation
+          let isValid = true;
+
+          if (!email) {
+            document.getElementById("emailError").textContent =
+              "Email is required.";
+            isValid = false;
+          } else if (!/\S+@\S+\.\S+/.test(email)) {
+            document.getElementById("emailError").textContent =
+              "Invalid email format.";
+            isValid = false;
+          }
+
+          if (!password) {
+            document.getElementById("passwordError").textContent =
+              "Password is required.";
+            isValid = false;
+          }
+
+          if (!isValid) return;
+
+          // Hardcoded admin credentials (for demo purposes only)
+          const admin = {
+            email: "admin@agrigo.com",
+            password: "admin123",
+          };
+
+          if (email === admin.email && password === admin.password) {
+            alert("Admin login successful! Redirecting to dashboard...");
+            window.location.href = "/templates/admin/admin-dashboard.html";
+          } else {
+            alert("Invalid email or password. Please try again.");
+          }
+        });
+    </script>
+  </body>
+</html>

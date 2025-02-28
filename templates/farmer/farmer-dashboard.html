@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriGo Farmer Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        :root {
+            /* Primary Colors */
+            --green-primary: #2E7D32;
+            --earth-brown: #8D6E63;
+            --sky-blue: #4FC3F7;
+            
+            /* Secondary Colors */
+            --harvest-yellow: #FBC02D;
+            --leaf-green: #81C784;
+            --soil-tan: #D7CCC8;
+            
+            /* Additional Farmer-specific colors */
+            --crop-green: #66BB6A;
+            --sunrise-orange: #FFB74D;
+            --water-blue: #29B6F6;
+            --wheat-gold: #F9A825;
+            
+            /* Neutrals */
+            --dark-gray: #424242;
+            --light-gray: #F5F5F5;
+            --white: #FFFFFF;
+            
+            /* Spacing */
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+        
+        .accent-text {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 500;
+        }
+        
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            background-color: var(--white);
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-collapsed {
+            width: 70px;
+        }
+        
+        .sidebar-header {
+            padding: var(--spacing-md);
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .sidebar-header img {
+            height: 40px;
+        }
+        
+        .sidebar-header h2 {
+            margin-left: var(--spacing-sm);
+            color: var(--green-primary);
+            font-size: 1.5rem;
+            transition: opacity 0.3s;
+        }
+        
+        .sidebar-collapsed .sidebar-header h2 {
+            opacity: 0;
+            width: 0;
+            overflow: hidden;
+        }
+        
+        .sidebar-menu {
+            margin-top: var(--spacing-lg);
+        }
+        
+        .menu-item {
+            padding: var(--spacing-md);
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: var(--dark-gray);
+            text-decoration: none;
+        }
+        
+        .menu-item:hover {
+            background-color: rgba(46, 125, 50, 0.1);
+            color: var(--green-primary);
+        }
+        
+        .menu-item.active {
+            background-color: var(--green-primary);
+            color: var(--white);
+        }
+        
+        .menu-item i {
+            font-size: 1.2rem;
+            width: 30px;
+            text-align: center;
+        }
+        
+        .menu-item span {
+            margin-left: var(--spacing-md);
+            transition: opacity 0.3s;
+        }
+        
+        .sidebar-collapsed .menu-item span {
+            opacity: 0;
+            width: 0;
+            overflow: hidden;
+        }
+        
+        .menu-toggle {
+            position: absolute;
+            right: -10px;
+            top: 70px;
+            background-color: var(--green-primary);
+            color: white;
+            border: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            transition: margin-left 0.3s ease;
+        }
+        
+        .main-content-expanded {
+            margin-left: 70px;
+        }
+        
+        /* Header Styles */
+        .header {
+            background-color: var(--white);
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 99;
+        }
+        
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: var(--light-gray);
+            border-radius: 20px;
+            padding: var(--spacing-sm) var(--spacing-md);
+            width: 300px;
+        }
+        
+        .search-bar input {
+            border: none;
+            background: transparent;
+            padding: var(--spacing-xs);
+            flex: 1;
+            margin-left: var(--spacing-sm);
+            outline: none;
+            font-family: 'Open Sans', sans-serif;
+        }
+        
+        .search-bar i {
+            color: var(--dark-gray);
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-lg);
+        }
+        
+        .notification {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .notification-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--harvest-yellow);
+            color: var(--dark-gray);
+            font-size: 0.7rem;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--leaf-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: bold;
+            margin-right: var(--spacing-sm);
+        }
+        
+        .role-badge {
+            background-color: var(--soil-tan);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-left: var(--spacing-sm);
+        }
+        
+        /* Dashboard Content */
+        .dashboard-content {
+            padding: var(--spacing-lg);
+        }
+        
+        .welcome-section {
+            background: linear-gradient(to right, var(--green-primary), var(--crop-green));
+            border-radius: 12px;
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .welcome-bg {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 250px;
+            height: 250px;
+            opacity: 0.2;
+        }
+        
+        .welcome-content {
+            position: relative;
+            z-index: 1;
+            max-width: 70%;
+        }
+        
+        .welcome-title {
+            font-size: 2rem;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .page-title {
+            margin-bottom: var(--spacing-lg);
+            font-size: 1.8rem;
+            color: var(--dark-gray);
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .metric-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: var(--spacing-lg);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .metric-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .metric-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: var(--spacing-md);
+        }
+        
+        .metric-icon.green {
+            background-color: rgba(46, 125, 50, 0.1);
+            color: var(--green-primary);
+        }
+        
+        .metric-icon.yellow {
+            background-color: rgba(251, 192, 45, 0.1);
+            color: var(--harvest-yellow);
+        }
+        
+        .metric-icon.blue {
+            background-color: rgba(79, 195, 247, 0.1);
+            color: var(--sky-blue);
+        }
+        
+        .metric-icon.orange {
+            background-color: rgba(255, 183, 77, 0.1);
+            color: var(--sunrise-orange);
+        }
+        
+        .metric-icon.brown {
+            background-color: rgba(141, 110, 99, 0.1);
+            color: var(--earth-brown);
+        }
+        
+        .metric-title {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            opacity: 0.8;
+        }
+        
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: var(--spacing-sm) 0;
+        }
+        
+        .metric-trend {
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .trend-up {
+            color: var(--green-primary);
+        }
+        
+        .trend-down {
+            color: #F44336;
+        }
+        
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-lg);
+        }
+        
+        .product-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .product-details {
+            padding: var(--spacing-md);
+        }
+        
+        .product-name {
+            font-weight: bold;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .product-category {
+            color: var(--dark-gray);
+            opacity: 0.7;
+            font-size: 0.8rem;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .product-price {
+            font-weight: bold;
+            color: var(--green-primary);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .product-stock {
+            font-size: 0.8rem;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .stock-indicator {
+            display: inline-block;
+            width: 100%;
+            height: 4px;
+            background-color: var(--light-gray);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .stock-level {
+            height: 100%;
+            background-color: var(--green-primary);
+        }
+        
+        .stock-low {
+            background-color: #F44336;
+        }
+        
+        .stock-medium {
+            background-color: var(--harvest-yellow);
+        }
+        
+        .product-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+        
+        /* Content Sections */
+        .section {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .section-title {
+            font-size: 1.2rem;
+            color: var(--dark-gray);
+        }
+        
+        .section-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+        
+        .btn {
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        
+        .btn-primary {
+            background-color: var(--green-primary);
+            color: var(--white);
+        }
+        
+        .btn-primary:hover {
+            background-color: #1B5E20;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background-color: rgba(46, 125, 50, 0.1);
+            color: var(--green-primary);
+        }
+        
+        .btn-secondary:hover {
+            background-color: rgba(46, 125, 50, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            border: 1px solid var(--green-primary);
+            background-color: transparent;
+            color: var(--green-primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: rgba(46, 125, 50, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--light-gray);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .tab {
+            padding: var(--spacing-md) var(--spacing-lg);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+        
+        .tab.active {
+            border-bottom-color: var(--green-primary);
+            color: var(--green-primary);
+            font-weight: bold;
+        }
+        
+        .tab:hover:not(.active) {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+        
+        /* Order list */
+        .order-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+        
+        .order-item {
+            display: flex;
+            align-items: center;
+            padding: var(--spacing-md);
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            background-color: var(--white);
+        }
+        
+        .order-item:hover {
+            border-color: var(--green-primary);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .order-info {
+            flex: 1;
+        }
+        
+        .order-detail {
+            display: flex;
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-xs);
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            opacity: 0.7;
+        }
+        
+        .order-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+        
+        .badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .badge-success {
+            background-color: rgba(46, 125, 50, 0.1);
+            color: var(--green-primary);
+        }
+        
+        .badge-warning {
+            background-color: rgba(251, 192, 45, 0.1);
+            color: var(--harvest-yellow);
+        }
+        
+        .badge-danger {
+            background-color: rgba(244, 67, 54, 0.1);
+            color: #F44336;
+        }
+        
+        .badge-info {
+            background-color: rgba(79, 195, 247, 0.1);
+            color: var(--sky-blue);
+        }
+        
+        /* Weather Widget */
+        .weather-widget {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--spacing-md);
+            border-radius: 8px;
+            margin-bottom: var(--spacing-lg);
+            background: linear-gradient(135deg, var(--sky-blue), var(--water-blue));
+            color: white;
+        }
+        
+        .weather-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .weather-icon {
+            font-size: 2.5rem;
+            margin-right: var(--spacing-md);
+        }
+        
+        .weather-temp {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        
+        .weather-desc {
+            opacity: 0.9;
+        }
+        
+        .weather-details {
+            display: flex;
+            gap: var(--spacing-lg);
+        }
+        
+        .weather-detail {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .weather-detail-icon {
+            font-size: 1.2rem;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        /* Growing Tips */
+        .growing-tips {
+            margin-top: var(--spacing-lg);
+        }
+        
+        .tip-card {
+            padding: var(--spacing-md);
+            border-radius: 8px;
+            margin-bottom: var(--spacing-md);
+            background-color: var(--light-gray);
+            border-left: 4px solid var(--green-primary);
+        }
+        
+        .tip-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .tip-icon {
+            color: var(--green-primary);
+            margin-right: var(--spacing-sm);
+            font-size: 1.2rem;
+        }
+        
+        .tip-title {
+            font-weight: bold;
+        }
+        
+        .tip-content {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+        }
+        
+        /* Calendar Section */
+        .calendar-view {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+            margin-top: var(--spacing-md);
+        }
+        
+        .calendar-header {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .calendar-day-header {
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.8rem;
+            color: var(--dark-gray);
+            opacity: 0.7;
+        }
+        
+        .calendar-day {
+            aspect-ratio: 1/1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-xs);
+            border-radius: 4px;
+            background-color: var(--light-gray);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .calendar-day:hover {
+            background-color: rgba(46, 125, 50, 0.1);
+        }
+        
+        .calendar-day.active {
+            background-color: var(--green-primary);
+            color: white;
+        }
+        
+        .calendar-day.has-event::after {
+            content: "";
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: var(--harvest-yellow);
+            position: absolute;
+            bottom: 5px;
+        }
+        
+        .calendar-day-number {
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        /* Price Chart */
+        .chart {
+            width: 100%;
+            height: 300px;
+            background-color: var(--light-gray);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        /* Animations */
+        .fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .slide-in-right {
+            animation: slideInRight 0.5s ease;
+        }
+        
+        .slide-in-up {
+            animation: slideInUp 0.5s ease;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideInRight {
+            from { transform: translateX(20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideInUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 70px;
+            }
+            
+            .sidebar-header h2 {
+                opacity: 0;
+                width: 0;
+                overflow: hidden;
+            }
+            
+            .menu-item span {
+                opacity: 0;
+                width: 0;
+                overflow: hidden;
+            }
+            
+            .main-content {
+                margin-left: 70px;
+            }
+            
+            .menu-toggle {
+                display: none;
+            }
+            
+            .welcome-content {
+                max-width: 90%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .metrics-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .search-bar {
+                width: 200px;
+            }
+            
+            .header-actions {
+                gap: var(--spacing-md);
+            }
+            
+            .user-name {
+                display: none;
+            }
+            
+            .welcome-title {
+                font-size: 1.5rem;
+            }
+            
+            .welcome-content {
+                max-width: 100%;
+            }
+            
+            .welcome-section {
+                padding: var(--spacing-lg);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .sidebar {
+                width: 0;
+                left: -70px;
+            }
+            
+            .sidebar.active {
+                width: 70px;
+                left: 0;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .search-bar {
+                width: 150px;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .weather-details {
+                display: none;
+            }
+            
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .calendar-view {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .calendar-header {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="../images/logo.png" alt="AgriGo Logo"/>
+                <h2>AgriGo</h2>
+            </div>
+            <button class="menu-toggle" id="menu-toggle">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <div class="sidebar-menu">
+                <a href="#" class="menu-item active">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-seedling"></i>
+                    <span>My Farm</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-box"></i>
+                    <span>Products</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Orders</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-credit-card"></i>
+                    <span>Payments</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-truck"></i>
+                    <span>Shipments</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-comment-alt"></i>
+                    <span>Reviews</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Schedule</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-bell"></i>
+                    <span>Notifications</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content" id="main-content">
+            <!-- Header -->
+            <div class="header">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search products, orders...">
+                </div>
+                
+                <div class="header-actions">
+                    <div class="notification">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">3</span>
+                    </div>
+                    
+                    <div class="user-profile">
+                        <div class="user-avatar">
+                            JD
+                        </div>
+                        <div class="user-info">
+                            <div class="user-name">John Deere</div>
+                            <span class="role-badge">Verified Farmer</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <!-- Welcome Section -->
+                <div class="welcome-section animate__animated animate__fadeIn">
+                    <img src="/api/placeholder/250/250" alt="Farm illustration" class="welcome-bg"/>
+                    <div class="welcome-content">
+                        <h1 class="welcome-title">Welcome back, John!</h1
+                        <p class="accent-text">Here’s what’s happening on your farm today.</p>
+                    </div>
+                </div>
+
+                <h1 class="page-title">Dashboard Overview</h1>
+
+                <!-- Key Metrics -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon green">
+                                <i class="fas fa-seedling"></i>
+                            </div>
+                            <div class="metric-title">Crops Planted</div>
+                        </div>
+                        <div class="metric-value">500</div>
+                        <div class="metric-trend trend-up">
+                            <i class="fas fa-arrow-up"></i> 10% this month
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon blue">
+                                <i class="fas fa-water"></i>
+                            </div>
+                            <div class="metric-title">Water Usage</div>
+                        </div>
+                        <div class="metric-value">1,200 L</div>
+                        <div class="metric-trend trend-down">
+                            <i class="fas fa-arrow-down"></i> 5% this month
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon yellow">
+                                <i class="fas fa-sun"></i>
+                            </div>
+                            <div class="metric-title">Sunlight Hours</div>
+                        </div>
+                        <div class="metric-value">8 hrs</div>
+                        <div class="metric-trend trend-up">
+                            <i class="fas fa-arrow-up"></i> 15% this month
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon brown">
+                                <i class="fas fa-tractor"></i>
+                            </div>
+                            <div class="metric-title">Equipment Status</div>
+                        </div>
+                        <div class="metric-value">All Good</div>
+                        <div class="metric-trend trend-up">
+                            <i class="fas fa-arrow-up"></i> 0% this month
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Grid -->
+                <div class="section">
+                    <div class="section-header">
+                        <div class="section-title">Available Products</div>
+                        <div class="section-actions">
+                            <button class="btn btn-primary">
+                                <i class="fas fa-plus"></i> Add Product
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="product-grid">
+                        <div class="product-card">
+                            <img src="/api/placeholder/250/180" alt="Product Image" class="product-image"/>
+                            <div class="product-details">
+                                <div class="product-name">Organic Tomatoes</div>
+                                <div class="product-category">Vegetables</div>
+                                <div class="product-price">$2.50/kg</div>
+                                <div class="product-stock">In Stock: 100 kg</div>
+                                <div class="stock-indicator">
+                                    <div class="stock-level" style="width: 100%;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <img src="/api/placeholder/250/180" alt="Product Image" class="product-image"/>
+                            <div class="product-details">
+                                <div class="product-name">Fresh Strawberries</div>
+                                <div class="product-category">Fruits</div>
+                                <div class="product-price">$3.00/kg</div>
+                                <div class="product-stock">In Stock: 50 kg</div>
+                                <div class="stock-indicator">
+                                    <div class="stock-level" style="width: 50%;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <img src="/api/placeholder/250/180" alt="Product Image" class="product-image"/>
+                            <div class="product-details">
+                                <div class="product-name">Free-Range Eggs</div>
+                                <div class="product-category">Dairy</div>
+                                <div class="product-price">$4.00/dozen</div>
+                                <div class="product-stock">In Stock: 200 dozen</div>
+                                <div class="stock-indicator">
+                                    <div class="stock-level" style="width: 100%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weather Widget -->
+                <div class="weather-widget">
+                    <div class="weather-info">
+ ```html
+                        <i class="fas fa-sun weather-icon"></i>
+                        <div>
+                            <div class="weather-temp">25°C</div>
+                            <div class="weather-desc">Sunny</div>
+                        </div>
+                    </div>
+                    <div class="weather-details">
+                        <div class="weather-detail">
+                            <i class="fas fa-tint weather-detail-icon"></i>
+                            <div>Humidity: 60%</div>
+                        </div>
+                        <div class="weather-detail">
+                            <i class="fas fa-wind weather-detail-icon"></i>
+                            <div>Wind: 10 km/h</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Growing Tips -->
+                <div class="growing-tips">
+                    <h2 class="section-title">Growing Tips</h2>
+                    <div class="tip-card">
+                        <div class="tip-header">
+                            <i class="fas fa-leaf tip-icon"></i>
+                            <div class="tip-title">Watering Schedule</div>
+                        </div>
+                        <div class="tip-content">Water your crops early in the morning or late in the evening to minimize evaporation.</div>
+                    </div>
+                    <div class="tip-card">
+                        <div class="tip-header">
+                            <i class="fas fa-sun tip-icon"></i>
+                            <div class="tip-title">Sunlight Needs</div>
+                        </div>
+                        <div class="tip-content">Ensure your plants receive at least 6-8 hours of sunlight daily for optimal growth.</div>
+                    </div>
+                </div>
+
+                <!-- Calendar Section -->
+                <div class="section">
+                    <div class="section-header">
+                        <div class="section-title">Upcoming Events</div>
+                    </div>
+                    <div class="calendar-view">
+                        <div class="calendar-day-header">Sun</div>
+                        <div class="calendar-day-header">Mon</div>
+                        <div class="calendar-day-header">Tue</div>
+                        <div class="calendar-day-header">Wed</div>
+                        <div class="calendar-day-header">Thu</div>
+                        <div class="calendar-day-header">Fri</div>
+                        <div class="calendar-day-header">Sat</div>
+
+                        <div class="calendar-day has-event">
+                            <div class="calendar-day-number">1</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-day-number">2</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-day-number">3</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-day-number">4</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-day-number">5</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-day-number">6</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="calendar-day-number">7</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
