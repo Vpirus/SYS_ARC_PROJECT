@@ -931,7 +931,7 @@
         <!-- Sidebar -->
         <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <img src="/templates/images/logo.png" alt="AgriGo Logo" />
+                <img src="/templates/images/logo.png" alt="AgriGo Logo"/>
                 <h2>AgriGo</h2>
             </div>
             <button class="menu-toggle" id="menu-toggle">
@@ -1019,175 +1019,186 @@
                     <img src="/api/placeholder/250/250" alt="Farm illustration" class="welcome-bg"/>
                     <div class="welcome-content">
                         <h1 class="welcome-title">Welcome back, John!</h1
-                        <p class="accent-text">Here’s what’s happening on your farm today.</p>
+                            <p>Here's what's happening on your farm today.</p>
+                        </div>
                     </div>
-                </div>
-
-                <h1 class="page-title">Dashboard Overview</h1>
-
-                <!-- Key Metrics -->
-                <div class="metrics-grid">
-                    <div class="metric-card">
-                        <div class="metric-header">
-                            <div class="metric-icon green">
-                                <i class="fas fa-seedling"></i>
+    
+                    <!-- Metrics Grid -->
+                    <div class="metrics-grid">
+                        <div class="metric-card animate__animated animate__slideInUp">
+                            <div class="metric-header">
+                                <div class="metric-icon green">
+                                    <i class="fas fa-tractor"></i>
+                                </div>
+                                <div class="metric-title">Total Farm Area</div>
                             </div>
-                            <div class="metric-title">Crops Planted</div>
-                        </div>
-                        <div class="metric-value">500</div>
-                        <div class="metric-trend trend-up">
-                            <i class="fas fa-arrow-up"></i> 10% this month
-                        </div>
-                    </div>
-
-                    <div class="metric-card">
-                        <div class="metric-header">
-                            <div class="metric-icon blue">
-                                <i class="fas fa-water"></i>
+                            <div class="metric-value">50 Acres</div>
+                            <div class="metric-trend trend-up">
+                                <i class="fas fa-arrow-up"></i> 5% increase
                             </div>
-                            <div class="metric-title">Water Usage</div>
                         </div>
-                        <div class="metric-value">1,200 L</div>
-                        <div class="metric-trend trend-down">
-                            <i class="fas fa-arrow-down"></i> 5% this month
-                        </div>
-                    </div>
-
-                    <div class="metric-card">
-                        <div class="metric-header">
-                            <div class="metric-icon yellow">
-                                <i class="fas fa-sun"></i>
+                        <div class="metric-card animate__animated animate__slideInUp">
+                            <div class="metric-header">
+                                <div class="metric-icon yellow">
+                                    <i class="fas fa-seedling"></i>
+                                </div>
+                                <div class="metric-title">Active Crops</div>
                             </div>
-                            <div class="metric-title">Sunlight Hours</div>
-                        </div>
-                        <div class="metric-value">8 hrs</div>
-                        <div class="metric-trend trend-up">
-                            <i class="fas fa-arrow-up"></i> 15% this month
-                        </div>
-                    </div>
-
-                    <div class="metric-card">
-                        <div class="metric-header">
-                            <div class="metric-icon brown">
-                                <i class="fas fa-tractor"></i>
+                            <div class="metric-value">12 Crops</div>
+                            <div class="metric-trend trend-down">
+                                <i class="fas fa-arrow-down"></i> 2% decrease
                             </div>
-                            <div class="metric-title">Equipment Status</div>
                         </div>
-                        <div class="metric-value">All Good</div>
-                        <div class="metric-trend trend-up">
-                            <i class="fas fa-arrow-up"></i> 0% this month
+                        <div class="metric-card animate__animated animate__slideInUp">
+                            <div class="metric-header">
+                                <div class="metric-icon blue">
+                                    <i class="fas fa-tint"></i>
+                                </div>
+                                <div class="metric-title">Water Usage</div>
+                            </div>
+                            <div class="metric-value">1,200 L</div>
+                            <div class="metric-trend trend-up">
+                                <i class="fas fa-arrow-up"></i> 10% increase
+                            </div>
+                        </div>
+                        <div class="metric-card animate__animated animate__slideInUp">
+                            <div class="metric-header">
+                                <div class="metric-icon orange">
+                                    <i class="fas fa-sun"></i>
+                                </div>
+                                <div class="metric-title">Sunlight Hours</div>
+                            </div>
+                            <div class="metric-value">8.5 hrs</div>
+                            <div class="metric-trend trend-up">
+                                <i class="fas fa-arrow-up"></i> 3% increase
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- Product Grid -->
-                <div class="section">
-                    <div class="section-header">
-                        <div class="section-title">Available Products</div>
-                        <div class="section-actions">
-                            <button class="btn btn-primary">
-                                <i class="fas fa-plus"></i> Add Product
-                            </button>
+    
+                    <!-- Weather Widget -->
+                    <div class="weather-widget animate__animated animate__fadeIn">
+                        <div class="weather-info">
+                            <i class="fas fa-sun weather-icon"></i>
+                            <div class="weather-temp">28°C</div>
+                            <div class="weather-desc">Sunny</div>
+                        </div>
+                        <div class="weather-details">
+                            <div class="weather-detail">
+                                <i class="fas fa-wind weather-detail-icon"></i>
+                                <span>10 km/h</span>
+                            </div>
+                            <div class="weather-detail">
+                                <i class="fas fa-tint weather-detail-icon"></i>
+                                <span>45%</span>
+                            </div>
+                            <div class="weather-detail">
+                                <i class="fas fa-cloud weather-detail-icon"></i>
+                                <span>20%</span>
+                            </div>
                         </div>
                     </div>
-
+    
+                    <!-- Product Grid -->
+                    <h2 class="page-title">Your Products</h2>
                     <div class="product-grid">
-                        <div class="product-card">
+                        <div class="product-card animate__animated animate__slideInRight">
                             <img src="/api/placeholder/250/180" alt="Product Image" class="product-image"/>
                             <div class="product-details">
                                 <div class="product-name">Organic Tomatoes</div>
                                 <div class="product-category">Vegetables</div>
                                 <div class="product-price">$2.50/kg</div>
-                                <div class="product-stock">In Stock: 100 kg</div>
-                                <div class="stock-indicator">
-                                    <div class="stock-level" style="width: 100%;"></div>
+                                <div class="product-stock">
+                                    <div class="stock-indicator">
+                                        <div class="stock-level" style="width: 70%;"></div>
+                                    </div>
+                                    <span>70% in stock</span>
+                                </div>
+                                <div class="product-actions">
+                                    <button class="btn btn-primary">Edit</button>
+                                    <button class="btn btn-outline">View</button>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="product-card">
+                        <div class="product-card animate__animated animate__slideInRight">
                             <img src="/api/placeholder/250/180" alt="Product Image" class="product-image"/>
                             <div class="product-details">
                                 <div class="product-name">Fresh Strawberries</div>
                                 <div class="product-category">Fruits</div>
-                                <div class="product-price">$3.00/kg</div>
-                                <div class="product-stock">In Stock: 50 kg</div>
-                                <div class="stock-indicator">
-                                    <div class="stock-level" style="width: 50%;"></div>
+                                <div class="product-price">$4.00/kg</div>
+                                <div class="product-stock">
+                                    <div class="stock-indicator">
+                                        <div class="stock-level stock-medium" style="width: 40%;"></div>
+                                    </div>
+                                    <span>40% in stock</span>
+                                </div>
+                                <div class="product-actions">
+                                    <button class="btn btn-primary">Edit</button>
+                                    <button class="btn btn-outline">View</button>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="product-card">
+                        <div class="product-card animate__animated animate__slideInRight">
                             <img src="/api/placeholder/250/180" alt="Product Image" class="product-image"/>
                             <div class="product-details">
-                                <div class="product-name">Free-Range Eggs</div>
-                                <div class="product-category">Dairy</div>
-                                <div class="product-price">$4.00/dozen</div>
-                                <div class="product-stock">In Stock: 200 dozen</div>
-                                <div class="stock-indicator">
-                                    <div class="stock-level" style="width: 100%;"></div>
+                                <div class="product-name">Organic Wheat</div>
+                                <div class="product-category">Grains</div>
+                                <div class="product-price">$1.80/kg</div>
+                                <div class="product-stock">
+                                    <div class="stock-indicator">
+                                        <div class="stock-level stock-low" style="width: 20%;"></div>
+                                    </div>
+                                    <span>20% in stock</span>
+                                </div>
+                                <div class="product-actions">
+                                    <button class="btn btn-primary">Edit</button>
+                                    <button class="btn btn-outline">View</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- Weather Widget -->
-                <div class="weather-widget">
-                    <div class="weather-info">
-                        <i class="fas fa-sun weather-icon"></i>
-                        <div>
-                            <div class="weather-temp">25°C</div>
-                            <div class="weather-desc">Sunny</div>
+    
+                    <!-- Growing Tips Section -->
+                    <div class="growing-tips">
+                        <h2 class="page-title">Growing Tips</h2>
+                        <div class="tip-card animate__animated animate__fadeIn">
+                            <div class="tip-header">
+                                <i class="fas fa-lightbulb tip-icon"></i>
+                                <div class="tip-title">Optimal Watering Schedule</div>
+                            </div>
+                            <div class="tip-content">
+                                Water your crops early in the morning to reduce evaporation and ensure maximum absorption.
+                            </div>
+                        </div>
+                        <div class="tip-card animate__animated animate__fadeIn">
+                            <div class="tip-header">
+                                <i class="fas fa-lightbulb tip-icon"></i>
+                                <div class="tip-title">Soil Health</div>
+                            </div>
+                            <div class="tip-content">
+                                Regularly test your soil pH and nutrient levels to maintain optimal growing conditions.
+                            </div>
                         </div>
                     </div>
-                    <div class="weather-details">
-                        <div class="weather-detail">
-                            <i class="fas fa-tint weather-detail-icon"></i>
-                            <div>Humidity: 60%</div>
+    
+                    <!-- Calendar Section -->
+                    <div class="section">
+                        <div class="section-header">
+                            <h2 class="section-title">Farm Schedule</h2>
+                            <div class="section-actions">
+                                <button class="btn btn-primary">Add Event</button>
+                            </div>
                         </div>
-                        <div class="weather-detail">
-                            <i class="fas fa-wind weather-detail-icon"></i>
-                            <div>Wind: 10 km/h</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Growing Tips -->
-                <div class="growing-tips">
-                    <h2 class="section-title">Growing Tips</h2>
-                    <div class="tip-card">
-                        <div class="tip-header">
-                            <i class="fas fa-leaf tip-icon"></i>
-                            <div class="tip-title">Watering Schedule</div>
-                        </div>
-                        <div class="tip-content">Water your crops early in the morning or late in the evening to minimize evaporation.</div>
-                    </div>
-                    <div class="tip-card">
-                        <div class="tip-header">
-                            <i class="fas fa-sun tip-icon"></i>
-                            <div class="tip-title">Sunlight Needs</div>
-                        </div>
-                        <div class="tip-content">Ensure your plants receive at least 6-8 hours of sunlight daily for optimal growth.</div>
-                    </div>
-                </div>
-
-                <!-- Calendar Section -->
-                <div class="section">
-                    <div class="section-header">
-                        <div class="section-title">Upcoming Events</div>
-                    </div>
-                    <div class="calendar-view">
-                        <div class="calendar-day-header">Sun</div>
-                        <div class="calendar-day-header">Mon</div>
-                        <div class="calendar-day-header">Tue</div>
-                        <div class="calendar-day-header">Wed</div>
-                        <div class="calendar-day-header">Thu</div>
-                        <div class="calendar-day-header">Fri</div>
-                        <div class="calendar-day-header">Sat</div>
-
-                        <div class="calendar-day">1</div>
+                        <div class="calendar-view">
+                            <div class="calendar-header">
+                                <div class="calendar-day-header">Sun</div>
+                                <div class="calendar-day-header">Mon</div>
+                                <div class="calendar-day-header">Tue</div>
+                                <div class="calendar-day-header">Wed</div>
+                                <div class="calendar-day-header">Thu</div>
+                                <div class="calendar-day-header">Fri</div>
+                                <div class="calendar-day-header">Sat</div>
+                            </div>
+                            <div class="calendar-day">1</div>
                             <div class="calendar-day">2</div>
                             <div class="calendar-day">3</div>
                             <div class="calendar-day">4</div>
@@ -1223,6 +1234,17 @@
                 </div>
             </div>
         </div>
-    </div>
-</body>
-</html>
+    
+        <script>
+            // Toggle sidebar collapse
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('main-content');
+            const menuToggle = document.getElementById('menu-toggle');
+    
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('sidebar-collapsed');
+                mainContent.classList.toggle('main-content-expanded');
+            });
+        </script>
+    </body>
+    </html>
