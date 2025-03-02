@@ -3,876 +3,1265 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Dashboard - AgriGo</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-    <link rel="stylesheet" type="text/css" href="admin.css" />
+    <title>AgriGo Admin Dashboard</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&family=Roboto:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        /* Primary Colors */
+        --green-primary: #2e7d32;
+        --earth-brown: #8d6e63;
+        --sky-blue: #4fc3f7;
+
+        /* Secondary Colors */
+        --harvest-yellow: #fbc02d;
+        --leaf-green: #81c784;
+        --soil-tan: #d7ccc8;
+
+        /* Neutrals */
+        --dark-gray: #424242;
+        --light-gray: #f5f5f5;
+        --white: #ffffff;
+
+        /* Spacing */
+        --spacing-xs: 4px;
+        --spacing-sm: 8px;
+        --spacing-md: 16px;
+        --spacing-lg: 24px;
+        --spacing-xl: 32px;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Open Sans", sans-serif;
+        background-color: var(--light-gray);
+        color: var(--dark-gray);
+        overflow-x: hidden;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: "Montserrat", sans-serif;
+        font-weight: 700;
+      }
+
+      .accent-text {
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+      }
+
+      .container {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      /* Sidebar Styles */
+      .sidebar {
+        width: 250px;
+        background-color: var(--white);
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        height: 100vh;
+        z-index: 100;
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .sidebar-collapsed {
+        width: 70px;
+      }
+
+      .sidebar-header {
+        padding: var(--spacing-md);
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid var(--light-gray);
+        flex-shrink: 0; /* Prevent header from shrinking */
+        position: relative;
+      }
+
+      .sidebar-header img {
+        height: 40px;
+        transition: opacity 0.3s ease;
+      }
+
+      .sidebar-header h2 {
+        margin-left: var(--spacing-sm);
+        color: var(--green-primary);
+        font-size: 1.5rem;
+        transition: opacity 0.3s ease;
+      }
+
+      .menu-toggle {
+        position: absolute;
+        right: -10px;
+        top: 70px;
+        background-color: var(--green-primary);
+        color: white;
+        border: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
+
+      .sidebar-collapsed .sidebar-header h2 {
+        opacity: 0;
+        width: 0;
+        overflow: hidden;
+      }
+
+      .sidebar-collapsed .sidebar-header img {
+        opacity: 0.8; /* Slightly fade the logo when collapsed */
+      }
+
+      /* Sidebar Menu Styles */
+      .sidebar-menu {
+        flex: 1;
+        overflow-y: auto;
+        padding: var(--spacing-md) 0;
+      }
+
+      .nav-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .nav-item {
+        margin-bottom: var(--spacing-xs);
+      }
+
+      .nav-link {
+        display: flex;
+        align-items: center;
+        padding: var(--spacing-md) var(--spacing-lg);
+        color: var(--dark-gray);
+        text-decoration: none;
+        transition: all 0.2s ease;
+        border-radius: 6px;
+        margin: 0 var(--spacing-md);
+      }
+
+      .nav-link:hover {
+        background-color: rgba(46, 125, 50, 0.1);
+        color: var(--green-primary);
+      }
+
+      .nav-link.active {
+        background-color: var(--green-primary);
+        color: var(--white);
+      }
+
+      .nav-link i {
+        font-size: 1.2rem;
+        width: 24px;
+        text-align: center;
+        transition: opacity 0.3s ease;
+      }
+
+      .nav-link span {
+        margin-left: var(--spacing-md);
+        transition: opacity 0.3s ease;
+        white-space: nowrap; /* Prevent text from wrapping */
+      }
+
+      .sidebar-collapsed .nav-link span {
+        opacity: 0;
+        width: 0;
+        overflow: hidden;
+      }
+
+      .sidebar-collapsed .nav-link {
+        justify-content: center; /* Center icons when collapsed */
+        padding: var(--spacing-md);
+      }
+
+      /* Logout Button */
+      .nav-item.logout {
+        margin-top: auto; /* Push logout to the bottom */
+        padding: var(--spacing-md);
+        border-top: 1px solid var(--light-gray);
+      }
+
+      /* Mobile Toggle Button */
+      .sidebar-toggle-mobile {
+        display: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: var(--spacing-md);
+        text-align: center;
+        background-color: var(--green-primary);
+        color: var(--white);
+        position: sticky;
+        bottom: 0;
+        z-index: 101;
+      }
+
+      @media (max-width: 768px) {
+        .sidebar-toggle-mobile {
+          display: block;
+        }
+
+        .sidebar {
+          width: 70px;
+          left: -70px;
+        }
+
+        .sidebar.active {
+          left: 0;
+        }
+
+        .main-content {
+          margin-left: 0;
+        }
+
+        .menu-toggle {
+          display: none;
+        }
+      }
+
+      /* Main Content Styles */
+      .main-content {
+        flex: 1;
+        margin-left: 250px;
+        transition: margin-left 0.3s ease;
+      }
+
+      .main-content-expanded {
+        margin-left: 70px;
+      }
+
+      /* Header Styles */
+      .header {
+        background-color: var(--white);
+        padding: var(--spacing-md) var(--spacing-lg);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 99;
+      }
+
+      .search-bar {
+        display: flex;
+        align-items: center;
+        background-color: var(--light-gray);
+        border-radius: 20px;
+        padding: var(--spacing-sm) var(--spacing-md);
+        width: 300px;
+      }
+
+      .search-bar input {
+        border: none;
+        background: transparent;
+        padding: var(--spacing-xs);
+        flex: 1;
+        margin-left: var(--spacing-sm);
+        outline: none;
+        font-family: "Open Sans", sans-serif;
+      }
+
+      .search-bar i {
+        color: var(--dark-gray);
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-lg);
+      }
+
+      .notification {
+        position: relative;
+        cursor: pointer;
+      }
+
+      .notification-count {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background-color: var(--harvest-yellow);
+        color: var(--dark-gray);
+        font-size: 0.7rem;
+        border-radius: 50%;
+        width: 16px;
+        height: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .user-profile {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+      }
+
+      .user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: var(--leaf-green);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        font-weight: bold;
+        margin-right: var(--spacing-sm);
+      }
+
+      .role-badge {
+        background-color: var(--soil-tan);
+        padding: var(--spacing-xs) var(--spacing-sm);
+        border-radius: 4px;
+        font-size: 0.8rem;
+        margin-left: var(--spacing-sm);
+      }
+
+      /* Dashboard Content */
+      .dashboard-content {
+        padding: var(--spacing-lg);
+      }
+
+      .page-title {
+        margin-bottom: var(--spacing-lg);
+        font-size: 1.8rem;
+        color: var(--dark-gray);
+      }
+
+      .metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: var(--spacing-lg);
+        margin-bottom: var(--spacing-xl);
+      }
+
+      .metric-card {
+        background-color: var(--white);
+        border-radius: 8px;
+        padding: var(--spacing-lg);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .metric-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .metric-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: var(--spacing-md);
+      }
+
+      .metric-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: var(--spacing-md);
+      }
+
+      .metric-icon.green {
+        background-color: rgba(46, 125, 50, 0.1);
+        color: var(--green-primary);
+      }
+
+      .metric-icon.yellow {
+        background-color: rgba(251, 192, 45, 0.1);
+        color: var(--harvest-yellow);
+      }
+
+      .metric-icon.blue {
+        background-color: rgba(79, 195, 247, 0.1);
+        color: var(--sky-blue);
+      }
+
+      .metric-icon.brown {
+        background-color: rgba(141, 110, 99, 0.1);
+        color: var(--earth-brown);
+      }
+
+      .metric-title {
+        font-size: 0.9rem;
+        color: var(--dark-gray);
+        opacity: 0.8;
+      }
+
+      .metric-value {
+        font-size: 1.8rem;
+        font-weight: bold;
+        margin: var(--spacing-sm) 0;
+      }
+
+      .metric-trend {
+        font-size: 0.8rem;
+        display: flex;
+        align-items: center;
+      }
+
+      .trend-up {
+        color: var(--green-primary);
+      }
+
+      .trend-down {
+        color: #f44336;
+      }
+
+      /* Content Sections */
+      .section {
+        background-color: var(--white);
+        border-radius: 8px;
+        padding: var(--spacing-lg);
+        margin-bottom: var(--spacing-xl);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: var(--spacing-lg);
+      }
+
+      .section-title {
+        font-size: 1.2rem;
+        color: var(--dark-gray);
+      }
+
+      .section-actions {
+        display: flex;
+        gap: var(--spacing-sm);
+      }
+
+      .btn {
+        padding: var(--spacing-sm) var(--spacing-md);
+        border-radius: 6px;
+        cursor: pointer;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        border: none;
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+      }
+
+      .btn-primary {
+        background-color: var(--green-primary);
+        color: var(--white);
+      }
+
+      .btn-primary:hover {
+        background-color: #1b5e20;
+      }
+
+      .btn-secondary {
+        background-color: rgba(46, 125, 50, 0.1);
+        color: var(--green-primary);
+      }
+
+      .btn-secondary:hover {
+        background-color: rgba(46, 125, 50, 0.2);
+      }
+
+      /* Tabs */
+      .tabs {
+        display: flex;
+        border-bottom: 1px solid var(--light-gray);
+        margin-bottom: var(--spacing-lg);
+      }
+
+      .tab {
+        padding: var(--spacing-md) var(--spacing-lg);
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+        transition: all 0.2s ease;
+      }
+
+      .tab.active {
+        border-bottom-color: var(--green-primary);
+        color: var(--green-primary);
+        font-weight: bold;
+      }
+
+      .tab:hover:not(.active) {
+        background-color: rgba(0, 0, 0, 0.02);
+      }
+
+      /* Responsive styles */
+      @media (max-width: 1024px) {
+        .sidebar {
+          width: 70px;
+        }
+
+        .sidebar-header h2 {
+          opacity: 0;
+          width: 0;
+          overflow: hidden;
+        }
+
+        .menu-item span {
+          opacity: 0;
+          width: 0;
+          overflow: hidden;
+        }
+
+        .main-content {
+          margin-left: 70px;
+        }
+
+        .menu-toggle {
+          display: none;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .metrics-grid {
+          grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        }
+
+        .search-bar {
+          width: 200px;
+        }
+
+        .header-actions {
+          gap: var(--spacing-md);
+        }
+
+        .user-name {
+          display: none;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .sidebar {
+          width: 0;
+          left: -70px;
+        }
+
+        .sidebar.active {
+          width: 70px;
+          left: 0;
+        }
+
+        .main-content {
+          margin-left: 0;
+        }
+
+        .search-bar {
+          width: 150px;
+        }
+
+        .metrics-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Charts placeholder */
+      .chart {
+        width: 100%;
+        height: 300px;
+        background-color: var(--light-gray);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: var(--spacing-lg);
+      }
+
+      /* Admin-specific styles */
+      .verification-requests {
+        margin-top: var(--spacing-lg);
+      }
+
+      .verification-card {
+        display: flex;
+        padding: var(--spacing-md);
+        border: 1px solid var(--light-gray);
+        border-radius: 8px;
+        margin-bottom: var(--spacing-md);
+        background-color: var(--white);
+      }
+
+      .verification-info {
+        flex: 1;
+      }
+
+      .verification-actions {
+        display: flex;
+        gap: var(--spacing-sm);
+        align-items: center;
+      }
+
+      .badge {
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+      }
+
+      .badge-success {
+        background-color: rgba(46, 125, 50, 0.1);
+        color: var(--green-primary);
+      }
+
+      .badge-warning {
+        background-color: rgba(251, 192, 45, 0.1);
+        color: var(--harvest-yellow);
+      }
+
+      .badge-danger {
+        background-color: rgba(244, 67, 54, 0.1);
+        color: #f44336;
+      }
+
+      .status-circle {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 5px;
+      }
+
+      .status-online {
+        background-color: var(--green-primary);
+      }
+
+      .status-offline {
+        background-color: var(--dark-gray);
+      }
+
+      /* Mobile Menu Toggle Button */
+      .mobile-menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: var(--dark-gray);
+        cursor: pointer;
+      }
+
+      @media (max-width: 768px) {
+        .mobile-menu-toggle {
+          display: block;
+        }
+      }
+    </style>
   </head>
   <body>
-    <!-- Sidebar Navigation -->
-    <div class="sidebar" id="sidebar">
-      <div class="logo">
-        <img src="/templates/images/logo.png" alt="AgriGo Logo" class="logo-img" />
-        <h2>AgriGo</h2>
+    <div class="container">
+      <!-- Sidebar -->
+      <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <img src="/templates/images/logo.png" alt="AgriGo Logo" />
+          <h2>AgriGo</h2>
+          <button class="menu-toggle" id="menu-toggle">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+        </div>
+        <div class="sidebar-menu">
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="#dashboard" class="nav-link active" data-tab="dashboard">
+                <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="/templates/admin/user-management.html"
+                class="nav-link"
+                data-tab="users"
+              >
+                <i class="fas fa-users"></i> <span>User Management</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="/templates/admin/products.html"
+                class="nav-link"
+                data-tab="products"
+              >
+                <i class="fas fa-shopping-basket"></i> <span>Products</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#orders" class="nav-link" data-tab="orders">
+                <i class="fas fa-clipboard-list"></i> <span>Orders</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#payments" class="nav-link" data-tab="payments">
+                <i class="fas fa-credit-card"></i> <span>Payments</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#delivery" class="nav-link" data-tab="delivery">
+                <i class="fas fa-truck"></i> <span>Delivery</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#reviews" class="nav-link" data-tab="reviews">
+                <i class="fas fa-comment"></i> <span>Reviews</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#analytics" class="nav-link" data-tab="analytics">
+                <i class="fas fa-chart-line"></i> <span>Analytics</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#loyalty" class="nav-link" data-tab="loyalty">
+                <i class="fas fa-gift"></i> <span>Loyalty Program</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#settings" class="nav-link" data-tab="settings">
+                <i class="fas fa-cog"></i> <span>Settings</span>
+              </a>
+            </li>
+            <li class="nav-item logout">
+              <a href="#" id="logoutBtn" class="nav-link">
+                <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
+              </a>
+            </li>
+          </ul>
+          <div class="sidebar-toggle-mobile">
+            <i class="fas fa-times"></i>
+          </div>
+        </div>
       </div>
-      <ul class="nav-list">
-        <li class="nav-item">
-          <a href="#dashboard" class="nav-link active" data-tab="dashboard">
-            <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="#users" class="nav-link" data-tab="users">
-            <i class="fas fa-users"></i> <span>Users</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="#products" class="nav-link" data-tab="products">
-            <i class="fas fa-shopping-basket"></i> <span>Products</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="#orders" class="nav-link" data-tab="orders">
-            <i class="fas fa-clipboard-list"></i> <span>Orders</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="#analytics" class="nav-link" data-tab="analytics">
-            <i class="fas fa-chart-line"></i> <span>Analytics</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="#settings" class="nav-link" data-tab="settings">
-            <i class="fas fa-cog"></i> <span>Settings</span>
-          </a>
-        </li>
-        <li class="nav-item logout">
-          <a href="#" id="logoutBtn" class="nav-link">
-            <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
-          </a>
-        </li>
-      </ul>
-      <div class="sidebar-toggle-mobile">
-        <i class="fas fa-times"></i>
+
+      <!-- Main Content -->
+      <div class="main-content" id="main-content">
+        <!-- Header -->
+        <div class="header">
+          <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search..." />
+          </div>
+          <div class="header-actions">
+            <div class="notification">
+              <i class="fas fa-bell"></i>
+              <span class="notification-count">5</span>
+            </div>
+            <div class="user-profile">
+              <div class="user-avatar">AD</div>
+              <div class="user-info">
+                <div class="user-name">Admin Dashboard</div>
+                <span class="role-badge">Administrator</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-content">
+          <!-- Key Metrics -->
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <div class="metric-header">
+                <div class="metric-icon green">
+                  <i class="fas fa-users"></i>
+                </div>
+                <div class="metric-title">Registered Farmers</div>
+              </div>
+              <div class="metric-value">1,234</div>
+              <div class="metric-trend trend-up">
+                <i class="fas fa-arrow-up"></i> 12% this month
+              </div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-header">
+                <div class="metric-icon blue">
+                  <i class="fas fa-shopping-cart"></i>
+                </div>
+                <div class="metric-title">Active Buyers</div>
+              </div>
+              <div class="metric-value">5,678</div>
+              <div class="metric-trend trend-up">
+                <i class="fas fa-arrow-up"></i> 8% this month
+              </div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-header">
+                <div class="metric-icon yellow">
+                  <i class="fas fa-dollar-sign"></i>
+                </div>
+                <div class="metric-title">Monthly Revenue</div>
+              </div>
+              <div class="metric-value">$45,890</div>
+              <div class="metric-trend trend-up">
+                <i class="fas fa-arrow-up"></i> 15% this month
+              </div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-header">
+                <div class="metric-icon brown">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="metric-title">Fulfillment Rate</div>
+              </div>
+              <div class="metric-value">97.5%</div>
+              <div class="metric-trend trend-up">
+                <i class="fas fa-arrow-up"></i> 1.2% this month
+              </div>
+            </div>
+          </div>
+
+          <!-- Platform Analytics -->
+          <div class="section">
+            <div class="section-header">
+              <div class="section-title">Platform Analytics</div>
+              <div class="section-actions">
+                <button class="btn btn-secondary">
+                  <i class="fas fa-calendar"></i> Last 30 Days
+                </button>
+                <button class="btn btn-secondary">
+                  <i class="fas fa-download"></i> Export
+                </button>
+              </div>
+            </div>
+
+            <div class="chart">
+              <div style="text-align: center">
+                <i
+                  class="fas fa-chart-line"
+                  style="
+                    font-size: 48px;
+                    color: var(--green-primary);
+                    margin-bottom: 16px;
+                  "
+                ></i>
+                <div>Platform Growth & Revenue Chart</div>
+              </div>
+            </div>
+
+            <div
+              style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px"
+            >
+              <div class="chart">
+                <div style="text-align: center">
+                  <i
+                    class="fas fa-chart-pie"
+                    style="
+                      font-size: 48px;
+                      color: var(--sky-blue);
+                      margin-bottom: 16px;
+                    "
+                  ></i>
+                  <div>User Distribution by Region</div>
+                </div>
+              </div>
+              <div class="chart">
+                <div style="text-align: center">
+                  <i
+                    class="fas fa-chart-bar"
+                    style="
+                      font-size: 48px;
+                      color: var(--harvest-yellow);
+                      margin-bottom: 16px;
+                    "
+                  ></i>
+                  <div>Popular Product Categories</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- User Management -->
+          <div class="section">
+            <div class="section-header">
+              <div class="section-title">User Management</div>
+              <div class="section-actions">
+                <button class="btn btn-secondary">
+                  <i class="fas fa-filter"></i> Filter
+                </button>
+                <button class="btn btn-primary">
+                  <i class="fas fa-plus"></i> Add User
+                </button>
+              </div>
+            </div>
+
+            <div class="tabs">
+              <div class="tab active">All Users</div>
+              <div class="tab">Farmers</div>
+              <div class="tab">Buyers</div>
+              <div class="tab">Pending Verification</div>
+            </div>
+
+            <table style="width: 100%; border-collapse: collapse">
+              <thead>
+                <tr style="border-bottom: 1px solid var(--light-gray)">
+                  <th style="text-align: left; padding: 12px 8px">User</th>
+                  <th style="text-align: left; padding: 12px 8px">Role</th>
+                  <th style="text-align: left; padding: 12px 8px">Location</th>
+                  <th style="text-align: left; padding: 12px 8px">Joined</th>
+                  <th style="text-align: left; padding: 12px 8px">Status</th>
+                  <th style="text-align: right; padding: 12px 8px">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom: 1px solid var(--light-gray)">
+                  <td style="padding: 12px 8px">
+                    <div style="display: flex; align-items: center">
+                      <div
+                        style="
+                          width: 32px;
+                          height: 32px;
+                          border-radius: 50%;
+                          background-color: var(--leaf-green);
+                          color: white;
+                          display: flex;
+                          align-items: center;
+                          justify-content: center;
+                          margin-right: 8px;
+                        "
+                      >
+                        MF
+                      </div>
+                      <div>
+                        <div style="font-weight: bold">Michael Farmer</div>
+                        <div
+                          style="
+                            font-size: 0.8rem;
+                            color: var(--dark-gray);
+                            opacity: 0.7;
+                          "
+                        >
+                          michael@example.com
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td style="padding: 12px 8px">
+                    <span
+                      style="
+                        background-color: rgba(46, 125, 50, 0.1);
+                        color: var(--green-primary);
+                        padding: 4px 8px;
+                        border-radius: 4px;
+                        font-size: 0.8rem;
+                      "
+                      >Farmer</span
+                    >
+                  </td>
+                  <td style="padding: 12px 8px">California, USA</td>
+                  <td style="padding: 12px 8px">Jan 15, 2025</td>
+                  <td style="padding: 12px 8px">
+                    <span
+                      style="
+                        background-color: rgba(46, 125, 50, 0.1);
+                        color: var(--green-primary);
+                        padding: 4px 8px;
+                        border-radius: 4px;
+                        font-size: 0.8rem;
+                      "
+                    >
+                      <span class="status-circle status-online"></span>Verified
+                    </span>
+                  </td>
+                  <td style="padding: 12px 8px; text-align: right">
+                    <button class="btn btn-secondary" style="padding: 4px 8px">
+                      <i class="fas fa-ellipsis-h"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--light-gray)">
+                  <td style="padding: 12px 8px">
+                    <div style="display: flex; align-items: center">
+                      <div
+                        style="
+                          width: 32px;
+                          height: 32px;
+                          border-radius: 50%;
+                          background-color: var(--sky-blue);
+                          color: white;
+                          display: flex;
+                          align-items: center;
+                          justify-content: center;
+                          margin-right: 8px;
+                        "
+                      >
+                        SB
+                      </div>
+                      <div>
+                        <div style="font-weight: bold">Sarah Buyer</div>
+                        <div
+                          style="
+                            font-size: 0.8rem;
+                            color: var(--dark-gray);
+                            opacity: 0.7;
+                          "
+                        >
+                          sarah@example.com
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td style="padding: 12px 8px">
+                    <span
+                      style="
+                        background-color: rgba(79, 195, 247, 0.1);
+                        color: var(--sky-blue);
+                        padding: 4px 8px;
+                        border-radius: 4px;
+                        font-size: 0.8rem;
+                      "
+                      >Buyer</span
+                    >
+                  </td>
+                  <td style="padding: 12px 8px">New York, USA</td>
+                  <td style="padding: 12px 8px">Feb 20, 2025</td>
+                  <td style="padding: 12px 8px">
+                    <span
+                      style="
+                        background-color: rgba(46, 125, 50, 0.1);
+                        color: var(--green-primary);
+                        padding: 4px 8px;
+                        border-radius: 4px;
+                        font-size: 0.8rem;
+                      "
+                    >
+                      <span class="status-circle status-online"></span>Active
+                    </span>
+                  </td>
+                  <td style="padding: 12px 8px; text-align: right">
+                    <button class="btn btn-secondary" style="padding: 4px 8px">
+                      <i class="fas fa-ellipsis-h"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--light-gray)">
+                  <td style="padding: 12px 8px">
+                    <div style="display: flex; align-items: center">
+                      <div
+                        style="
+                          width: 32px;
+                          height: 32px;
+                          border-radius: 50%;
+                          background-color: var(--earth-brown);
+                          color: white;
+                          display: flex;
+                          align-items: center;
+                          justify-content: center;
+                          margin-right: 8px;
+                        "
+                      >
+                        JF
+                      </div>
+                      <div>
+                        <div style="font-weight: bold">John Fields</div>
+                        <div
+                          style="
+                            font-size: 0.8rem;
+                            color: var(--dark-gray);
+                            opacity: 0.7;
+                          "
+                        >
+                          john@example.com
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td style="padding: 12px 8px">
+                    <span
+                      style="
+                        background-color: rgba(46, 125, 50, 0.1);
+                        color: var(--green-primary);
+                        padding: 4px 8px;
+                        border-radius: 4px;
+                        font-size: 0.8rem;
+                      "
+                      >Farmer</span
+                    >
+                  </td>
+                  <td style="padding: 12px 8px">Texas, USA</td>
+                  <td style="padding: 12px 8px">Mar 10, 2025</td>
+                  <td style="padding: 12px 8px">
+                    <span
+                      style="
+                        background-color: rgba(244, 67, 54, 0.1);
+                        color: #f44336;
+                        padding: 4px 8px;
+                        border-radius: 4px;
+                        font-size: 0.8rem;
+                      "
+                    >
+                      <span class="status-circle status-offline"></span>Inactive
+                    </span>
+                  </td>
+                  <td style="padding: 12px 8px; text-align: right">
+                    <button class="btn btn-secondary" style="padding: 4px 8px">
+                      <i class="fas fa-ellipsis-h"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Verification Requests -->
+          <div class="verification-requests section">
+            <div class="section-header">
+              <div class="section-title">Verification Requests</div>
+            </div>
+            <div class="verification-card">
+              <div class="verification-info">
+                <div style="font-weight: bold">Alice Green</div>
+                <div
+                  style="
+                    font-size: 0.8rem;
+                    color: var(--dark-gray);
+                    opacity: 0.7;
+                  "
+                >
+                  alice@example.com
+                </div>
+              </div>
+              <div class="verification-actions">
+                <button class="btn btn-primary">Approve</button>
+                <button class="btn btn-secondary">Reject</button>
+              </div>
+            </div>
+            <div class="verification-card">
+              <div class="verification-info">
+                <div style="font-weight: bold">Bob Brown</div>
+                <div
+                  style="
+                    font-size: 0.8rem;
+                    color: var(--dark-gray);
+                    opacity: 0.7;
+                  "
+                >
+                  bob@example.com
+                </div>
+              </div>
+              <div class="verification-actions">
+                <button class="btn btn-primary">Approve</button>
+                <button class="btn btn-secondary">Reject</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+    <script>
+      // Toggle Sidebar for Desktop
+      const sidebar = document.getElementById("sidebar");
+      const mainContent = document.getElementById("main-content");
+      const menuToggle = document.getElementById("menu-toggle");
+      const hamburgerMenu = document.getElementById("hamburger-menu");
+      const sidebarToggleMobile = document.querySelector(
+        ".sidebar-toggle-mobile"
+      );
+      const logoutBtn = document.getElementById("logoutBtn");
 
-    <!-- Main Content -->
-    <div class="main-content" id="mainContent">
-      <!-- Header -->
-      <header class="dashboard-header">
-        <div class="header-left">
-          <div class="menu-icon" id="menuIcon">
-            <i class="fas fa-bars"></i>
-          </div>
-          <h1>Admin Dashboard</h1>
-        </div>
-        <div class="header-right">
-          <div class="notification">
-            <i class="fas fa-bell"></i>
-            <span class="badge">3</span>
-          </div>
-          <div class="profile">
-            <img src="/templates/images/admin-avatar.jpg" alt="Admin Avatar" class="profile-img" />
-            <span class="profile-name">Admin</span>
-          </div>
-        </div>
-      </header>
+      menuToggle.addEventListener("click", () => {
+        sidebar.classList.toggle("sidebar-collapsed");
+        mainContent.classList.toggle("main-content-expanded");
+        menuToggle.querySelector("i").classList.toggle("fa-chevron-left");
+        menuToggle.querySelector("i").classList.toggle("fa-chevron-right");
+      });
 
-      <!-- Dashboard Tab -->
-      <section id="dashboard" class="tab-content active">
-        <!-- Key Metrics -->
-        <div class="metrics-container">
-          <div class="metric animate__animated animate__fadeIn">
-            <div class="metric-icon">
-              <i class="fas fa-users"></i>
-            </div>
-            <div class="metric-details">
-              <h3>Total Users</h3>
-              <p class="metric-number">1,234</p>
-              <span class="metric-trend positive">
-                <i class="fas fa-arrow-up"></i> 12%
-              </span>
-            </div>
-          </div>
-          <div class="metric animate__animated animate__fadeIn">
-            <div class="metric-icon">
-              <i class="fas fa-shopping-cart"></i>
-            </div>
-            <div class="metric-details">
-              <h3>Total Orders</h3>
-              <p class="metric-number">567</p>
-              <span class="metric-trend positive">
-                <i class="fas fa-arrow-up"></i> 8%
-              </span>
-            </div>
-          </div>
-          <div class="metric animate__animated animate__fadeIn">
-            <div class="metric-icon">
-              <i class="fas fa-dollar-sign"></i>
-            </div>
-            <div class="metric-details">
-              <h3>Revenue</h3>
-              <p class="metric-number">$12,345</p>
-              <span class="metric-trend positive">
-                <i class="fas fa-arrow-up"></i> 15%
-              </span>
-            </div>
-          </div>
-          <div class="metric animate__animated animate__fadeIn">
-            <div class="metric-icon">
-              <i class="fas fa-seedling"></i>
-            </div>
-            <div class="metric-details">
-              <h3>Active Farmers</h3>
-              <p class="metric-number">89</p>
-              <span class="metric-trend positive">
-                <i class="fas fa-arrow-up"></i> 5%
-              </span>
-            </div>
-          </div>
-        </div>
+      // Toggle Sidebar for Mobile
+      hamburgerMenu.addEventListener("click", () => {
+        sidebar.classList.toggle("active");
+      });
 
-        <!-- Recent Activities & Quick Stats -->
-        <div class="dashboard-grid">
-          <!-- Recent Activities -->
-          <div class="card animate__animated animate__fadeInUp">
-            <div class="card-header">
-              <h2>Recent Activities</h2>
-              <a href="#" class="view-all">View All</a>
-            </div>
-            <div class="card-body">
-              <ul class="activity-list">
-                <li class="activity-item">
-                  <div class="activity-icon user-icon">
-                    <i class="fas fa-user-plus"></i>
-                  </div>
-                  <div class="activity-details">
-                    <h4>New user registered</h4>
-                    <p>John Doe</p>
-                    <span class="activity-time">2 hours ago</span>
-                  </div>
-                </li>
-                <li class="activity-item">
-                  <div class="activity-icon order-icon">
-                    <i class="fas fa-shopping-bag"></i>
-                  </div>
-                  <div class="activity-details">
-                    <h4>New order placed</h4>
-                    <p>Order #123: 100kg Tomatoes</p>
-                    <span class="activity-time">5 hours ago</span>
-                  </div>
-                </li>
-                <li class="activity-item">
-                  <div class="activity-icon product-icon">
-                    <i class="fas fa-plus-circle"></i>
-                  </div>
-                  <div class="activity-details">
-                    <h4>Product added</h4>
-                    <p>Organic Milk</p>
-                    <span class="activity-time">Yesterday</span>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-          
-          <!-- Sales Overview -->
-          <div class="card animate__animated animate__fadeInUp">
-            <div class="card-header">
-              <h2>Sales Overview</h2>
-              <div class="card-actions">
-                <select id="salesTimeRange">
-                  <option value="weekly">Weekly</option>
-                  <option value="monthly" selected>Monthly</option>
-                  <option value="yearly">Yearly</option>
-                </select>
-              </div>
-            </div>
-            <div class="card-body">
-              <canvas id="salesOverviewChart"></canvas>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Top Products -->
-        <div class="card animate__animated animate__fadeInUp">
-          <div class="card-header">
-            <h2>Top Products</h2>
-            <a href="#" class="view-all">View All Products</a>
-          </div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="data-table">
-                <thead>
-                  <tr>
-                    <th>Product</th>
-                    <th>Category</th>
-                    <th>Price</th>
-                    <th>Sales</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      <div class="product-cell">
-                        <img src="https://via.placeholder.com/40" alt="Organic Tomatoes" />
-                        <span>Organic Tomatoes</span>
-                      </div>
-                    </td>
-                    <td>Vegetables</td>
-                    <td>$4.99/kg</td>
-                    <td>324 kg</td>
-                    <td><span class="status in-stock">In Stock</span></td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div class="product-cell">
-                        <img src="https://via.placeholder.com/40" alt="Fresh Milk" />
-                        <span>Fresh Milk</span>
-                      </div>
-                    </td>
-                    <td>Dairy</td>
-                    <td>$3.50/L</td>
-                    <td>256 L</td>
-                    <td><span class="status in-stock">In Stock</span></td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div class="product-cell">
-                        <img src="https://via.placeholder.com/40" alt="Organic Apples" />
-                        <span>Organic Apples</span>
-                      </div>
-                    </td>
-                    <td>Fruits</td>
-                    <td>$2.99/kg</td>
-                    <td>198 kg</td>
-                    <td><span class="status low-stock">Low Stock</span></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </section>
+      // Close Sidebar When Clicking Outside on Mobile
+      document.addEventListener("click", (event) => {
+        const isClickInsideSidebar = sidebar.contains(event.target);
+        const isClickInsideHamburger = hamburgerMenu.contains(event.target);
 
-      <!-- Users Tab -->
-      <section id="users" class="tab-content">
-        <div class="page-header">
-          <h2>Users Management</h2>
-          <button class="btn btn-primary">
-            <i class="fas fa-plus"></i> Add New User
-          </button>
-        </div>
-        
-        <div class="card">
-          <div class="card-header">
-            <div class="search-filter">
-              <div class="search-box">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search users..." />
-              </div>
-              <div class="filters">
-                <select>
-                  <option>All Users</option>
-                  <option>Buyers</option>
-                  <option>Farmers</option>
-                  <option>Admins</option>
-                </select>
-                <select>
-                  <option>All Status</option>
-                  <option>Active</option>
-                  <option>Inactive</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="data-table">
-                <thead>
-                  <tr>
-                    <th>
-                      <input type="checkbox" id="selectAll" />
-                    </th>
-                    <th>User</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Joined Date</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      <input type="checkbox" />
-                    </td>
-                    <td>
-                      <div class="user-cell">
-                        <img src="https://via.placeholder.com/40" alt="John Doe" />
-                        <span>John Doe</span>
-                      </div>
-                    </td>
-                    <td>john.doe@example.com</td>
-                    <td>Buyer</td>
-                    <td>Jan 12, 2023</td>
-                    <td><span class="status active">Active</span></td>
-                    <td>
-                      <div class="action-buttons">
-                        <button class="btn-icon" title="Edit">
-                          <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="btn-icon" title="Delete">
-                          <i class="fas fa-trash"></i>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <input type="checkbox" />
-                    </td>
-                    <td>
-                      <div class="user-cell">
-                        <img src="https://via.placeholder.com/40" alt="Jane Smith" />
-                        <span>Jane Smith</span>
-                      </div>
-                    </td>
-                    <td>jane.smith@example.com</td>
-                    <td>Farmer</td>
-                    <td>Feb 15, 2023</td>
-                    <td><span class="status active">Active</span></td>
-                    <td>
-                      <div class="action-buttons">
-                        <button class="btn-icon" title="Edit">
-                          <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="btn-icon" title="Delete">
-                          <i class="fas fa-trash"></i>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="pagination">
-              <button class="btn-page"><i class="fas fa-angle-left"></i></button>
-              <button class="btn-page active">1</button>
-              <button class="btn-page">2</button>
-              <button class="btn-page">3</button>
-              <button class="btn-page"><i class="fas fa-angle-right"></i></button>
-            </div>
-          </div>
-        </div>
-      </section>
+        if (
+          !isClickInsideSidebar &&
+          !isClickInsideHamburger &&
+          window.innerWidth <= 768
+        ) {
+          sidebar.classList.remove("active");
+        }
+      });
 
-      <!-- Products Tab -->
-      <section id="products" class="tab-content">
-        <div class="page-header">
-          <h2>Products Management</h2>
-          <button class="btn btn-primary">
-            <i class="fas fa-plus"></i> Add Product
-          </button>
-        </div>
-        
-        <div class="card">
-          <div class="card-header">
-            <div class="search-filter">
-              <div class="search-box">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search products..." />
-              </div>
-              <div class="filters">
-                <select>
-                  <option>All Categories</option>
-                  <option>Vegetables</option>
-                  <option>Fruits</option>
-                  <option>Dairy</option>
-                </select>
-                <select>
-                  <option>All Status</option>
-                  <option>In Stock</option>
-                  <option>Low Stock</option>
-                  <option>Out of Stock</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="product-grid">
-              <div class="product-card">
-                <div class="product-image">
-                  <img src="https://via.placeholder.com/150" alt="Organic Tomatoes" />
-                  <div class="product-actions">
-                    <button class="btn-icon" title="Edit">
-                      <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="btn-icon" title="Delete">
-                      <i class="fas fa-trash"></i>
-                    </button>
-                  </div>
-                </div>
-                <div class="product-info">
-                  <h3>Organic Tomatoes</h3>
-                  <p class="product-category">Vegetables</p>
-                  <div class="product-price">$4.99/kg</div>
-                  <div class="product-status in-stock">In Stock</div>
-                </div>
-              </div>
-              
-              <div class="product-card">
-                <div class="product-image">
-                  <img src="https://via.placeholder.com/150" alt="Fresh Milk" />
-                  <div class="product-actions">
-                    <button class="btn-icon" title="Edit">
-                      <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="btn-icon" title="Delete">
-                      <i class="fas fa-trash"></i>
-                    </button>
-                  </div>
-                </div>
-                <div class="product-info">
-                  <h3>Fresh Milk</h3>
-                  <p class="product-category">Dairy</p>
-                  <div class="product-price">$3.50/L</div>
-                  <div class="product-status in-stock">In Stock</div>
-                </div>
-              </div>
-              
-              <div class="product-card">
-                <div class="product-image">
-                  <img src="https://via.placeholder.com/150" alt="Organic Apples" />
-                  <div class="product-actions">
-                    <button class="btn-icon" title="Edit">
-                      <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="btn-icon" title="Delete">
-                      <i class="fas fa-trash"></i>
-                    </button>
-                  </div>
-                </div>
-                <div class="product-info">
-                  <h3>Organic Apples</h3>
-                  <p class="product-category">Fruits</p>
-                  <div class="product-price">$2.99/kg</div>
-                  <div class="product-status low-stock">Low Stock</div>
-                </div>
-              </div>
-              
-              <div class="product-card">
-                <div class="product-image">
-                  <img src="https://via.placeholder.com/150" alt="Free Range Eggs" />
-                  <div class="product-actions">
-                    <button class="btn-icon" title="Edit">
-                      <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="btn-icon" title="Delete">
-                      <i class="fas fa-trash"></i>
-                    </button>
-                  </div>
-                </div>
-                <div class="product-info">
-                  <h3>Free Range Eggs</h3>
-                  <p class="product-category">Poultry</p>
-                  <div class="product-price">$5.99/dozen</div>
-                  <div class="product-status in-stock">In Stock</div>
-                </div>
-              </div>
-            </div>
-            
-            <div class="pagination">
-              <button class="btn-page"><i class="fas fa-angle-left"></i></button>
-              <button class="btn-page active">1</button>
-              <button class="btn-page">2</button>
-              <button class="btn-page">3</button>
-              <button class="btn-page"><i class="fas fa-angle-right"></i></button>
-            </div>
-          </div>
-        </div>
-      </section>
+      // Close Sidebar on Mobile When X is Clicked
+      sidebarToggleMobile.addEventListener("click", () => {
+        sidebar.classList.remove("active");
+      });
 
-      <!-- Orders Tab -->
-      <section id="orders" class="tab-content">
-        <div class="page-header">
-          <h2>Orders Management</h2>
-          <div class="header-actions">
-            <button class="btn btn-outline">
-              <i class="fas fa-download"></i> Export
-            </button>
-          </div>
+      // Tab Switching
+      const navLinks = document.querySelectorAll(".nav-link");
+      const tabContents = document.querySelectorAll(".tab-content");
+
+      navLinks.forEach((link) => {
+        link.addEventListener("click", (e) => {
+          e.preventDefault();
+
+          // Remove active class from all tabs and contents
+          navLinks.forEach((navLink) => navLink.classList.remove("active"));
+          tabContents.forEach((content) => content.classList.remove("active"));
+
+          // Add active class to clicked tab and corresponding content
+          link.classList.add("active");
+          const tabId = link.getAttribute("data-tab");
+          document.getElementById(tabId).classList.add("active");
+        });
+      });
+
+      // Logout functionality
+      logoutBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        // Show confirmation dialog
+        const confirmLogout = confirm("Are you sure you want to logout?");
+
+        if (confirmLogout) {
+          // Show logout notification
+          const notification = document.createElement("div");
+          notification.className = "logout-notification";
+          notification.innerHTML = `
+        <div class="logout-message">
+          <i class="fas fa-check-circle"></i>
+          <span>Logged out successfully!</span>
         </div>
-        
-        <div class="card">
-          <div class="card-header">
-            <div class="search-filter">
-              <div class="search-box">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search orders..." />
-              </div>
-              <div class="filters">
-                <select>
-                  <option>All Orders</option>
-                  <option>Pending</option>
-                  <option>Processing</option>
-                  <option>Shipped</option>
-                  <option>Delivered</option>
-                  <option>Cancelled</option>
-                </select>
-                <input type="date" placeholder="Date from" />
-                <input type="date" placeholder="Date to" />
-              </div>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="data-table">
-                <thead>
-                  <tr>
-                    <th>Order ID</th>
-                    <th>Customer</th>
-                    <th>Products</th>
-                    <th>Total</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>#ORD-001</td>
-                    <td>
-                      <div class="user-cell">
-                        <img src="https://via.placeholder.com/40" alt="John Doe" />
-                        <span>John Doe</span>
-                      </div>
-                    </td>
-                    <td>Organic Tomatoes, Fresh Milk</td>
-                    <td>$24.50</td>
-                    <td>Feb 20, 2023</td>
-                    <td><span class="status delivered">Delivered</span></td>
-                    <td>
-                      <div class="action-buttons">
-                        <button class="btn-icon" title="View">
-                          <i class="fas fa-eye"></i>
-                        </button>
-                        <button class="btn-icon" title="Print">
-                          <i class="fas fa-print"></i>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>#ORD-002</td>
-                    <td>
-                      <div class="user-cell">
-                        <img src="https://via.placeholder.com/40" alt="Jane Smith" />
-                        <span>Jane Smith</span>
-                      </div>
-                    </td>
-                    <td>Organic Apples, Free Range Eggs</td>
-                    <td>$18.95</td>
-                    <td>Feb 21, 2023</td>
-                    <td><span class="status shipped">Shipped</span></td>
-                    <td>
-                      <div class="action-buttons">
-                        <button class="btn-icon" title="View">
-                          <i class="fas fa-eye"></i>
-                        </button>
-                        <button class="btn-icon" title="Print">
-                          <i class="fas fa-print"></i>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>#ORD-003</td>
-                    <td>
-                      <div class="user-cell">
-                        <img src="https://via.placeholder.com/40" alt="Robert Johnson" />
-                        <span>Robert Johnson</span>
-                      </div>
-                    </td>
-                    <td>Fresh Milk (x3)</td>
-                    <td>$10.50</td>
-                    <td>Feb 22, 2023</td>
-                    <td><span class="status pending">Pending</span></td>
-                    <td>
-                      <div class="action-buttons">
-                        <button class="btn-icon" title="View">
-                          <i class="fas fa-eye"></i>
-                        </button>
-                        <button class="btn-icon" title="Print">
-                          <i class="fas fa-print"></i>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="pagination">
-              <button class="btn-page"><i class="fas fa-angle-left"></i></button>
-              <button class="btn-page active">1</button>
-              <button class="btn-page">2</button>
-              <button class="btn-page">3</button>
-              <button class="btn-page"><i class="fas fa-angle-right"></i></button>
-            </div>
-          </div>
-        </div>
-      </section>
+      `;
+          document.body.appendChild(notification);
 
-      <!-- Analytics Tab -->
-      <section id="analytics" class="tab-content">
-        <div class="page-header">
-          <h2>Analytics</h2>
-          <div class="header-actions">
-            <div class="date-range-picker">
-              <input type="date" value="2023-01-01" />
-              <span>to</span>
-              <input type="date" value="2023-02-28" />
-              <button class="btn btn-outline">Apply</button>
-            </div>
-          </div>
-        </div>
-        
-        <div class="analytics-grid">
-          <div class="card">
-            <div class="card-header">
-              <h3>Sales Overview</h3>
-              <div class="card-actions">
-                <select id="salesChartType">
-                  <option value="daily">Daily</option>
-                  <option value="weekly" selected>Weekly</option>
-                  <option value="monthly">Monthly</option>
-                </select>
-              </div>
-            </div>
-            <div class="card-body">
-              <canvas id="salesChart"></canvas>
-            </div>
-          </div>
-          
-          <div class="card">
-            <div class="card-header">
-              <h3>User Growth</h3>
-              <div class="card-actions">
-                <select id="userGrowthTimeRange">
-                  <option value="6months">Last 6 Months</option>
-                  <option value="1year" selected>Last Year</option>
-                  <option value="all">All Time</option>
-                </select>
-              </div>
-            </div>
-            <div class="card-body">
-              <canvas id="userGrowthChart"></canvas>
-            </div>
-          </div>
-          
-          <div class="card">
-            <div class="card-header">
-              <h3>Top Products</h3>
-            </div>
-            <div class="card-body">
-              <canvas id="topProductsChart"></canvas>
-            </div>
-          </div>
-          
-          <div class="card">
-            <div class="card-header">
-              <h3>User Demographics</h3>
-            </div>
-            <div class="card-body">
-              <canvas id="userDemographicsChart"></canvas>
-            </div>
-          </div>
-        </div>
-        
-        <div class="card export-options">
-          <div class="card-header">
-            <h3>Export Reports</h3>
-          </div>
-          <div class="card-body">
-            <div class="export-grid">
-              <button class="btn btn-export">
-                <i class="fas fa-file-csv"></i>
-                <span>Export as CSV</span>
-              </button>
-              <button class="btn btn-export">
-                <i class="fas fa-file-excel"></i>
-                <span>Export as Excel</span>
-              </button>
-              <button class="btn btn-export">
-                <i class="fas fa-file-pdf"></i>
-                <span>Export as PDF</span>
-              </button>
-              <button class="btn btn-export">
-                <i class="fas fa-print"></i>
-                <span>Print Report</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Settings Tab -->
-      <section id="settings" class="tab-content">
-        <div class="page-header">
-          <h2>Settings</h2>
-        </div>
-        
-        <div class="settings-grid">
-          <div class="card">
-            <div class="card-header">
-              <h3>General Settings</h3>
-            </div>
-            <div class="card-body">
-              <form class="settings-form">
-                <div class="form-group">
-                  <label for="siteName">Site Name</label>
-                  <input type="text" id="siteName" value="AgriGo Admin" />
-                </div>
-                <div class="form-group">
-                  <label for="siteEmail">Site Email</label>
-                  <input type="email" id="siteEmail" value="admin@agrigo.com" />
-                </div>
-                <div class="form-group">
-                  <label for="timezone">Timezone</label>
-                  <select id="timezone">
-                    <option>UTC</option>
-                    <option selected>UTC+1:00</option>
-                    <option>UTC+2:00</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="dateFormat">Date Format</label>
-                  <select id="dateFormat">
-                    <option selected>MM/DD/YYYY</option>
-                    <option>DD/MM/YYYY</option>
-                    <option>YYYY-MM-DD</option>
-                  </select>
-                </div>
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-              </form>
-            </div>
-          </div>
-          
-          <div class="card">
-            <div class="card-header">
-              <h3>Appearance</h3>
-            </div>
-            <div class="card-body">
-              <form class="settings-form">
-                <div class="form-group">
-                  <label for="theme">Theme</label>
-                  <select id="theme">
-                    <option selected>Light</option>
-                    <option>Dark</option>
-                    <option>System Default</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="primaryColor">Primary Color</label>
-                  <input type="color" id="primaryColor" value="#6e54fa" />
-                </div>
-                <div class="form-group">
-                  <label for="sidebarCollapsed">Sidebar Default State</label>
-                  <select id="sidebarCollapsed">
-                    <option>Expanded</option>
-                    <option>Collapsed</option>
-                  </select>
-                </div>
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-              </form>
-              <script>
-               // DOM Elements
-const menuIcon = document.getElementById("menuIcon");
-const sidebar = document.getElementById("sidebar");
-const mainContent = document.getElementById("mainContent");
-const sidebarToggleMobile = document.querySelector(".sidebar-toggle-mobile");
-const navLinks = document.querySelectorAll(".nav-link");
-const tabContents = document.querySelectorAll(".tab-content");
-const logoutBtn = document.getElementById("logoutBtn");
-
-// Toggle sidebar on mobile
-menuIcon.addEventListener("click", () => {
-  sidebar.classList.toggle("active");
-  document.body.classList.toggle("sidebar-open");
-});
-
-// Close sidebar on mobile when X is clicked
-sidebarToggleMobile.addEventListener("click", () => {
-  sidebar.classList.remove("active");
-  document.body.classList.remove("sidebar-open");
-});
-
-// Close sidebar on mobile when clicking outside
-document.addEventListener("click", (e) => {
-  if (
-    sidebar.classList.contains("active") &&
-    !sidebar.contains(e.target) &&
-    e.target !== menuIcon
-  ) {
-    sidebar.classList.remove("active");
-    document.body.classList.remove("sidebar-open");
-  }
-});
-
-// Tab Switching
-navLinks.forEach((link) => {
-  link.addEventListener("click", (e) => {
-    e.preventDefault();
-    
-    // If on mobile, close the sidebar after tab selection
-    if (window.innerWidth <= 768) {
-      sidebar.classList.remove("active");
-      document.body.classList.remove("sidebar-open");
-    }
-    
-    const tabId = link.getAttribute("data-tab");
-    
-    // Remove active class from all tabs and contents
-    navLinks.forEach((navLink) => navLink.classList.remove("active"));
-    tabContents.forEach((content) => content.classList.remove("active"));
-    
-    // Add active class to clicked tab and corresponding content
-    link.classList.add("active");
-    document.getElementById(tabId).classList.add("active");
-  });
-});
-
-// Logout functionality
-logoutBtn.addEventListener("click", (e) => {
-  e.preventDefault();
-  
-  // Show confirmation dialog
-  const confirmLogout = confirm("Are you sure you want to logout?");
-  
-  if (confirmLogout) {
-    // Show logout notification
-    const notification = document.createElement("div");
-    notification.className = "logout-notification";
-    notification.innerHTML = `
-      <div class="logout-message">
-        <i class="fas fa-check-circle"></i>
-        <span>Logged out successfully!</span>
-      </div>
-    `;
-    document.body.appendChild(notification);
-    
-    
-    setTimeout(() => {
-      
-      window.location.href = "/templates/login.html"; 
-    }, 2000);
-  }
-});
-              </script>
-            </body>
-            </html>
+          setTimeout(() => {
+            window.location.href = "/templates/admin/admin-login.html";
+          }, 2000);
+        }
+      });
+    </script>
+  </body>
+</html>
