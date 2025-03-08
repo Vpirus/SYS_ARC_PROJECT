@@ -92,7 +92,7 @@
         display: flex;
         align-items: center;
         border-bottom: 1px solid var(--light-gray);
-        flex-shrink: 0; /* Prevent header from shrinking */
+        flex-shrink: 0;
         position: relative;
       }
 
@@ -132,7 +132,7 @@
       }
 
       .sidebar-collapsed .sidebar-header img {
-        opacity: 0.8; /* Slightly fade the logo when collapsed */
+        opacity: 0.8;
       }
 
       /* Sidebar Menu Styles */
@@ -183,7 +183,7 @@
       .nav-link span {
         margin-left: var(--spacing-md);
         transition: opacity 0.3s ease;
-        white-space: nowrap; /* Prevent text from wrapping */
+        white-space: nowrap;
       }
 
       .sidebar-collapsed .nav-link span {
@@ -193,13 +193,13 @@
       }
 
       .sidebar-collapsed .nav-link {
-        justify-content: center; /* Center icons when collapsed */
+        justify-content: center;
         padding: var(--spacing-md);
       }
 
       /* Logout Button */
       .nav-item.logout {
-        margin-top: auto; /* Push logout to the bottom */
+        margin-top: auto;
         padding: var(--spacing-md);
         border-top: 1px solid var(--light-gray);
       }
@@ -527,7 +527,7 @@
           overflow: hidden;
         }
 
-        .menu-item span {
+        .nav-link span {
           opacity: 0;
           width: 0;
           overflow: hidden;
@@ -555,7 +555,7 @@
           gap: var(--spacing-md);
         }
 
-        .user-name {
+        .user-info {
           display: none;
         }
       }
@@ -583,6 +583,63 @@
           grid-template-columns: 1fr;
         }
       }
+
+      /* Pagination Styles */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+.pagination-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  margin: 0 4px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.pagination-btn-primary {
+  background-color: var(--green-primary);
+  color: var(--white);
+  box-shadow: 0 2px 4px rgba(46, 125, 50, 0.2);
+}
+
+.pagination-btn-primary:hover {
+  background-color: #1b5e20;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(46, 125, 50, 0.3);
+}
+
+.pagination-btn-secondary {
+  background-color: var(--light-gray);
+  color: var(--dark-gray);
+}
+
+.pagination-btn-secondary:hover {
+  background-color: #e0e0e0;
+  transform: translateY(-1px);
+}
+
+.pagination-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.3);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
 
       /* Charts placeholder */
       .chart {
@@ -672,6 +729,30 @@
           display: block;
         }
       }
+
+      /* Logout notification */
+      .logout-notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: var(--green-primary);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 4px;
+        z-index: 9999;
+        animation: fadeIn 0.3s ease-out;
+      }
+
+      .logout-message {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
     </style>
   </head>
   <body>
@@ -733,11 +814,6 @@
             <li class="nav-item">
               <a href="#analytics" class="nav-link" data-tab="analytics">
                 <i class="fas fa-chart-line"></i> <span>Analytics</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#loyalty" class="nav-link" data-tab="loyalty">
-                <i class="fas fa-gift"></i> <span>Loyalty Program</span>
               </a>
             </li>
             <li class="nav-item">
@@ -980,288 +1056,404 @@
                   <td style="padding: 12px 8px">California, USA</td>
                   <td style="padding: 12px 8px">Jan 15, 2025</td>
                   <td style="padding: 12px 8px">
-                    <span
-                      style="
-                        background-color: rgba(46, 125, 50, 0.1);
-                        color: var(--green-primary);
-                        padding: 4px 8px;
-                        border-radius: 4px;
-                        font-size: 0.8rem;
-                      "
-                    >
-                      <span class="status-circle status-online"></span>Verified
-                    </span>
-                  </td>
-                  <td style="padding: 12px 8px; text-align: right">
-                    <button class="btn btn-secondary" style="padding: 4px 8px">
-                      <i class="fas fa-ellipsis-h"></i>
-                    </button>
-                  </td>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--light-gray)">
-                  <td style="padding: 12px 8px">
-                    <div style="display: flex; align-items: center">
-                      <div
-                        style="
-                          width: 32px;
-                          height: 32px;
-                          border-radius: 50%;
-                          background-color: var(--sky-blue);
-                          color: white;
-                          display: flex;
-                          align-items: center;
-                          justify-content: center;
-                          margin-right: 8px;
-                        "
-                      >
-                        SB
-                      </div>
-                      <div>
-                        <div style="font-weight: bold">Sarah Buyer</div>
-                        <div
-                          style="
-                            font-size: 0.8rem;
-                            color: var(--dark-gray);
-                            opacity: 0.7;
-                          "
-                        >
-                          sarah@example.com
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td style="padding: 12px 8px">
-                    <span
-                      style="
-                        background-color: rgba(79, 195, 247, 0.1);
-                        color: var(--sky-blue);
-                        padding: 4px 8px;
-                        border-radius: 4px;
-                        font-size: 0.8rem;
-                      "
-                      >Buyer</span
-                    >
-                  </td>
-                  <td style="padding: 12px 8px">New York, USA</td>
-                  <td style="padding: 12px 8px">Feb 20, 2025</td>
-                  <td style="padding: 12px 8px">
-                    <span
-                      style="
-                        background-color: rgba(46, 125, 50, 0.1);
-                        color: var(--green-primary);
-                        padding: 4px 8px;
-                        border-radius: 4px;
-                        font-size: 0.8rem;
-                      "
-                    >
-                      <span class="status-circle status-online"></span>Active
-                    </span>
-                  </td>
-                  <td style="padding: 12px 8px; text-align: right">
-                    <button class="btn btn-secondary" style="padding: 4px 8px">
-                      <i class="fas fa-ellipsis-h"></i>
-                    </button>
-                  </td>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--light-gray)">
-                  <td style="padding: 12px 8px">
-                    <div style="display: flex; align-items: center">
-                      <div
-                        style="
-                          width: 32px;
-                          height: 32px;
-                          border-radius: 50%;
-                          background-color: var(--earth-brown);
-                          color: white;
-                          display: flex;
-                          align-items: center;
-                          justify-content: center;
-                          margin-right: 8px;
-                        "
-                      >
-                        JF
-                      </div>
-                      <div>
-                        <div style="font-weight: bold">John Fields</div>
-                        <div
-                          style="
-                            font-size: 0.8rem;
-                            color: var(--dark-gray);
-                            opacity: 0.7;
-                          "
-                        >
-                          john@example.com
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td style="padding: 12px 8px">
-                    <span
-                      style="
-                        background-color: rgba(46, 125, 50, 0.1);
-                        color: var(--green-primary);
-                        padding: 4px 8px;
-                        border-radius: 4px;
-                        font-size: 0.8rem;
-                      "
-                      >Farmer</span
-                    >
-                  </td>
-                  <td style="padding: 12px 8px">Texas, USA</td>
-                  <td style="padding: 12px 8px">Mar 10, 2025</td>
-                  <td style="padding: 12px 8px">
-                    <span
-                      style="
-                        background-color: rgba(244, 67, 54, 0.1);
-                        color: #f44336;
-                        padding: 4px 8px;
-                        border-radius: 4px;
-                        font-size: 0.8rem;
-                      "
-                    >
-                      <span class="status-circle status-offline"></span>Inactive
-                    </span>
-                  </td>
-                  <td style="padding: 12px 8px; text-align: right">
-                    <button class="btn btn-secondary" style="padding: 4px 8px">
-                      <i class="fas fa-ellipsis-h"></i>
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                   <span
+          style="
+            background-color: rgba(46, 125, 50, 0.1);
+            color: var(--green-primary);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+          "
+          >Active</span
+        >
+      </td>
+      <td style="padding: 12px 8px; text-align: right">
+        <button
+          style="
+            background: none;
+            border: none;
+            color: var(--dark-gray);
+            cursor: pointer;
+            margin-left: 8px;
+          "
+        >
+          <i class="fas fa-edit"></i>
+        </button>
+        <button
+          style="
+            background: none;
+            border: none;
+            color: var(--dark-gray);
+            cursor: pointer;
+            margin-left: 8px;
+          "
+        >
+          <i class="fas fa-trash"></i>
+        </button>
+      </td>
+    </tr>
+    <tr style="border-bottom: 1px solid var(--light-gray)">
+      <td style="padding: 12px 8px">
+        <div style="display: flex; align-items: center">
+          <div
+            style="
+              width: 32px;
+              height: 32px;
+              border-radius: 50%;
+              background-color: var(--sky-blue);
+              color: white;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              margin-right: 8px;
+            "
+          >
+            SB
           </div>
-
-          <!-- Verification Requests -->
-          <div class="verification-requests section">
-            <div class="section-header">
-              <div class="section-title">Verification Requests</div>
-            </div>
-            <div class="verification-card">
-              <div class="verification-info">
-                <div style="font-weight: bold">Alice Green</div>
-                <div
-                  style="
-                    font-size: 0.8rem;
-                    color: var(--dark-gray);
-                    opacity: 0.7;
-                  "
-                >
-                  alice@example.com
-                </div>
-              </div>
-              <div class="verification-actions">
-                <button class="btn btn-primary">Approve</button>
-                <button class="btn btn-secondary">Reject</button>
-              </div>
-            </div>
-            <div class="verification-card">
-              <div class="verification-info">
-                <div style="font-weight: bold">Bob Brown</div>
-                <div
-                  style="
-                    font-size: 0.8rem;
-                    color: var(--dark-gray);
-                    opacity: 0.7;
-                  "
-                >
-                  bob@example.com
-                </div>
-              </div>
-              <div class="verification-actions">
-                <button class="btn btn-primary">Approve</button>
-                <button class="btn btn-secondary">Reject</button>
-              </div>
+          <div>
+            <div style="font-weight: bold">Sarah Buyer</div>
+            <div
+              style="
+                font-size: 0.8rem;
+                color: var(--dark-gray);
+                opacity: 0.7;
+              "
+            >
+              sarah@example.com
             </div>
           </div>
         </div>
-      </div>
+      </td>
+      <td style="padding: 12px 8px">
+        <span
+          style="
+            background-color: rgba(79, 195, 247, 0.1);
+            color: var(--sky-blue);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+          "
+          >Buyer</span
+        >
+      </td>
+      <td style="padding: 12px 8px">New York, USA</td>
+      <td style="padding: 12px 8px">Feb 03, 2025</td>
+      <td style="padding: 12px 8px">
+        <span
+          style="
+            background-color: rgba(46, 125, 50, 0.1);
+            color: var(--green-primary);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+          "
+          >Active</span
+        >
+      </td>
+      <td style="padding: 12px 8px; text-align: right">
+        <button
+          style="
+            background: none;
+            border: none;
+            color: var(--dark-gray);
+            cursor: pointer;
+            margin-left: 8px;
+          "
+        >
+          <i class="fas fa-edit"></i>
+        </button>
+        <button
+          style="
+            background: none;
+            border: none;
+            color: var(--dark-gray);
+            cursor: pointer;
+            margin-left: 8px;
+          "
+        >
+          <i class="fas fa-trash"></i>
+        </button>
+      </td>
+    </tr>
+    <tr style="border-bottom: 1px solid var(--light-gray)">
+      <td style="padding: 12px 8px">
+        <div style="display: flex; align-items: center">
+          <div
+            style="
+              width: 32px;
+              height: 32px;
+              border-radius: 50%;
+              background-color: var(--harvest-yellow);
+              color: white;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              margin-right: 8px;
+            "
+          >
+            JC
+          </div>
+          <div>
+            <div style="font-weight: bold">John Cooper</div>
+            <div
+              style="
+                font-size: 0.8rem;
+                color: var(--dark-gray);
+                opacity: 0.7;
+              "
+            >
+              john@example.com
+            </div>
+          </div>
+        </div>
+      </td>
+      <td style="padding: 12px 8px">
+        <span
+          style="
+            background-color: rgba(46, 125, 50, 0.1);
+            color: var(--green-primary);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+          "
+          >Farmer</span
+        >
+      </td>
+      <td style="padding: 12px 8px">Texas, USA</td>
+      <td style="padding: 12px 8px">Feb 21, 2025</td>
+      <td style="padding: 12px 8px">
+        <span
+          style="
+            background-color: rgba(251, 192, 45, 0.1);
+            color: var(--harvest-yellow);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+          "
+          >Pending</span
+        >
+      </td>
+      <td style="padding: 12px 8px; text-align: right">
+        <button
+          style="
+            background: none;
+            border: none;
+            color: var(--dark-gray);
+            cursor: pointer;
+            margin-left: 8px;
+          "
+        >
+          <i class="fas fa-edit"></i>
+        </button>
+        <button
+          style="
+            background: none;
+            border: none;
+            color: var(--dark-gray);
+            cursor: pointer;
+            margin-left: 8px;
+          "
+        >
+          <i class="fas fa-trash"></i>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="pagination-container">
+  <button class="pagination-btn pagination-btn-secondary" aria-label="Previous page">
+    <i class="fas fa-chevron-left"></i>
+  </button>
+  <button class="pagination-btn pagination-btn-primary" aria-current="page">
+    1
+  </button>
+  <button class="pagination-btn pagination-btn-secondary">
+    2
+  </button>
+  <button class="pagination-btn pagination-btn-secondary">
+    3
+  </button>
+  <button class="pagination-btn pagination-btn-secondary" aria-label="Next page">
+    <i class="fas fa-chevron-right"></i>
+  </button>
+</div>
+
+<!-- Verification Requests Section -->
+<div class="section">
+<div class="section-header">
+  <div class="section-title">Pending Verification Requests</div>
+  <div class="section-actions">
+    <button class="btn btn-secondary">
+      <i class="fas fa-sync-alt"></i> Refresh
+    </button>
+  </div>
+</div>
+
+<div class="verification-requests">
+  <div class="verification-card">
+    <div class="verification-info">
+      <h4>John Cooper</h4>
+      <p style="margin: 5px 0; color: var(--dark-gray); opacity: 0.8">
+        Requesting verification as Farmer
+      </p>
+      <p style="margin: 5px 0; font-size: 0.9rem">
+        Location: Texas, USA
+      </p>
+      <p style="margin: 5px 0; font-size: 0.9rem">
+        Submitted: Feb 21, 2025
+      </p>
     </div>
-    <script>
-      // Toggle Sidebar for Desktop
-      const sidebar = document.getElementById("sidebar");
-      const mainContent = document.getElementById("main-content");
-      const menuToggle = document.getElementById("menu-toggle");
-      const hamburgerMenu = document.getElementById("hamburger-menu");
-      const sidebarToggleMobile = document.querySelector(
-        ".sidebar-toggle-mobile"
-      );
-      const logoutBtn = document.getElementById("logoutBtn");
+    <div class="verification-actions">
+      <button class="btn btn-primary">Approve</button>
+      <button class="btn btn-secondary">Reject</button>
+      <button class="btn btn-secondary">
+        <i class="fas fa-eye"></i> Details
+      </button>
+    </div>
+  </div>
 
-      menuToggle.addEventListener("click", () => {
-        sidebar.classList.toggle("sidebar-collapsed");
-        mainContent.classList.toggle("main-content-expanded");
-        menuToggle.querySelector("i").classList.toggle("fa-chevron-left");
-        menuToggle.querySelector("i").classList.toggle("fa-chevron-right");
-      });
+  <div class="verification-card">
+    <div class="verification-info">
+      <h4>Maria Garcia</h4>
+      <p style="margin: 5px 0; color: var(--dark-gray); opacity: 0.8">
+        Requesting verification as Farmer
+      </p>
+      <p style="margin: 5px 0; font-size: 0.9rem">
+        Location: Florida, USA
+      </p>
+      <p style="margin: 5px 0; font-size: 0.9rem">
+        Submitted: Feb 22, 2025
+      </p>
+    </div>
+    <div class="verification-actions">
+      <button class="btn btn-primary">Approve</button>
+      <button class="btn btn-secondary">Reject</button>
+      <button class="btn btn-secondary">
+        <i class="fas fa-eye"></i> Details
+      </button>
+    </div>
+  </div>
 
-      // Toggle Sidebar for Mobile
-      hamburgerMenu.addEventListener("click", () => {
-        sidebar.classList.toggle("active");
-      });
+  <div class="verification-card">
+    <div class="verification-info">
+      <h4>Robert Johnson</h4>
+      <p style="margin: 5px 0; color: var(--dark-gray); opacity: 0.8">
+        Requesting verification as Buyer (Business)
+      </p>
+      <p style="margin: 5px 0; font-size: 0.9rem">
+        Location: Washington, USA
+      </p>
+      <p style="margin: 5px 0; font-size: 0.9rem">
+        Submitted: Feb 20, 2025
+      </p>
+    </div>
+    <div class="verification-actions">
+      <button class="btn btn-primary">Approve</button>
+      <button class="btn btn-secondary">Reject</button>
+      <button class="btn btn-secondary">
+        <i class="fas fa-eye"></i> Details
+      </button>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+</div>
 
-      // Close Sidebar When Clicking Outside on Mobile
-      document.addEventListener("click", (event) => {
-        const isClickInsideSidebar = sidebar.contains(event.target);
-        const isClickInsideHamburger = hamburgerMenu.contains(event.target);
+<!-- JavaScript -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+// Sidebar Toggle
+const menuToggle = document.getElementById("menu-toggle");
+const sidebar = document.getElementById("sidebar");
+const mainContent = document.getElementById("main-content");
 
-        if (
-          !isClickInsideSidebar &&
-          !isClickInsideHamburger &&
-          window.innerWidth <= 768
-        ) {
-          sidebar.classList.remove("active");
-        }
-      });
+if (menuToggle) {
+  menuToggle.addEventListener("click", function () {
+    sidebar.classList.toggle("sidebar-collapsed");
+    mainContent.classList.toggle("main-content-expanded");
+    
+    // Change icon based on state
+    const icon = menuToggle.querySelector("i");
+    if (sidebar.classList.contains("sidebar-collapsed")) {
+      icon.classList.remove("fa-chevron-left");
+      icon.classList.add("fa-chevron-right");
+    } else {
+      icon.classList.remove("fa-chevron-right");
+      icon.classList.add("fa-chevron-left");
+    }
+  });
+}
 
-      // Close Sidebar on Mobile When X is Clicked
-      sidebarToggleMobile.addEventListener("click", () => {
-        sidebar.classList.remove("active");
-      });
+// Mobile Menu Toggle
+const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
+if (mobileMenuToggle) {
+  mobileMenuToggle.addEventListener("click", function () {
+    sidebar.classList.toggle("active");
+  });
+}
 
-      // Tab Switching
-      const navLinks = document.querySelectorAll(".nav-link");
-      const tabContents = document.querySelectorAll(".tab-content");
+// Sidebar Toggle Mobile
+const sidebarToggleMobile = document.querySelector(".sidebar-toggle-mobile");
+if (sidebarToggleMobile) {
+  sidebarToggleMobile.addEventListener("click", function () {
+    sidebar.classList.toggle("active");
+  });
+}
 
-      navLinks.forEach((link) => {
-        link.addEventListener("click", (e) => {
-          e.preventDefault();
+// Logout functionality
+const logoutBtn = document.getElementById("logoutBtn");
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    
+    // Create a notification element
+    const notification = document.createElement("div");
+    notification.className = "logout-notification";
+    
+    const message = document.createElement("div");
+    message.className = "logout-message";
+    message.innerHTML = '<i class="fas fa-check-circle"></i> Logged out successfully!';
+    
+    notification.appendChild(message);
+    document.body.appendChild(notification);
+    
+    // Remove notification after 3 seconds
+    setTimeout(function() {
+      notification.remove();
+      // Redirect to login page (in a real app)
+      window.location.href = "/templates/admin/admin-login.html";
+    }, 3000);
+  });
+}
 
-          // Remove active class from all tabs and contents
-          navLinks.forEach((navLink) => navLink.classList.remove("active"));
-          tabContents.forEach((content) => content.classList.remove("active"));
+// Tab switching functionality
+const tabs = document.querySelectorAll(".tab");
+tabs.forEach(tab => {
+  tab.addEventListener("click", function() {
+    // Remove active class from all tabs
+    tabs.forEach(t => t.classList.remove("active"));
+    // Add active class to clicked tab
+    this.classList.add("active");
+  });
+});
 
-          // Add active class to clicked tab and corresponding content
-          link.classList.add("active");
-          const tabId = link.getAttribute("data-tab");
-          document.getElementById(tabId).classList.add("active");
-        });
-      });
-
-      // Logout functionality
-      logoutBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-
-        // Show confirmation dialog
-        const confirmLogout = confirm("Are you sure you want to logout?");
-
-        if (confirmLogout) {
-          // Show logout notification
-          const notification = document.createElement("div");
-          notification.className = "logout-notification";
-          notification.innerHTML = `
-        <div class="logout-message">
-          <i class="fas fa-check-circle"></i>
-          <span>Logged out successfully!</span>
-        </div>
-      `;
-          document.body.appendChild(notification);
-
-          setTimeout(() => {
-            window.location.href = "/templates/admin/admin-login.html";
-          }, 2000);
-        }
-      });
-    </script>
-  </body>
+// Nav links active state
+const navLinks = document.querySelectorAll(".nav-link");
+navLinks.forEach(link => {
+  link.addEventListener("click", function(e) {
+    if (link.getAttribute("href").startsWith("#")) {
+      e.preventDefault();
+      // Remove active class from all links
+      navLinks.forEach(l => l.classList.remove("active"));
+      // Add active class to clicked link
+      this.classList.add("active");
+    }
+  });
+});
+});
+</script>
+</body>
 </html>

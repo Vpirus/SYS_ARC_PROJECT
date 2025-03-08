@@ -1,63 +1,967 @@
-<!--About page-->
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ArgiGo</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>About Us - AgriGo</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/boxicons@latest/css/boxicons.min.css"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Paytone+One&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link 
+      rel="stylesheet" 
+      href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" 
+    />
+    <style>
+      * {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  text-decoration: none;
+  list-style: none;
+  scroll-behavior: smooth;
+}
+:root {
+  --bg-color: #fff;
+  --text-color: #221314;
+  --second-color: #5a7184;
+  --main-color: #2e7d32;
+  --big-font: 6rem;
+  --h2-font: 3rem;
+  --p-font: 1.1rem;
+}
+body {
+  background: var(--bg-color);
+  color: var(--text-color);
+}
+
+section {
+  padding: 6rem 8%;
+  overflow: hidden;
+}
+
+/* HEADER AREA */
+
+header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: transparent;
+  padding: 28px 8%;
+  transition: all 0.5s ease;
+}
+
+header.sticky {
+  background: var(--bg-color);
+  padding: 14px 8%;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--bg-color);
+}
+
+.logo img {
+  height: 40px;
+  margin-right: 10px;
+}
+
+.navbar {
+  display: flex;
+  gap: 30px;
+}
+
+.navbar a {
+  color: var(--bg-color);
+  font-size: 1rem;
+  font-weight: 500;
+  position: relative;
+  transition: all 0.5s ease;
+}
+
+.navbar a::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--main-color);
+  transition: all 0.5s ease;
+}
+
+.navbar a:hover::after {
+  width: 100%;
+}
+
+.navbar a:hover {
+  color: var(--main-color);
+}
+
+#menu-icon {
+  font-size: 35px;
+  cursor: pointer;
+  z-index: 10001;
+  display: none;
+}
+
+      /* About page specific styles */
+      .about-hero {
+        background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                          url('https://images.pexels.com/photos/2252584/pexels-photo-2252584.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+        background-size: cover;
+        background-position: center;
+        height: 70vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-align: center;
+        padding: 0 20px;
+      }
+
+      .about-hero h1 {
+        font-size: 3rem;
+        margin-bottom: 20px;
+        font-weight: 700;
+      }
+
+      .about-hero p {
+        font-size: 1.2rem;
+        max-width: 700px;
+        margin: 0 auto;
+        line-height: 1.6;
+      }
+
+      .mission-vision {
+        padding: 80px 5%;
+        background-color: #f9f9f9;
+      }
+
+      .mission-vision-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+        justify-content: center;
+      }
+
+      .mission-card, .vision-card {
+        flex: 1;
+        min-width: 300px;
+        background: white;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .mission-card:hover, .vision-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .mission-card i, .vision-card i {
+        font-size: 3rem;
+        color: #4CAF50;
+        margin-bottom: 20px;
+      }
+
+      .our-story {
+        padding: 80px 5%;
+      }
+
+      .story-container {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 40px;
+      }
+
+      .story-text {
+        flex: 1;
+        min-width: 300px;
+      }
+
+      .story-text h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        color: #333;
+      }
+
+      .story-text p {
+        line-height: 1.8;
+        margin-bottom: 20px;
+        color: #555;
+      }
+
+      .story-image {
+        flex: 1;
+        min-width: 300px;
+        position: relative;
+      }
+
+      .story-image img {
+        width: 100%;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .story-image .experience {
+        position: absolute;
+        bottom: -20px;
+        right: -20px;
+        background: #4CAF50;
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        font-weight: bold;
+        z-index: 1;
+      }
+
+      .story-image .experience span {
+        font-size: 3rem;
+        display: block;
+      }
+
+      .team-section {
+        padding: 80px 5%;
+        background-color: #f9f9f9;
+      }
+
+      .team-section h2 {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 50px;
+        color: #333;
+      }
+
+      .team-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+        justify-content: center;
+      }
+
+      .team-member {
+        flex: 1;
+        min-width: 250px;
+        max-width: 300px;
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+      }
+
+      .team-member:hover {
+        transform: translateY(-10px);
+      }
+
+      .team-member img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+      }
+
+      .team-info {
+        padding: 20px;
+        text-align: center;
+      }
+
+      .team-info h3 {
+        margin-bottom: 5px;
+        color: #333;
+      }
+
+      .team-info p {
+        color: #666;
+        margin-bottom: 15px;
+      }
+
+      .team-social {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .team-social a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 35px;
+        height: 35px;
+        background: #f5f5f5;
+        border-radius: 50%;
+        color: #333;
+        transition: all 0.3s ease;
+      }
+
+      .team-social a:hover {
+        background: #4CAF50;
+        color: white;
+      }
+
+      .values-section {
+        padding: 80px 5%;
+      }
+
+      .values-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+      }
+
+      .value-card {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: transform 0.3s ease;
+      }
+
+      .value-card:hover {
+        transform: translateY(-10px);
+      }
+
+      .value-card i {
+        font-size: 2.5rem;
+        color: #4CAF50;
+        margin-bottom: 20px;
+      }
+
+      .value-card h3 {
+        margin-bottom: 15px;
+        color: #333;
+      }
+
+      .value-card p {
+        color: #666;
+        line-height: 1.6;
+      }
+
+      .testimonials {
+        padding: 80px 5%;
+        background-color: #f9f9f9;
+        text-align: center;
+      }
+
+      .testimonials h2 {
+        font-size: 2.5rem;
+        margin-bottom: 50px;
+        color: #333;
+      }
+
+      .testimonial-slider {
+        max-width: 900px;
+        margin: 0 auto;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .testimonial-slide {
+        padding: 40px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        margin: 10px;
+      }
+
+      .testimonial-content {
+        font-style: italic;
+        color: #555;
+        margin-bottom: 20px;
+        line-height: 1.8;
+        font-size: 1.1rem;
+      }
+
+      .testimonial-author {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .testimonial-author img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 15px;
+      }
+
+      .author-info h4 {
+        margin-bottom: 5px;
+        color: #333;
+      }
+
+      .author-info p {
+        color: #666;
+      }
+
+      .cta-section {
+        padding: 100px 5%;
+        background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                          url('https://images.pexels.com/photos/2286776/pexels-photo-2286776.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+        background-size: cover;
+        background-position: center;
+        text-align: center;
+        color: white;
+      }
+
+      .cta-section h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+      }
+
+      .cta-section p {
+        max-width: 700px;
+        margin: 0 auto 30px;
+        font-size: 1.1rem;
+        line-height: 1.6;
+      }
+
+      .cta-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+
+      .cta-btn {
+        display: inline-block;
+        padding: 15px 30px;
+        border-radius: 5px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        text-decoration: none;
+      }
+
+      .cta-primary {
+        background-color: #4CAF50;
+        color: white;
+      }
+
+      .cta-secondary {
+        background-color: transparent;
+        color: white;
+        border: 2px solid white;
+      }
+
+      .cta-primary:hover {
+        background-color: #3e8e41;
+      }
+
+      .cta-secondary:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      /*      FOOTER AREA       		*/
+footer {
+  background: #f8f8f8;
+  padding-top: 50px;
+  position: relative;
+}
+
+.footer {
+  padding: 0 5%;
+}
+
+.main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.list {
+  width: 20%;
+  min-width: 200px;
+  margin-bottom: 30px;
+}
+
+.list h4 {
+  font-size: 20px;
+  margin-bottom: 20px;
+  position: relative;
+  color: var(--text-color);
+}
+
+.list h4::before {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 40px;
+  height: 2px;
+  background: var(--main-color);
+}
+
+.list ul li a {
+  display: block;
+  color: var(--second-color);
+  font-size: 15px;
+  margin-bottom: 12px;
+  transition: all 0.3s ease;
+}
+
+.list ul li a:hover {
+  color: var(--main-color);
+  transform: translateX(5px);
+}
+
+.social {
+  display: flex;
+  gap: 10px;
+}
+
+.social a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: var(--main-color);
+  color: var(--bg-color);
+  border-radius: 50%;
+  font-size: 20px;
+  transition: all 0.3s ease;
+}
+
+.social a:hover {
+  transform: scale(1.1);
+  background: #0d6e29;
+}
+
+.end-text {
+  text-align: center;
+  padding: 20px 0;
+  color: var(--second-color);
+  border-top: 1px solid #e7e7e7;
+  margin-top: 30px;
+}
+
+
+@media (max-width: 1400px) {
+  header {
+    padding: 17px 3%;
+    transition: 0.2s;
+  }
+  header.sticky {
+    padding: 10px 3%;
+    transition: 0.2s;
+  }
+  section {
+    padding: 80px 3%;
+    transition: 0.2s;
+  }
+  :root {
+    --big-font: 4.5rem;
+    --h2-font: 2.3rem;
+    --p-font: 1rem;
+    transition: 0.2s;
+  }
+}
+
+@media (max-width: 1040px) {
+  #menu-icon {
+    display: block;
+  }
+  .stick #menu-icon {
+    color: var(--text-color);
+  }
+  .home {
+    height: 88vh;
+  }
+  .navbar {
+    position: absolute;
+    top: 0;
+    right: -100%;
+    width: 270px;
+    height: 120vh;
+    background: var(--main-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 150px 30px;
+    transition: 0.5s all;
+  }
+  .navbar a {
+    display: block;
+    margin: 1.2rem 0;
+  }
+  .sticky .navbar a {
+    color: var(--bg-color);
+  }
+  .navbar a:hover {
+    color: var(--text-color);
+  }
+  .open {
+    right: 0;
+  }
+  .list {
+    width: 50%;
+    margin-bottom: 12px;
+  }
+}
+
+@media (max-width: 575px) {
+  .list {
+    width: 100%;
+  }
+  .newsletter form {
+    width: 350px;
+  }
+  :root {
+    --big-font: 3.8rem;
+    --h2-font: 1.8rem;
+    transition: 0.2s;
+  }
+  .text {
+    text-align: center;
+  }
+  .home {
+    height: 85vh;
+    transition: 0.2s;
+  }
+}
+
+      /* Responsive styles */
+      @media (max-width: 768px) {
+        .about-hero h1 {
+          font-size: 2.5rem;
+        }
+        
+        .about-hero p {
+          font-size: 1rem;
+        }
+        
+        .story-text h2,
+        .team-section h2,
+        .testimonials h2,
+        .cta-section h2 {
+          font-size: 2rem;
+        }
+        
+        .story-image .experience {
+          right: 0;
+          bottom: -10px;
+          padding: 15px;
+        }
+        
+        .story-image .experience span {
+          font-size: 2.5rem;
+        }
+      }
+    </style>
   </head>
   <body>
+    <!-- Header -->
+    <header>
+      <a href="index.html" class="logo">
+        <img src="images/logo.png" alt="AgriGo Logo" />AgriGo
+      </a>
+      <div class="bx bx-menu" id="menu-icon"></div>
+      <ul class="navbar">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="farmers.html">Farmers</a></li>
+        <li><a href="about.html" class="active">About</a></li>
+        <li><a href="login.html">Login</a></li>
+      </ul>
+    </header>
 
-    <!--Footer Section-->
+    <!-- About Hero Section -->
+    <section class="about-hero">
+      <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
+        <h1>Our Story & Mission</h1>
+        <p>
+          AgriGo connects consumers directly with local farmers, promoting sustainable agriculture and 
+          ensuring fair prices for both farmers and customers. We're building a better food system, 
+          one harvest at a time.
+        </p>
+      </div>
+    </section>
+
+    <!-- Mission & Vision Section -->
+    <section class="mission-vision">
+      <div class="mission-vision-container">
+        <div class="mission-card" data-aos="fade-right" data-aos-duration="800">
+          <i class="fas fa-bullseye"></i>
+          <h2>Our Mission</h2>
+          <p>
+            To create a sustainable marketplace that connects local farmers directly with consumers, 
+            eliminating middlemen and ensuring fair prices for quality produce. We aim to support 
+            small-scale farming, promote sustainable agriculture, and make fresh, healthy food 
+            accessible to all.
+          </p>
+        </div>
+        <div class="vision-card" data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
+          <i class="fas fa-eye"></i>
+          <h2>Our Vision</h2>
+          <p>
+            We envision a world where every community has access to locally grown, fresh produce, 
+            where farmers receive fair compensation for their hard work, and where sustainable 
+            agricultural practices are the norm. We strive to build a food system that benefits 
+            people and the planet.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Our Story Section -->
+    <section class="our-story">
+      <div class="story-container">
+        <div class="story-text" data-aos="fade-right" data-aos-duration="800">
+          <h2>How We Started</h2>
+          <p>
+            AgriGo began in 2020 when a group of agricultural enthusiasts saw the struggles of local 
+            farmers trying to sell their produce at fair prices. Middlemen were taking significant 
+            cuts, and consumers were paying high prices for produce that wasn't always fresh.
+          </p>
+          <p>
+            We started with just five farmers in a small community, creating a simple online platform 
+            where they could sell directly to nearby residents. The response was overwhelming – consumers 
+            loved the fresh produce and the connection to their local farmers, while farmers appreciated 
+            the fair prices and direct relationship with their customers.
+          </p>
+          <p>
+            Today, AgriGo works with hundreds of farmers across the region, supplying fresh, organic 
+            produce to thousands of households. Our platform has expanded to include educational 
+            resources about sustainable farming and seasonal eating, fostering a community that cares 
+            about where their food comes from.
+          </p>
+        </div>
+        <div class="story-image" data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
+          <img src="https://images.pexels.com/photos/1153655/pexels-photo-1153655.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Our Story" />
+          <div class="experience">
+            <span>5+</span>
+            Years Experience
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team-section">
+      <h2 data-aos="fade-up" data-aos-duration="800">Meet Our Team</h2>
+      <div class="team-container">
+        <div class="team-member" data-aos="fade-up" data-aos-duration="800">
+          <img src="https://scontent.fmnl40-2.fna.fbcdn.net/v/t39.30808-1/463838181_1979741789143991_5040237750521441767_n.jpg?stp=dst-jpg_s160x160_tt6&_nc_cat=110&ccb=1-7&_nc_sid=e99d92&_nc_eui2=AeEvSlGrHslTT4XPV0LgOx84XcLR3O9xU99dwtHc73FT37YeBvwVTaZhmubJ28og19B4wmV3yP8utS1FB_2m6MNU&_nc_ohc=atbZZP3n7boQ7kNvgHu-Zo8&_nc_oc=Adj0wQw5yGhgHAkJaa-_rO6iukv39iUnfj0CjzrJwSSIjGZGa60ukNz7O2oGzX65xBo&_nc_zt=24&_nc_ht=scontent.fmnl40-2.fna&_nc_gid=AQgxnzC7aB7Osa7X9IBv9VB&oh=00_AYFNcJn2uXGIrR-aEqakj2DIBeu_IO9BiIsZhmIHteMF6w&oe=67D20A2F" alt="Team Member" />
+          <div class="team-info">
+            <h3>Glydel Villarino</h3>
+            <p>Hacker</p>
+            <div class="team-social">
+              <a href="#"><i class="bx bxl-facebook"></i></a>
+              <a href="#"><i class="bx bxl-twitter"></i></a>
+              <a href="#"><i class="bx bxl-linkedin"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="team-member" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+          <img src="https://images.pexels.com/photos/5905857/pexels-photo-5905857.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Team Member" />
+          <div class="team-info">
+            <h3></h3>
+            <p>Agricultural Director</p>
+            <div class="team-social">
+              <a href="#"><i class="bx bxl-facebook"></i></a>
+              <a href="#"><i class="bx bxl-twitter"></i></a>
+              <a href="#"><i class="bx bxl-linkedin"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="team-member" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
+          <img src="https://images.pexels.com/photos/8108391/pexels-photo-8108391.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Team Member" />
+          <div class="team-info">
+            <h3>David Chen</h3>
+            <p>Technology Lead</p>
+            <div class="team-social">
+              <a href="#"><i class="bx bxl-facebook"></i></a>
+              <a href="#"><i class="bx bxl-twitter"></i></a>
+              <a href="#"><i class="bx bxl-linkedin"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="team-member" data-aos="fade-up" data-aos-duration="800" data-aos-delay="600">
+          <img src="https://images.pexels.com/photos/7289740/pexels-photo-7289740.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Team Member" />
+          <div class="team-info">
+            <h3>Emma Wilson</h3>
+            <p>Community Manager</p>
+            <div class="team-social">
+              <a href="#"><i class="bx bxl-facebook"></i></a>
+              <a href="#"><i class="bx bxl-twitter"></i></a>
+              <a href="#"><i class="bx bxl-linkedin"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Our Values Section -->
+    <section class="values-section">
+      <h2 style="text-align: center; margin-bottom: 50px;" data-aos="fade-up" data-aos-duration="800">Our Core Values</h2>
+      <div class="values-container">
+        <div class="value-card" data-aos="zoom-in" data-aos-duration="800">
+          <i class="fas fa-leaf"></i>
+          <h3>Sustainability</h3>
+          <p>
+            We promote environmentally friendly farming practices that preserve our planet for future generations.
+          </p>
+        </div>
+        <div class="value-card" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="200">
+          <i class="fas fa-handshake"></i>
+          <h3>Fair Trade</h3>
+          <p>
+            We ensure farmers receive fair compensation for their hard work and quality produce.
+          </p>
+        </div>
+        <div class="value-card" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="400">
+          <i class="fas fa-users"></i>
+          <h3>Community</h3>
+          <p>
+            We build connections between farmers and consumers, fostering a sense of community and shared purpose.
+          </p>
+        </div>
+        <div class="value-card" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="600">
+          <i class="fas fa-seedling"></i>
+          <h3>Quality</h3>
+          <p>
+            We maintain the highest standards for our produce, ensuring customers receive fresh, nutritious food.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+      <h2 data-aos="fade-up" data-aos-duration="800">What People Say</h2>
+      <div class="testimonial-slider" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+        <div class="testimonial-slide">
+          <div class="testimonial-content">
+            "AgriGo has completely changed how I buy produce. I love knowing exactly where my food comes from and supporting local farmers. The quality is outstanding, and the prices are fair."
+          </div>
+          <div class="testimonial-author">
+            <img src="https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Customer" />
+            <div class="author-info">
+              <h4>Maria Santos</h4>
+              <p>Loyal Customer</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <div data-aos="fade-up" data-aos-duration="800">
+        <h2>Join Our Community</h2>
+        <p>
+          Start supporting local farmers and enjoying fresh, healthy produce delivered straight to your doorstep. Join thousands of satisfied customers who have made the switch to AgriGo.
+        </p>
+        <div class="cta-buttons">
+          <a href="shop.html" class="cta-btn cta-primary">Shop Now</a>
+          <a href="farmers.html" class="cta-btn cta-secondary">Meet Our Farmers</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
     <footer>
-      <section id="footer-section">
-        <div class="footer">
-          <div class="main">
-            <div class="list">
-              <h4>Quick links</h4>
-              <ul>
-                <li><a href="#">About us</a></li>
-                <li><a href="#">Terms & Conditions</a></li>
-                <li><a href="#">Privacy Policy</a></li>
-                <li><a href="#">Help</a></li>
-              </ul>
-            </div>
+      <div class="footer">
+        <div class="main">
+          <div class="list">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Terms & Conditions</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Help</a></li>
+            </ul>
+          </div>
 
-            <div class="list">
-              <h4>Help</h4>
-              <ul>
-                <li><a href="#">Site Policy</a></li>
-                <li><a href="#">Accessibility</a></li>
-                <li><a href="#">Privacy</a></li>
-                <li><a href="#">FAQs</a></li>
-              </ul>
-            </div>
+          <div class="list">
+            <h4>Help</h4>
+            <ul>
+              <li><a href="#">Site Policy</a></li>
+              <li><a href="#">Accessibility</a></li>
+              <li><a href="#">Privacy</a></li>
+              <li><a href="#">FAQs</a></li>
+            </ul>
+          </div>
 
-            <div class="list">
-              <h4>Contact Info</h4>
-              <ul>
-                <li><a href="#">Santiangco Street</a></li>
-                <li><a href="#">Cebu City, Cebu 6000</a></li>
-                <li><a href="#">+1(123)-456-789</a></li>
-                <li><a href="#">Agrigo@farmer.com</a></li>
-              </ul>
-            </div>
+          <div class="list">
+            <h4>Contact Info</h4>
+            <ul>
+              <li><a href="#">Santiangco Street</a></li>
+              <li><a href="#">Cebu City, Cebu 6000</a></li>
+              <li><a href="#">+1(123)-456-789</a></li>
+              <li><a href="#">Agrigo@farmer.com</a></li>
+            </ul>
+          </div>
 
-            <div class="list">
-              <h4>Follow Us</h4>
-              <div class="social">
-                <a href="#"><i class='bx bxl-facebook' ></i></a>
-                <a href="#"><i class='bx bxl-instagram-alt' ></i></a>
-                <a href="#"><i class='bx bxl-twitter' ></i></a>
-                <a href="#"><i class='bx bxl-linkedin' ></i></a>
-              </div>
+          <div class="list">
+            <h4>Follow Us</h4>
+            <div class="social">
+              <a href="#"><i class="bx bxl-facebook"></i></a>
+              <a href="#"><i class="bx bxl-instagram-alt"></i></a>
+              <a href="#"><i class="bx bxl-twitter"></i></a>
+              <a href="#"><i class="bx bxl-linkedin"></i></a>
             </div>
           </div>
         </div>
         <div class="end-text">
           <p>Copyright ©2025 All rights reserved</p>
         </div>
-      </section>
+      </div>
     </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+      // Initialize AOS animation library
+      AOS.init();
+      
+      // Header scroll effect
+      const header = document.querySelector("header");
+
+      window.addEventListener("scroll", function () {
+        header.classList.toggle("sticky", window.scrollY > 0);
+      });
+
+      // Mobile menu toggle
+      const menu = document.querySelector("#menu-icon");
+      const navbar = document.querySelector(".navbar");
+
+      menu.onclick = () => {
+        menu.classList.toggle("bx-x");
+        navbar.classList.toggle("open");
+      };
+
+      window.onscroll = () => {
+        menu.classList.remove("bx-x");
+        navbar.classList.remove("open");
+      };
+    </script>
   </body>
 </html>
