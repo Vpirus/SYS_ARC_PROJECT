@@ -260,9 +260,9 @@ header.sticky {
   line-height: 1.2;
 }
 
-/* Latest Products Section */
+
 .latest-products {
-  padding: 3rem 8% 6rem 8%; /* Reduced padding-top to 3rem */
+  padding: 3rem 8% 6rem 8%; 
 }
 
 .latest-products h2 {
@@ -282,11 +282,11 @@ header.sticky {
 }
 
 .latest-products h2 .recently-added {
-  font-family: "Papyrus", fantasy; /* Papyrus font */
-  font-size: 0.6em; /* Smaller font size */
-  display: block; /* Ensure it appears on a new line */
-  margin-bottom: 10px; /* Space between "Recently Added" and "Latest Products" */
-  color: #ffdb58; /* Mustard color */
+  font-family: "Papyrus", fantasy; 
+  font-size: 0.6em; 
+  display: block; 
+  margin-bottom: 10px; 
+  color: #ffdb58; 
 }
 
 .products-grid {
@@ -342,13 +342,13 @@ header.sticky {
 .organic {
   font-family: "Helvetica Neue", Arial, sans-serif;
   margin: 0;
-  padding: 0;
+  padding: 100px;
   background-color: #f4f9f4;
   color: #2c3e50;
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* Align content to the top */
-  min-height: 100vh;
+  align-items: flex-start; 
+  min-height: 50vh;
 }
 
 .organic-section {
