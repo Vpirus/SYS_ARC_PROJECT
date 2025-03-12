@@ -714,65 +714,6 @@
             color: var(--dark-gray);
         }
         
-        /* Calendar Section */
-        .calendar-view {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 2px;
-            margin-top: var(--spacing-md);
-        }
-        
-        .calendar-header {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 2px;
-            margin-bottom: var(--spacing-xs);
-        }
-        
-        .calendar-day-header {
-            text-align: center;
-            font-weight: bold;
-            font-size: 0.8rem;
-            color: var(--dark-gray);
-            opacity: 0.7;
-        }
-        
-        .calendar-day {
-            aspect-ratio: 1/1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: var(--spacing-xs);
-            border-radius: 4px;
-            background-color: var(--light-gray);
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        
-        .calendar-day:hover {
-            background-color: rgba(46, 125, 50, 0.1);
-        }
-        
-        .calendar-day.active {
-            background-color: var(--green-primary);
-            color: white;
-        }
-        
-        .calendar-day.has-event::after {
-            content: "";
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background-color: var(--harvest-yellow);
-            position: absolute;
-            bottom: 5px;
-        }
-        
-        .calendar-day-number {
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
         
         /* Price Chart */
         .chart {
@@ -916,13 +857,6 @@
                 grid-template-columns: 1fr;
             }
             
-            .calendar-view {
-                grid-template-columns: repeat(4, 1fr);
-            }
-            
-            .calendar-header {
-                display: none;
-            }
         }
     </style>
 </head>
@@ -1169,58 +1103,6 @@
                             <div class="tip-content">
                                 Regularly test your soil pH and nutrient levels to maintain optimal growing conditions.
                             </div>
-                        </div>
-                    </div>
-    
-                    <!-- Calendar Section -->
-                    <div class="section">
-                        <div class="section-header">
-                            <h2 class="section-title">Farm Schedule</h2>
-                            <div class="section-actions">
-                                <button class="btn btn-primary">Add Event</button>
-                            </div>
-                        </div>
-                        <div class="calendar-view">
-                            <div class="calendar-header">
-                                <div class="calendar-day-header">Sun</div>
-                                <div class="calendar-day-header">Mon</div>
-                                <div class="calendar-day-header">Tue</div>
-                                <div class="calendar-day-header">Wed</div>
-                                <div class="calendar-day-header">Thu</div>
-                                <div class="calendar-day-header">Fri</div>
-                                <div class="calendar-day-header">Sat</div>
-                            </div>
-                            <div class="calendar-day">1</div>
-                            <div class="calendar-day">2</div>
-                            <div class="calendar-day">3</div>
-                            <div class="calendar-day">4</div>
-                            <div class="calendar-day">5</div>
-                            <div class="calendar-day">6</div>
-                            <div class="calendar-day">7</div>
-                            <div class="calendar-day">8</div>
-                            <div class="calendar-day">9</div>
-                            <div class="calendar-day">10</div>
-                            <div class="calendar-day">11</div>
-                            <div class="calendar-day">12</div>
-                            <div class="calendar-day">13</div>
-                            <div class="calendar-day">14</div>
-                            <div class="calendar-day">15</div>
-                            <div class="calendar-day">16</div>
-                            <div class="calendar-day">17</div>
-                            <div class="calendar-day">18</div>
-                            <div class="calendar-day">19</div>
-                            <div class="calendar-day">20</div>
-                            <div class="calendar-day">21</div>
-                            <div class="calendar-day">22</div>
-                            <div class="calendar-day">23</div>
-                            <div class="calendar-day">24</div>
-                            <div class="calendar-day">25</div>
-                            <div class="calendar-day">26</div>
-                            <div class="calendar-day">27</div>
-                            <div class="calendar-day">28</div>
-                            <div class="calendar-day">29</div>
-                            <div class="calendar-day">30</div>
-                            <div class="calendar-day">31</div>
                         </div>
                     </div>
                 </div>
