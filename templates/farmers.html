@@ -1,63 +1,1309 @@
-<!--Shipping Page-->
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ArgiGo</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AgriGo - Farmers</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/boxicons@latest/css/boxicons.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Paytone+One&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      /* CSS Variables */
+      :root {
+        --main-color: #2e7d32;
+        --text-color: #333;
+        --bg-color: #fff;
+        --second-color: #666;
+        --big-font: 5rem;
+        --h2-font: 2.5rem;
+        --p-font: 1.1rem;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        list-style: none;
+        text-decoration: none;
+        font-family: "Poppins", sans-serif;
+      }
+
+      header {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 100%;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: transparent;
+        padding: 28px 8%;
+        transition: all 0.5s ease;
+      }
+
+      header.sticky {
+        background: var(--bg-color);
+        padding: 14px 8%;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--bg-color);
+      }
+
+      .sticky .logo {
+        color: var(--text-color);
+      }
+
+      .logo img {
+        height: 40px;
+        margin-right: 10px;
+      }
+
+      .navbar {
+        display: flex;
+        gap: 30px;
+      }
+
+      .navbar a {
+        color: var(--bg-color);
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        transition: all 0.5s ease;
+      }
+
+      .sticky .navbar a {
+        color: var(--text-color);
+      }
+
+      .navbar a::after {
+        content: "";
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--main-color);
+        transition: all 0.5s ease;
+      }
+
+      .navbar a:hover::after {
+        width: 100%;
+      }
+
+      .navbar a:hover {
+        color: var(--main-color);
+      }
+
+      #menu-icon {
+        font-size: 35px;
+        cursor: pointer;
+        z-index: 10001;
+        display: none;
+        color: var(--bg-color);
+      }
+
+      .sticky #menu-icon {
+        color: var(--text-color);
+      }
+
+      /* Farmers Page Specific Styles */
+      .farmers-hero {
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url("https://images.pexels.com/photos/2886937/pexels-photo-2886937.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+        background-size: cover;
+        background-position: center;
+        height: 60vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: white;
+        position: relative;
+        padding-top: 80px; /* Added to account for fixed header */
+      }
+
+      .farmers-hero-content {
+        max-width: 800px;
+        padding: 0 20px;
+      }
+
+      .farmers-hero h1 {
+        font-size: 3.5rem;
+        margin-bottom: 20px;
+        animation: fadeIn 1s ease-in-out;
+      }
+
+      .farmers-hero p {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        animation: fadeIn 1.5s ease-in-out;
+      }
+
+      .search-container {
+        position: relative;
+        max-width: 500px;
+        margin: 0 auto;
+        animation: fadeIn 2s ease-in-out;
+      }
+
+      .search-container input {
+        width: 100%;
+        padding: 15px 20px;
+        border-radius: 30px;
+        border: none;
+        font-size: 1rem;
+      }
+
+      .search-container button {
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        background: #84b840;
+        border: none;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .search-container button:hover {
+        background: #6a9731;
+      }
+
+      .filters {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin: 40px 0;
+        padding: 0 20px;
+      }
+
+      .filter-btn {
+        background: #f5f5f5;
+        border: 1px solid #ddd;
+        padding: 8px 15px;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .filter-btn:hover,
+      .filter-btn.active {
+        background: #84b840;
+        color: white;
+        border-color: #84b840;
+      }
+
+      .farmers-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 30px;
+        padding: 0 20px;
+        max-width: 1200px;
+        margin: 0 auto 50px;
+      }
+
+      .farmer-card {
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .farmer-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+      }
+
+      .farmer-image {
+        height: 250px;
+        overflow: hidden;
+      }
+
+      .farmer-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: all 0.5s ease;
+      }
+
+      .farmer-card:hover .farmer-image img {
+        transform: scale(1.1);
+      }
+
+      .verified-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: #84b840;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .farmer-info {
+        padding: 20px;
+      }
+
+      .farmer-info h3 {
+        margin: 0 0 10px;
+        font-size: 1.5rem;
+      }
+
+      .farmer-location {
+        color: #666;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        margin-bottom: 10px;
+      }
+
+      .farmer-products {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 15px 0;
+      }
+
+      .product-tag {
+        background: #f0f8e6;
+        color: #84b840;
+        padding: 5px 10px;
+        border-radius: 15px;
+        font-size: 0.8rem;
+      }
+
+      .farmer-rating {
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
+      }
+
+      .farmer-rating .fas.fa-star {
+        color: #ffc107;
+      }
+
+      .rating-count {
+        margin-left: 10px;
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      .farmer-info p {
+        color: #555;
+        margin-bottom: 20px;
+        line-height: 1.5;
+      }
+
+      .farmer-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .view-profile-btn {
+        background: #84b840;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .view-profile-btn:hover {
+        background: #6a9731;
+      }
+
+      .save-farmer {
+        background: none;
+        border: none;
+        color: #666;
+        cursor: pointer;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+      }
+
+      .save-farmer:hover {
+        color: #84b840;
+      }
+
+      .save-farmer.saved {
+        color: #84b840;
+      }
+
+      .featured-farmers {
+        background: #f9f9f9;
+        padding: 50px 0;
+      }
+
+      .featured-farmers h2 {
+        text-align: center;
+        margin-bottom: 40px;
+        position: relative;
+      }
+
+      .featured-farmers h2:after {
+        content: "";
+        display: block;
+        width: 50px;
+        height: 3px;
+        background: #84b840;
+        margin: 10px auto;
+      }
+
+      .join-us {
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+          url("https://images.pexels.com/photos/2252584/pexels-photo-2252584.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+        background-size: cover;
+        background-position: center;
+        padding: 80px 20px;
+        text-align: center;
+        color: white;
+      }
+
+      .join-us h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+      }
+
+      .join-us p {
+        max-width: 600px;
+        margin: 0 auto 30px;
+        line-height: 1.6;
+      }
+
+      .join-btn {
+        background: #84b840;
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 30px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .join-btn:hover {
+        background: #6a9731;
+        transform: translateY(-5px);
+      }
+
+      .benefits {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 30px;
+        max-width: 1200px;
+        margin: 50px auto;
+        padding: 0 20px;
+      }
+
+      .benefit-card {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        flex: 1;
+        min-width: 250px;
+        max-width: 300px;
+        transition: all 0.3s ease;
+      }
+
+      .benefit-card:hover {
+        transform: translateY(-10px);
+      }
+
+      .benefit-icon {
+        font-size: 2rem;
+        color: #84b840;
+        margin-bottom: 20px;
+      }
+
+      .benefit-card h3 {
+        margin-bottom: 15px;
+      }
+
+      .testimonials {
+        background: #f9f9f9;
+        padding: 80px 20px;
+        text-align: center;
+      }
+
+      .testimonials h2 {
+        margin-bottom: 50px;
+        position: relative;
+      }
+
+      .testimonials h2:after {
+        content: "";
+        display: block;
+        width: 50px;
+        height: 3px;
+        background: #84b840;
+        margin: 10px auto;
+      }
+
+      .testimonial-slider {
+        max-width: 800px;
+        margin: 0 auto;
+        position: relative;
+      }
+
+      .testimonial-card {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        margin: 0 auto;
+        max-width: 600px;
+      }
+
+      .testimonial-image {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin: 0 auto 20px;
+        border: 3px solid #84b840;
+      }
+
+      .testimonial-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .testimonial-text {
+        font-style: italic;
+        color: #555;
+        line-height: 1.6;
+        margin-bottom: 20px;
+      }
+
+      .testimonial-author {
+        font-weight: bold;
+        color: #333;
+      }
+
+      .testimonial-role {
+        color: #84b840;
+        font-size: 0.9rem;
+      }
+
+      .stats-section {
+        padding: 80px 20px;
+        background: white;
+      }
+
+      .stats-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .stat-item {
+        text-align: center;
+        flex: 1;
+        min-width: 200px;
+      }
+
+      .stat-number {
+        font-size: 3rem;
+        font-weight: bold;
+        color: #84b840;
+        margin-bottom: 10px;
+      }
+
+      .stat-text {
+        color: #555;
+      }
+
+      /* Map Section */
+      .map-section {
+        padding: 50px 20px;
+        text-align: center;
+        background: var(--bg-light);
+      }
+
+      .map-section h2 {
+        margin-bottom: 40px;
+        position: relative;
+      }
+
+      .map-section h2::after {
+        content: "";
+        display: block;
+        width: 50px;
+        height: 3px;
+        background: var(--secondary-color);
+        margin: 10px auto;
+      }
+
+      .map-container {
+        max-width: 1200px;
+        height: 500px;
+        margin: 0 auto;
+        background: #f5f5f5;
+        border-radius: var(--radius);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+      }
+
+      .map-container iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /*      FOOTER AREA       		*/
+      footer {
+        background: #f8f8f8;
+        padding-top: 50px;
+        position: relative;
+      }
+
+      .footer {
+        padding: 0 5%;
+      }
+
+      .main {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+
+      .list {
+        width: 20%;
+        min-width: 200px;
+        margin-bottom: 30px;
+      }
+
+      .list h4 {
+        font-size: 20px;
+        margin-bottom: 20px;
+        position: relative;
+        color: var(--text-color);
+      }
+
+      .list h4::before {
+        content: "";
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 40px;
+        height: 2px;
+        background: var(--main-color);
+      }
+
+      .list ul li a {
+        display: block;
+        color: var(--second-color);
+        font-size: 15px;
+        margin-bottom: 12px;
+        transition: all 0.3s ease;
+      }
+
+      .list ul li a:hover {
+        color: var(--main-color);
+        transform: translateX(5px);
+      }
+
+      .social {
+        display: flex;
+        gap: 10px;
+      }
+
+      .social a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background: var(--main-color);
+        color: var(--bg-color);
+        border-radius: 50%;
+        font-size: 20px;
+        transition: all 0.3s ease;
+      }
+
+      .social a:hover {
+        transform: scale(1.1);
+        background: #0d6e29;
+      }
+
+      .end-text {
+        text-align: center;
+        padding: 20px 0;
+        color: var(--second-color);
+        border-top: 1px solid #e7e7e7;
+        margin-top: 30px;
+      }
+
+      @media (max-width: 1400px) {
+        header {
+          padding: 17px 3%;
+          transition: 0.2s;
+        }
+        header.sticky {
+          padding: 10px 3%;
+          transition: 0.2s;
+        }
+        section {
+          padding: 80px 3%;
+          transition: 0.2s;
+        }
+        :root {
+          --big-font: 4.5rem;
+          --h2-font: 2.3rem;
+          --p-font: 1rem;
+          transition: 0.2s;
+        }
+      }
+
+      @media (max-width: 1040px) {
+        #menu-icon {
+          display: block;
+        }
+        .home {
+          height: 88vh;
+        }
+        .navbar {
+          position: absolute;
+          top: 0;
+          right: -100%;
+          width: 270px;
+          height: 120vh;
+          background: var(--main-color);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 150px 30px;
+          transition: 0.5s all;
+        }
+        .navbar a {
+          display: block;
+          margin: 1.2rem 0;
+          color: var(--bg-color);
+        }
+        .navbar a:hover {
+          color: var(--text-color);
+        }
+        .open {
+          right: 0;
+        }
+        .list {
+          width: 50%;
+          margin-bottom: 12px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .farmers-hero h1 {
+          font-size: 2.5rem;
+        }
+
+        .farmers-grid {
+          grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        }
+
+        .benefit-card {
+          flex: 1 1 100%;
+          max-width: 100%;
+        }
+
+        .stats-container {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .stat-item {
+          width: 100%;
+        }
+
+        .map-container {
+          height: 350px;
+        }
+
+        .featured-items {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .item {
+          max-width: 100%;
+        }
+      }
+
+      @media (max-width: 575px) {
+        .list {
+          width: 100%;
+        }
+        .newsletter form {
+          width: 350px;
+        }
+        :root {
+          --big-font: 3.8rem;
+          --h2-font: 1.8rem;
+          transition: 0.2s;
+        }
+        .text {
+          text-align: center;
+        }
+        .home {
+          height: 85vh;
+          transition: 0.2s;
+        }
+      }
+    </style>
   </head>
   <body>
+    <!-- Header -->
+    <header>
+      <a href="index.html" class="logo">
+        <img src="images/logo.png" alt="AgriGo Logo" />AgriGo
+      </a>
+      <div class="bx bx-menu" id="menu-icon"></div>
+      <ul class="navbar">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="farmers.html" class="active">Farmers</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="login.html">Login</a></li>
+      </ul>
+    </header>
 
-    <!--Footer Section-->
-    <footer>
-      <section id="footer-section">
-        <div class="footer">
-          <div class="main">
-            <div class="list">
-              <h4>Quick links</h4>
-              <ul>
-                <li><a href="#">About us</a></li>
-                <li><a href="#">Terms & Conditions</a></li>
-                <li><a href="#">Privacy Policy</a></li>
-                <li><a href="#">Help</a></li>
-              </ul>
+    <!-- Farmers Hero Section -->
+    <section class="farmers-hero">
+      <div class="farmers-hero-content">
+        <h1>Connect with Local Farmers</h1>
+        <p>
+          Discover the passionate growers behind your favorite fresh produce
+        </p>
+        <div class="search-container">
+          <input
+            type="text"
+            placeholder="Search by farmer name, location, or product..."
+          />
+          <button><i class="fas fa-search"></i></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filters -->
+    <div class="filters">
+      <button class="filter-btn active">All Farmers</button>
+      <button class="filter-btn">Vegetables</button>
+      <button class="filter-btn">Fruits</button>
+      <button class="filter-btn">Organic</button>
+      <button class="filter-btn">Free Delivery</button>
+      <button class="filter-btn">Highest Rated</button>
+    </div>
+
+    <!-- Featured Farmers -->
+    <section class="featured-farmers">
+      <h2>Featured Farmers</h2>
+      <div class="farmers-grid">
+        <div class="farmer-card">
+          <div class="verified-badge">
+            <i class="fas fa-check-circle"></i> Verified
+          </div>
+          <div class="farmer-image">
+            <img
+              src="https://images.pexels.com/photos/2886268/pexels-photo-2886268.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+              alt="John Smith"
+            />
+          </div>
+          <div class="farmer-info">
+            <h3>John Smith</h3>
+            <div class="farmer-location">
+              <i class="fas fa-map-marker-alt"></i> Green Valley Farm, Cebu
             </div>
-
-            <div class="list">
-              <h4>Help</h4>
-              <ul>
-                <li><a href="#">Site Policy</a></li>
-                <li><a href="#">Accessibility</a></li>
-                <li><a href="#">Privacy</a></li>
-                <li><a href="#">FAQs</a></li>
-              </ul>
+            <div class="farmer-rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <span class="rating-count">(124)</span>
             </div>
-
-            <div class="list">
-              <h4>Contact Info</h4>
-              <ul>
-                <li><a href="#">Santiangco Street</a></li>
-                <li><a href="#">Cebu City, Cebu 6000</a></li>
-                <li><a href="#">+1(123)-456-789</a></li>
-                <li><a href="#">Agrigo@farmer.com</a></li>
-              </ul>
+            <div class="farmer-products">
+              <span class="product-tag">Tomatoes</span>
+              <span class="product-tag">Lettuce</span>
+              <span class="product-tag">Carrots</span>
             </div>
-
-            <div class="list">
-              <h4>Follow Us</h4>
-              <div class="social">
-                <a href="#"><i class='bx bxl-facebook' ></i></a>
-                <a href="#"><i class='bx bxl-instagram-alt' ></i></a>
-                <a href="#"><i class='bx bxl-twitter' ></i></a>
-                <a href="#"><i class='bx bxl-linkedin' ></i></a>
-              </div>
+            <p>
+              Organic farmer with 20+ years of experience growing nutritious
+              vegetables using sustainable methods.
+            </p>
+            <div class="farmer-footer">
+              <button class="view-profile-btn">View Profile</button>
+              <button class="save-farmer">
+                <i class="far fa-heart"></i>
+              </button>
             </div>
           </div>
         </div>
-        <div class="end-text">
-          <p>Copyright ©2025 All rights reserved</p>
+
+        <div class="farmer-card">
+          <div class="verified-badge">
+            <i class="fas fa-check-circle"></i> Verified
+          </div>
+          <div class="farmer-image">
+            <img
+              src="https://images.pexels.com/photos/4946604/pexels-photo-4946604.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+              alt="Maria Garcia"
+            />
+          </div>
+          <div class="farmer-info">
+            <h3>Maria Garcia</h3>
+            <div class="farmer-location">
+              <i class="fas fa-map-marker-alt"></i> Sunshine Orchards, Mandaue
+            </div>
+            <div class="farmer-rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+              <span class="rating-count">(98)</span>
+            </div>
+            <div class="farmer-products">
+              <span class="product-tag">Mangoes</span>
+              <span class="product-tag">Bananas</span>
+              <span class="product-tag">Pineapples</span>
+            </div>
+            <p>
+              Family-owned orchard specializing in tropical fruits. All products
+              are pesticide-free and harvested at peak ripeness.
+            </p>
+            <div class="farmer-footer">
+              <button class="view-profile-btn">View Profile</button>
+              <button class="save-farmer">
+                <i class="far fa-heart"></i>
+              </button>
+            </div>
+          </div>
         </div>
-      </section>
-    </footer>s
+
+        <div class="farmer-card">
+          <div class="verified-badge">
+            <i class="fas fa-check-circle"></i> Verified
+          </div>
+          <div class="farmer-image">
+            <img
+              src="https://images.pexels.com/photos/10281058/pexels-photo-10281058.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+              alt="David Lee"
+            />
+          </div>
+          <div class="farmer-info">
+            <h3>David Lee</h3>
+            <div class="farmer-location">
+              <i class="fas fa-map-marker-alt"></i> Harmony Farm, Talisay
+            </div>
+            <div class="farmer-rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="far fa-star"></i>
+              <span class="rating-count">(75)</span>
+            </div>
+            <div class="farmer-products">
+              <span class="product-tag">Potatoes</span>
+              <span class="product-tag">Onions</span>
+              <span class="product-tag">Garlic</span>
+            </div>
+            <p>
+              Root vegetable specialist using regenerative farming practices to
+              maintain soil health and produce nutrient-rich crops.
+            </p>
+            <div class="farmer-footer">
+              <button class="view-profile-btn">View Profile</button>
+              <button class="save-farmer">
+                <i class="far fa-heart"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- More Farmers -->
+    <section>
+      <div class="farmers-grid">
+        <div class="farmer-card">
+          <div class="farmer-image">
+            <img
+              src="https://images.pexels.com/photos/2382735/pexels-photo-2382735.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+              alt="Sarah Johnson"
+            />
+          </div>
+          <div class="farmer-info">
+            <h3>Sarah Johnson</h3>
+            <div class="farmer-location">
+              <i class="fas fa-map-marker-alt"></i> Fresh Fields, Lapu-Lapu
+            </div>
+            <div class="farmer-rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <span class="rating-count">(42)</span>
+            </div>
+            <div class="farmer-products">
+              <span class="product-tag">Kale</span>
+              <span class="product-tag">Spinach</span>
+              <span class="product-tag">Microgreens</span>
+            </div>
+            <p>
+              Specializing in leafy greens and microgreens grown using
+              hydroponic systems that conserve water and maximize nutrition.
+            </p>
+            <div class="farmer-footer">
+              <button class="view-profile-btn">View Profile</button>
+              <button class="save-farmer">
+                <i class="far fa-heart"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="farmer-card">
+          <div class="farmer-image">
+            <img
+              src="https://images.pexels.com/photos/2893095/pexels-photo-2893095.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+              alt="Miguel Santos"
+            />
+          </div>
+          <div class="farmer-info">
+            <h3>Miguel Santos</h3>
+            <div class="farmer-location">
+              <i class="fas fa-map-marker-alt"></i> Happy Earth Farm, Toledo
+            </div>
+            <div class="farmer-rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+              <i class="far fa-star"></i>
+              <span class="rating-count">(38)</span>
+            </div>
+            <div class="farmer-products">
+              <span class="product-tag">Peppers</span>
+              <span class="product-tag">Eggplants</span>
+              <span class="product-tag">Zucchini</span>
+            </div>
+            <p>
+              Third-generation farmer dedicated to growing heirloom varieties of
+              vegetables. Practices natural pest management techniques.
+            </p>
+            <div class="farmer-footer">
+              <button class="view-profile-btn">View Profile</button>
+              <button class="save-farmer">
+                <i class="far fa-heart"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="farmer-card">
+          <div class="farmer-image">
+            <img
+              src="https://images.pexels.com/photos/2382892/pexels-photo-2382892.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+              alt="Ling Chen"
+            />
+          </div>
+          <div class="farmer-info">
+            <h3>Ling Chen</h3>
+            <div class="farmer-location">
+              <i class="fas fa-map-marker-alt"></i> Green Thumb Garden, Danao
+            </div>
+            <div class="farmer-rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="far fa-star"></i>
+              <span class="rating-count">(51)</span>
+            </div>
+            <div class="farmer-products">
+              <span class="product-tag">Herbs</span>
+              <span class="product-tag">Mushrooms</span>
+              <span class="product-tag">Specialty Greens</span>
+            </div>
+            <p>
+              Urban farmer specializing in culinary herbs and gourmet mushrooms.
+              All products are grown using organic methods.
+            </p>
+            <div class="farmer-footer">
+              <button class="view-profile-btn">View Profile</button>
+              <button class="save-farmer">
+                <i class="far fa-heart"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Join Us Section -->
+    <section class="join-us">
+      <h2>Are You a Farmer?</h2>
+      <p>
+        Join our platform to connect with customers who value locally grown,
+        fresh products. Expand your market reach and grow your business with
+        AgriGo.
+      </p>
+      <a href="register.html" class="join-btn">Join as a Farmer</a>
+    </section>
+
+    <!-- Benefits Section -->
+    <section>
+      <h2 style="text-align: center; margin-bottom: 40px">Why Join AgriGo?</h2>
+      <div class="benefits">
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <i class="fas fa-globe"></i>
+          </div>
+          <h3>Expand Your Reach</h3>
+          <p>
+            Connect with customers beyond your local market and grow your
+            business online.
+          </p>
+        </div>
+
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <i class="fas fa-money-bill-wave"></i>
+          </div>
+          <h3>Increase Income</h3>
+          <p>
+            Sell directly to consumers without middlemen and maximize your
+            profits.
+          </p>
+        </div>
+
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h3>Track Performance</h3>
+          <p>
+            Access tools and analytics to monitor sales and customer
+            preferences.
+          </p>
+        </div>
+
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <i class="fas fa-users"></i>
+          </div>
+          <h3>Join a Community</h3>
+          <p>Connect with other farmers, share knowledge and grow together.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+      <h2>What Farmers Say About Us</h2>
+      <div class="testimonial-slider">
+        <div class="testimonial-card">
+          <div class="testimonial-image">
+            <img
+              src="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+              alt="Pedro Reyes"
+            />
+          </div>
+          <p class="testimonial-text">
+            "Since joining AgriGo, my farm's revenue has increased by 40%. The
+            platform makes it easy to connect with customers who appreciate
+            quality produce, and the tools provided have helped me streamline my
+            operations."
+          </p>
+          <p class="testimonial-author">Pedro Reyes</p>
+          <p class="testimonial-role">Organic Vegetable Farmer</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+      <div class="stats-container">
+        <div class="stat-item">
+          <div class="stat-number">500+</div>
+          <div class="stat-text">Registered Farmers</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">25,000+</div>
+          <div class="stat-text">Happy Customers</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">15+</div>
+          <div class="stat-text">Cities Covered</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">98%</div>
+          <div class="stat-text">Satisfaction Rate</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="map-section">
+      <h2>Find Farmers Near You</h2>
+      <div class="map-container">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1234567890!2d-122.0842499!3d37.4219999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDI1JzE5LjIiTiAxMjLCsDA1JzA3LjYiVw!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus"
+          allowfullscreen=""
+          loading="lazy"
+        ></iframe>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer">
+        <div class="main">
+          <div class="list">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="shop.html">Shop</a></li>
+              <li><a href="farmers.html">Farmers</a></li>
+              <li><a href="about.html">About Us</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+
+          <div class="list">
+            <h4>For Customers</h4>
+            <ul>
+              <li><a href="#">How to Order</a></li>
+              <li><a href="#">Delivery Information</a></li>
+              <li><a href="#">Payment Methods</a></li>
+              <li><a href="#">Order Tracking</a></li>
+              <li><a href="#">Customer Support</a></li>
+            </ul>
+          </div>
+
+          <div class="list">
+            <h4>For Farmers</h4>
+            <ul>
+              <li><a href="#">Join as a Farmer</a></li>
+              <li><a href="#">Farmer Resources</a></li>
+              <li><a href="#">Selling Guide</a></li>
+              <li><a href="#">Success Stories</a></li>
+              <li><a href="#">Farmer Support</a></li>
+            </ul>
+          </div>
+
+          <div class="list">
+            <h4>Connect With Us</h4>
+            <div class="social">
+              <a href="#"><i class="fab fa-facebook-f"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="end-text">
+        <p>© 2025 AgriGo. All Rights Reserved.</p>
+      </div>
+    </footer>
+
+    <!-- JavaScript for interactivity -->
+    <script type="text/javascript">
+      // Make header sticky on scroll
+      window.addEventListener("scroll", function () {
+        const header = document.querySelector("header");
+        header.classList.toggle("sticky", window.scrollY > 0);
+      });
+
+      // Mobile menu toggle
+      const menu = document.querySelector("#menu-icon");
+      const navbar = document.querySelector(".navbar");
+
+      menu.addEventListener("click", function () {
+        navbar.classList.toggle("open");
+      });
+
+      // Save farmer functionality
+      const saveButtons = document.querySelectorAll(".save-farmer");
+
+      saveButtons.forEach((button) => {
+        button.addEventListener("click", function () {
+          const icon = this.querySelector("i");
+          if (icon.classList.contains("far")) {
+            icon.classList.remove("far");
+            icon.classList.add("fas");
+            this.classList.add("saved");
+          } else {
+            icon.classList.remove("fas");
+            icon.classList.add("far");
+            this.classList.remove("saved");
+          }
+        });
+      });
+
+      // Filter buttons active state
+      const filterButtons = document.querySelectorAll(".filter-btn");
+
+      filterButtons.forEach((button) => {
+        button.addEventListener("click", function () {
+          filterButtons.forEach((btn) => btn.classList.remove("active"));
+          this.classList.add("active");
+        });
+      });
+    </script>
   </body>
 </html>
