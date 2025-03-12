@@ -260,9 +260,8 @@ header.sticky {
   line-height: 1.2;
 }
 
-
 .latest-products {
-  padding: 3rem 8% 6rem 8%; 
+  padding: 3rem 8% 6rem 8%;
 }
 
 .latest-products h2 {
@@ -282,11 +281,11 @@ header.sticky {
 }
 
 .latest-products h2 .recently-added {
-  font-family: "Papyrus", fantasy; 
-  font-size: 0.6em; 
-  display: block; 
-  margin-bottom: 10px; 
-  color: #ffdb58; 
+  font-family: "Papyrus", fantasy;
+  font-size: 0.6em;
+  display: block;
+  margin-bottom: 10px;
+  color: #ffdb58;
 }
 
 .products-grid {
@@ -347,7 +346,7 @@ header.sticky {
   color: #2c3e50;
   display: flex;
   justify-content: center;
-  align-items: flex-start; 
+  align-items: flex-start;
   min-height: 50vh;
 }
 
@@ -668,7 +667,8 @@ header.sticky {
 
 /*      NEWSLETTER AREA       		*/
 .newsletter {
-  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(https://images.pexels.com/photos/1563536/pexels-photo-1563536.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1);
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+    url(https://images.pexels.com/photos/14348416/pexels-photo-14348416.jpeg?auto=compress&cs=tinysrgb&w=600);
   background-size: cover;
   background-position: center;
   padding: 50px 0;
@@ -760,7 +760,7 @@ footer {
 }
 
 .list h4::before {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -8px;
   left: 0;
@@ -812,7 +812,6 @@ footer {
   border-top: 1px solid #e7e7e7;
   margin-top: 30px;
 }
-
 
 @media (max-width: 1400px) {
   header {
