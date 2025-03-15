@@ -50,12 +50,7 @@
         overflow-x: hidden;
       }
 
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6 {
+      h1, h2, h3, h4, h5, h6 {
         font-family: "Montserrat", sans-serif;
         font-weight: 700;
       }
@@ -71,86 +66,98 @@
       }
 
       /* Sidebar Styles */
-      .sidebar {
-        width: 250px;
-        background-color: var(--white);
-        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-        position: fixed;
-        height: 100vh;
-        z-index: 100;
-        transition: all 0.3s ease;
-      }
+    .sidebar {
+      width: 250px;
+      background-color: var(--white);
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      height: 100vh;
+      z-index: 100;
+      transition: all 0.3s ease;
+      overflow-y: auto;
+    }
 
-      .sidebar-collapsed {
-        width: 70px;
-      }
+    .sidebar-collapsed {
+      width: 70px;
+    }
 
-      .sidebar-header {
-        padding: var(--spacing-md);
-        display: flex;
-        align-items: center;
-        border-bottom: 1px solid var(--light-gray);
-      }
+    .sidebar-header {
+      padding: var(--spacing-md);
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid var(--light-gray);
+      position: relative;
+    }
 
-      .sidebar-header img {
-        height: 40px;
-      }
+    .sidebar-header img {
+      height: 40px;
+    }
 
-      .sidebar-header h2 {
-        margin-left: var(--spacing-sm);
-        color: var(--green-primary);
-        font-size: 1.5rem;
-        transition: opacity 0.3s;
-      }
+    .sidebar-header h2 {
+      margin-left: var(--spacing-sm);
+      color: var(--green-primary);
+      font-size: 1.5rem;
+      transition: opacity 0.3s, width 0.3s;
+      white-space: nowrap;
+    }
 
-      .sidebar-collapsed .sidebar-header h2 {
-        opacity: 0;
-        width: 0;
-        overflow: hidden;
-      }
+    .sidebar-collapsed .sidebar-header h2 {
+      opacity: 0;
+      width: 0;
+      overflow: hidden;
+    }
 
-      .sidebar-menu {
-        margin-top: var(--spacing-lg);
-      }
+    .sidebar-menu {
+      margin-top: var(--spacing-lg);
+    }
 
-      .menu-item {
-        padding: var(--spacing-md);
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        color: var(--dark-gray);
-        text-decoration: none;
-      }
+    .nav-list {
+      list-style: none;
+    }
 
-      .menu-item:hover {
-        background-color: rgba(46, 125, 50, 0.1);
-        color: var(--green-primary);
-      }
+    .nav-item {
+      margin-bottom: 2px;
+    }
 
-      .menu-item.active {
-        background-color: var(--green-primary);
-        color: var(--white);
-      }
+    .nav-link {
+      padding: var(--spacing-md);
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: var(--dark-gray);
+      text-decoration: none;
+    }
 
-      .menu-item i {
-        font-size: 1.2rem;
-        width: 30px;
-        text-align: center;
-      }
+    .nav-link:hover {
+      background-color: rgba(46, 125, 50, 0.1);
+      color: var(--green-primary);
+    }
 
-      .menu-item span {
-        margin-left: var(--spacing-md);
-        transition: opacity 0.3s;
-      }
+    .nav-link.active {
+      background-color: var(--green-primary);
+      color: var(--white);
+    }
 
-      .sidebar-collapsed .menu-item span {
-        opacity: 0;
-        width: 0;
-        overflow: hidden;
-      }
+    .nav-link i {
+      font-size: 1.2rem;
+      width: 30px;
+      text-align: center;
+    }
 
-      .menu-toggle {
+    .nav-link span {
+      margin-left: var(--spacing-md);
+      transition: opacity 0.3s, width 0.3s;
+      white-space: nowrap;
+    }
+
+    .sidebar-collapsed .nav-link span {
+      opacity: 0;
+      width: 0;
+      overflow: hidden;
+    }
+
+    .menu-toggle {
         position: absolute;
         right: -10px;
         top: 70px;
@@ -167,16 +174,50 @@
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
       }
 
-      /* Main Content Styles */
-      .main-content {
-        flex: 1;
-        margin-left: 250px;
-        transition: margin-left 0.3s ease;
-      }
+    /* Logout Button */
+    .nav-item.logout {
+      margin-top: 20px;
+      border-top: 1px solid var(--light-gray);
+      padding-top: 10px;
+    }
 
-      .main-content-expanded {
-        margin-left: 70px;
-      }
+    /* Mobile Toggle Button */
+    .sidebar-toggle-mobile {
+      display: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: var(--spacing-md);
+      text-align: center;
+      background-color: var(--green-primary);
+      color: var(--white);
+      position: sticky;
+      bottom: 0;
+      z-index: 101;
+    }
+
+    /* Main Content Styles */
+    .main-content {
+      flex: 1;
+      margin-left: 250px;
+      transition: margin-left 0.3s ease;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .main-content-expanded {
+      margin-left: 70px;
+    }
+
+    /* Mobile Menu Toggle Button */
+    .mobile-menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--dark-gray);
+      cursor: pointer;
+    }
 
       /* Header Styles */
       .header {
@@ -259,33 +300,32 @@
         margin-right: var(--spacing-sm);
       }
 
+      .user-info {
+        display: flex;
+        flex-direction: column;
+      }
+
       .role-badge {
         background-color: var(--soil-tan);
         padding: var(--spacing-xs) var(--spacing-sm);
         border-radius: 4px;
         font-size: 0.8rem;
-        margin-left: var(--spacing-sm);
+        margin-top: 2px;
       }
 
-      /* Content Styles */
-      .content {
+      /* User Management Content */
+      .user-management-content {
         padding: var(--spacing-lg);
+        flex: 1;
       }
 
       .page-title {
         margin-bottom: var(--spacing-lg);
         font-size: 1.8rem;
         color: var(--dark-gray);
-        display: flex;
-        align-items: center;
       }
 
-      .page-title i {
-        margin-right: var(--spacing-md);
-        color: var(--green-primary);
-      }
-
-      /* User Management Specific Styles */
+      /* Content Sections */
       .section {
         background-color: var(--white);
         border-radius: 8px;
@@ -299,8 +339,6 @@
         justify-content: space-between;
         align-items: center;
         margin-bottom: var(--spacing-lg);
-        flex-wrap: wrap;
-        gap: var(--spacing-md);
       }
 
       .section-title {
@@ -311,7 +349,6 @@
       .section-actions {
         display: flex;
         gap: var(--spacing-sm);
-        flex-wrap: wrap;
       }
 
       .btn {
@@ -360,7 +397,7 @@
         border-bottom: 1px solid var(--light-gray);
         margin-bottom: var(--spacing-lg);
         overflow-x: auto;
-        flex-wrap: nowrap;
+        -webkit-overflow-scrolling: touch;
       }
 
       .tab {
@@ -381,51 +418,42 @@
         background-color: rgba(0, 0, 0, 0.02);
       }
 
-      /* Table */
-      .table-responsive {
-        overflow-x: auto;
-      }
-
+      /* User Table */
       .user-table {
         width: 100%;
         border-collapse: collapse;
       }
 
-      .user-table th,
-      .user-table td {
-        padding: var(--spacing-md);
+      .user-table th {
         text-align: left;
+        padding: 12px 8px;
+        border-bottom: 1px solid var(--light-gray);
+        font-weight: 600;
+      }
+
+      .user-table td {
+        padding: 12px 8px;
         border-bottom: 1px solid var(--light-gray);
       }
 
-      .user-table th {
-        font-weight: 600;
-        color: var(--dark-gray);
-      }
-
-      .user-table tbody tr {
-        transition: background-color 0.2s ease;
-      }
-
-      .user-table tbody tr:hover {
-        background-color: rgba(0, 0, 0, 0.02);
-      }
-
-      .user-info {
+      .user-info-cell {
         display: flex;
         align-items: center;
       }
 
-      .user-avatar-table {
-        width: 40px;
-        height: 40px;
+      .user-avatar-small {
+        width: 32px;
+        height: 32px;
         border-radius: 50%;
-        margin-right: var(--spacing-md);
-        object-fit: cover;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        margin-right: 8px;
       }
 
       .user-name {
-        font-weight: 600;
+        font-weight: bold;
       }
 
       .user-email {
@@ -435,213 +463,192 @@
       }
 
       .badge {
-        display: inline-block;
-        padding: var(--spacing-xs) var(--spacing-sm);
+        padding: 4px 8px;
         border-radius: 4px;
         font-size: 0.8rem;
       }
 
-      .badge-farmer {
+      .badge-success {
         background-color: rgba(46, 125, 50, 0.1);
         color: var(--green-primary);
       }
 
-      .badge-buyer {
-        background-color: rgba(79, 195, 247, 0.1);
-        color: var(--sky-blue);
-      }
-
-      .badge-admin {
-        background-color: rgba(141, 110, 99, 0.1);
-        color: var(--earth-brown);
-      }
-
-      .badge-active {
-        background-color: rgba(46, 125, 50, 0.1);
-        color: var(--green-primary);
-      }
-
-      .badge-pending {
+      .badge-warning {
         background-color: rgba(251, 192, 45, 0.1);
         color: var(--harvest-yellow);
       }
 
-      .badge-inactive {
+      .badge-danger {
         background-color: rgba(244, 67, 54, 0.1);
         color: #f44336;
       }
 
-      .status-dot {
-        display: inline-block;
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        margin-right: var(--spacing-xs);
-      }
-
-      .status-active {
-        background-color: var(--green-primary);
-      }
-
-      .status-pending {
-        background-color: var(--harvest-yellow);
-      }
-
-      .status-inactive {
-        background-color: #f44336;
-      }
-
-      .action-cell {
-        white-space: nowrap;
+      .badge-info {
+        background-color: rgba(79, 195, 247, 0.1);
+        color: var(--sky-blue);
       }
 
       .action-btn {
         background: none;
         border: none;
-        cursor: pointer;
-        margin-right: var(--spacing-xs);
         color: var(--dark-gray);
-        transition: color 0.2s ease;
+        cursor: pointer;
+        margin-left: 8px;
       }
 
       .action-btn:hover {
         color: var(--green-primary);
       }
 
-      .action-btn.delete:hover {
-        color: #f44336;
-      }
-
-      /* Filters */
-      .filters {
+      /* Pagination */
+      .pagination-container {
         display: flex;
-        gap: var(--spacing-md);
+        justify-content: center;
+        align-items: center;
+        margin-top: var(--spacing-lg);
         margin-bottom: var(--spacing-lg);
         flex-wrap: wrap;
+        gap: 4px;
       }
 
-      .filter-group {
-        display: flex;
-        align-items: center;
-        gap: var(--spacing-sm);
-      }
-
-      .filter-label {
-        font-weight: 600;
-        font-size: 0.9rem;
-      }
-
-      .filter-select {
-        padding: var(--spacing-sm) var(--spacing-md);
-        border: 1px solid var(--light-gray);
-        border-radius: 4px;
-        background-color: var(--white);
-        outline: none;
-        font-family: "Open Sans", sans-serif;
-      }
-
-      /* Pagination */
-      .pagination {
-        display: flex;
-        justify-content: center;
-        margin-top: var(--spacing-lg);
-        gap: var(--spacing-xs);
-      }
-
-      .page-item {
-        width: 36px;
-        height: 36px;
-        display: flex;
+      .pagination-btn {
+        display: inline-flex;
         align-items: center;
         justify-content: center;
-        border-radius: 4px;
+        min-width: 40px;
+        height: 40px;
+        border-radius: 6px;
         cursor: pointer;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
         transition: all 0.2s ease;
+        border: none;
       }
 
-      .page-item.active {
+      .pagination-btn-primary {
         background-color: var(--green-primary);
         color: var(--white);
+        box-shadow: 0 2px 4px rgba(46, 125, 50, 0.2);
       }
 
-      .page-item:hover:not(.active) {
-        background-color: rgba(46, 125, 50, 0.1);
+      .pagination-btn-primary:hover {
+        background-color: #1b5e20;
+        transform: translateY(-1px);
+        box-shadow: 0 3px 6px rgba(46, 125, 50, 0.3);
       }
 
-      /* Modal */
-      .modal-backdrop {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(0, 0, 0, 0.5);
+      .pagination-btn-secondary {
+        background-color: var(--light-gray);
+        color: var(--dark-gray);
+      }
+
+      .pagination-btn-secondary:hover {
+        background-color: #e0e0e0;
+        transform: translateY(-1px);
+      }
+
+      /* Verification Requests Styles */
+      .verification-requests {
         display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1000;
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.3s ease;
+        flex-direction: column;
+        gap: var(--spacing-md);
       }
 
-      .modal-backdrop.active {
-        opacity: 1;
-        visibility: visible;
-      }
-
-      .modal {
-        background-color: var(--white);
-        border-radius: 8px;
-        width: 90%;
-        max-width: 600px;
-        padding: var(--spacing-lg);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        transform: translateY(-20px);
-        transition: transform 0.3s ease;
-        max-height: 90vh;
-        overflow-y: auto;
-      }
-
-      .modal-backdrop.active .modal {
-        transform: translateY(0);
-      }
-
-      .modal-header {
+      .verification-card {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: var(--spacing-lg);
+        padding: var(--spacing-md);
+        border-radius: 8px;
+        background-color: var(--light-gray);
+        border-left: 4px solid var(--harvest-yellow);
+      }
+
+      .verification-info {
+        flex: 1;
+      }
+
+      .verification-info h4 {
+        margin-bottom: 5px;
+        color: var(--dark-gray);
+      }
+
+      .verification-actions {
+        display: flex;
+        gap: var(--spacing-sm);
+        flex-wrap: wrap;
+      }
+
+      @media (max-width: 768px) {
+        .verification-card {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        
+        .verification-actions {
+          margin-top: var(--spacing-md);
+          width: 100%;
+          justify-content: flex-end;
+        }
+      }
+
+      /* User Details Modal */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        overflow-y: auto;
+      }
+
+      .modal-content {
+        background-color: var(--white);
+        margin: 50px auto;
+        width: 90%;
+        max-width: 600px;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        position: relative;
+      }
+
+      .modal-header {
+        padding: var(--spacing-lg);
+        border-bottom: 1px solid var(--light-gray);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
       }
 
       .modal-title {
-        font-size: 1.3rem;
-        color: var(--dark-gray);
+        font-size: 1.2rem;
+        font-weight: bold;
       }
 
       .modal-close {
         background: none;
         border: none;
+        font-size: 1.5rem;
         cursor: pointer;
-        font-size: 1.2rem;
         color: var(--dark-gray);
-        transition: color 0.2s ease;
-      }
-
-      .modal-close:hover {
-        color: #f44336;
       }
 
       .modal-body {
-        margin-bottom: var(--spacing-lg);
+        padding: var(--spacing-lg);
       }
 
-      .form-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      .modal-footer {
+        padding: var(--spacing-lg);
+        border-top: 1px solid var(--light-gray);
+        display: flex;
+        justify-content: flex-end;
         gap: var(--spacing-md);
       }
 
+      /* Form Styles */
       .form-group {
         margin-bottom: var(--spacing-md);
       }
@@ -650,214 +657,54 @@
         display: block;
         margin-bottom: var(--spacing-xs);
         font-weight: 600;
-        font-size: 0.9rem;
       }
 
       .form-control {
         width: 100%;
-        padding: var(--spacing-md);
+        padding: 10px;
         border: 1px solid var(--light-gray);
         border-radius: 4px;
         font-family: "Open Sans", sans-serif;
-        outline: none;
-        transition: border-color 0.2s ease;
       }
 
       .form-control:focus {
+        outline: none;
         border-color: var(--green-primary);
+        box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.2);
       }
 
-      .modal-footer {
-        display: flex;
-        justify-content: flex-end;
-        gap: var(--spacing-sm);
+      .form-select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid var(--light-gray);
+        border-radius: 4px;
+        font-family: "Open Sans", sans-serif;
+        background-color: var(--white);
       }
 
-      /* Hamburger Menu */
-      .hamburger-menu {
-        display: none;
-        font-size: 1.5rem;
-        cursor: pointer;
-        margin-right: var(--spacing-md);
-      }
-
-      /* User profile card */
-      .user-profile-card {
+      /* User Details */
+      .user-details {
         display: flex;
         flex-direction: column;
-        align-items: center;
-        padding: var(--spacing-lg);
-        background-color: var(--white);
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        margin-bottom: var(--spacing-lg);
-        text-align: center;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        gap: var(--spacing-md);
       }
 
-      .user-profile-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      }
-
-      .user-profile-avatar {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        margin-bottom: var(--spacing-md);
-        object-fit: cover;
-        border: 3px solid var(--green-primary);
-      }
-
-      .user-profile-name {
-        font-size: 1.2rem;
-        font-weight: 700;
-        margin-bottom: var(--spacing-xs);
-      }
-
-      .user-profile-role {
-        margin-bottom: var(--spacing-md);
-      }
-
-      .user-profile-stats {
+      .user-detail-item {
         display: flex;
-        justify-content: center;
-        gap: var(--spacing-xl);
-        margin-top: var(--spacing-md);
+        border-bottom: 1px solid var(--light-gray);
+        padding-bottom: var(--spacing-sm);
       }
 
-      .stat {
-        text-align: center;
-      }
-
-      .stat-value {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: var(--green-primary);
-      }
-
-      .stat-label {
-        font-size: 0.8rem;
-        color: var(--dark-gray);
-        opacity: 0.7;
-      }
-
-      /* User detail info */
-      .user-detail-info {
-        background-color: var(--white);
-        border-radius: 8px;
-        padding: var(--spacing-lg);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-      }
-
-      .info-group {
-        display: grid;
-        grid-template-columns: 120px 1fr;
-        margin-bottom: var(--spacing-md);
-        align-items: center;
-      }
-
-      .info-label {
+      .detail-label {
+        width: 120px;
         font-weight: 600;
-        color: var(--dark-gray);
-        opacity: 0.7;
       }
 
-      .info-value {
-        font-weight: 400;
+      .detail-value {
+        flex: 1;
       }
 
-      /* User Grid View */
-      .user-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: var(--spacing-lg);
-        margin-top: var(--spacing-lg);
-      }
-
-      .user-card {
-        background-color: var(--white);
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-      }
-
-      .user-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      }
-
-      .user-card-header {
-        position: relative;
-        height: 80px;
-        background-color: var(--leaf-green);
-      }
-
-      .user-card-avatar {
-        position: absolute;
-        bottom: -30px;
-        left: 20px;
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 3px solid var(--white);
-      }
-
-      .user-card-body {
-        padding: var(--spacing-xl) var(--spacing-md) var(--spacing-md);
-      }
-
-      .user-card-name {
-        font-weight: 700;
-        margin-bottom: var(--spacing-xs);
-      }
-
-      .user-card-info {
-        color: var(--dark-gray);
-        opacity: 0.7;
-        font-size: 0.9rem;
-        margin-bottom: var(--spacing-md);
-      }
-
-      .user-card-footer {
-        display: flex;
-        justify-content: space-between;
-        border-top: 1px solid var(--light-gray);
-        padding: var(--spacing-md);
-      }
-
-      /* Animations */
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
-      }
-
-      @keyframes slideIn {
-        from {
-          transform: translateY(20px);
-          opacity: 0;
-        }
-        to {
-          transform: translateY(0);
-          opacity: 1;
-        }
-      }
-
-      .animate-fade-in {
-        animation: fadeIn 0.5s ease forwards;
-      }
-
-      .animate-slide-in {
-        animation: slideIn 0.5s ease forwards;
-      }
-
-      /* Responsive Styles */
+      /* Responsive styles */
       @media (max-width: 1024px) {
         .sidebar {
           width: 70px;
@@ -869,7 +716,7 @@
           overflow: hidden;
         }
 
-        .menu-item span {
+        .nav-link span {
           opacity: 0;
           width: 0;
           overflow: hidden;
@@ -882,93 +729,90 @@
         .menu-toggle {
           display: none;
         }
-
-        .form-grid {
-          grid-template-columns: 1fr;
-        }
       }
 
       @media (max-width: 768px) {
-        .hamburger-menu {
+        .mobile-menu-toggle {
           display: block;
         }
-
+        
         .sidebar {
-          left: -70px;
+          width: 250px;
+          left: -250px;
           transition: left 0.3s ease;
         }
-
+        
         .sidebar.active {
           left: 0;
         }
-
+        
+        .sidebar.active .sidebar-header h2,
+        .sidebar.active .nav-link span {
+          opacity: 1;
+          width: auto;
+        }
+        
         .main-content {
           margin-left: 0;
         }
-
-        .search-bar {
-          width: 200px;
-        }
-
+        
         .header-actions {
           gap: var(--spacing-md);
         }
-
-        .user-profile .user-info {
+        
+        .user-info {
           display: none;
         }
-
-        .user-grid {
-          grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-        }
-
+        
         .section-header {
           flex-direction: column;
           align-items: flex-start;
+          gap: var(--spacing-md);
         }
-
+        
         .section-actions {
           width: 100%;
           justify-content: flex-end;
         }
+        
+        .sidebar-toggle-mobile {
+          display: block;
+        }
       }
 
       @media (max-width: 480px) {
+        .sidebar {
+          width: 250px;
+        }
+        
         .search-bar {
           width: 150px;
         }
-
+        
+        .header {
+          padding: var(--spacing-sm);
+        }
+        
+        .user-management-content {
+          padding: var(--spacing-md);
+        }
+        
+        .btn {
+          padding: var(--spacing-xs) var(--spacing-sm);
+          font-size: 0.9rem;
+        }
+        
+        .section {
+          padding: var(--spacing-md);
+        }
+        
         .tabs {
           padding-bottom: var(--spacing-xs);
         }
-
+        
         .tab {
-          padding: var(--spacing-md) var(--spacing-sm);
+          padding: var(--spacing-sm) var(--spacing-md);
         }
-
-        .user-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .filters {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-
-        .modal {
-          width: 95%;
-          padding: var(--spacing-md);
-        }
-      }
-
-      /* Tab content styles */
-      .tab-content {
-        display: none;
-      }
-
-      .tab-content.active {
-        display: block;
-        animation: fadeIn 0.5s ease forwards;
       }
     </style>
   </head>
@@ -979,51 +823,74 @@
         <div class="sidebar-header">
           <img src="/templates/images/logo.png" alt="AgriGo Logo" />
           <h2>AgriGo</h2>
+          <button class="menu-toggle" id="menu-toggle">
+            <i class="fas fa-chevron-left"></i>
+          </button>
         </div>
-        <button class="menu-toggle" id="menu-toggle">
-          <i class="fas fa-chevron-left"></i>
-        </button>
         <div class="sidebar-menu">
-          <a href="admin-dashboard.html" class="menu-item">
-            <i class="fas fa-chart-line"></i>
-            <span>Dashboard</span>
-          </a>
-          <a href="#" class="menu-item active">
-            <i class="fas fa-users"></i>
-            <span>User Management</span>
-          </a>
-          <a href="products.html" class="menu-item">
-            <i class="fas fa-box"></i>
-            <span>Products</span>
-          </a>
-          <a href="orders.html" class="menu-item">
-            <i class="fas fa-shopping-cart"></i>
-            <span>Orders</span>
-          </a>
-          <a href="payments.html" class="menu-item">
-            <i class="fas fa-credit-card"></i>
-            <span>Payments</span>
-          </a>
-          <a href="delivery.html" class="menu-item">
-            <i class="fas fa-truck"></i>
-            <span>Delivery</span>
-          </a>
-          <a href="reviews.html" class="menu-item">
-            <i class="fas fa-comment"></i>
-            <span>Reviews</span>
-          </a>
-          <a href="notification.html" class="menu-item">
-            <i class="fas fa-bell"></i>
-            <span>Notifications</span>
-          </a>
-          <a href="analytics.html" class="menu-item">
-            <i class="fas fa-chart-pie"></i>
-            <span>Analytics</span>
-          </a>
-          <a href="settings.html" class="menu-item">
-            <i class="fas fa-cog"></i>
-            <span>Settings</span>
-          </a>
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="/templates/admin/admin-dashboard.html" class="nav-link" data-tab="dashboard">
+                <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="#"
+                class="nav-link active"
+                data-tab="users"
+              >
+                <i class="fas fa-users"></i> <span>User Management</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="/templates/admin/products.html"
+                class="nav-link"
+                data-tab="products"
+              >
+                <i class="fas fa-shopping-basket"></i> <span>Products</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/templates/admin/orders.html" class="nav-link" data-tab="orders">
+                <i class="fas fa-clipboard-list"></i> <span>Orders</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#payments" class="nav-link" data-tab="payments">
+                <i class="fas fa-credit-card"></i> <span>Payments</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#delivery" class="nav-link" data-tab="delivery">
+                <i class="fas fa-truck"></i> <span>Delivery</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#reviews" class="nav-link" data-tab="reviews">
+                <i class="fas fa-comment"></i> <span>Reviews</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#analytics" class="nav-link" data-tab="analytics">
+                <i class="fas fa-chart-line"></i> <span>Analytics</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#settings" class="nav-link" data-tab="settings">
+                <i class="fas fa-cog"></i> <span>Settings</span>
+              </a>
+            </li>
+            <li class="nav-item logout">
+              <a href="#" id="logoutBtn" class="nav-link">
+                <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
+              </a>
+            </li>
+          </ul>
+          <div class="sidebar-toggle-mobile">
+            <i class="fas fa-times"></i>
+          </div>
         </div>
       </div>
 
@@ -1031,21 +898,17 @@
       <div class="main-content" id="main-content">
         <!-- Header -->
         <div class="header">
-          <div class="hamburger-menu" id="hamburger-menu">
+          <button class="mobile-menu-toggle" id="mobile-menu-toggle">
             <i class="fas fa-bars"></i>
-          </div>
+          </button>
           <div class="search-bar">
             <i class="fas fa-search"></i>
-            <input
-              type="text"
-              id="search-input"
-              placeholder="Search users..."
-            />
+            <input type="text" placeholder="Search users..." />
           </div>
           <div class="header-actions">
             <div class="notification">
               <i class="fas fa-bell"></i>
-              <span class="notification-count">3</span>
+              <span class="notification-count">5</span>
             </div>
             <div class="user-profile">
               <div class="user-avatar">AD</div>
@@ -1057,49 +920,34 @@
           </div>
         </div>
 
-        <!-- Dashboard Content -->
-        <div class="content">
-          <h1 class="page-title">
-            <i class="fas fa-users"></i>
-            User Management
-          </h1>
+        <!-- User Management Content -->
+        <div class="user-management-content">
+          <h1 class="page-title">User Management</h1>
 
-          <!-- Filters -->
-          <div class="filters">
-            <div class="filter-group">
-              <label for="role-filter" class="filter-label">Role:</label>
-              <select id="role-filter" class="filter-select">
-                <option value="all">All Roles</option>
-                <option value="farmer">Farmer</option>
-                <option value="buyer">Buyer</option>
-                <option value="admin">Admin</option>
-              </select>
+          <div class="section">
+            <div class="section-header">
+              <div class="section-title">All Users</div>
+              <div class="section-actions">
+                <button class="btn btn-secondary">
+                  <i class="fas fa-filter"></i> Filter
+                </button>
+                <button class="btn btn-secondary">
+                  <i class="fas fa-download"></i> Export
+                </button>
+                <button class="btn btn-primary" id="addUserBtn">
+                  <i class="fas fa-plus"></i> Add User
+                </button>
+              </div>
             </div>
-            <div class="filter-group">
-              <label for="status-filter" class="filter-label">Status:</label>
-              <select id="status-filter" class="filter-select">
-                <option value="all">All Statuses</option>
-                <option value="active">Active</option>
-                <option value="pending">Pending</option>
-                <option value="inactive">Inactive</option>
-              </select>
+
+            <div class="tabs">
+              <div class="tab active">All Users</div>
+              <div class="tab">Farmers</div>
+              <div class="tab">Buyers</div>
+              <div class="tab">Pending Verification</div>
+              <div class="tab">Inactive</div>
             </div>
-            <button class="btn btn-primary">
-              <i class="fas fa-filter"></i>
-              Apply Filters
-            </button>
-          </div>
 
-          <!-- Tabs -->
-          <div class="tabs">
-            <div class="tab active" data-tab="all-users">All Users</div>
-            <div class="tab" data-tab="farmers">Farmers</div>
-            <div class="tab" data-tab="buyers">Buyers</div>
-            <div class="tab" data-tab="pending">Pending Verification</div>
-          </div>
-
-          <!-- User Table -->
-          <div class="table-responsive">
             <table class="user-table">
               <thead>
                 <tr>
@@ -1114,200 +962,571 @@
               <tbody>
                 <tr>
                   <td>
-                    <div class="user-info">
-                      <img
-                        src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=160"
-                        alt="User"
-                        class="user-avatar-table"
-                      />
+                    <div class="user-info-cell">
+                      <div class="user-avatar-small" style="background-color: var(--leaf-green);">RF</div>
                       <div>
-                        <div class="user-name">John Doe</div>
-                        <div class="user-email">john@example.com</div>
+                        <div class="user-name">Ramon Fernandez</div>
+                        <div class="user-email">ramon.fernandez@agrigo.ph</div>
                       </div>
                     </div>
                   </td>
-                  <td>
-                    <span class="badge badge-farmer">Farmer</span>
-                  </td>
-                  <td>California, USA</td>
+                  <td><span class="badge badge-success">Farmer</span></td>
+                  <td>Cebu, Philippines</td>
                   <td>Jan 15, 2025</td>
-                  <td>
-                    <span class="badge badge-active">
-                      <span class="status-dot status-active"></span>
-                      Active
-                    </span>
-                  </td>
-                  <td class="action-cell">
-                    <button class="action-btn" title="Edit">
-                      <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="action-btn delete" title="Delete">
-                      <i class="fas fa-trash"></i>
-                    </button>
+                  <td><span class="badge badge-success">Active</span></td>
+                  <td style="text-align: right;">
+                    <button class="action-btn view-user-btn" data-id="1"><i class="fas fa-eye"></i></button>
+                    <button class="action-btn edit-user-btn" data-id="1"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-user-btn" data-id="1"><i class="fas fa-trash"></i></button>
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <div class="user-info">
-                      <img
-                        src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=160"
-                        alt="User"
-                        class="user-avatar-table"
-                      />
+                    <div class="user-info-cell">
+                      <div class="user-avatar-small" style="background-color: var(--sky-blue);">MS</div>
                       <div>
-                        <div class="user-name">Jane Smith</div>
-                        <div class="user-email">jane@example.com</div>
+                        <div class="user-name">Maricel Santos</div>
+                        <div class="user-email">maricel.santos@agrigo.ph</div>
                       </div>
                     </div>
                   </td>
-                  <td>
-                    <span class="badge badge-buyer">Buyer</span>
+                  <td><span class="badge badge-info">Buyer</span></td>
+                  <td>Manila, Philippines</td>
+                  <td>Feb 03, 2025</td>
+                  <td><span class="badge badge-success">Active</span></td>
+                  <td style="text-align: right;">
+                    <button class="action-btn view-user-btn" data-id="2"><i class="fas fa-eye"></i></button>
+                    <button class="action-btn edit-user-btn" data-id="2"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-user-btn" data-id="2"><i class="fas fa-trash"></i></button>
                   </td>
-                  <td>New York, USA</td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="user-info-cell">
+                      <div class="user-avatar-small" style="background-color: var(--harvest-yellow);">AR</div>
+                      <div>
+                        <div class="user-name">Antonio Reyes</div>
+                        <div class="user-email">antonio.reyes@agrigo.ph</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="badge badge-success">Farmer</span></td>
+                  <td>Davao, Philippines</td>
+                  <td>Feb 21, 2025</td>
+                  <td><span class="badge badge-warning">Pending</span></td>
+                  <td style="text-align: right;">
+                    <button class="action-btn view-user-btn" data-id="3"><i class="fas fa-eye"></i></button>
+                    <button class="action-btn edit-user-btn" data-id="3"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-user-btn" data-id="3"><i class="fas fa-trash"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="user-info-cell">
+                      <div class="user-avatar-small" style="background-color: var(--earth-brown);">PA</div>
+                      <div>
+                        <div class="user-name">Pedro Abellanosa</div>
+                        <div class="user-email">pedro.abellanosa@agrigo.ph</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="badge badge-success">Farmer</span></td>
+                  <td>Talisay, Philippines</td>
+                  <td>Feb 21, 2025</td>
+                  <td><span class="badge badge-warning">Pending</span></td>
+                  <td style="text-align: right;">
+                    <button class="action-btn view-user-btn" data-id="4"><i class="fas fa-eye"></i></button>
+                    <button class="action-btn edit-user-btn" data-id="4"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-user-btn" data-id="4"><i class="fas fa-trash"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="user-info-cell">
+                      <div class="user-avatar-small" style="background-color: var(--sky-blue);">ST</div>
+                      <div>
+                        <div class="user-name">Sarah Tudtud</div>
+                        <div class="user-email">sarah.tudtud@agrigo.ph</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="badge badge-success">Farmer</span></td>
+                  <td>Lapu-Lapu, Philippines</td>
+                  <td>Feb 22, 2025</td>
+                  <td><span class="badge badge-warning">Pending</span></td>
+                  <td style="text-align: right;">
+                    <button class="action-btn view-user-btn" data-id="5"><i class="fas fa-eye"></i></button>
+                    <button class="action-btn edit-user-btn" data-id="5"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-user-btn" data-id="5"><i class="fas fa-trash"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="user-info-cell">
+                      <div class="user-avatar-small" style="background-color: var(--leaf-green);">MS</div>
+                      <div>
+                        <div class="user-name">Miguel Santos</div>
+                        <div class="user-email">miguel.santos@agrigo.ph</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="badge badge-success">Farmer</span></td>
+                  <td>Toledo, Philippines</td>
                   <td>Feb 20, 2025</td>
-                  <td>
-                    <span class="badge badge-pending">
-                      <span class="status-dot status-pending"></span>
-                      Pending
-                    </span>
-                  </td>
-                  <td class="action-cell">
-                    <button class="action-btn" title="Edit">
-                      <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="action-btn delete" title="Delete">
-                      <i class="fas fa-trash"></i>
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="user-info">
-                      <img
-                        src="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=160"
-                        alt="User"
-                        class="user-avatar-table"
-                      />
-                      <div>
-                        <div class="user-name">Michael Brown</div>
-                        <div class="user-email">michael@example.com</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <span class="badge badge-admin">Admin</span>
-                  </td>
-                  <td>Texas, USA</td>
-                  <td>Mar 10, 2025</td>
-                  <td>
-                    <span class="badge badge-inactive">
-                      <span class="status-dot status-inactive"></span>
-                      Inactive
-                    </span>
-                  </td>
-                  <td class="action-cell">
-                    <button class="action-btn" title="Edit">
-                      <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="action-btn delete" title="Delete">
-                      <i class="fas fa-trash"></i>
-                    </button>
+                  <td><span class="badge badge-warning">Pending</span></td>
+                  <td style="text-align: right;">
+                    <button class="action-btn view-user-btn" data-id="6"><i class="fas fa-eye"></i></button>
+                    <button class="action-btn edit-user-btn" data-id="6"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-user-btn" data-id="6"><i class="fas fa-trash"></i></button>
                   </td>
                 </tr>
               </tbody>
             </table>
+
+            <div class="pagination-container">
+              <button class="pagination-btn pagination-btn-secondary" aria-label="Previous page">
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <button class="pagination-btn pagination-btn-primary" aria-current="page">
+                1
+              </button>
+              <button class="pagination-btn pagination-btn-secondary">
+                2
+              </button>
+              <button class="pagination-btn pagination-btn-secondary">
+                3
+              </button>
+              <button class="pagination-btn pagination-btn-secondary" aria-label="Next page">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
           </div>
 
-          <!-- Pagination -->
-          <div class="pagination">
-            <div class="page-item active">1</div>
-            <div class="page-item">2</div>
-            <div class="page-item">3</div>
-            <div class="page-item">4</div>
-            <div class="page-item">5</div>
+          <!-- Verification Requests Section -->
+          <div class="section">
+            <div class="section-header">
+              <div class="section-title">Pending Verification Requests</div>
+              <div class="section-actions">
+                <button class="btn btn-secondary">
+                  <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+              </div>
+            </div>
+
+            <div class="verification-requests">
+              <div class="verification-card">
+                <div class="verification-info">
+                  <h4>Pedro Abellanosa</h4>
+                  <p style="margin: 5px 0; color: var(--dark-gray); opacity: 0.8">
+                    Requesting verification as Farmer
+                  </p>
+                  <p style="margin: 5px 0; font-size: 0.9rem">
+                    Location: Harmony Farm, Talisay
+                  </p>
+                  <p style="margin: 5px 0; font-size: 0.9rem">
+                    Submitted: Feb 21, 2025
+                  </p>
+                </div>
+                <div class="verification-actions">
+                  <button class="btn btn-primary">Approve</button>
+                  <button class="btn btn-secondary">Reject</button>
+                  <button class="btn btn-secondary">
+                    <i class="fas fa-eye"></i> Details
+                  </button>
+                </div>
+              </div>
+
+              <div class="verification-card">
+                <div class="verification-info">
+                  <h4>Sarah Tudtud</h4>
+                  <p style="margin: 5px 0; color: var(--dark-gray); opacity: 0.8">
+                    Requesting verification as Farmer
+                  </p>
+                  <p style="margin: 5px 0; font-size: 0.9rem">
+                    Location: Fresh Fields, Lapu-Lapu
+                  </p>
+                  <p style="margin: 5px 0; font-size: 0.9rem">
+                    Submitted: Feb 22, 2025
+                  </p>
+                </div>
+                <div class="verification-actions">
+                  <button class="btn btn-primary">Approve</button>
+                  <button class="btn btn-secondary">Reject</button>
+                  <button class="btn btn-secondary">
+                    <i class="fas fa-eye"></i> Details
+                  </button>
+                </div>
+              </div>
+
+              <div class="verification-card">
+                <div class="verification-info">
+                  <h4>Miguel Santos</h4>
+                  <p style="margin: 5px 0; color: var(--dark-gray); opacity: 0.8">
+                    Requesting verification as Farmer
+                  </p>
+                  <p style="margin: 5px 0; font-size: 0.9rem">
+                    Location: Happy Earth Farm, Toledo
+                  </p>
+                  <p style="margin: 5px 0; font-size: 0.9rem">
+                    Submitted: Feb 20, 2025
+                  </p>
+                </div>
+                <div class="verification-actions">
+                  <button class="btn btn-primary">Approve</button>
+                  <button class="btn btn-secondary">Reject</button>
+                  <button class="btn btn-secondary">
+                    <i class="fas fa-eye"></i> Details
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- JavaScript for Responsiveness and Interactivity -->
+    <!-- User Details Modal -->
+    <div class="modal" id="userDetailsModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title">User Details</h3>
+          <button class="modal-close" id="closeUserDetailsModal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="user-details">
+            <div class="user-detail-item">
+              <div class="detail-label">Name:</div>
+              <div class="detail-value" id="userDetailName">Ramon Fernandez</div>
+            </div>
+            <div class="user-detail-item">
+              <div class="detail-label">Email:</div>
+              <div class="detail-value" id="userDetailEmail">ramon.fernandez@agrigo.ph</div>
+            </div>
+            <div class="user-detail-item">
+              <div class="detail-label">Role:</div>
+              <div class="detail-value" id="userDetailRole">Farmer</div>
+            </div>
+            <div class="user-detail-item">
+              <div class="detail-label">Location:</div>
+              <div class="detail-value" id="userDetailLocation">Cebu, Philippines</div>
+            </div>
+            <div class="user-detail-item">
+              <div class="detail-label">Joined:</div>
+              <div class="detail-value" id="userDetailJoined">Jan 15, 2025</div>
+            </div>
+            <div class="user-detail-item">
+              <div class="detail-label">Status:</div>
+              <div class="detail-value" id="userDetailStatus">Active</div>
+            </div>
+            <div class="user-detail-item">
+              <div class="detail-label">Phone:</div>
+              <div class="detail-value" id="userDetailPhone">+63 912 345 6789</div>
+            </div>
+            <div class="user-detail-item">
+              <div class="detail-label">Farm Size:</div>
+              <div class="detail-value" id="userDetailFarmSize">5 hectares</div>
+            </div>
+            <div class="user-detail-item">
+              <div class="detail-label">Products:</div>
+              <div class="detail-value" id="userDetailProducts">Rice, Vegetables, Fruits</div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" id="closeUserDetailsBtn">Close</button>
+          <button class="btn btn-primary" id="editUserFromDetailsBtn">Edit User</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add/Edit User Modal -->
+    <div class="modal" id="editUserModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="editUserModalTitle">Add New User</h3>
+          <button class="modal-close" id="closeEditUserModal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form id="userForm">
+            <div class="form-group">
+              <label for="userName" class="form-label">Full Name</label>
+              <input type="text" id="userName" class="form-control" placeholder="Enter full name">
+            </div>
+            <div class="form-group">
+              <label for="userEmail" class="form-label">Email Address</label>
+              <input type="email" id="userEmail" class="form-control" placeholder="Enter email address">
+            </div>
+            <div class="form-group">
+              <label for="userRole" class="form-label">Role</label>
+              <select id="userRole" class="form-select">
+                <option value="farmer">Farmer</option>
+                <option value="buyer">Buyer</option>
+                <option value="admin">Administrator</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="userLocation" class="form-label">Location</label>
+              <input type="text" id="userLocation" class="form-control" placeholder="Enter location">
+            </div>
+            <div class="form-group">
+              <label for="userStatus" class="form-label">Status</label>
+              <select id="userStatus" class="form-select">
+                <option value="active">Active</option>
+                <option value="pending">Pending</option>
+                <option value="inactive">Inactive</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="userPhone" class="form-label">Phone Number</label>
+              <input type="text" id="userPhone" class="form-control" placeholder="Enter phone number">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" id="cancelEditUserBtn">Cancel</button>
+          <button class="btn btn-primary" id="saveUserBtn">Save User</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" id="deleteConfirmModal">
+      <div class="modal-content" style="max-width: 400px;">
+        <div class="modal-header">
+          <h3 class="modal-title">Confirm Delete</h3>
+          <button class="modal-close" id="closeDeleteConfirmModal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to delete this user? This action cannot be undone.</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" id="cancelDeleteBtn">Cancel</button>
+          <button class="btn btn-danger" id="confirmDeleteBtn">Delete User</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScript -->
     <script>
-      // Toggle Sidebar
-      const sidebar = document.getElementById("sidebar");
-      const mainContent = document.getElementById("main-content");
-      const menuToggle = document.getElementById("menu-toggle");
-      const hamburgerMenu = document.getElementById("hamburger-menu");
+      document.addEventListener("DOMContentLoaded", function () {
+        // Sidebar Toggle
+        const menuToggle = document.getElementById("menu-toggle");
+        const sidebar = document.getElementById("sidebar");
+        const mainContent = document.getElementById("main-content");
 
-      menuToggle.addEventListener("click", () => {
-        sidebar.classList.toggle("sidebar-collapsed");
-        mainContent.classList.toggle("main-content-expanded");
-        menuToggle.querySelector("i").classList.toggle("fa-chevron-left");
-        menuToggle.querySelector("i").classList.toggle("fa-chevron-right");
-      });
-
-      hamburgerMenu.addEventListener("click", () => {
-        sidebar.classList.toggle("active");
-      });
-
-      // Close Sidebar When Clicking Outside on Mobile
-      document.addEventListener("click", (event) => {
-        const isClickInsideSidebar = sidebar.contains(event.target);
-        const isClickInsideHamburger = hamburgerMenu.contains(event.target);
-
-        if (
-          !isClickInsideSidebar &&
-          !isClickInsideHamburger &&
-          window.innerWidth <= 768
-        ) {
-          sidebar.classList.remove("active");
+        if (menuToggle) {
+          menuToggle.addEventListener("click", function () {
+            sidebar.classList.toggle("sidebar-collapsed");
+            mainContent.classList.toggle("main-content-expanded");
+            
+            // Change icon based on state
+            const icon = menuToggle.querySelector("i");
+            if (sidebar.classList.contains("sidebar-collapsed")) {
+              icon.classList.remove("fa-chevron-left");
+              icon.classList.add("fa-chevron-right");
+            } else {
+              icon.classList.remove("fa-chevron-right");
+              icon.classList.add("fa-chevron-left");
+            }
+          });
         }
-      });
 
-      // Tab Switching
-      const tabs = document.querySelectorAll(".tab");
-      const tabContents = document.querySelectorAll(".tab-content");
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
+        if (mobileMenuToggle) {
+          mobileMenuToggle.addEventListener("click", function () {
+            sidebar.classList.toggle("active");
+          });
+        }
 
-      tabs.forEach((tab) => {
-        tab.addEventListener("click", () => {
-          // Remove active class from all tabs
-          tabs.forEach((t) => t.classList.remove("active"));
-          // Add active class to the clicked tab
-          tab.classList.add("active");
-          // Hide all tab contents
-          tabContents.forEach((content) => content.classList.remove("active"));
-          // Show the corresponding tab content
-          const tabId = tab.getAttribute("data-tab");
-          document.getElementById(tabId).classList.add("active");
+        // Sidebar Toggle Mobile
+        const sidebarToggleMobile = document.querySelector(".sidebar-toggle-mobile");
+        if (sidebarToggleMobile) {
+          sidebarToggleMobile.addEventListener("click", function () {
+            sidebar.classList.toggle("active");
+          });
+        }
+
+        // Logout functionality
+        const logoutBtn = document.getElementById("logoutBtn");
+        if (logoutBtn) {
+          logoutBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+            
+            // Create a notification element
+            const notification = document.createElement("div");
+            notification.className = "logout-notification";
+            
+            const message = document.createElement("div");
+            message.className = "logout-message";
+            message.innerHTML = '<i class="fas fa-check-circle"></i> Logged out successfully!';
+            
+            notification.appendChild(message);
+            document.body.appendChild(notification);
+            
+            // Remove notification after 3 seconds
+            setTimeout(function() {
+              notification.remove();
+              // Redirect to login page (in a real app)
+              window.location.href = "/templates/admin/admin-login.html";
+            }, 3000);
+          });
+        }
+
+        // Tab switching functionality
+        const tabs = document.querySelectorAll(".tab");
+        tabs.forEach(tab => {
+          tab.addEventListener("click", function() {
+            // Remove active class from all tabs
+            tabs.forEach(t => t.classList.remove("active"));
+            // Add active class to clicked tab
+            this.classList.add("active");
+          });
         });
-      });
 
-      // Search Functionality
-      const searchInput = document.getElementById("search-input");
-      const userRows = document.querySelectorAll(".user-table tbody tr");
-
-      searchInput.addEventListener("input", () => {
-        const searchTerm = searchInput.value.toLowerCase();
-        userRows.forEach((row) => {
-          const userName = row
-            .querySelector(".user-name")
-            .textContent.toLowerCase();
-          const userEmail = row
-            .querySelector(".user-email")
-            .textContent.toLowerCase();
-          if (userName.includes(searchTerm) || userEmail.includes(searchTerm)) {
-            row.style.display = "";
-          } else {
-            row.style.display = "none";
+        // Modal functionality
+        const userDetailsModal = document.getElementById("userDetailsModal");
+        const editUserModal = document.getElementById("editUserModal");
+        const deleteConfirmModal = document.getElementById("deleteConfirmModal");
+        
+        // View User Details
+        const viewUserBtns = document.querySelectorAll(".view-user-btn");
+        viewUserBtns.forEach(btn => {
+          btn.addEventListener("click", function() {
+            const userId = this.getAttribute("data-id");
+            // In a real app, you would fetch user details from the server
+            // For now, we'll just show the modal
+            userDetailsModal.style.display = "block";
+          });
+        });
+        
+        // Close User Details Modal
+        const closeUserDetailsModal = document.getElementById("closeUserDetailsModal");
+        const closeUserDetailsBtn = document.getElementById("closeUserDetailsBtn");
+        if (closeUserDetailsModal) {
+          closeUserDetailsModal.addEventListener("click", function() {
+            userDetailsModal.style.display = "none";
+          });
+        }
+        if (closeUserDetailsBtn) {
+          closeUserDetailsBtn.addEventListener("click", function() {
+            userDetailsModal.style.display = "none";
+          });
+        }
+        
+        // Add User
+        const addUserBtn = document.getElementById("addUserBtn");
+        if (addUserBtn) {
+          addUserBtn.addEventListener("click", function() {
+            document.getElementById("editUserModalTitle").textContent = "Add New User";
+            document.getElementById("userForm").reset();
+            editUserModal.style.display = "block";
+          });
+        }
+        
+        // Edit User
+        const editUserBtns = document.querySelectorAll(".edit-user-btn");
+        editUserBtns.forEach(btn => {
+          btn.addEventListener("click", function() {
+            const userId = this.getAttribute("data-id");
+            document.getElementById("editUserModalTitle").textContent = "Edit User";
+            // In a real app, you would fetch user details and populate the form
+            editUserModal.style.display = "block";
+          });
+        });
+        
+        // Edit User from Details
+        const editUserFromDetailsBtn = document.getElementById("editUserFromDetailsBtn");
+        if (editUserFromDetailsBtn) {
+          editUserFromDetailsBtn.addEventListener("click", function() {
+            userDetailsModal.style.display = "none";
+            document.getElementById("editUserModalTitle").textContent = "Edit User";
+            // In a real app, you would populate the form with user details
+            editUserModal.style.display = "block";
+          });
+        }
+        
+        // Close Edit User Modal
+        const closeEditUserModal = document.getElementById("closeEditUserModal");
+        const cancelEditUserBtn = document.getElementById("cancelEditUserBtn");
+        if (closeEditUserModal) {
+          closeEditUserModal.addEventListener("click", function() {
+            editUserModal.style.display = "none";
+          });
+        }
+        if (cancelEditUserBtn) {
+          cancelEditUserBtn.addEventListener("click", function() {
+            editUserModal.style.display = "none";
+          });
+        }
+        
+        // Save User
+        const saveUserBtn = document.getElementById("saveUserBtn");
+        if (saveUserBtn) {
+          saveUserBtn.addEventListener("click", function() {
+            // In a real app, you would save the user data to the server
+            editUserModal.style.display = "none";
+            // Show success notification
+            const notification = document.createElement("div");
+            notification.className = "logout-notification";
+            notification.innerHTML = '<div class="logout-message"><i class="fas fa-check-circle"></i> User saved successfully!</div>';
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
+          });
+        }
+        
+        // Delete User
+        const deleteUserBtns = document.querySelectorAll(".delete-user-btn");
+        deleteUserBtns.forEach(btn => {
+          btn.addEventListener("click", function() {
+            const userId = this.getAttribute("data-id");
+            // Store the user ID for deletion
+            document.getElementById("confirmDeleteBtn").setAttribute("data-id", userId);
+            deleteConfirmModal.style.display = "block";
+          });
+        });
+        
+        // Close Delete Confirmation Modal
+        const closeDeleteConfirmModal = document.getElementById("closeDeleteConfirmModal");
+        const cancelDeleteBtn = document.getElementById("cancelDeleteBtn");
+        if (closeDeleteConfirmModal) {
+          closeDeleteConfirmModal.addEventListener("click", function() {
+            deleteConfirmModal.style.display = "none";
+          });
+        }
+        if (cancelDeleteBtn) {
+          cancelDeleteBtn.addEventListener("click", function() {
+            deleteConfirmModal.style.display = "none";
+          });
+        }
+        
+        // Confirm Delete
+        const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+        if (confirmDeleteBtn) {
+          confirmDeleteBtn.addEventListener("click", function() {
+            const userId = this.getAttribute("data-id");
+            // In a real app, you would delete the user from the server
+            deleteConfirmModal.style.display = "none";
+            // Show success notification
+            const notification = document.createElement("div");
+            notification.className = "logout-notification";
+            notification.innerHTML = '<div class="logout-message"><i class="fas fa-check-circle"></i> User deleted successfully!</div>';
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
+          });
+        }
+        
+        // Close modals when clicking outside
+        window.addEventListener("click", function(event) {
+          if (event.target === userDetailsModal) {
+            userDetailsModal.style.display = "none";
           }
-        });
-      });
-
-      // Pagination
-      const pageItems = document.querySelectorAll(".page-item");
-      pageItems.forEach((item) => {
-        item.addEventListener("click", () => {
-          pageItems.forEach((page) => page.classList.remove("active"));
-          item.classList.add("active");
+          if (event.target === editUserModal) {
+            editUserModal.style.display = "none";
+          }
+          if (event.target === deleteConfirmModal) {
+            deleteConfirmModal.style.display = "none";
+          }
         });
       });
     </script>
