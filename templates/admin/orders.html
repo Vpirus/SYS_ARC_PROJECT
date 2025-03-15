@@ -79,8 +79,6 @@
         height: 100vh;
         z-index: 100;
         transition: all 0.3s ease;
-        display: flex;
-        flex-direction: column;
       }
 
       .sidebar-collapsed {
@@ -92,20 +90,64 @@
         display: flex;
         align-items: center;
         border-bottom: 1px solid var(--light-gray);
-        flex-shrink: 0;
-        position: relative;
       }
 
       .sidebar-header img {
         height: 40px;
-        transition: opacity 0.3s ease;
       }
 
       .sidebar-header h2 {
         margin-left: var(--spacing-sm);
         color: var(--green-primary);
         font-size: 1.5rem;
-        transition: opacity 0.3s ease;
+        transition: opacity 0.3s;
+      }
+
+      .sidebar-collapsed .sidebar-header h2 {
+        opacity: 0;
+        width: 0;
+        overflow: hidden;
+      }
+
+      .sidebar-menu {
+        margin-top: var(--spacing-lg);
+      }
+
+      .menu-item {
+        padding: var(--spacing-md);
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        color: var(--dark-gray);
+        text-decoration: none;
+      }
+
+      .menu-item:hover {
+        background-color: rgba(46, 125, 50, 0.1);
+        color: var(--green-primary);
+      }
+
+      .menu-item.active {
+        background-color: var(--green-primary);
+        color: var(--white);
+      }
+
+      .menu-item i {
+        font-size: 1.2rem;
+        width: 30px;
+        text-align: center;
+      }
+
+      .menu-item span {
+        margin-left: var(--spacing-md);
+        transition: opacity 0.3s;
+      }
+
+      .sidebar-collapsed .menu-item span {
+        opacity: 0;
+        width: 0;
+        overflow: hidden;
       }
 
       .menu-toggle {
@@ -123,78 +165,6 @@
         justify-content: center;
         cursor: pointer;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-      }
-
-      .sidebar-collapsed .sidebar-header h2 {
-        opacity: 0;
-        width: 0;
-        overflow: hidden;
-      }
-
-      .sidebar-collapsed .sidebar-header img {
-        opacity: 0.8;
-      }
-
-      /* Sidebar Menu Styles */
-      .sidebar-menu {
-        flex: 1;
-        overflow-y: auto;
-        padding: var(--spacing-md) 0;
-      }
-
-      .nav-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-      }
-
-      .nav-item {
-        margin-bottom: var(--spacing-xs);
-      }
-
-      .nav-link {
-        display: flex;
-        align-items: center;
-        padding: var(--spacing-md) var(--spacing-lg);
-        color: var(--dark-gray);
-        text-decoration: none;
-        transition: all 0.2s ease;
-        border-radius: 6px;
-        margin: 0 var(--spacing-md);
-      }
-
-      .nav-link:hover {
-        background-color: rgba(46, 125, 50, 0.1);
-        color: var(--green-primary);
-      }
-
-      .nav-link.active {
-        background-color: var(--green-primary);
-        color: var(--white);
-      }
-
-      .nav-link i {
-        font-size: 1.2rem;
-        width: 24px;
-        text-align: center;
-        transition: opacity 0.3s ease;
-      }
-
-      .nav-link span {
-        margin-left: var(--spacing-md);
-        transition: opacity 0.3s ease;
-        white-space: nowrap;
-      }
-
-      .sidebar-collapsed .nav-link span {
-        opacity: 0;
-        width: 0;
-        overflow: hidden;
-      }
-
-      .sidebar-collapsed .nav-link {
-        justify-content: center;
-        padding: var(--spacing-md);
       }
 
       /* Logout Button */
@@ -857,68 +827,55 @@
   <div class="container">
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
-      <div class="sidebar-header">
-        <img src="logo-icon.png" alt="AgriGo Logo" />
-        <h2>AgriGo</h2>
+        <div class="sidebar-header">
+          <img src="/templates/images/logo.png" alt="AgriGo Logo" />
+          <h2>AgriGo</h2>
+        </div>
         <button class="menu-toggle" id="menu-toggle">
           <i class="fas fa-chevron-left"></i>
         </button>
-      </div>
-      <div class="sidebar-menu">
-        <ul class="nav-list">
-          <li class="nav-item">
-            <a href="/templates/admin/admin-dashboard.html" class="nav-link">
-              <i class="fas fa-th-large"></i>
-              <span>Dashboard</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="/templates/admin/products.html" class="nav-link">
-              <i class="fas fa-leaf"></i>
-              <span>Products</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link active">
-              <i class="fas fa-shopping-cart"></i>
-              <span>Orders</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="customers.html" class="nav-link">
-              <i class="fas fa-users"></i>
-              <span>Customers</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="inventory.html" class="nav-link">
-              <i class="fas fa-warehouse"></i>
-              <span>Inventory</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="analytics.html" class="nav-link">
-              <i class="fas fa-chart-line"></i>
-              <span>Analytics</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="settings.html" class="nav-link">
-              <i class="fas fa-cog"></i>
-              <span>Settings</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div class="nav-item logout">
-        <a href="#" class="nav-link">
-          <i class="fas fa-sign-out-alt"></i>
-          <span>Logout</span>
-        </a>
-      </div>
-      <div class="sidebar-toggle-mobile">
-        <i class="fas fa-bars"></i>
-      </div>
+        <div class="sidebar-menu">
+          <a href="/templates/admin/admin-dashboard.html" class="menu-item">
+            <i class="fas fa-chart-line"></i>
+            <span>Dashboard</span>
+          </a>
+          <a href="/templates/admin/user-management.html" class="menu-item">
+            <i class="fas fa-users"></i>
+            <span>User Management</span>
+          </a>
+          <a href="/templates/admin/products.html" class="menu-item">
+            <i class="fas fa-box"></i>
+            <span>Products</span>
+          </a>
+          <a href="#" class="menu-item active">
+            <i class="fas fa-shopping-cart"></i>
+            <span>Orders</span>
+          </a>
+          <a href="payments.html" class="menu-item">
+            <i class="fas fa-credit-card"></i>
+            <span>Payments</span>
+          </a>
+          <a href="delivery.html" class="menu-item">
+            <i class="fas fa-truck"></i>
+            <span>Delivery</span>
+          </a>
+          <a href="reviews.html" class="menu-item">
+            <i class="fas fa-comment"></i>
+            <span>Reviews</span>
+          </a>
+          <a href="notification.html" class="menu-item">
+            <i class="fas fa-bell"></i>
+            <span>Notifications</span>
+          </a>
+          <a href="analytics.html" class="menu-item">
+            <i class="fas fa-chart-pie"></i>
+            <span>Analytics</span>
+          </a>
+          <a href="settings.html" class="menu-item">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+          </a>
+        </div>
     </div>
 
     <!-- Main Content -->
