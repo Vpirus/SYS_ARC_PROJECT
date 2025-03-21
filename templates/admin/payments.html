@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AgriGo Admin Dashboard</title>
+    <title>AgriGo Admin Dashboard - Payments</title>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
       rel="stylesheet"
@@ -14,34 +14,27 @@
     />
     <style>
       :root {
-        --primary-color: #2e7d32;
-        --primary-dark: #1b5e20;
-        --primary-light: #4caf50;
-        --secondary-color: #f9a825;
-        --white: #ffffff;
-        --light-gray: #f5f5f5;
-        --medium-gray: #e0e0e0;
-        --dark-gray: #757575;
-        --text-primary: #333333;
-        --text-secondary: #666666;
-        --text-light: #999999;
-        --error-color: #f44336;
-        --warning-color: #ff9800;
-        --info-color: #2196f3;
-        --success-color: #4caf50;
+        /* Primary Colors */
+        --green-primary: #2e7d32;
+        --earth-brown: #8d6e63;
+        --sky-blue: #4fc3f7;
+
+        /* Secondary Colors */
         --harvest-yellow: #fbc02d;
+        --leaf-green: #81c784;
+        --soil-tan: #d7ccc8;
+
+        /* Neutrals */
+        --dark-gray: #424242;
+        --light-gray: #f5f5f5;
+        --white: #ffffff;
+
+        /* Spacing */
         --spacing-xs: 4px;
         --spacing-sm: 8px;
         --spacing-md: 16px;
         --spacing-lg: 24px;
         --spacing-xl: 32px;
-        --border-radius-sm: 4px;
-        --border-radius-md: 8px;
-        --border-radius-lg: 12px;
-        --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
-        --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-        --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-        --transition: all 0.3s ease;
       }
 
       * {
@@ -52,27 +45,30 @@
 
       body {
         font-family: "Open Sans", sans-serif;
-        background-color: #f8f9fa;
-        color: var(--text-primary);
-        line-height: 1.6;
+        background-color: var(--light-gray);
+        color: var(--dark-gray);
+        overflow-x: hidden;
+      }
+
+      h1, h2, h3, h4, h5, h6 {
+        font-family: "Montserrat", sans-serif;
+        font-weight: 700;
       }
 
       .container {
         display: flex;
-        height: 100vh;
-        overflow: hidden;
+        min-height: 100vh;
       }
 
-      /* Sidebar Styles */
       .sidebar {
-        width: 260px;
-        background: var(--white);
-        box-shadow: var(--shadow-md);
-        transition: var(--transition);
+        width: 250px;
+        background-color: var(--white);
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        height: 100vh;
         z-index: 100;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
+        transition: all 0.3s ease;
+        overflow-y: auto;
       }
 
       .sidebar-collapsed {
@@ -80,143 +76,137 @@
       }
 
       .sidebar-header {
+        padding: var(--spacing-md);
         display: flex;
         align-items: center;
-        padding: var(--spacing-md);
         border-bottom: 1px solid var(--light-gray);
-        height: 70px;
-        background-color: var(--primary-color);
-        color: var(--white);
+        position: relative;
       }
 
       .sidebar-header img {
-        width: 32px;
-        height: 32px;
-        margin-right: var(--spacing-sm);
+        height: 40px;
       }
 
       .sidebar-header h2 {
-        font-family: "Montserrat", sans-serif;
-        font-weight: 600;
-        margin: 0;
-        flex-grow: 1;
-        font-size: 1.2rem;
+        margin-left: var(--spacing-sm);
+        color: var(--green-primary);
+        font-size: 1.5rem;
+        transition: opacity 0.3s, width 0.3s;
+        white-space: nowrap;
       }
 
       .sidebar-collapsed .sidebar-header h2 {
-        display: none;
-      }
-
-      .menu-toggle {
-        background: transparent;
-        border: none;
-        color: var(--white);
-        cursor: pointer;
-        font-size: 16px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 24px;
-        height: 24px;
+        opacity: 0;
+        width: 0;
+        overflow: hidden;
       }
 
       .sidebar-menu {
-        padding: var(--spacing-md) 0;
-        flex-grow: 1;
-        overflow-y: auto;
-        display: flex;
-        flex-direction: column;
+        margin-top: var(--spacing-lg);
       }
 
       .nav-list {
         list-style: none;
-        padding: 0;
-        margin: 0;
       }
 
       .nav-item {
         margin-bottom: 2px;
-        position: relative;
       }
 
       .nav-link {
+        padding: var(--spacing-md);
         display: flex;
         align-items: center;
-        padding: var(--spacing-md);
-        color: var(--text-secondary);
+        cursor: pointer;
+        transition: all 0.2s ease;
+        color: var(--dark-gray);
         text-decoration: none;
-        transition: var(--transition);
-        border-radius: 0;
-      }
-
-      .sidebar-collapsed .nav-link {
-        justify-content: center;
       }
 
       .nav-link:hover {
         background-color: rgba(46, 125, 50, 0.1);
-        color: var(--primary-color);
+        color: var(--green-primary);
       }
 
       .nav-link.active {
-        background-color: rgba(46, 125, 50, 0.2);
-        color: var(--primary-color);
-        font-weight: 600;
-        border-left: 4px solid var(--primary-color);
-      }
-
-      .sidebar-collapsed .nav-link.active {
-        border-left: none;
-        border-radius: 0;
+        background-color: var(--green-primary);
+        color: var(--white);
       }
 
       .nav-link i {
-        font-size: 18px;
-        min-width: 24px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        font-size: 1.2rem;
+        width: 30px;
+        text-align: center;
       }
 
       .nav-link span {
         margin-left: var(--spacing-md);
+        transition: opacity 0.3s, width 0.3s;
         white-space: nowrap;
       }
 
       .sidebar-collapsed .nav-link span {
-        display: none;
+        opacity: 0;
+        width: 0;
+        overflow: hidden;
       }
 
-      .logout {
-        margin-top: auto;
+      .menu-toggle {
+        position: absolute;
+        right: -10px;
+        top: 70px;
+        background-color: var(--green-primary);
+        color: white;
+        border: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
+
+      .nav-item.logout {
+        margin-top: 20px;
+        border-top: 1px solid var(--light-gray);
+        padding-top: 10px;
       }
 
       .sidebar-toggle-mobile {
         display: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: var(--spacing-md);
+        text-align: center;
+        background-color: var(--green-primary);
+        color: var(--white);
+        position: sticky;
+        bottom: 0;
+        z-index: 101;
       }
 
-      /* Main Content Styles */
       .main-content {
-        flex-grow: 1;
-        transition: var(--transition);
-        overflow-y: auto;
-        padding: 0;
-        background-color: #f9f9f9;
-        position: relative;
+        flex: 1;
+        margin-left: 250px;
+        transition: margin-left 0.3s ease;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
       }
 
       .main-content-expanded {
         margin-left: 70px;
       }
 
-      /* Header Styles */
       .header {
+        background-color: var(--white);
+        padding: var(--spacing-md) var(--spacing-lg);
         display: flex;
         align-items: center;
-        padding: var(--spacing-md);
-        background-color: var(--white);
-        box-shadow: var(--shadow-sm);
-        height: 70px;
+        justify-content: space-between;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         position: sticky;
         top: 0;
         z-index: 99;
@@ -226,10 +216,9 @@
         display: none;
         background: none;
         border: none;
-        font-size: 20px;
+        font-size: 1.5rem;
+        color: var(--dark-gray);
         cursor: pointer;
-        color: var(--text-primary);
-        margin-right: var(--spacing-md);
       }
 
       .search-bar {
@@ -237,63 +226,45 @@
         align-items: center;
         background-color: var(--light-gray);
         border-radius: 20px;
-        padding: var(--spacing-xs) var(--spacing-md);
-        flex-grow: 1;
-        max-width: 500px;
-        margin-right: auto;
-      }
-
-      .search-bar i {
-        color: var(--text-secondary);
-        margin-right: var(--spacing-sm);
+        padding: var(--spacing-sm) var(--spacing-md);
+        width: 300px;
       }
 
       .search-bar input {
         border: none;
         background: transparent;
+        padding: var(--spacing-xs);
+        flex: 1;
+        margin-left: var(--spacing-sm);
         outline: none;
-        font-size: 0.9rem;
-        color: var(--text-primary);
-        width: 100%;
+        font-family: "Open Sans", sans-serif;
+      }
+
+      .search-bar i {
+        color: var(--dark-gray);
       }
 
       .header-actions {
         display: flex;
         align-items: center;
-        gap: var(--spacing-md);
+        gap: var(--spacing-lg);
       }
 
       .notification {
         position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
         cursor: pointer;
-      }
-
-      .notification:hover {
-        background-color: var(--light-gray);
-      }
-
-      .notification i {
-        font-size: 18px;
-        color: var(--text-secondary);
       }
 
       .notification-count {
         position: absolute;
         top: -5px;
         right: -5px;
-        background-color: var(--error-color);
-        color: var(--white);
-        font-size: 10px;
-        font-weight: 600;
-        width: 18px;
-        height: 18px;
+        background-color: var(--harvest-yellow);
+        color: var(--dark-gray);
+        font-size: 0.7rem;
         border-radius: 50%;
+        width: 16px;
+        height: 16px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -303,24 +274,18 @@
         display: flex;
         align-items: center;
         cursor: pointer;
-        padding: var(--spacing-xs) var(--spacing-sm);
-        border-radius: var(--border-radius-md);
-      }
-
-      .user-profile:hover {
-        background-color: var(--light-gray);
       }
 
       .user-avatar {
-        width: 36px;
-        height: 36px;
-        background-color: var(--primary-color);
-        color: var(--white);
+        width: 40px;
+        height: 40px;
         border-radius: 50%;
+        background-color: var(--leaf-green);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-weight: 600;
+        color: var(--white);
+        font-weight: bold;
         margin-right: var(--spacing-sm);
       }
 
@@ -329,51 +294,43 @@
         flex-direction: column;
       }
 
-      .user-name {
-        font-weight: 600;
-        font-size: 0.9rem;
-      }
-
       .role-badge {
-        font-size: 0.7rem;
-        background-color: var(--light-gray);
-        padding: 2px 6px;
-        border-radius: 10px;
-        color: var(--text-secondary);
+        background-color: var(--soil-tan);
+        padding: var(--spacing-xs) var(--spacing-sm);
+        border-radius: 4px;
+        font-size: 0.8rem;
+        margin-top: 2px;
       }
 
-      /* Dashboard Content Styles */
       .dashboard-content {
         padding: var(--spacing-lg);
+        flex: 1;
       }
 
       .page-title {
-        font-family: "Montserrat", sans-serif;
-        font-weight: 600;
         margin-bottom: var(--spacing-lg);
-        color: var(--text-primary);
         font-size: 1.8rem;
+        color: var(--dark-gray);
       }
 
-      /* Metrics Grid Styles */
       .metrics-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: var(--spacing-md);
-        margin-bottom: var(--spacing-lg);
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: var(--spacing-lg);
+        margin-bottom: var(--spacing-xl);
       }
 
       .metric-card {
         background-color: var(--white);
-        box-shadow: var(--shadow-sm);
-        border-radius: var(--border-radius-md);
+        border-radius: 8px;
         padding: var(--spacing-lg);
-        transition: var(--transition);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
       }
 
       .metric-card:hover {
-        transform: translateY(-3px);
-        box-shadow: var(--shadow-md);
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
       }
 
       .metric-header {
@@ -385,79 +342,72 @@
       .metric-icon {
         width: 40px;
         height: 40px;
-        border-radius: 50%;
+        border-radius: 8px;
         display: flex;
         align-items: center;
         justify-content: center;
         margin-right: var(--spacing-md);
       }
 
-      .metric-icon i {
-        font-size: 1.2rem;
-        color: var(--white);
-      }
-
       .metric-icon.green {
-        background-color: var(--success-color);
+        background-color: rgba(46, 125, 50, 0.1);
+        color: var(--green-primary);
       }
 
       .metric-icon.yellow {
-        background-color: var(--harvest-yellow);
+        background-color: rgba(251, 192, 45, 0.1);
+        color: var(--harvest-yellow);
       }
 
       .metric-icon.blue {
-        background-color: var(--info-color);
+        background-color: rgba(79, 195, 247, 0.1);
+        color: var(--sky-blue);
       }
 
       .metric-title {
         font-size: 0.9rem;
-        color: var(--text-secondary);
-        font-weight: 500;
+        color: var(--dark-gray);
+        opacity: 0.8;
       }
 
       .metric-value {
         font-size: 1.8rem;
-        font-weight: 600;
-        margin-bottom: var(--spacing-sm);
-        color: var(--text-primary);
+        font-weight: bold;
+        margin: var(--spacing-sm) 0;
       }
 
       .metric-trend {
         font-size: 0.8rem;
         display: flex;
         align-items: center;
-        gap: 4px;
       }
 
       .trend-up {
-        color: var(--success-color);
+        color: var(--green-primary);
       }
 
       .trend-down {
-        color: var(--error-color);
+        color: #f44336;
       }
 
-      /* Section Styles */
       .section {
         background-color: var(--white);
-        border-radius: var(--border-radius-md);
-        box-shadow: var(--shadow-sm);
-        margin-bottom: var(--spacing-lg);
-        overflow: hidden;
+        border-radius: 8px;
+        padding: var(--spacing-lg);
+        margin-bottom: var(--spacing-xl);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
       }
 
       .section-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: var(--spacing-md) var(--spacing-lg);
-        border-bottom: 1px solid var(--light-gray);
+        margin-bottom: var(--spacing-lg);
       }
 
       .section-title {
-        font-weight: 600;
-        font-size: 1.1rem;
-        color: var(--text-primary);
+        font-size: 1.2rem;
+        color: var(--dark-gray);
       }
 
       .section-actions {
@@ -465,46 +415,39 @@
         gap: var(--spacing-sm);
       }
 
-      /* Button Styles */
       .btn {
         padding: var(--spacing-sm) var(--spacing-md);
-        border-radius: var(--border-radius-sm);
-        font-family: "Open Sans", sans-serif;
-        font-weight: 600;
-        font-size: 0.9rem;
+        border-radius: 6px;
         cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: var(--spacing-sm);
-        transition: var(--transition);
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        transition: all 0.2s ease;
         border: none;
-      }
-
-      .btn i {
-        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
       }
 
       .btn-primary {
-        background-color: var(--primary-color);
+        background-color: var(--green-primary);
         color: var(--white);
       }
 
       .btn-primary:hover {
-        background-color: var(--primary-dark);
+        background-color: #1b5e20;
       }
 
       .btn-secondary {
-        background-color: var(--light-gray);
-        color: var(--text-secondary);
+        background-color: rgba(46, 125, 50, 0.1);
+        color: var(--green-primary);
       }
 
       .btn-secondary:hover {
-        background-color: var(--medium-gray);
+        background-color: rgba(46, 125, 50, 0.2);
       }
 
       .btn-danger {
-        background-color: var(--error-color);
+        background-color: #f44336;
         color: var(--white);
       }
 
@@ -512,33 +455,22 @@
         background-color: #d32f2f;
       }
 
-      /* Payment Filter Styles */
       .payment-filter {
         display: flex;
         gap: var(--spacing-md);
-        margin: var(--spacing-lg);
+        margin-bottom: var(--spacing-lg);
         flex-wrap: wrap;
       }
 
       .filter-select {
         padding: var(--spacing-sm) var(--spacing-md);
-        border: 1px solid var(--medium-gray);
-        border-radius: var(--border-radius-sm);
-        font-family: "Open Sans", sans-serif;
+        border: 1px solid var(--light-gray);
+        border-radius: 6px;
         background-color: var(--white);
+        font-family: "Open Sans", sans-serif;
         min-width: 180px;
-        color: var(--text-primary);
-        outline: none;
-        cursor: pointer;
-        transition: var(--transition);
       }
 
-      .filter-select:focus,
-      .filter-select:hover {
-        border-color: var(--primary-color);
-      }
-
-      /* Date Range Picker */
       .date-range-container {
         position: relative;
         min-width: 180px;
@@ -546,68 +478,47 @@
 
       .date-range-input {
         padding: var(--spacing-sm) var(--spacing-md);
-        border: 1px solid var(--medium-gray);
-        border-radius: var(--border-radius-sm);
-        font-family: "Open Sans", sans-serif;
+        border: 1px solid var(--light-gray);
+        border-radius: 6px;
         background-color: var(--white);
         width: 100%;
-        color: var(--text-primary);
+        font-family: "Open Sans", sans-serif;
         outline: none;
         cursor: pointer;
-        transition: var(--transition);
       }
 
-      .date-range-input:focus,
-      .date-range-input:hover {
-        border-color: var(--primary-color);
-      }
-
-      /* Transaction Table Styles */
       .transaction-table-container {
         overflow-x: auto;
-        padding: 0 var(--spacing-lg) var(--spacing-lg) var(--spacing-lg);
       }
 
       .transaction-table {
         width: 100%;
         border-collapse: collapse;
-        margin-bottom: var(--spacing-md);
+        margin-bottom: var(--spacing-lg);
       }
 
       .transaction-table th,
       .transaction-table td {
-        padding: var(--spacing-md);
+        padding: 12px 8px;
         text-align: left;
         border-bottom: 1px solid var(--light-gray);
       }
 
       .transaction-table th {
-        background-color: var(--light-gray);
         font-weight: 600;
-        color: var(--text-secondary);
-        position: sticky;
-        top: 0;
-      }
-
-      .transaction-table tbody tr {
-        transition: var(--transition);
-      }
-
-      .transaction-table tbody tr:hover {
-        background-color: rgba(0, 0, 0, 0.02);
+        color: var(--dark-gray);
+        opacity: 0.8;
       }
 
       .payment-status {
         padding: 4px 8px;
-        border-radius: var(--border-radius-sm);
+        border-radius: 4px;
         font-size: 0.8rem;
-        display: inline-block;
-        font-weight: 600;
       }
 
       .status-completed {
-        background-color: rgba(76, 175, 80, 0.1);
-        color: var(--success-color);
+        background-color: rgba(46, 125, 50, 0.1);
+        color: var(--green-primary);
       }
 
       .status-pending {
@@ -617,351 +528,9 @@
 
       .status-failed {
         background-color: rgba(244, 67, 54, 0.1);
-        color: var(--error-color);
+        color: #f44336;
       }
 
-      /* Pagination Styles */
-      .pagination-container {
-        display: flex;
-        justify-content: center;
-        gap: var(--spacing-xs);
-        margin-top: var(--spacing-md);
-        margin-bottom: var(--spacing-lg);
-      }
-
-      .pagination-btn {
-        width: 36px;
-        height: 36px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        font-weight: 500;
-        transition: var(--transition);
-        border: none;
-        cursor: pointer;
-        background-color: transparent;
-      }
-
-      .pagination-btn-primary {
-        background-color: var(--primary-color);
-        color: var(--white);
-      }
-
-      .pagination-btn-secondary {
-        color: var(--text-secondary);
-      }
-
-      .pagination-btn-secondary:hover {
-        background-color: var(--light-gray);
-      }
-
-      /* Verification Request Styles */
-      .verification-requests {
-        padding: 0 var(--spacing-lg) var(--spacing-lg) var(--spacing-lg);
-      }
-
-      .verification-card {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: var(--spacing-md);
-        border: 1px solid var(--light-gray);
-        border-radius: var(--border-radius-md);
-        margin-bottom: var(--spacing-md);
-        transition: var(--transition);
-      }
-
-      .verification-card:hover {
-        box-shadow: var(--shadow-sm);
-        border-color: var(--medium-gray);
-      }
-
-      .verification-info h4 {
-        margin-bottom: var(--spacing-xs);
-        color: var(--text-primary);
-      }
-
-      .verification-actions {
-        display: flex;
-        gap: var(--spacing-sm);
-        flex-wrap: wrap;
-      }
-
-      /* Modal Styles */
-      .modal-backdrop {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1000;
-        opacity: 0;
-        visibility: hidden;
-        transition: var(--transition);
-      }
-
-      .modal-backdrop.active {
-        opacity: 1;
-        visibility: visible;
-      }
-
-      .modal {
-        background-color: var(--white);
-        border-radius: var(--border-radius-lg);
-        width: 90%;
-        max-width: 600px;
-        max-height: 90vh;
-        overflow-y: auto;
-        transform: translateY(-20px);
-        transition: var(--transition);
-      }
-
-      .modal-backdrop.active .modal {
-        transform: translateY(0);
-      }
-
-      .modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: var(--spacing-md) var(--spacing-lg);
-        border-bottom: 1px solid var(--light-gray);
-      }
-
-      .modal-title {
-        font-weight: 600;
-        font-size: 1.2rem;
-      }
-
-      .modal-close {
-        background: none;
-        border: none;
-        font-size: 1.2rem;
-        cursor: pointer;
-        color: var(--text-secondary);
-      }
-
-      .modal-body {
-        padding: var(--spacing-lg);
-      }
-
-      .modal-footer {
-        padding: var(--spacing-md) var(--spacing-lg);
-        border-top: 1px solid var(--light-gray);
-        display: flex;
-        justify-content: flex-end;
-        gap: var(--spacing-md);
-      }
-
-      /* Notification Styles */
-      .notification-toast {
-        position: fixed;
-        bottom: var(--spacing-lg);
-        right: var(--spacing-lg);
-        background-color: var(--white);
-        box-shadow: var(--shadow-md);
-        border-radius: var(--border-radius-md);
-        padding: var(--spacing-md) var(--spacing-lg);
-        display: flex;
-        align-items: center;
-        max-width: 350px;
-        z-index: 1000;
-        transform: translateX(100%);
-        transition: var(--transition);
-      }
-
-      .notification-toast.active {
-        transform: translateX(0);
-      }
-
-      .notification-toast i {
-        font-size: 1.2rem;
-        margin-right: var(--spacing-md);
-      }
-
-      .notification-toast.success i {
-        color: var(--success-color);
-      }
-
-      .notification-toast.error i {
-        color: var(--error-color);
-      }
-
-      .notification-toast.warning i {
-        color: var(--warning-color);
-      }
-
-      .notification-content {
-        flex-grow: 1;
-      }
-
-      .notification-title {
-        font-weight: 600;
-        margin-bottom: 2px;
-      }
-
-      .notification-message {
-        font-size: 0.9rem;
-        color: var(--text-secondary);
-      }
-
-      .notification-close {
-        background: none;
-        border: none;
-        font-size: 1rem;
-        cursor: pointer;
-        color: var(--text-secondary);
-        margin-left: var(--spacing-md);
-      }
-
-      /* Dropdown Styles */
-      .dropdown {
-        position: relative;
-      }
-
-      .dropdown-menu {
-        position: absolute;
-        top: 100%;
-        right: 0;
-        background-color: var(--white);
-        box-shadow: var(--shadow-md);
-        border-radius: var(--border-radius-md);
-        min-width: 180px;
-        padding: var(--spacing-xs) 0;
-        z-index: 100;
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(10px);
-        transition: var(--transition);
-      }
-
-      .dropdown-menu.active {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-      }
-
-      .dropdown-item {
-        display: flex;
-        align-items: center;
-        padding: var(--spacing-sm) var(--spacing-md);
-        color: var(--text-secondary);
-        text-decoration: none;
-        transition: var(--transition);
-      }
-
-      .dropdown-item:hover {
-        background-color: var(--light-gray);
-      }
-
-      .dropdown-item i {
-        margin-right: var(--spacing-sm);
-        font-size: 0.9rem;
-      }
-
-      /* Responsive Styles */
-      @media (max-width: 992px) {
-        .metrics-grid {
-          grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        }
-      }
-
-      @media (max-width: 768px) {
-        .verification-card {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-
-        .verification-actions {
-          margin-top: var(--spacing-md);
-          width: 100%;
-          justify-content: flex-end;
-        }
-
-        .metrics-grid {
-          grid-template-columns: 1fr;
-        }
-      }
-
-      @media (max-width: 576px) {
-        .sidebar {
-          position: fixed;
-          left: -100%;
-          width: 260px;
-        }
-
-        .sidebar.active {
-          left: 0;
-        }
-
-        .sidebar-collapsed {
-          width: 260px;
-        }
-
-        .sidebar-collapsed .sidebar-header h2,
-        .sidebar-collapsed .nav-link span {
-          display: block;
-        }
-
-        .main-content {
-          margin-left: 0 !important;
-        }
-
-        .mobile-menu-toggle {
-          display: block;
-        }
-
-        .sidebar-toggle-mobile {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          position: absolute;
-          top: var(--spacing-md);
-          right: var(--spacing-md);
-          width: 30px;
-          height: 30px;
-          border-radius: 50%;
-          background-color: var(--light-gray);
-          color: var(--text-secondary);
-          cursor: pointer;
-        }
-
-        .dashboard-content {
-          padding: var(--spacing-md);
-        }
-
-        .header {
-          padding: var(--spacing-sm);
-        }
-
-        .search-bar {
-          max-width: none;
-        }
-
-        .user-info {
-          display: none;
-        }
-
-        .transaction-filter {
-          flex-direction: column;
-        }
-
-        .filter-select, 
-        .date-range-container {
-          width: 100%;
-        }
-
-        .payment-filter {
-          margin: var(--spacing-md);
-        }
-      }
-
-      /* Additional Styles for Functionality */
       .detail-row {
         display: none;
         background-color: rgba(0, 0, 0, 0.02);
@@ -985,7 +554,7 @@
 
       .detail-section h4 {
         margin-bottom: var(--spacing-sm);
-        color: var(--text-secondary);
+        color: var(--dark-gray);
         font-size: 0.9rem;
         text-transform: uppercase;
       }
@@ -996,7 +565,8 @@
 
       .detail-label {
         font-size: 0.8rem;
-        color: var(--text-light);
+        color: var(--dark-gray);
+        opacity: 0.7;
         margin-bottom: 2px;
       }
 
@@ -1004,142 +574,205 @@
         font-weight: 500;
       }
 
-      .toggle-details {
-        cursor: pointer;
-      }
-
-      /* Chart styles */
-      .chart-container {
-        height: 300px;
-        margin: var(--spacing-lg);
-      }
-
-      /* Date range picker styles */
-      .date-picker {
-        position: absolute;
-        top: calc(100% + 5px);
-        left: 0;
-        z-index: 10;
-        background-color: var(--white);
-        border-radius: var(--border-radius-md);
-        box-shadow: var(--shadow-md);
-        width: 300px;
-        padding: var(--spacing-md);
-        display: none;
-      }
-
-      .date-picker.active {
-        display: block;
-      }
-
-      .date-picker-header {
+      .pagination-container {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: var(--spacing-md);
+        justify-content: center;
+        gap: 4px;
+        margin-top: var(--spacing-lg);
       }
 
-      .date-picker-title {
-        font-weight: 600;
-      }
-
-      .date-picker-actions {
-        display: flex;
-        gap: var(--spacing-sm);
-      }
-
-      .date-picker-body {
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        gap: 2px;
-      }
-
-      .date-picker-day {
+      .pagination-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 6px;
         display: flex;
         align-items: center;
         justify-content: center;
-        height: 32px;
-        font-size: 0.8rem;
         cursor: pointer;
-        border-radius: var(--border-radius-sm);
+        transition: all 0.2s ease;
+        border: none;
       }
 
-      .date-picker-day:hover {
-        background-color: var(--light-gray);
-      }
-
-      .date-picker-day.selected {
-        background-color: var(--primary-color);
+      .pagination-btn-primary {
+        background-color: var(--green-primary);
         color: var(--white);
       }
 
-      .date-picker-day.disabled {
-        color: var(--text-light);
-        cursor: not-allowed;
+      .pagination-btn-secondary {
+        background-color: var(--light-gray);
+        color: var(--dark-gray);
       }
 
-      .date-picker-footer {
+      .pagination-btn-secondary:hover {
+        background-color: #e0e0e0;
+      }
+
+      .verification-card {
         display: flex;
         justify-content: space-between;
-        margin-top: var(--spacing-md);
+        padding: var(--spacing-md);
+        border: 1px solid var(--light-gray);
+        border-radius: 8px;
+        margin-bottom: var(--spacing-md);
       }
 
-      /* Status labels */
-      .status-label {
+      .verification-info h4 {
+        margin-bottom: var(--spacing-xs);
+      }
+
+      .verification-actions {
+        display: flex;
+        gap: var(--spacing-sm);
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .modal-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
         display: flex;
         align-items: center;
-        font-size: 0.8rem;
+        justify-content: center;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
       }
 
-      .status-dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        margin-right: 5px;
+      .modal-backdrop.active {
+        opacity: 1;
+        visibility: visible;
       }
 
-      .dot-completed {
-        background-color: var(--success-color);
+      .modal {
+        background-color: var(--white);
+        border-radius: 8px;
+        width: 90%;
+        max-width: 600px;
+        max-height: 90vh;
+        overflow-y: auto;
       }
 
-      .dot-pending {
-        background-color: var(--harvest-yellow);
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: var(--spacing-md);
+        border-bottom: 1px solid var(--light-gray);
       }
 
-      .dot-failed {
-        background-color: var(--error-color);
+      .modal-title {
+        font-size: 1.2rem;
       }
 
-      /* Search highlight */
-      .highlight {
-        background-color: rgba(251, 192, 45, 0.3);
+      .modal-close {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1.2rem;
+        color: var(--dark-gray);
+      }
+
+      .modal-body {
+        padding: var(--spacing-lg);
+      }
+
+      .modal-footer {
+        padding: var(--spacing-md);
+        border-top: 1px solid var(--light-gray);
+        display: flex;
+        justify-content: flex-end;
+        gap: var(--spacing-sm);
+      }
+
+      .notification-toast {
+        position: fixed;
+        bottom: var(--spacing-lg);
+        right: var(--spacing-lg);
+        background-color: var(--white);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        border-radius: 8px;
+        padding: var(--spacing-md);
+        display: flex;
+        align-items: center;
+        max-width: 350px;
+        z-index: 1000;
+        transform: translateX(100%);
+        transition: all 0.3s ease;
+      }
+
+      .notification-toast.active {
+        transform: translateX(0);
+      }
+
+      .notification-toast i {
+        font-size: 1.2rem;
+        margin-right: var(--spacing-md);
+      }
+
+      .notification-toast.success i {
+        color: var(--green-primary);
+      }
+
+      .notification-toast.error i {
+        color: #f44336;
+      }
+
+      .notification-content {
+        flex-grow: 1;
+      }
+
+      .notification-title {
+        font-weight: 600;
+        margin-bottom: 2px;
+      }
+
+      .notification-message {
+        font-size: 0.9rem;
+        color: var(--dark-gray);
+      }
+
+      .notification-close {
+        background: none;
+        border: none;
+        font-size: 1rem;
+        cursor: pointer;
+        color: var(--dark-gray);
+        margin-left: var(--spacing-md);
       }
 
       .logout-notification {
         position: fixed;
         top: 20px;
         right: 20px;
-        background-color: var(--primary-color);
-        color: var(--white);
-        padding: var(--spacing-md) var(--spacing-lg);
-        border-radius: var(--border-radius-md);
-        z-index: 1001;
-        box-shadow: var(--shadow-md);
-        display: flex;
-        align-items: center;
-        gap: var(--spacing-sm);
-        animation: slideIn 0.3s ease-out;
+        background-color: var(--green-primary);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 4px;
+        z-index: 9999;
+        animation: fadeIn 0.3s ease-out;
       }
 
-      @keyframes slideIn {
-        from {
-          transform: translateX(100%);
-          opacity: 0;
-        }
-        to {
-          transform: translateX(0);
-          opacity: 1;
-        }
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      @media (max-width: 768px) {
+        .mobile-menu-toggle { display: block; }
+        .sidebar { width: 250px; left: -250px; }
+        .sidebar.active { left: 0; }
+        .main-content { margin-left: 0; }
+        .sidebar-toggle-mobile { display: block; }
+        .user-info { display: none; }
+        .payment-filter { flex-direction: column; }
+        .filter-select, .date-range-container { width: 100%; }
+        .verification-card { flex-direction: column; }
+        .verification-actions { margin-top: var(--spacing-md); width: 100%; justify-content: flex-end; }
       }
     </style>
   </head>
@@ -1162,25 +795,17 @@
               </a>
             </li>
             <li class="nav-item">
-              <a
-                href="/templates/admin/user-management.html"
-                class="nav-link"
-                data-tab="users"
-              >
+              <a href="#" class="nav-link" data-tab="users">
                 <i class="fas fa-users"></i> <span>User Management</span>
               </a>
             </li>
             <li class="nav-item">
-              <a
-                href="/templates/admin/products.html"
-                class="nav-link"
-                data-tab="products"
-              >
+              <a href="#" class="nav-link" data-tab="products">
                 <i class="fas fa-shopping-basket"></i> <span>Products</span>
               </a>
             </li>
             <li class="nav-item">
-              <a href="/templates/admin/orders.html" class="nav-link" data-tab="orders">
+              <a href="#" class="nav-link" data-tab="orders">
                 <i class="fas fa-clipboard-list"></i> <span>Orders</span>
               </a>
             </li>
@@ -1190,17 +815,17 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="#reviews" class="nav-link" data-tab="reviews">
+              <a href="#" class="nav-link" data-tab="reviews">
                 <i class="fas fa-comment"></i> <span>Reviews</span>
               </a>
             </li>
             <li class="nav-item">
-              <a href="#analytics" class="nav-link" data-tab="analytics">
+              <a href="#" class="nav-link" data-tab="analytics">
                 <i class="fas fa-chart-line"></i> <span>Analytics</span>
               </a>
             </li>
             <li class="nav-item">
-              <a href="#settings" class="nav-link" data-tab="settings">
+              <a href="#" class="nav-link" data-tab="settings">
                 <i class="fas fa-cog"></i> <span>Settings</span>
               </a>
             </li>
@@ -1218,14 +843,13 @@
 
       <!-- Main Content -->
       <div class="main-content" id="main-content">
-        <!-- Header -->
         <div class="header">
           <button class="mobile-menu-toggle" id="mobile-menu-toggle">
             <i class="fas fa-bars"></i>
           </button>
           <div class="search-bar">
             <i class="fas fa-search"></i>
-            <input type="text" placeholder="Search..." />
+            <input type="text" placeholder="Search..." id="searchInput" />
           </div>
           <div class="header-actions">
             <div class="notification">
@@ -1242,221 +866,213 @@
           </div>
         </div>
 
-        <!-- Dashboard Content -->
         <div class="dashboard-content">
-            <h1 class="page-title">Payments Management</h1>
-  
-            <!-- Payment Metrics -->
-            <div class="metrics-grid">
-              <div class="metric-card">
-                <div class="metric-header">
-                  <div class="metric-icon green">
-                    <i class="fas fa-money-bill-wave"></i>
-                  </div>
-                  <div class="metric-title">Total Revenue</div>
+          <h1 class="page-title">Payments Management</h1>
+
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <div class="metric-header">
+                <div class="metric-icon green">
+                  <i class="fas fa-money-bill-wave"></i>
                 </div>
-                <div class="metric-value">₱5,432,100</div>
-                <div class="metric-trend trend-up">
-                  <i class="fas fa-arrow-up"></i> 12% this month
-                </div>
+                <div class="metric-title">Total Revenue</div>
               </div>
-              <div class="metric-card">
-                <div class="metric-header">
-                  <div class="metric-icon yellow">
-                    <i class="fas fa-clock"></i>
-                  </div>
-                  <div class="metric-title">Pending Payments</div>
-                </div>
-                <div class="metric-value">₱245,890</div>
-                <div class="metric-trend trend-down">
-                  <i class="fas fa-arrow-down"></i> 5% this month
-                </div>
-              </div>
-              <div class="metric-card">
-                <div class="metric-header">
-                  <div class="metric-icon blue">
-                    <i class="fas fa-hand-holding-usd"></i>
-                  </div>
-                  <div class="metric-title">Refunds Processed</div>
-                </div>
-                <div class="metric-value">₱123,450</div>
-                <div class="metric-trend trend-up">
-                  <i class="fas fa-arrow-up"></i> 3% this month
-                </div>
+              <div class="metric-value">₱5,432,100</div>
+              <div class="metric-trend trend-up">
+                <i class="fas fa-arrow-up"></i> 12% this month
               </div>
             </div>
-  
-            <!-- Transaction History -->
-            <div class="section">
-              <div class="section-header">
-                <div class="section-title">Transaction History</div>
-                <div class="section-actions">
-                  <button class="btn btn-secondary" id="exportBtn">
-                    <i class="fas fa-download"></i> Export
-                  </button>
+            <div class="metric-card">
+              <div class="metric-header">
+                <div class="metric-icon yellow">
+                  <i class="fas fa-clock"></i>
                 </div>
+                <div class="metric-title">Pending Payments</div>
               </div>
-  
-              <div class="payment-filter">
-                <select class="filter-select" id="statusFilter">
-                  <option value="">All Status</option>
-                  <option value="completed">Completed</option>
-                  <option value="pending">Pending</option>
-                  <option value="failed">Failed</option>
-                </select>
-                <select class="filter-select" id="methodFilter">
-                  <option value="">All Methods</option>
-                  <option value="card">Bank Card</option>
-                  <option value="cod">Cash on Delivery</option>
-                  <option value="mobile">Mobile Payment</option>
-                </select>
-                <div class="date-range-container">
-                  <input
-                    type="text"
-                    class="date-range-input"
-                    placeholder="Select Date Range"
-                    id="dateRange"
-                    readonly
-                  />
+              <div class="metric-value">₱245,890</div>
+              <div class="metric-trend trend-down">
+                <i class="fas fa-arrow-down"></i> 5% this month
+              </div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-header">
+                <div class="metric-icon blue">
+                  <i class="fas fa-hand-holding-usd"></i>
                 </div>
+                <div class="metric-title">Refunds Processed</div>
               </div>
-  
-              <div class="transaction-table-container">
-                <table class="transaction-table" id="transactionTable">
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Date</th>
-                      <th>Buyer</th>
-                      <th>Amount</th>
-                      <th>Method</th>
-                      <th>Status</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>#TX123456</td>
-                      <td>Mar 19, 2025</td>
-                      <td>Maricel Santos</td>
-                      <td>₱15,890</td>
-                      <td>Bank Card</td>
-                      <td><span class="payment-status status-completed">Completed</span></td>
-                      <td>
-                        <button class="btn btn-secondary toggle-details">
-                          <i class="fas fa-eye"></i>
-                        </button>
-                      </td>
-                    </tr>
-                    <tr class="detail-row">
-                      <td colspan="7">
-                        <div class="detail-content">
-                          <div class="detail-section">
-                            <h4>Transaction Details</h4>
-                            <div class="detail-item">
-                              <div class="detail-label">Order ID</div>
-                              <div class="detail-value">#ORD56789</div>
-                            </div>
-                            <div class="detail-item">
-                              <div class="detail-label">Payment Time</div>
-                              <div class="detail-value">Mar 19, 2025 14:30</div>
-                            </div>
-                          </div>
-                          <div class="detail-section">
-                            <h4>Buyer Info</h4>
-                            <div class="detail-item">
-                              <div class="detail-label">Email</div>
-                              <div class="detail-value">maricel@example.com</div>
-                            </div>
-                            <div class="detail-item">
-                              <div class="detail-label">Contact</div>
-                              <div class="detail-value">+63 912 345 6789</div>
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <!-- Additional sample rows -->
-                    <tr>
-                      <td>#TX123457</td>
-                      <td>Mar 18, 2025</td>
-                      <td>Juan Dela Cruz</td>
-                      <td>₱8,450</td>
-                      <td>Cash on Delivery</td>
-                      <td><span class="payment-status status-pending">Pending</span></td>
-                      <td>
-                        <button class="btn btn-secondary toggle-details">
-                          <i class="fas fa-eye"></i>
-                        </button>
-                      </td>
-                    </tr>
-                    <tr class="detail-row">
-                      <td colspan="7">
-                        <div class="detail-content">
-                          <div class="detail-section">
-                            <h4>Transaction Details</h4>
-                            <div class="detail-item">
-                              <div class="detail-label">Order ID</div>
-                              <div class="detail-value">#ORD56790</div>
-                            </div>
-                            <div class="detail-item">
-                              <div class="detail-label">Expected Delivery</div>
-                              <div class="detail-value">Mar 20, 2025</div>
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+              <div class="metric-value">₱123,450</div>
+              <div class="metric-trend trend-up">
+                <i class="fas fa-arrow-up"></i> 3% this month
               </div>
-  
-              <div class="pagination-container">
-                <button class="pagination-btn pagination-btn-secondary">
-                  <i class="fas fa-chevron-left"></i>
-                </button>
-                <button class="pagination-btn pagination-btn-primary">1</button>
-                <button class="pagination-btn pagination-btn-secondary">2</button>
-                <button class="pagination-btn pagination-btn-secondary">3</button>
-                <button class="pagination-btn pagination-btn-secondary">
-                  <i class="fas fa-chevron-right"></i>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-header">
+              <div class="section-title">Transaction History</div>
+              <div class="section-actions">
+                <button class="btn btn-secondary" id="exportBtn">
+                  <i class="fas fa-download"></i> Export
                 </button>
               </div>
             </div>
-  
-            <!-- Refund Requests -->
-            <div class="section">
-              <div class="section-header">
-                <div class="section-title">Refund Requests</div>
-                <div class="section-actions">
-                  <button class="btn btn-secondary" id="refreshBtn">
-                    <i class="fas fa-sync-alt"></i> Refresh
-                  </button>
-                </div>
+
+            <div class="payment-filter">
+              <select class="filter-select" id="statusFilter">
+                <option value="">All Status</option>
+                <option value="completed">Completed</option>
+                <option value="pending">Pending</option>
+                <option value="failed">Failed</option>
+              </select>
+              <select class="filter-select" id="methodFilter">
+                <option value="">All Methods</option>
+                <option value="card">Bank Card</option>
+                <option value="cod">Cash on Delivery</option>
+                <option value="mobile">Mobile Payment</option>
+              </select>
+              <div class="date-range-container">
+                <input
+                  type="text"
+                  class="date-range-input"
+                  placeholder="Select Date Range"
+                  id="dateRange"
+                  readonly
+                />
               </div>
-  
-              <div class="verification-requests">
-                <div class="verification-card">
-                  <div class="verification-info">
-                    <h4>Refund #RF12345</h4>
-                    <p>Order #ORD56789 - ₱5,670</p>
-                    <p>Juan Dela Cruz</p>
-                    <p>Requested: Mar 18, 2025</p>
-                  </div>
-                  <div class="verification-actions">
-                    <button class="btn btn-primary approve-btn">Approve</button>
-                    <button class="btn btn-danger reject-btn">Reject</button>
-                    <button class="btn btn-secondary detail-btn">
-                      <i class="fas fa-eye"></i> Details
-                    </button>
-                  </div>
-                </div>
+            </div>
+
+            <div class="transaction-table-container">
+              <table class="transaction-table" id="transactionTable">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th>Buyer</th>
+                    <th>Amount</th>
+                    <th>Method</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>#TX123456</td>
+                    <td>Mar 19, 2025</td>
+                    <td>Maricel Santos</td>
+                    <td>₱15,890</td>
+                    <td>Bank Card</td>
+                    <td><span class="payment-status status-completed">Completed</span></td>
+                    <td>
+                      <button class="btn btn-secondary toggle-details">
+                        <i class="fas fa-eye"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr class="detail-row">
+                    <td colspan="7">
+                      <div class="detail-content">
+                        <div class="detail-section">
+                          <h4>Transaction Details</h4>
+                          <div class="detail-item">
+                            <div class="detail-label">Order ID</div>
+                            <div class="detail-value">#ORD56789</div>
+                          </div>
+                          <div class="detail-item">
+                            <div class="detail-label">Payment Time</div>
+                            <div class="detail-value">Mar 19, 2025 14:30</div>
+                          </div>
+                        </div>
+                        <div class="detail-section">
+                          <h4>Buyer Info</h4>
+                          <div class="detail-item">
+                            <div class="detail-label">Email</div>
+                            <div class="detail-value">maricel@example.com</div>
+                          </div>
+                          <div class="detail-item">
+                            <div class="detail-label">Contact</div>
+                            <div class="detail-value">+63 912 345 6789</div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>#TX123457</td>
+                    <td>Mar 18, 2025</td>
+                    <td>Juan Dela Cruz</td>
+                    <td>₱8,450</td>
+                    <td>Cash on Delivery</td>
+                    <td><span class="payment-status status-pending">Pending</span></td>
+                    <td>
+                      <button class="btn btn-secondary toggle-details">
+                        <i class="fas fa-eye"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr class="detail-row">
+                    <td colspan="7">
+                      <div class="detail-content">
+                        <div class="detail-section">
+                          <h4>Transaction Details</h4>
+                          <div class="detail-item">
+                            <div class="detail-label">Order ID</div>
+                            <div class="detail-value">#ORD56790</div>
+                          </div>
+                          <div class="detail-item">
+                            <div class="detail-label">Expected Delivery</div>
+                            <div class="detail-value">Mar 20, 2025</div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="pagination-container">
+              <button class="pagination-btn pagination-btn-secondary">
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <button class="pagination-btn pagination-btn-primary">1</button>
+              <button class="pagination-btn pagination-btn-secondary">2</button>
+              <button class="pagination-btn pagination-btn-secondary">3</button>
+              <button class="pagination-btn pagination-btn-secondary">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-header">
+              <div class="section-title">Refund Requests</div>
+              <div class="section-actions">
+                <button class="btn btn-secondary" id="refreshBtn">
+                  <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+              </div>
+            </div>
+
+            <div class="verification-card">
+              <div class="verification-info">
+                <h4>Refund #RF12345</h4>
+                <p>Order #ORD56789 - ₱5,670</p>
+                <p>Juan Dela Cruz</p>
+                <p>Requested: Mar 18, 2025</p>
+              </div>
+              <div class="verification-actions">
+                <button class="btn btn-primary approve-btn">Approve</button>
+                <button class="btn btn-danger reject-btn">Reject</button>
+                <button class="btn btn-secondary detail-btn">
+                  <i class="fas fa-eye"></i> Details
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
-  
+
       <!-- Modal -->
       <div class="modal-backdrop" id="refundModal">
         <div class="modal">
@@ -1494,12 +1110,21 @@
         </div>
       </div>
 
-        
+      <!-- Notification -->
+      <div class="notification-toast" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <div class="notification-content">
+          <div class="notification-title"></div>
+          <div class="notification-message"></div>
+        </div>
+        <button class="notification-close" id="notificationClose">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
 
-    <!-- JavaScript -->
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        // Sidebar Toggle
         const menuToggle = document.getElementById("menu-toggle");
         const sidebar = document.getElementById("sidebar");
         const mainContent = document.getElementById("main-content");
@@ -1512,13 +1137,11 @@
           icon.classList.toggle("fa-chevron-right");
         });
 
-        // Mobile Menu Toggle
         const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
         const sidebarToggleMobile = document.querySelector(".sidebar-toggle-mobile");
         mobileMenuToggle.addEventListener("click", () => sidebar.classList.toggle("active"));
         sidebarToggleMobile.addEventListener("click", () => sidebar.classList.toggle("active"));
 
-        // Logout
         const logoutBtn = document.getElementById("logoutBtn");
         logoutBtn.addEventListener("click", (e) => {
           e.preventDefault();
@@ -1529,7 +1152,6 @@
           setTimeout(() => notification.remove(), 3000);
         });
 
-        // Detail Toggle
         document.querySelectorAll(".toggle-details").forEach(btn => {
           btn.addEventListener("click", () => {
             const row = btn.closest("tr").nextElementSibling;
@@ -1537,7 +1159,6 @@
           });
         });
 
-        // Refund Modal
         const refundModal = document.getElementById("refundModal");
         const modalClose = document.getElementById("modalClose");
         const modalCancel = document.getElementById("modalCancel");
@@ -1547,7 +1168,6 @@
         modalClose.addEventListener("click", () => refundModal.classList.remove("active"));
         modalCancel.addEventListener("click", () => refundModal.classList.remove("active"));
 
-        // Notification
         const notification = document.getElementById("notification");
         const notificationClose = document.getElementById("notificationClose");
         function showNotification(type, title, message) {
@@ -1558,7 +1178,6 @@
         }
         notificationClose.addEventListener("click", () => notification.classList.remove("active"));
 
-        // Approve/Reject Buttons
         document.querySelectorAll(".approve-btn").forEach(btn => {
           btn.addEventListener("click", () => showNotification("success", "Approved", "Refund request approved successfully"));
         });
@@ -1566,7 +1185,6 @@
           btn.addEventListener("click", () => showNotification("error", "Rejected", "Refund request rejected"));
         });
 
-        // Search Functionality
         const searchInput = document.getElementById("searchInput");
         searchInput.addEventListener("input", (e) => {
           const search = e.target.value.toLowerCase();
@@ -1576,7 +1194,6 @@
           });
         });
 
-        // Filter Functionality
         const statusFilter = document.getElementById("statusFilter");
         const methodFilter = document.getElementById("methodFilter");
         function applyFilters() {
