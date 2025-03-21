@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AgriGo Admin - Reviews</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&family=Roboto:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <style>
+    :root {
+      /* Primary Colors */
+      --green-primary: #2e7d32;
+      --green-primary-light: #4caf50;
+      --green-primary-dark: #1b5e20;
+      --earth-brown: #8d6e63;
+      --sky-blue: #4fc3f7;
+
+      /* Secondary Colors */
+      --harvest-yellow: #fbc02d;
+      --leaf-green: #81c784;
+      --soil-tan: #d7ccc8;
+
+      /* Neutrals */
+      --dark-gray: #424242;
+      --medium-gray: #757575;
+      --light-gray: #f5f5f5;
+      --white: #ffffff;
+      --black: #212121;
+
+      /* Status Colors */
+      --success: #4caf50;
+      --warning: #ff9800;
+      --danger: #f44336;
+      --info: #2196f3;
+
+      /* Dark Theme Colors */
+      --dark-bg: #121212;
+      --dark-surface: #1e1e1e;
+      --dark-card: #2d2d2d;
+      --dark-border: #333333;
+      --dark-text: #e0e0e0;
+      --dark-text-secondary: #aaaaaa;
+
+      /* Spacing */
+      --spacing-xs: 4px;
+      --spacing-sm: 8px;
+      --spacing-md: 16px;
+      --spacing-lg: 24px;
+      --spacing-xl: 32px;
+      --spacing-xxl: 48px;
+
+      /* Animation */
+      --transition-fast: 0.2s;
+      --transition-normal: 0.3s;
+      --transition-slow: 0.5s;
+
+      /* Shadows */
+      --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.1);
+      --shadow-md: 0 4px 10px rgba(0, 0, 0, 0.15);
+      --shadow-lg: 0 8px 20px rgba(0, 0, 0, 0.2);
+
+      /* Borders */
+      --border-radius-sm: 4px;
+      --border-radius-md: 8px;
+      --border-radius-lg: 12px;
+      --border-radius-xl: 16px;
+      --border-radius-circle: 50%;
+    }
+
+    /* Reset & Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Open Sans", sans-serif;
+      background-color: var(--light-gray);
+      color: var(--dark-gray);
+      overflow-x: hidden;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body.dark-mode {
+      background-color: var(--dark-bg);
+      color: var(--dark-text);
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: "Montserrat", sans-serif;
+      font-weight: 700;
+      margin-bottom: var(--spacing-md);
+    }
+
+    a {
+      text-decoration: none;
+      color: var(--green-primary);
+      transition: color var(--transition-fast);
+    }
+
+    a:hover {
+      color: var(--green-primary-dark);
+    }
+
+    .container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Overlay */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 90;
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+      width: 250px;
+      background-color: var(--white);
+      box-shadow: var(--shadow-md);
+      position: fixed;
+      height: 100vh;
+      z-index: 100;
+      transition: all var(--transition-normal);
+      overflow-y: auto;
+    }
+
+    .dark-mode .sidebar {
+      background-color: var(--dark-surface);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .sidebar-collapsed {
+      width: 70px;
+    }
+
+    .sidebar-header {
+      padding: var(--spacing-md);
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid var(--light-gray);
+      position: relative;
+      height: 70px;
+    }
+
+    .dark-mode .sidebar-header {
+      border-bottom-color: var(--dark-border);
+    }
+
+    .sidebar-header img.logo {
+      height: 40px;
+      width: 40px;
+      object-fit: contain;
+    }
+
+    .sidebar-header h2 {
+      margin-left: var(--spacing-sm);
+      margin-bottom: 0;
+      color: var(--green-primary);
+      font-size: 1.5rem;
+      transition: opacity var(--transition-normal), width var(--transition-normal);
+      white-space: nowrap;
+    }
+
+    .sidebar-collapsed .sidebar-header h2 {
+      opacity: 0;
+      width: 0;
+      overflow: hidden;
+    }
+
+    .sidebar-menu {
+      margin-top: var(--spacing-md);
+    }
+
+    .nav-list {
+      list-style: none;
+    }
+
+    .nav-item {
+      margin-bottom: 2px;
+    }
+
+    .nav-link {
+      padding: var(--spacing-md);
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      color: var(--dark-gray);
+      text-decoration: none;
+      border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+    }
+
+    .dark-mode .nav-link {
+      color: var(--dark-text);
+    }
+
+    .nav-link:hover {
+      background-color: rgba(46, 125, 50, 0.1);
+      color: var(--green-primary);
+    }
+
+    .dark-mode .nav-link:hover {
+      background-color: rgba(76, 175, 80, 0.1);
+    }
+
+    .nav-link.active {
+      background-color: var(--green-primary);
+      color: var(--white);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .dark-mode .nav-link.active {
+      background-color: var(--green-primary-dark);
+    }
+
+    .nav-link i {
+      font-size: 1.2rem;
+      width: 30px;
+      text-align: center;
+    }
+
+    .nav-link span {
+      margin-left: var(--spacing-md);
+      transition: opacity var(--transition-normal), width var(--transition-normal);
+      white-space: nowrap;
+    }
+
+    .sidebar-collapsed .nav-link span {
+      opacity: 0;
+      width: 0;
+      overflow: hidden;
+    }
+
+    .menu-toggle {
+      position: absolute;
+      right: -5px;
+      top: 62px;
+      background-color: var(--green-primary);
+      color: white;
+      border: none;
+      width: 24px;
+      height: 24px;
+      border-radius: var(--border-radius-circle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      z-index: 101;
+      transition: background-color var(--transition-fast);
+    }
+
+    .menu-toggle:hover {
+      background-color: var(--green-primary-dark);
+    }
+
+    .nav-item.logout {
+      margin-top: 20px;
+      border-top: 1px solid var(--light-gray);
+      padding-top: 10px;
+    }
+
+    .dark-mode .nav-item.logout {
+      border-top-color: var(--dark-border);
+    }
+
+    .sidebar-toggle-mobile {
+      display: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: var(--spacing-md);
+      text-align: center;
+      background-color: var(--green-primary);
+      color: var(--white);
+      position: sticky;
+      bottom: 0;
+      z-index: 101;
+    }
+
+    /* Main Content Styles */
+    .main-content {
+      flex: 1;
+      margin-left: 250px;
+      transition: margin-left var(--transition-normal);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .main-content-expanded {
+      margin-left: 70px;
+    }
+
+    .mobile-menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--dark-gray);
+      cursor: pointer;
+    }
+
+    .dark-mode .mobile-menu-toggle {
+      color: var(--dark-text);
+    }
+
+    /* Header Styles */
+    .header {
+      background-color: var(--white);
+      padding: var(--spacing-md) var(--spacing-lg);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: var(--shadow-sm);
+      position: sticky;
+      top: 0;
+      z-index: 99;
+      height: 70px;
+    }
+
+    .dark-mode .header {
+      background-color: var(--dark-surface);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .search-bar {
+      display: flex;
+      align-items: center;
+      background-color: var(--light-gray);
+      border-radius: 20px;
+      padding: var(--spacing-sm) var(--spacing-md);
+      width: 300px;
+      transition: all var(--transition-fast);
+    }
+
+    .dark-mode .search-bar {
+      background-color: var(--dark-card);
+    }
+
+    .search-bar:focus-within {
+      box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.3);
+    }
+
+    .search-bar input {
+      border: none;
+      background: transparent;
+      padding: var(--spacing-xs) var(--spacing-sm);
+      flex: 1;
+      outline: none;
+      font-family: "Open Sans", sans-serif;
+      color: var(--dark-gray);
+      font-size: 0.95rem;
+    }
+
+    .dark-mode .search-bar input {
+      color: var(--dark-text);
+    }
+
+    .search-bar input::placeholder {
+      color: var(--medium-gray);
+      opacity: 0.8;
+    }
+
+    .dark-mode .search-bar input::placeholder {
+      color: var(--dark-text-secondary);
+    }
+
+    .search-bar i {
+      color: var(--medium-gray);
+    }
+
+    .dark-mode .search-bar i {
+      color: var(--dark-text-secondary);
+    }
+
+    .search-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--green-primary);
+      padding: var(--spacing-xs);
+      border-radius: var(--border-radius-circle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition-fast);
+    }
+
+    .search-button:hover {
+      background-color: rgba(46, 125, 50, 0.1);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-lg);
+    }
+
+    /* Notification Styles */
+    .notification {
+      position: relative;
+      cursor: pointer;
+      padding: var(--spacing-xs);
+      border-radius: var(--border-radius-circle);
+      transition: background-color var(--transition-fast);
+    }
+
+    .notification:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .dark-mode .notification:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .notification-count {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background-color: var(--harvest-yellow);
+      color: var(--dark-gray);
+      font-size: 0.7rem;
+      width: 18px;
+      height: 18px;
+      border-radius: var(--border-radius-circle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .notification-dropdown {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: -10px;
+      width: 320px;
+      background-color: var(--white);
+      border-radius: var(--border-radius-md);
+      box-shadow: var(--shadow-md);
+      z-index: 100;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: all var(--transition-normal);
+      overflow: hidden;
+      max-height: 400px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .dark-mode .notification-dropdown {
+      background-color: var(--dark-card);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .notification-dropdown.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .notification-dropdown h3 {
+      padding: var(--spacing-md);
+      border-bottom: 1px solid var(--light-gray);
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--green-primary);
+    }
+
+    .dark-mode .notification-dropdown h3 {
+      border-bottom-color: var(--dark-border);
+      color: var(--green-primary-light);
+    }
+
+    .notification-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .notification-item {
+      display: flex;
+      align-items: center;
+      padding: var(--spacing-md);
+      border-bottom: 1px solid var(--light-gray);
+      transition: background-color var(--transition-fast);
+    }
+
+    .dark-mode .notification-item {
+      border-bottom-color: var(--dark-border);
+    }
+
+    .notification-item:hover {
+      background-color: var(--light-gray);
+    }
+
+    .dark-mode .notification-item:hover {
+      background-color: var(--dark-surface);
+    }
+
+    .notification-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: var(--border-radius-circle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: var(--spacing-md);
+      font-size: 1rem;
+    }
+
+    .notification-icon.new {
+      background-color: var(--info);
+      color: var(--white);
+    }
+
+    .notification-icon.warning {
+      background-color: var(--warning);
+      color: var(--white);
+    }
+
+    .notification-icon.success {
+      background-color: var(--success);
+      color: var(--white);
+    }
+
+    .notification-icon.info {
+      background-color: var(--sky-blue);
+      color: var(--white);
+    }
+
+    .notification-content p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--dark-gray);
+    }
+
+    .dark-mode .notification-content p {
+      color: var(--dark-text);
+    }
+
+    .notification-content strong {
+      font-weight: 600;
+      color: var(--black);
+    }
+
+    .dark-mode .notification-content strong {
+      color: var(--white);
+    }
+
+    .notification-time {
+      font-size: 0.75rem;
+      color: var(--medium-gray);
+    }
+
+    .dark-mode .notification-time {
+      color: var(--dark-text-secondary);
+    }
+
+    .notification-footer {
+      padding: var(--spacing-md);
+      text-align: center;
+      border-top: 1px solid var(--light-gray);
+    }
+
+    .dark-mode .notification-footer {
+      border-top-color: var(--dark-border);
+    }
+
+    .notification-footer a {
+      font-size: 0.85rem;
+      color: var(--green-primary);
+    }
+
+    .notification-footer a:hover {
+      color: var(--green-primary-dark);
+    }
+
+    /* User Profile Styles */
+    .user-profile {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      padding: var(--spacing-sm);
+      border-radius: var(--border-radius-md);
+      transition: background-color var(--transition-fast);
+      position: relative;
+    }
+
+    .user-profile:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .dark-mode .user-profile:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .user-avatar {
+      width: 35px;
+      height: 35px;
+      background-color: var(--green-primary);
+      color: var(--white);
+      border-radius: var(--border-radius-circle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-right: var(--spacing-sm);
+    }
+
+    .user-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .user-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--black);
+    }
+
+    .dark-mode .user-name {
+      color: var(--dark-text);
+    }
+
+    .role-badge {
+      font-size: 0.75rem;
+      color: var(--medium-gray);
+    }
+
+    .dark-mode .role-badge {
+      color: var(--dark-text-secondary);
+    }
+
+    .dropdown-icon {
+      margin-left: var(--spacing-sm);
+      color: var(--medium-gray);
+      transition: transform var(--transition-fast);
+    }
+
+    .user-profile:hover .dropdown-icon {
+      transform: rotate(180deg);
+    }
+
+    .user-dropdown {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      width: 200px;
+      background-color: var(--white);
+      border-radius: var(--border-radius-md);
+      box-shadow: var(--shadow-md);
+      z-index: 100;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: all var(--transition-normal);
+    }
+
+    .dark-mode .user-dropdown {
+      background-color: var(--dark-card);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .user-dropdown.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .user-dropdown ul {
+      list-style: none;
+      padding: var(--spacing-sm) 0;
+      margin: 0;
+    }
+
+    .user-dropdown li {
+      padding: var(--spacing-sm) var(--spacing-md);
+      transition: background-color var(--transition-fast);
+    }
+
+    .user-dropdown li:hover {
+      background-color: var(--light-gray);
+    }
+
+    .dark-mode .user-dropdown li:hover {
+      background-color: var(--dark-surface);
+    }
+
+    .user-dropdown li.divider {
+      height: 1px;
+      background-color: var(--light-gray);
+      padding: 0;
+      margin: var(--spacing-sm) 0;
+    }
+
+    .dark-mode .user-dropdown li.divider {
+      background-color: var(--dark-border);
+    }
+
+    .user-dropdown a {
+      display: flex;
+      align-items: center;
+      color: var(--dark-gray);
+      font-size: 0.9rem;
+    }
+
+    .dark-mode .user-dropdown a {
+      color: var(--dark-text);
+    }
+
+    .user-dropdown a i {
+      margin-right: var(--spacing-md);
+      width: 20px;
+      text-align: center;
+    }
+
+    /* Dashboard Content */
+    .dashboard-content {
+      padding: var(--spacing-lg);
+      flex: 1;
+    }
+
+    .section {
+      background-color: var(--white);
+      border-radius: var(--border-radius-md);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: var(--spacing-lg);
+      overflow: hidden;
+    }
+
+    .dark-mode .section {
+      background-color: var(--dark-card);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .section-header {
+      padding: var(--spacing-md) var(--spacing-lg);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--light-gray);
+    }
+
+    .dark-mode .section-header {
+      border-bottom-color: var(--dark-border);
+    }
+
+    .section-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--green-primary);
+    }
+
+    .dark-mode .section-title {
+      color: var(--green-primary-light);
+    }
+
+    .section-actions {
+      display: flex;
+      gap: var(--spacing-md);
+    }
+
+    .btn {
+      padding: var(--spacing-sm) var(--spacing-md);
+      border-radius: var(--border-radius-md);
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+      transition: all var(--transition-fast);
+      border: none;
+    }
+
+    .btn-secondary {
+      background-color: var(--light-gray);
+      color: var(--dark-gray);
+    }
+
+    .dark-mode .btn-secondary {
+      background-color: var(--dark-surface);
+      color: var(--dark-text);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--soil-tan);
+    }
+
+    .dark-mode .btn-secondary:hover {
+      background-color: var(--dark-border);
+    }
+
+    .btn-danger {
+      background-color: var(--danger);
+      color: var(--white);
+    }
+
+    .btn-danger:hover {
+      background-color: #d32f2f;
+    }
+
+    /* Reviews Table */
+    .table-responsive {
+      overflow-x: auto;
+      padding: var(--spacing-lg);
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .data-table th,
+    .data-table td {
+      padding: var(--spacing-md);
+      text-align: left;
+      border-bottom: 1px solid var(--light-gray);
+    }
+
+    .dark-mode .data-table th,
+    .dark-mode .data-table td {
+      border-bottom-color: var(--dark-border);
+    }
+
+    .data-table th {
+      font-family: "Montserrat", sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--dark-gray);
+      background-color: var(--light-gray);
+    }
+
+    .dark-mode .data-table th {
+      color: var(--dark-text);
+      background-color: var(--dark-surface);
+    }
+
+    .data-table td {
+      font-size: 0.85rem;
+      color: var(--dark-gray);
+    }
+
+    .dark-mode .data-table td {
+      color: var(--dark-text);
+    }
+
+    .data-table tr:hover td {
+      background-color: var(--light-gray);
+    }
+
+    .dark-mode .data-table tr:hover td {
+      background-color: var(--dark-surface);
+    }
+
+    .rating-stars {
+      color: var(--harvest-yellow);
+    }
+
+    /* Footer Styles */
+    .footer {
+      background-color: var(--white);
+      padding: var(--spacing-md) var(--spacing-lg);
+      text-align: center;
+      border-top: 1px solid var(--light-gray);
+      margin-top: auto;
+    }
+
+    .dark-mode .footer {
+      background-color: var(--dark-surface);
+      border-top-color: var(--dark-border);
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      color: var(--medium-gray);
+    }
+
+    .dark-mode .footer-content {
+      color: var(--dark-text-secondary);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: var(--spacing-md);
+    }
+
+    .footer-links a {
+      font-size: 0.85rem;
+      color: var(--green-primary);
+    }
+
+    .footer-links a:hover {
+      color: var(--green-primary-dark);
+    }
+
+    /* Toast Notifications */
+    .toast-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    .toast {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--spacing-md);
+      margin-top: var(--spacing-sm);
+      border-radius: var(--border-radius-md);
+      box-shadow: var(--shadow-sm);
+      animation: slideIn 0.3s ease;
+    }
+
+    .toast-success {
+      background-color: var(--success);
+      color: var(--white);
+    }
+
+    .toast i {
+      cursor: pointer;
+      margin-left: var(--spacing-md);
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 250px;
+        transform: translateX(-100%);
+        position: fixed;
+      }
+
+      .sidebar.active {
+        transform: translateX(0);
+      }
+
+      .overlay.active {
+        display: block;
+      }
+
+      .main-content {
+        margin-left: 0;
+      }
+
+      .mobile-menu-toggle {
+        display: block;
+      }
+
+      .sidebar-toggle-mobile {
+        display: block;
+      }
+
+      .search-bar {
+        width: 100%;
+        margin: var(--spacing-sm) 0;
+      }
+
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+        height: auto;
+        padding-bottom: var(--spacing-lg);
+      }
+
+      .header-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .notification-dropdown,
+      .user-dropdown {
+        width: 100%;
+        right: 0;
+        left: 0;
+        margin: 0 var(--spacing-md);
+      }
+
+      .section-actions {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        width: 100%;
+      }
+
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    /* Animation Keyframes */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+  </style>
+  <body>
+    <!-- Overlay for mobile when sidebar is open -->
+    <div class="overlay" id="overlay"></div>
+
+    <div class="container">
+      <!-- Sidebar -->
+      <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <img
+            src="https://cdnjs.cloudflare.com/ajax/libs/simple-icons/8.19.0/simpleicons.svg"
+            alt="AgriGo Logo"
+            class="logo"
+          />
+          <h2>AgriGo</h2>
+          <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+        </div>
+        <div class="sidebar-menu">
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="/templates/admin/admin-dashboard.html" class="nav-link" data-tab="dashboard">
+                <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/templates/admin/user-management.html" class="nav-link" data-tab="users">
+                <i class="fas fa-users"></i> <span>User Management</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/templates/admin/products.html" class="nav-link" data-tab="products">
+                <i class="fas fa-shopping-basket"></i> <span>Products</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/templates/admin/orders.html" class="nav-link" data-tab="orders">
+                <i class="fas fa-clipboard-list"></i> <span>Orders</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/templates/admin/payments.html" class="nav-link" data-tab="payments">
+                <i class="fas fa-credit-card"></i> <span>Payments</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/templates/admin/reviews.html" class="nav-link active" data-tab="reviews">
+                <i class="fas fa-comment"></i> <span>Reviews</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#analytics" class="nav-link" data-tab="analytics">
+                <i class="fas fa-chart-line"></i> <span>Analytics</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#settings" class="nav-link" data-tab="settings">
+                <i class="fas fa-cog"></i> <span>Settings</span>
+              </a>
+            </li>
+            <li class="nav-item logout">
+              <a href="#" id="logoutBtn" class="nav-link">
+                <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
+              </a>
+            </li>
+          </ul>
+          <div class="sidebar-toggle-mobile">
+            <i class="fas fa-times"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content" id="main-content">
+        <!-- Header -->
+        <div class="header">
+          <button
+            class="mobile-menu-toggle"
+            id="mobile-menu-toggle"
+            aria-label="Mobile menu"
+          >
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input
+              type="text"
+              placeholder="Search reviews..."
+              aria-label="Search"
+            />
+            <button class="search-button" aria-label="Submit search">
+              <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+          <div class="header-actions">
+            <div class="notification" id="notificationIcon">
+              <i class="fas fa-bell"></i>
+              <span class="notification-count">5</span>
+              <div class="notification-dropdown" id="notificationDropdown">
+                <h3>Notifications</h3>
+                <ul class="notification-list">
+                  <li class="notification-item">
+                    <div class="notification-icon new">
+                      <i class="fas fa-user-plus"></i>
+                    </div>
+                    <div class="notification-content">
+                      <p>
+                        New farmer registration: <strong>Maria Santos</strong>
+                      </p>
+                      <span class="notification-time">10 minutes ago</span>
+                    </div>
+                  </li>
+                  <li class="notification-item">
+                    <div class="notification-icon warning">
+                      <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="notification-content">
+                      <p>Low stock alert: <strong>Organic Rice</strong></p>
+                      <span class="notification-time">1 hour ago</span>
+                    </div>
+                  </li>
+                  <li class="notification-item">
+                    <div class="notification-icon success">
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="notification-content">
+                      <p>Order #23891 successfully delivered</p>
+                      <span class="notification-time">2 hours ago</span>
+                    </div>
+                  </li>
+                </ul>
+                <div class="notification-footer">
+                  <a href="#notifications">View all notifications</a>
+                </div>
+              </div>
+            </div>
+            <div class="user-profile" id="userProfile">
+              <div class="user-avatar">AD</div>
+              <div class="user-info">
+                <div class="user-name">Admin Dashboard</div>
+                <span class="role-badge">Administrator</span>
+              </div>
+              <i class="fas fa-chevron-down dropdown-icon"></i>
+              <div class="user-dropdown" id="userDropdown">
+                <ul>
+                  <li>
+                    <a href="#profile"
+                      ><i class="fas fa-user"></i> My Profile</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#settings"
+                      ><i class="fas fa-cog"></i> Account Settings</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#help"
+                      ><i class="fas fa-question-circle"></i> Help & Support</a
+                    >
+                  </li>
+                  <li class="divider"></li>
+                  <li>
+                    <a href="#" id="darkModeToggle"
+                      ><i class="fas fa-moon"></i>
+                      <span id="themeText">Dark Mode</span></a
+                    >
+                  </li>
+                  <li class="divider"></li>
+                  <li>
+                    <a href="#" id="userDropdownLogout"
+                      ><i class="fas fa-sign-out-alt"></i> Logout</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reviews Content -->
+        <div class="dashboard-content">
+          <div class="section">
+            <div class="section-header">
+              <div class="section-title">Product Reviews</div>
+              <div class="section-actions">
+                <button class="btn btn-secondary" id="refreshReviewsBtn">
+                  <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Review ID</th>
+                    <th>Product</th>
+                    <th>User</th>
+                    <th>Rating</th>
+                    <th>Comment</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="reviewsTable">
+                  <!-- Sample Data -->
+                  <tr>
+                    <td>#R001</td>
+                    <td>Organic Rice</td>
+                    <td>John Doe</td>
+                    <td class="rating-stars">
+                      <i class="fas fa-star"></i><i class="fas fa-star"></i
+                      ><i class="fas fa-star"></i><i class="fas fa-star"></i
+                      ><i class="far fa-star"></i>
+                    </td>
+                    <td>Great quality, fast delivery!</td>
+                    <td>Mar 20, 2025</td>
+                    <td>
+                      <button
+                        class="btn btn-danger delete-review"
+                        data-id="R001"
+                      >
+                        <i class="fas fa-trash"></i> Delete
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>#R002</td>
+                    <td>Fresh Tomatoes</td>
+                    <td>Jane Smith</td>
+                    <td class="rating-stars">
+                      <i class="fas fa-star"></i><i class="fas fa-star"></i
+                      ><i class="fas fa-star"></i><i class="far fa-star"></i
+                      ><i class="far fa-star"></i>
+                    </td>
+                    <td>Could be fresher.</td>
+                    <td>Mar 19, 2025</td>
+                    <td>
+                      <button
+                        class="btn btn-danger delete-review"
+                        data-id="R002"
+                      >
+                        <i class="fas fa-trash"></i> Delete
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>#R003</td>
+                    <td>Farm Tools Set</td>
+                    <td>Maria Santos</td>
+                    <td class="rating-stars">
+                      <i class="fas fa-star"></i><i class="fas fa-star"></i
+                      ><i class="fas fa-star"></i><i class="fas fa-star"></i
+                      ><i class="fas fa-star"></i>
+                    </td>
+                    <td>Excellent product!</td>
+                    <td>Mar 18, 2025</td>
+                    <td>
+                      <button
+                        class="btn btn-danger delete-review"
+                        data-id="R003"
+                      >
+                        <i class="fas fa-trash"></i> Delete
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+          <div class="footer-content">
+            <p>© 2025 AgriGo. All rights reserved.</p>
+            <div class="footer-links">
+              <a href="#terms">Terms of Service</a>
+              <a href="#privacy">Privacy Policy</a>
+              <a href="#help">Help Center</a>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Scripts -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Utility Functions
+        const $ = (selector) => document.querySelector(selector);
+        const $$ = (selector) => document.querySelectorAll(selector);
+
+        // Fixed the toggleClass function to properly handle null elements
+        const toggleClass = (element, className) => {
+          if (element) {
+            element.classList.toggle(className);
+            return element.classList.contains(className);
+          }
+          return false;
+        };
+
+        // Improved toast notification function with error handling
+        const showToast = (message, type = "success", duration = 3000) => {
+          const toastContainer = $("#toastContainer");
+          if (!toastContainer) {
+            console.error("Toast container not found");
+            return;
+          }
+
+          const toast = document.createElement("div");
+          toast.className = `toast toast-${type}`;
+          toast.innerHTML = `<span>${message}</span><i class="fas fa-times" onclick="this.parentElement.remove()"></i>`;
+          toastContainer.appendChild(toast);
+
+          // Use clearTimeout to allow for early dismissal
+          const timeoutId = setTimeout(() => {
+            if (toast.parentElement) {
+              toast.remove();
+            }
+          }, duration);
+
+          // Allow manual close to cancel timeout
+          toast.querySelector(".fa-times").addEventListener("click", () => {
+            clearTimeout(timeoutId);
+          });
+        };
+
+        // Sidebar Toggle - Fixed error handling
+        const menuToggle = $("#menu-toggle");
+        const sidebar = $("#sidebar");
+        const mainContent = $("#main-content");
+
+        if (menuToggle && sidebar && mainContent) {
+          menuToggle.addEventListener("click", () => {
+            toggleClass(sidebar, "sidebar-collapsed");
+            toggleClass(mainContent, "main-content-expanded");
+            const icon = menuToggle.querySelector("i");
+            if (icon) {
+              icon.classList.toggle("fa-chevron-left");
+              icon.classList.toggle("fa-chevron-right");
+            }
+          });
+        } else {
+          console.warn("Some sidebar elements not found");
+        }
+
+        // Mobile Menu Toggle - Improved logic
+        const mobileMenuToggle = $("#mobile-menu-toggle");
+        const sidebarToggleMobile = $(".sidebar-toggle-mobile");
+        const overlay = $("#overlay");
+
+        const toggleMobileSidebar = () => {
+          if (sidebar && overlay) {
+            const isActive = toggleClass(sidebar, "active");
+            toggleClass(overlay, "active");
+            return isActive;
+          }
+          return false;
+        };
+
+        if (mobileMenuToggle) {
+          mobileMenuToggle.addEventListener("click", toggleMobileSidebar);
+        }
+
+        if (sidebarToggleMobile) {
+          sidebarToggleMobile.addEventListener("click", toggleMobileSidebar);
+        }
+
+        if (overlay) {
+          overlay.addEventListener("click", toggleMobileSidebar);
+        }
+
+        // Dark Mode Toggle - Added proper null checks
+        const darkModeToggle = $("#darkModeToggle");
+        const themeText = $("#themeText");
+
+        if (darkModeToggle && themeText) {
+          const toggleDarkMode = () => {
+            const isDark = document.body.classList.toggle("dark-mode");
+            localStorage.setItem("darkMode", isDark);
+            themeText.textContent = isDark ? "Light Mode" : "Dark Mode";
+            return isDark;
+          };
+
+          darkModeToggle.addEventListener("click", toggleDarkMode);
+
+          // Check saved preference and apply with validation
+          const savedDarkMode = localStorage.getItem("darkMode");
+          if (savedDarkMode === "true") {
+            toggleDarkMode();
+          }
+        }
+
+        // Notification Dropdown - Added proper event handling
+        const notificationIcon = $("#notificationIcon");
+        const notificationDropdown = $("#notificationDropdown");
+
+        if (notificationIcon && notificationDropdown) {
+          notificationIcon.addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleClass(notificationDropdown, "show");
+          });
+
+          // Using document level event delegation for better performance
+          document.addEventListener("click", (e) => {
+            if (
+              notificationDropdown.classList.contains("show") &&
+              !notificationIcon.contains(e.target)
+            ) {
+              notificationDropdown.classList.remove("show");
+            }
+          });
+        }
+
+        // User Profile Dropdown - Improved event handling
+        const userProfile = $("#userProfile");
+        const userDropdown = $("#userDropdown");
+
+        if (userProfile && userDropdown) {
+          userProfile.addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleClass(userDropdown, "show");
+          });
+
+          document.addEventListener("click", (e) => {
+            if (
+              userDropdown.classList.contains("show") &&
+              !userProfile.contains(e.target)
+            ) {
+              userDropdown.classList.remove("show");
+            }
+          });
+        }
+
+        // Logout Functionality - Added success callback pattern
+        const logoutBtn = $("#logoutBtn");
+        const userDropdownLogout = $("#userDropdownLogout");
+
+        const handleLogout = (e, callback) => {
+          e.preventDefault();
+          showToast("Logged out successfully!", "success");
+
+          // Using Promise for better handling
+          setTimeout(() => {
+            if (typeof callback === "function") {
+              callback();
+            } else {
+              window.location.href = "/templates/admin/admin-login.html";
+            }
+          }, 2000);
+        };
+
+        if (logoutBtn) {
+          logoutBtn.addEventListener("click", (e) => handleLogout(e));
+        }
+
+        if (userDropdownLogout) {
+          userDropdownLogout.addEventListener("click", (e) => handleLogout(e));
+        }
+
+        // Nav Links Active State - Added proper null checking
+        const navLinks = $$(".nav-link");
+
+        if (navLinks.length > 0) {
+          navLinks.forEach((link) => {
+            link.addEventListener("click", (e) => {
+              const href = link.getAttribute("href");
+              if (href && href.startsWith("#")) {
+                e.preventDefault();
+                navLinks.forEach((l) => l.classList.remove("active"));
+                link.classList.add("active");
+
+                // Optional: update URL hash
+                history.pushState(null, null, href);
+              }
+            });
+          });
+        }
+
+        // Delete Review Functionality - Added confirmation modal pattern
+        const deleteButtons = $$(".delete-review");
+
+        if (deleteButtons.length > 0) {
+          deleteButtons.forEach((button) => {
+            button.addEventListener("click", (e) => {
+              const reviewId = button.dataset.id;
+              if (!reviewId) {
+                console.error("Missing review ID");
+                return;
+              }
+
+              if (
+                confirm(`Are you sure you want to delete review #${reviewId}?`)
+              ) {
+                const row = button.closest("tr");
+                if (row) {
+                  row.remove();
+                  showToast(
+                    `Review #${reviewId} deleted successfully!`,
+                    "success"
+                  );
+                }
+              }
+            });
+          });
+        }
+
+        // Refresh Reviews - Added loading state
+        const refreshReviewsBtn = $("#refreshReviewsBtn");
+
+        if (refreshReviewsBtn) {
+          refreshReviewsBtn.addEventListener("click", () => {
+            // Add loading state
+            refreshReviewsBtn.disabled = true;
+            refreshReviewsBtn.innerHTML =
+              '<i class="fas fa-spinner fa-spin"></i> Refreshing...';
+
+            // Simulate API call
+            setTimeout(() => {
+              refreshReviewsBtn.disabled = false;
+              refreshReviewsBtn.innerHTML =
+                '<i class="fas fa-sync-alt"></i> Refresh';
+              showToast("Reviews refreshed!", "success");
+            }, 1000);
+          });
+        }
+
+        // Search Functionality - Improved with debounce pattern
+        const searchInput = $(".search-bar input");
+        const reviewsTable = $("#reviewsTable");
+
+        if (searchInput && reviewsTable) {
+          // Debounce function to prevent excessive filtering
+          let searchTimeout = null;
+
+          searchInput.addEventListener("input", (e) => {
+            clearTimeout(searchTimeout);
+
+            searchTimeout = setTimeout(() => {
+              const query = e.target.value.toLowerCase().trim();
+              const rows = reviewsTable.querySelectorAll("tr");
+
+              if (rows.length === 0) {
+                console.warn("No review rows found");
+                return;
+              }
+
+              rows.forEach((row) => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(query) ? "" : "none";
+              });
+            }, 300); // 300ms debounce
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
