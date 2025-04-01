@@ -13,168 +13,182 @@
       rel="stylesheet"
     />
     <style>
+      /* Same CSS variables as Products page */
       :root {
-        /* Primary Colors */
         --green-primary: #2e7d32;
+        --green-primary-light: #4caf50;
+        --green-primary-dark: #1b5e20;
         --earth-brown: #8d6e63;
         --sky-blue: #4fc3f7;
-
-        /* Secondary Colors */
         --harvest-yellow: #fbc02d;
         --leaf-green: #81c784;
         --soil-tan: #d7ccc8;
-
-        /* Neutrals */
         --dark-gray: #424242;
+        --medium-gray: #757575;
         --light-gray: #f5f5f5;
         --white: #ffffff;
-
-        /* Spacing */
+        --black: #212121;
+        --success: #4caf50;
+        --warning: #ff9800;
+        --danger: #f44336;
+        --info: #2196f3;
+        --dark-bg: #121212;
+        --dark-surface: #1e1e1e;
+        --dark-card: #2d2d2d;
+        --dark-border: #333333;
+        --dark-text: #e0e0e0;
+        --dark-text-secondary: #aaaaaa;
         --spacing-xs: 4px;
         --spacing-sm: 8px;
         --spacing-md: 16px;
         --spacing-lg: 24px;
         --spacing-xl: 32px;
+        --spacing-xxl: 48px;
+        --transition-fast: 0.2s;
+        --transition-normal: 0.3s;
+        --transition-slow: 0.5s;
+        --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.1);
+        --shadow-md: 0 4px 10px rgba(0, 0, 0, 0.15);
+        --shadow-lg: 0 8px 20px rgba(0, 0, 0, 0.2);
+        --border-radius-sm: 4px;
+        --border-radius-md: 8px;
+        --border-radius-lg: 12px;
+        --border-radius-xl: 16px;
+        --border-radius-circle: 50%;
       }
 
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
+      /* Reset & Base Styles (same as Products) */
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
       body {
         font-family: "Open Sans", sans-serif;
         background-color: var(--light-gray);
         color: var(--dark-gray);
         overflow-x: hidden;
+        line-height: 1.5;
       }
-
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6 {
+      body.dark-mode {
+        background-color: var(--dark-bg);
+        color: var(--dark-text);
+      }
+      h1, h2, h3, h4, h5, h6 {
         font-family: "Montserrat", sans-serif;
         font-weight: 700;
+        margin-bottom: var(--spacing-md);
+      }
+      a {
+        text-decoration: none;
+        color: var(--green-primary);
+        transition: color var(--transition-fast);
+      }
+      a:hover { color: var(--green-primary-dark); }
+      .container { display: flex; min-height: 100vh; }
+
+      /* Overlay (from Products) */
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 90;
+        display: none;
+        animation: fadeIn 0.3s ease;
       }
 
-      .accent-text {
-        font-family: "Roboto", sans-serif;
-        font-weight: 500;
-      }
-
-      .container {
-        display: flex;
-        min-height: 100vh;
-      }
-
-      /* Sidebar Styles */
+      /* Sidebar Styles (aligned with Products) */
       .sidebar {
         width: 250px;
         background-color: var(--white);
-        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        box-shadow: var(--shadow-md);
         position: fixed;
         height: 100vh;
         z-index: 100;
-        transition: all 0.3s ease;
+        transition: all var(--transition-normal);
+        overflow-y: auto;
       }
-
-      .sidebar-collapsed {
-        width: 70px;
+      .dark-mode .sidebar {
+        background-color: var(--dark-surface);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
       }
-
+      .sidebar-collapsed { width: 70px; }
       .sidebar-header {
         padding: var(--spacing-md);
         display: flex;
         align-items: center;
         border-bottom: 1px solid var(--light-gray);
+        height: 70px;
       }
-
-      .sidebar-header img {
+      .dark-mode .sidebar-header { border-bottom-color: var(--dark-border); }
+      .sidebar-header img.logo {
         height: 40px;
+        width: 40px;
+        object-fit: contain;
       }
-
       .sidebar-header h2 {
         margin-left: var(--spacing-sm);
+        margin-bottom: 0;
         color: var(--green-primary);
         font-size: 1.5rem;
-        transition: opacity 0.3s;
+        transition: opacity var(--transition-normal), width var(--transition-normal);
+        white-space: nowrap;
       }
-
       .sidebar-collapsed .sidebar-header h2 {
         opacity: 0;
         width: 0;
         overflow: hidden;
       }
-
-      .sidebar-menu {
-        margin-top: var(--spacing-lg);
-      }
-
-      .menu-item {
+      .sidebar-menu { margin-top: var(--spacing-md); }
+      .nav-list { list-style: none; }
+      .nav-item { margin-bottom: 2px; }
+      .nav-link {
         padding: var(--spacing-md);
         display: flex;
         align-items: center;
         cursor: pointer;
-        transition: all 0.2s ease;
+        transition: all var(--transition-fast);
         color: var(--dark-gray);
         text-decoration: none;
+        border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
       }
-
-      .menu-item:hover {
+      .dark-mode .nav-link { color: var(--dark-text); }
+      .nav-link:hover {
         background-color: rgba(46, 125, 50, 0.1);
         color: var(--green-primary);
       }
-
-      .menu-item.active {
+      .dark-mode .nav-link:hover { background-color: rgba(76, 175, 80, 0.1); }
+      .nav-link.active {
         background-color: var(--green-primary);
         color: var(--white);
+        box-shadow: var(--shadow-sm);
       }
-
-      .menu-item i {
-        font-size: 1.2rem;
-        width: 30px;
-        text-align: center;
-      }
-
-      .menu-item span {
+      .dark-mode .nav-link.active { background-color: var(--green-primary-dark); }
+      .nav-link i { font-size: 1.2rem; width: 30px; text-align: center; }
+      .nav-link span {
         margin-left: var(--spacing-md);
-        transition: opacity 0.3s;
+        transition: opacity var(--transition-normal), width var(--transition-normal);
+        white-space: nowrap;
       }
-
-      .sidebar-collapsed .menu-item span {
-        opacity: 0;
-        width: 0;
-        overflow: hidden;
-      }
-
+      .sidebar-collapsed .nav-link span { opacity: 0; width: 0; overflow: hidden; }
       .menu-toggle {
         position: absolute;
-        right: -10px;
-        top: 70px;
+        right: -5px;
+        top: 65px;
         background-color: var(--green-primary);
         color: white;
         border: none;
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        border-radius: var(--border-radius-circle);
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        box-shadow: var(--shadow-sm);
+        transition: background-color var(--transition-fast);
       }
-
-      /* Logout Button */
-      .nav-item.logout {
-        margin-top: auto;
-        padding: var(--spacing-md);
-        border-top: 1px solid var(--light-gray);
-      }
-
-      /* Mobile Toggle Button */
+      .menu-toggle:hover { background-color: var(--green-primary-dark); }
       .sidebar-toggle-mobile {
         display: none;
         font-size: 1.5rem;
@@ -188,39 +202,25 @@
         z-index: 101;
       }
 
-      @media (max-width: 768px) {
-        .sidebar-toggle-mobile {
-          display: block;
-        }
-
-        .sidebar {
-          width: 70px;
-          left: -70px;
-        }
-
-        .sidebar.active {
-          left: 0;
-        }
-
-        .main-content {
-          margin-left: 0;
-        }
-
-        .menu-toggle {
-          display: none;
-        }
-      }
-
       /* Main Content Styles */
       .main-content {
         flex: 1;
         margin-left: 250px;
-        transition: margin-left 0.3s ease;
+        transition: margin-left var(--transition-normal);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
       }
-
-      .main-content-expanded {
-        margin-left: 70px;
+      .main-content-expanded { margin-left: 70px; }
+      .mobile-menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: var(--dark-gray);
+        cursor: pointer;
       }
+      .dark-mode .mobile-menu-toggle { color: var(--dark-text); }
 
       /* Header Styles */
       .header {
@@ -229,12 +229,16 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        box-shadow: var(--shadow-sm);
         position: sticky;
         top: 0;
         z-index: 99;
+        height: 70px;
       }
-
+      .dark-mode .header {
+        background-color: var(--dark-surface);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      }
       .search-bar {
         display: flex;
         align-items: center;
@@ -242,33 +246,50 @@
         border-radius: 20px;
         padding: var(--spacing-sm) var(--spacing-md);
         width: 300px;
+        transition: all var(--transition-fast);
       }
-
+      .dark-mode .search-bar { background-color: var(--dark-card); }
+      .search-bar:focus-within { box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.3); }
       .search-bar input {
         border: none;
         background: transparent;
-        padding: var(--spacing-xs);
+        padding: var(--spacing-xs) var(--spacing-sm);
         flex: 1;
-        margin-left: var(--spacing-sm);
         outline: none;
         font-family: "Open Sans", sans-serif;
-      }
-
-      .search-bar i {
         color: var(--dark-gray);
+        font-size: 0.95rem;
       }
-
-      .header-actions {
+      .dark-mode .search-bar input { color: var(--dark-text); }
+      .search-bar input::placeholder { color: var(--medium-gray); opacity: 0.8; }
+      .dark-mode .search-bar input::placeholder { color: var(--dark-text-secondary); }
+      .search-bar i { color: var(--medium-gray); }
+      .dark-mode .search-bar i { color: var(--dark-text-secondary); }
+      .search-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--green-primary);
+        padding: var(--spacing-xs);
+        border-radius: var(--border-radius-circle);
         display: flex;
         align-items: center;
-        gap: var(--spacing-lg);
+        justify-content: center;
+        transition: all var(--transition-fast);
       }
+      .search-button:hover { background-color: rgba(46, 125, 50, 0.1); }
+      .header-actions { display: flex; align-items: center; gap: var(--spacing-lg); }
 
+      /* Notification Styles (from Products) */
       .notification {
         position: relative;
         cursor: pointer;
+        padding: var(--spacing-xs);
+        border-radius: var(--border-radius-circle);
+        transition: background-color var(--transition-fast);
       }
-
+      .notification:hover { background-color: rgba(0, 0, 0, 0.05); }
+      .dark-mode .notification:hover { background-color: rgba(255, 255, 255, 0.05); }
       .notification-count {
         position: absolute;
         top: -5px;
@@ -276,196 +297,222 @@
         background-color: var(--harvest-yellow);
         color: var(--dark-gray);
         font-size: 0.7rem;
-        border-radius: 50%;
-        width: 16px;
-        height: 16px;
+        width: 18px;
+        height: 18px;
+        border-radius: var(--border-radius-circle);
         display: flex;
         align-items: center;
         justify-content: center;
-      }
-
-      .user-profile {
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-      }
-
-      .user-avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background-color: var(--leaf-green);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--white);
         font-weight: bold;
-        margin-right: var(--spacing-sm);
       }
-
-      .role-badge {
-        background-color: var(--soil-tan);
-        padding: var(--spacing-xs) var(--spacing-sm);
-        border-radius: 4px;
-        font-size: 0.8rem;
-        margin-left: var(--spacing-sm);
-      }
-
-      /* Dashboard Content */
-      .dashboard-content {
-        padding: var(--spacing-lg);
-      }
-
-      .page-title {
-        margin-bottom: var(--spacing-lg);
-        font-size: 1.8rem;
-        color: var(--dark-gray);
-      }
-
-      /* Order Stats */
-      .metrics-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-        gap: var(--spacing-lg);
-        margin-bottom: var(--spacing-xl);
-      }
-
-      .metric-card {
+      .notification-dropdown {
+        position: absolute;
+        top: calc(100% + 10px);
+        right: -10px;
+        width: 320px;
         background-color: var(--white);
-        border-radius: 8px;
-        padding: var(--spacing-lg);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-md);
+        z-index: 100;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        transition: all var(--transition-normal);
+        overflow: hidden;
+        max-height: 400px;
+        display: flex;
+        flex-direction: column;
       }
-
-      .metric-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      .dark-mode .notification-dropdown {
+        background-color: var(--dark-card);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
       }
-
-      .metric-header {
+      .notification-dropdown.show {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+      .notification-dropdown h3 {
+        padding: var(--spacing-md);
+        border-bottom: 1px solid var(--light-gray);
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--green-primary);
+      }
+      .dark-mode .notification-dropdown h3 { border-bottom-color: var(--dark-border); color: var(--green-primary-light); }
+      .notification-list { list-style: none; padding: 0; margin: 0; overflow-y: auto; flex: 1; }
+      .notification-item {
         display: flex;
         align-items: center;
-        margin-bottom: var(--spacing-md);
+        padding: var(--spacing-md);
+        border-bottom: 1px solid var(--light-gray);
+        transition: background-color var(--transition-fast);
       }
-
-      .metric-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: 8px;
+      .dark-mode .notification-item { border-bottom-color: var(--dark-border); }
+      .notification-item:hover { background-color: var(--light-gray); }
+      .dark-mode .notification-item:hover { background-color: var(--dark-surface); }
+      .notification-icon {
+        width: 30px;
+        height: 30px;
+        border-radius: var(--border-radius-circle);
         display: flex;
         align-items: center;
         justify-content: center;
         margin-right: var(--spacing-md);
+        font-size: 1rem;
       }
+      .notification-icon.new { background-color: var(--info); color: var(--white); }
+      .notification-icon.warning { background-color: var(--warning); color: var(--white); }
+      .notification-icon.success { background-color: var(--success); color: var(--white); }
+      .notification-content p { margin: 0; font-size: 0.9rem; color: var(--dark-gray); }
+      .dark-mode .notification-content p { color: var(--dark-text); }
+      .notification-content strong { font-weight: 600; color: var(--black); }
+      .dark-mode .notification-content strong { color: var(--white); }
+      .notification-time { font-size: 0.75rem; color: var(--medium-gray); }
+      .dark-mode .notification-time { color: var(--dark-text-secondary); }
+      .notification-footer { padding: var(--spacing-md); text-align: center; border-top: 1px solid var(--light-gray); }
+      .dark-mode .notification-footer { border-top-color: var(--dark-border); }
+      .notification-footer a { font-size: 0.85rem; color: var(--green-primary); }
+      .notification-footer a:hover { color: var(--green-primary-dark); }
 
-      .metric-icon.green {
-        background-color: rgba(46, 125, 50, 0.1);
-        color: var(--green-primary);
-      }
-
-      .metric-icon.yellow {
-        background-color: rgba(251, 192, 45, 0.1);
-        color: var(--harvest-yellow);
-      }
-
-      .metric-icon.blue {
-        background-color: rgba(79, 195, 247, 0.1);
-        color: var(--sky-blue);
-      }
-
-      .metric-icon.brown {
-        background-color: rgba(141, 110, 99, 0.1);
-        color: var(--earth-brown);
-      }
-
-      .metric-icon.red {
-        background-color: rgba(244, 67, 54, 0.1);
-        color: #f44336;
-      }
-
-      .metric-title {
-        font-size: 0.9rem;
-        color: var(--dark-gray);
-        opacity: 0.8;
-      }
-
-      .metric-value {
-        font-size: 1.8rem;
-        font-weight: bold;
-        margin: var(--spacing-sm) 0;
-      }
-
-      .metric-trend {
-        font-size: 0.8rem;
+      /* User Profile Styles (from Products) */
+      .user-profile {
         display: flex;
         align-items: center;
+        cursor: pointer;
+        padding: var(--spacing-sm);
+        border-radius: var(--border-radius-md);
+        transition: background-color var(--transition-fast);
+        position: relative;
       }
-
-      .trend-up {
-        color: var(--green-primary);
+      .user-profile:hover { background-color: rgba(0, 0, 0, 0.05); }
+      .dark-mode .user-profile:hover { background-color: rgba(255, 255, 255, 0.05); }
+      .user-avatar {
+        width: 35px;
+        height: 35px;
+        background-color: var(--green-primary);
+        color: var(--white);
+        border-radius: var(--border-radius-circle);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        font-weight: 600;
+        margin-right: var(--spacing-sm);
       }
-
-      .trend-down {
-        color: #f44336;
+      .user-info { display: flex; flex-direction: column; }
+      .user-name { font-size: 0.95rem; font-weight: 600; color: var(--black); }
+      .dark-mode .user-name { color: var(--dark-text); }
+      .role-badge { font-size: 0.75rem; color: var(--medium-gray); }
+      .dark-mode .role-badge { color: var(--dark-text-secondary); }
+      .dropdown-icon { margin-left: var(--spacing-sm); color: var(--medium-gray); transition: transform var(--transition-fast); }
+      .user-profile:hover .dropdown-icon { transform: rotate(180deg); }
+      .user-dropdown {
+        position: absolute;
+        top: calc(100% + 10px);
+        right: 0;
+        width: 200px;
+        background-color: var(--white);
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-md);
+        z-index: 100;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        transition: all var(--transition-normal);
       }
+      .dark-mode .user-dropdown {
+        background-color: var(--dark-card);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+      .user-dropdown.show { opacity: 1; visibility: visible; transform: translateY(0); }
+      .user-dropdown ul { list-style: none; padding: var(--spacing-sm) 0; margin: 0; }
+      .user-dropdown li { padding: var(--spacing-sm) var(--spacing-md); transition: background-color var(--transition-fast); }
+      .user-dropdown li:hover { background-color: var(--light-gray); }
+      .dark-mode .user-dropdown li:hover { background-color: var(--dark-surface); }
+      .user-dropdown li.divider { height: 1px; background-color: var(--light-gray); padding: 0; margin: var(--spacing-sm) 0; }
+      .dark-mode .user-dropdown li.divider { background-color: var(--dark-border); }
+      .user-dropdown a { display: flex; align-items: center; color: var(--dark-gray); font-size: 0.9rem; }
+      .dark-mode .user-dropdown a { color: var(--dark-text); }
+      .user-dropdown a i { margin-right: var(--spacing-md); width: 20px; text-align: center; }
 
-      /* Content Sections */
+      /* Dashboard Content */
+      .dashboard-content { padding: var(--spacing-lg); flex: 1; }
       .section {
         background-color: var(--white);
-        border-radius: 8px;
-        padding: var(--spacing-lg);
-        margin-bottom: var(--spacing-xl);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-sm);
+        margin-bottom: var(--spacing-lg);
+        overflow: hidden;
       }
-
+      .dark-mode .section { background-color: var(--dark-card); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); }
       .section-header {
+        padding: var(--spacing-md) var(--spacing-lg);
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: var(--spacing-lg);
+        border-bottom: 1px solid var(--light-gray);
       }
-
-      .section-title {
-        font-size: 1.2rem;
-        color: var(--dark-gray);
-      }
-
-      .section-actions {
-        display: flex;
-        gap: var(--spacing-sm);
-      }
-
+      .dark-mode .section-header { border-bottom-color: var(--dark-border); }
+      .section-title { font-size: 1.2rem; font-weight: 600; color: var(--green-primary); }
+      .dark-mode .section-title { color: var(--green-primary-light); }
+      .section-actions { display: flex; gap: var(--spacing-md); }
       .btn {
         padding: var(--spacing-sm) var(--spacing-md);
-        border-radius: 6px;
-        cursor: pointer;
-        font-family: "Roboto", sans-serif;
+        border-radius: var(--border-radius-md);
+        font-size: 0.9rem;
         font-weight: 500;
-        transition: all 0.2s ease;
-        border: none;
+        cursor: pointer;
         display: flex;
         align-items: center;
         gap: var(--spacing-sm);
+        transition: all var(--transition-fast);
+        border: none;
       }
+      .btn-primary { background-color: var(--green-primary); color: var(--white); }
+      .btn-primary:hover { background-color: var(--green-primary-dark); }
+      .btn-secondary { background-color: var(--light-gray); color: var(--dark-gray); }
+      .dark-mode .btn-secondary { background-color: var(--dark-surface); color: var(--dark-text); }
+      .btn-secondary:hover { background-color: var(--soil-tan); }
+      .dark-mode .btn-secondary:hover { background-color: var(--dark-border); }
+      .btn-danger { background-color: var(--danger); color: var(--white); }
+      .btn-danger:hover { background-color: #d32f2f; }
 
-      .btn-primary {
-        background-color: var(--green-primary);
+      /* Metrics Grid */
+      .metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+        gap: var(--spacing-md);
+        margin-bottom: var(--spacing-lg);
+      }
+      .metric-card {
+        background-color: var(--white);
+        border-radius: var(--border-radius-md);
+        padding: var(--spacing-lg);
+        display: flex;
+        align-items: center;
+        box-shadow: var(--shadow-sm);
+        transition: transform var(--transition-fast);
+      }
+      .dark-mode .metric-card { background-color: var(--dark-card); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); }
+      .metric-card:hover { transform: translateY(-5px); }
+      .metric-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: var(--border-radius-md);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: var(--spacing-md);
         color: var(--white);
+        font-size: 1.5rem;
       }
-
-      .btn-primary:hover {
-        background-color: #1b5e20;
-      }
-
-      .btn-secondary {
-        background-color: rgba(46, 125, 50, 0.1);
-        color: var(--green-primary);
-      }
-
-      .btn-secondary:hover {
-        background-color: rgba(46, 125, 50, 0.2);
-      }
+      .metric-value { font-size: 1.5rem; font-weight: 700; margin-bottom: var(--spacing-xs); }
+      .metric-trend { font-size: 0.9rem; color: var(--medium-gray); }
+      .dark-mode .metric-trend { color: var(--dark-text-secondary); }
+      .trend-up { color: var(--success); }
+      .trend-down { color: var(--danger); }
 
       /* Tabs */
       .tabs {
@@ -473,821 +520,655 @@
         border-bottom: 1px solid var(--light-gray);
         margin-bottom: var(--spacing-lg);
         overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
       }
-
+      .dark-mode .tabs { border-bottom-color: var(--dark-border); }
       .tab {
         padding: var(--spacing-md) var(--spacing-lg);
         cursor: pointer;
         border-bottom: 2px solid transparent;
-        transition: all 0.2s ease;
+        transition: all var(--transition-fast);
         white-space: nowrap;
       }
-
       .tab.active {
         border-bottom-color: var(--green-primary);
         color: var(--green-primary);
         font-weight: bold;
       }
+      .tab:hover:not(.active) { background-color: rgba(0, 0, 0, 0.02); }
 
-      .tab:hover:not(.active) {
-        background-color: rgba(0, 0, 0, 0.02);
+      /* Orders Table */
+      .table-responsive { overflow-x: auto; padding: var(--spacing-lg); }
+      .orders-table { width: 100%; border-collapse: collapse; min-width: 800px; }
+      .orders-table th, .orders-table td {
+        padding: var(--spacing-md);
+        text-align: left;
+        border-bottom: 1px solid var(--light-gray);
+      }
+      .dark-mode .orders-table th, .dark-mode .orders-table td { border-bottom-color: var(--dark-border); }
+      .orders-table th {
+        font-family: "Montserrat", sans-serif;
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: var(--dark-gray);
+        background-color: var(--light-gray);
+      }
+      .dark-mode .orders-table th { color: var(--dark-text); background-color: var(--dark-surface); }
+      .orders-table td { font-size: 0.85rem; color: var(--dark-gray); }
+      .dark-mode .orders-table td { color: var(--dark-text); }
+      .orders-table tr:hover td { background-color: var(--light-gray); }
+      .dark-mode .orders-table tr:hover td { background-color: var(--dark-surface); }
+      .order-id { font-weight: 600; }
+      .customer-info { display: flex; align-items: center; gap: var(--spacing-sm); }
+      .customer-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: var(--border-radius-circle);
+        background-color: var(--soil-tan);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--dark-gray);
+        font-weight: bold;
+        font-size: 0.8rem;
+      }
+      .customer-name { font-weight: 600; }
+      .customer-email { font-size: 0.8rem; color: var(--medium-gray); }
+      .dark-mode .customer-email { color: var(--dark-text-secondary); }
+      .order-status {
+        padding: var(--spacing-xs) var(--spacing-sm);
+        border-radius: 100px;
+        font-size: 0.8rem;
+        display: inline-block;
+        text-align: center;
+        min-width: 90px;
+      }
+      .status-completed { background-color: rgba(46, 125, 50, 0.1); color: var(--success); }
+      .status-processing { background-color: rgba(251, 192, 45, 0.1); color: var(--warning); }
+      .status-pending { background-color: rgba(79, 195, 247, 0.1); color: var(--sky-blue); }
+      .status-cancelled { background-color: rgba(244, 67, 54, 0.1); color: var(--danger); }
+      .order-amount { font-weight: bold; }
+
+      /* Pagination */
+      .pagination {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: var(--spacing-lg);
+        padding: var(--spacing-md) var(--spacing-lg);
+      }
+      .pagination-info { font-size: 0.9rem; color: var(--medium-gray); }
+      .dark-mode .pagination-info { color: var(--dark-text-secondary); }
+      .pagination-controls { display: flex; gap: var(--spacing-sm); }
+      .page-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: var(--border-radius-md);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all var(--transition-fast);
+        border: 1px solid var(--light-gray);
+        background-color: var(--white);
+      }
+      .dark-mode .page-btn { border-color: var(--dark-border); background-color: var(--dark-card); }
+      .page-btn.active { background-color: var(--green-primary); color: var(--white); border-color: var(--green-primary); }
+      .page-btn:hover:not(.active) { background-color: var(--light-gray); }
+      .dark-mode .page-btn:hover:not(.active) { background-color: var(--dark-surface); }
+
+      /* Toast Notifications (from Products) */
+      .toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
+      .toast {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--spacing-md);
+        margin-top: var(--spacing-sm);
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-sm);
+        animation: slideIn 0.3s ease;
+      }
+      .toast-success { background-color: var(--success); color: var(--white); }
+      .toast i { cursor: pointer; margin-left: var(--spacing-md); }
+
+      /* Media Queries (aligned with Products) */
+      @media (max-width: 768px) {
+        .sidebar { width: 250px; transform: translateX(-100%); position: fixed; }
+        .sidebar.active { transform: translateX(0); }
+        .overlay.active { display: block; }
+        .main-content { margin-left: 0; }
+        .mobile-menu-toggle { display: block; }
+        .sidebar-toggle-mobile { display: block; }
+        .search-bar { width: 100%; margin: var(--spacing-sm) 0; }
+        .header { flex-direction: column; align-items: flex-start; height: auto; padding-bottom: var(--spacing-lg); }
+        .header-actions { width: 100%; justify-content: space-between; }
+        .metrics-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+      }
+      @media (max-width: 480px) {
+        .notification-dropdown, .user-dropdown { width: 100%; right: 0; left: 0; margin: 0 var(--spacing-md); }
+        .section-actions { flex-direction: column; gap: var(--spacing-sm); width: 100%; }
+        .btn { width: 100%; justify-content: center; }
+        .metrics-grid { grid-template-columns: 1fr; }
       }
 
-      /* Order Table */
-      .table-responsive {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
+      /* Animations */
+      @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+      @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    </style>
+    <script>
+      // Currency formatting function
+      function formatPeso(amount) {
+        return '₱' + Number(amount).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
       }
-
-      .orders-table {
-  width: 100%; 
-  border-collapse: collapse;
-  min-width: 800px;
-}
-
-.orders-table th, 
-.orders-table td {
-  padding: var(--spacing-md);
-  text-align: left;
-  border-bottom: 1px solid var(--light-gray);
-}
-
-.orders-table th {
-  background-color: rgba(0, 0, 0, 0.02);
-  font-weight: 600;
-  color: var(--dark-gray);
-}
-
-.orders-table tbody tr {
-  transition: background-color 0.2s ease;
-}
-
-.orders-table tbody tr:hover {
-  background-color: rgba(46, 125, 50, 0.05);
-}
-
-.order-id {
-  font-weight: 600;
-  color: var(--dark-gray);
-}
-
-.customer-info {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-}
-
-.customer-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background-color: var(--soil-tan);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--dark-gray);
-  font-weight: bold;
-  font-size: 0.8rem;
-}
-
-.customer-details {
-  display: flex;
-  flex-direction: column;
-}
-
-.customer-name {
-  font-weight: 600;
-}
-
-.customer-email {
-  font-size: 0.8rem;
-  color: var(--dark-gray);
-  opacity: 0.7;
-}
-
-.order-status {
-  padding: var(--spacing-xs) var(--spacing-sm);
-  border-radius: 100px;
-  font-size: 0.8rem;
-  display: inline-block;
-  text-align: center;
-  min-width: 90px;
-}
-
-.status-completed {
-  background-color: rgba(46, 125, 50, 0.1);
-  color: var(--green-primary);
-}
-
-.status-processing {
-  background-color: rgba(251, 192, 45, 0.1);
-  color: var(--harvest-yellow);
-}
-
-.status-pending {
-  background-color: rgba(79, 195, 247, 0.1);
-  color: var(--sky-blue);
-}
-
-.status-cancelled {
-  background-color: rgba(244, 67, 54, 0.1);
-  color: #f44336;
-}
-
-.order-amount {
-  font-weight: bold;
-}
-
-.order-actions {
-  display: flex;
-  gap: var(--spacing-sm);
-}
-
-.action-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  color: var(--dark-gray);
-  background-color: transparent;
-  border: none;
-}
-
-.action-btn:hover {
-  background-color: var(--light-gray);
-  color: var(--green-primary);
-}
-
-/* Pagination */
-.pagination {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: var(--spacing-lg);
-}
-
-.pagination-info {
-  font-size: 0.9rem;
-  color: var(--dark-gray);
-  opacity: 0.8;
-}
-
-.pagination-controls {
-  display: flex;
-  gap: var(--spacing-sm);
-}
-
-.page-btn {
-  width: 36px;
-  height: 36px;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: 1px solid var(--light-gray);
-  background-color: var(--white);
-}
-
-.page-btn.active {
-  background-color: var(--green-primary);
-  color: var(--white);
-  border-color: var(--green-primary);
-}
-
-.page-btn:hover:not(.active) {
-  background-color: var(--light-gray);
-}
-
-/* Responsive Adjustments */
-@media (max-width: 992px) {
-  .metrics-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 768px) {
-  .header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--spacing-md);
-  }
-  
-  .search-bar {
-    width: 100%;
-  }
-  
-  .header-actions {
-    width: 100%;
-    justify-content: space-between;
-  }
-  
-  .metrics-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Modal Styles */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  visibility: hidden;
-  opacity: 0;
-  transition: all 0.3s ease;
-}
-
-.modal-overlay.active {
-  visibility: visible;
-  opacity: 1;
-}
-
-.modal {
-  background-color: var(--white);
-  border-radius: 8px;
-  width: 100%;
-  max-width: 600px;
-  max-height: 90vh;
-  overflow-y: auto;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  transform: translateY(20px);
-  transition: all 0.3s ease;
-}
-
-.modal-overlay.active .modal {
-  transform: translateY(0);
-}
-
-.modal-header {
-  padding: var(--spacing-lg);
-  border-bottom: 1px solid var(--light-gray);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.modal-title {
-  font-size: 1.2rem;
-  color: var(--dark-gray);
-}
-
-.modal-close {
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: var(--dark-gray);
-}
-
-.modal-body {
-  padding: var(--spacing-lg);
-}
-
-.modal-footer {
-  padding: var(--spacing-lg);
-  border-top: 1px solid var(--light-gray);
-  display: flex;
-  justify-content: flex-end;
-  gap: var(--spacing-md);
-}
-
-/* Form Styles */
-.form-group {
-  margin-bottom: var(--spacing-lg);
-}
-
-.form-label {
-  display: block;
-  margin-bottom: var(--spacing-sm);
-  font-weight: 600;
-}
-
-.form-control {
-  width: 100%;
-  padding: var(--spacing-md);
-  border: 1px solid var(--light-gray);
-  border-radius: 6px;
-  font-family: "Open Sans", sans-serif;
-  transition: border-color 0.2s ease;
-}
-
-.form-control:focus {
-  outline: none;
-  border-color: var(--green-primary);
-}
-
-.form-select {
-  width: 100%;
-  padding: var(--spacing-md);
-  border: 1px solid var(--light-gray);
-  border-radius: 6px;
-  font-family: "Open Sans", sans-serif;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23424242' d='M3 4L6 7L9 4'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-}
-
-/* Utils */
-.text-right {
-  text-align: right;
-}
-
-.text-center {
-  text-align: center;
-}
-
-.mt-1 {
-  margin-top: var(--spacing-sm);
-}
-
-.mt-2 {
-  margin-top: var(--spacing-md);
-}
-
-.mt-3 {
-  margin-top: var(--spacing-lg);
-}
-</style>
-</head>
-<body>
-  <div class="container">
-    <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
+    </script>
+  </head>
+  <body>
+    <div class="overlay" id="overlay"></div>
+    <div class="container">
+      <!-- Sidebar (aligned with Products) -->
+      <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
-          <img src="/templates/images/logo.png" alt="AgriGo Logo" />
+          <img src="/templates/images/logo.png" alt="AgriGo Logo" class="logo" />
           <h2>AgriGo</h2>
+          <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+            <i class="fas fa-chevron-left"></i>
+          </button>
         </div>
-        <button class="menu-toggle" id="menu-toggle">
-          <i class="fas fa-chevron-left"></i>
-        </button>
         <div class="sidebar-menu">
-          <a href="/templates/admin/admin-dashboard.html" class="menu-item">
-            <i class="fas fa-chart-line"></i>
-            <span>Dashboard</span>
-          </a>
-          <a href="/templates/admin/user-management.html" class="menu-item">
-            <i class="fas fa-users"></i>
-            <span>User Management</span>
-          </a>
-          <a href="/templates/admin/products.html" class="menu-item">
-            <i class="fas fa-box"></i>
-            <span>Products</span>
-          </a>
-          <a href="#" class="menu-item active">
-            <i class="fas fa-shopping-cart"></i>
-            <span>Orders</span>
-          </a>
-          <a href="/templates/admin/payments.html" class="menu-item">
-            <i class="fas fa-credit-card"></i>
-            <span>Payments</span>
-          </a>
-          <a href="/templates/admin/reviews.html" class="menu-item">
-            <i class="fas fa-comment"></i>
-            <span>Reviews</span>
-          </a>
-          <a href="/templates/admin/analytics.html" class="menu-item">
-            <i class="fas fa-chart-pie"></i>
-            <span>Analytics</span>
-          </a>
-          <a href="settings.html" class="menu-item">
-            <i class="fas fa-cog"></i>
-            <span>Settings</span>
-          </a>
-        </div>
-    </div>
-
-    <!-- Main Content -->
-    <div class="main-content" id="main-content">
-      <!-- Header -->
-      <div class="header">
-        <div class="search-bar">
-          <i class="fas fa-search"></i>
-          <input type="text" placeholder="Search orders, customers..." />
-        </div>
-        <div class="header-actions">
-          <div class="notification">
-            <i class="fas fa-bell"></i>
-            <span class="notification-count">3</span>
-          </div>
-          <div class="user-profile">
-            <div class="user-avatar">JD</div>
-            <div>
-              <span>John Doe</span>
-              <span class="role-badge">Admin</span>
-            </div>
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="/templates/admin/admin-dashboard.html" class="nav-link" data-tab="dashboard">
+                <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/templates/admin/user-management.html" class="nav-link" data-tab="users">
+                <i class="fas fa-users"></i> <span>User Management</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/templates/admin/products.html" class="nav-link" data-tab="products">
+                <i class="fas fa-shopping-basket"></i> <span>Products</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link active" data-tab="orders">
+                <i class="fas fa-clipboard-list"></i> <span>Orders</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/templates/admin/payments.html" class="nav-link" data-tab="payments">
+                <i class="fas fa-credit-card"></i> <span>Payments</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/templates/admin/reviews.html" class="nav-link" data-tab="reviews">
+                <i class="fas fa-comment"></i> <span>Reviews</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#analytics" class="nav-link" data-tab="analytics">
+                <i class="fas fa-chart-line"></i> <span>Analytics</span>
+              </a>
+            </li>
+          </ul>
+          <div class="sidebar-toggle-mobile">
+            <i class="fas fa-times"></i>
           </div>
         </div>
       </div>
 
-      <!-- Dashboard Content -->
-      <div class="dashboard-content">
-        <h1 class="page-title">Orders Management</h1>
-
-        <!-- Order Stats -->
-        <div class="metrics-grid">
-          <div class="metric-card">
-            <div class="metric-header">
-              <div class="metric-icon green">
-                <i class="fas fa-shopping-cart"></i>
-              </div>
-              <div class="metric-title">Total Orders</div>
-            </div>
-            <div class="metric-value">1,248</div>
-            <div class="metric-trend trend-up">
-              <i class="fas fa-arrow-up"></i> 12.5% from last month
-            </div>
+      <!-- Main Content -->
+      <div class="main-content" id="main-content">
+        <!-- Header -->
+        <div class="header">
+          <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Mobile menu">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" id="search-input" placeholder="Search orders, customers..." aria-label="Search" />
+            <button class="search-button" aria-label="Submit search">
+              <i class="fas fa-arrow-right"></i>
+            </button>
           </div>
-
-          <div class="metric-card">
-            <div class="metric-header">
-              <div class="metric-icon yellow">
-                <i class="fas fa-clock"></i>
+          <div class="header-actions">
+            <div class="notification" id="notificationIcon">
+              <i class="fas fa-bell"></i>
+              <span class="notification-count">3</span>
+              <div class="notification-dropdown" id="notificationDropdown">
+                <h3>Notifications</h3>
+                <ul class="notification-list">
+                  <li class="notification-item">
+                    <div class="notification-icon new"><i class="fas fa-shopping-cart"></i></div>
+                    <div class="notification-content">
+                      <p>New order placed: <strong>#ORD-4729</strong></p>
+                      <span class="notification-time">10 minutes ago</span>
+                    </div>
+                  </li>
+                  <li class="notification-item">
+                    <div class="notification-icon warning"><i class="fas fa-exclamation-triangle"></i></div>
+                    <div class="notification-content">
+                      <p>Order #ORD-4727 pending approval</p>
+                      <span class="notification-time">1 hour ago</span>
+                    </div>
+                  </li>
+                  <li class="notification-item">
+                    <div class="notification-icon success"><i class="fas fa-check-circle"></i></div>
+                    <div class="notification-content">
+                      <p>Order #ORD-4728 delivered</p>
+                      <span class="notification-time">2 hours ago</span>
+                    </div>
+                  </li>
+                </ul>
+                <div class="notification-footer">
+                  <a href="#notifications">View all notifications</a>
+                </div>
               </div>
-              <div class="metric-title">Pending Orders</div>
             </div>
-            <div class="metric-value">42</div>
-            <div class="metric-trend trend-down">
-              <i class="fas fa-arrow-down"></i> 3.8% from last month
-            </div>
-          </div>
-
-          <div class="metric-card">
-            <div class="metric-header">
-              <div class="metric-icon blue">
-                <i class="fas fa-truck"></i>
+            <div class="user-profile" id="userProfile">
+              <div class="user-avatar">AD</div>
+              <div class="user-info">
+                <div class="user-name">Admin Dashboard</div>
+                <span class="role-badge">Administrator</span>
               </div>
-              <div class="metric-title">Processing Orders</div>
-            </div>
-            <div class="metric-value">85</div>
-            <div class="metric-trend trend-up">
-              <i class="fas fa-arrow-up"></i> 8.2% from last month
-            </div>
-          </div>
-
-          <div class="metric-card">
-            <div class="metric-header">
-              <div class="metric-icon red">
-                <i class="fas fa-times-circle"></i>
+              <i class="fas fa-chevron-down dropdown-icon"></i>
+              <div class="user-dropdown" id="userDropdown">
+                <ul>
+                  <li><a href="#profile"><i class="fas fa-user"></i> My Profile</a></li>
+                  <li><a href="#settings"><i class="fas fa-cog"></i> Account Settings</a></li>
+                  <li><a href="#help"><i class="fas fa-question-circle"></i> Help & Support</a></li>
+                  <li class="divider"></li>
+                  <li><a href="#" id="darkModeToggle"><i class="fas fa-moon"></i> <span id="themeText">Dark Mode</span></a></li>
+                  <li class="divider"></li>
+                  <li><a href="#" id="userDropdownLogout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
               </div>
-              <div class="metric-title">Cancelled Orders</div>
-            </div>
-            <div class="metric-value">16</div>
-            <div class="metric-trend trend-down">
-              <i class="fas fa-arrow-down"></i> 5.1% from last month
             </div>
           </div>
         </div>
 
-        <!-- Orders Table Section -->
-        <div class="section">
-          <div class="section-header">
-            <h2 class="section-title">Recent Orders</h2>
-            <div class="section-actions">
-              <button class="btn btn-secondary">
-                <i class="fas fa-filter"></i> Filter
-              </button>
-              <button class="btn btn-primary">
-                <i class="fas fa-plus"></i> New Order
-              </button>
+        <!-- Dashboard Content -->
+        <div class="dashboard-content">
+          <h1>Orders Management</h1>
+
+          <!-- Order Stats -->
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <div class="metric-icon" style="background-color: var(--green-primary);"><i class="fas fa-shopping-cart"></i></div>
+              <div>
+                <div class="metric-value">1,248</div>
+                <div class="metric-trend trend-up"><i class="fas fa-arrow-up"></i> Total Orders</div>
+              </div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-icon" style="background-color: var(--sky-blue);"><i class="fas fa-clock"></i></div>
+              <div>
+                <div class="metric-value">42</div>
+                <div class="metric-trend trend-down"><i class="fas fa-arrow-down"></i> Pending Orders</div>
+              </div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-icon" style="background-color: var(--harvest-yellow);"><i class="fas fa-truck"></i></div>
+              <div>
+                <div class="metric-value">85</div>
+                <div class="metric-trend trend-up"><i class="fas fa-arrow-up"></i> Processing Orders</div>
+              </div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-icon" style="background-color: var(--danger);"><i class="fas fa-times-circle"></i></div>
+              <div>
+                <div class="metric-value">16</div>
+                <div class="metric-trend trend-down"><i class="fas fa-arrow-down"></i> Cancelled Orders</div>
+              </div>
             </div>
           </div>
 
-          <div class="tabs">
-            <div class="tab active">All Orders</div>
-            <div class="tab">Pending</div>
-            <div class="tab">Processing</div>
-            <div class="tab">Completed</div>
-            <div class="tab">Cancelled</div>
+          <!-- Orders Table Section -->
+          <div class="section">
+            <div class="section-header">
+              <div class="section-title">Recent Orders</div>
+              <div class="section-actions">
+                <button class="btn btn-secondary" id="refreshOrdersBtn"><i class="fas fa-sync-alt"></i> Refresh</button>
+                <button class="btn btn-primary" id="addOrderBtn"><i class="fas fa-plus"></i> New Order</button>
+              </div>
+            </div>
+            <div class="tabs">
+              <div class="tab active" data-status="all">All Orders</div>
+              <div class="tab" data-status="pending">Pending</div>
+              <div class="tab" data-status="processing">Processing</div>
+              <div class="tab" data-status="completed">Completed</div>
+              <div class="tab" data-status="cancelled">Cancelled</div>
+            </div>
+            <div class="table-responsive">
+              <table class="orders-table">
+                <thead>
+                  <tr>
+                    <th>Order ID</th>
+                    <th>Customer</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Products</th>
+                    <th>Amount</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="ordersTable">
+                  <tr data-order-id="ORD-4729">
+                    <td class="order-id">#ORD-4729</td>
+                    <td>
+                      <div class="customer-info">
+                        <div class="customer-avatar">JS</div>
+                        <div>
+                          <div class="customer-name">John Smith</div>
+                          <div class="customer-email">john.smith@example.com</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Mar 14, 2025</td>
+                    <td><span class="order-status status-processing">Processing</span></td>
+                    <td>5 items</td>
+                    <td class="order-amount">₱347.80</td>
+                    <td>
+                      <button class="btn btn-secondary view-order" data-id="ORD-4729"><i class="fas fa-eye"></i></button>
+                      <button class="btn btn-primary edit-order" data-id="ORD-4729"><i class="fas fa-edit"></i></button>
+                      <button class="btn btn-danger delete-order" data-id="ORD-4729"><i class="fas fa-trash"></i></button>
+                    </td>
+                  </tr>
+                  <tr data-order-id="ORD-4728">
+                    <td class="order-id">#ORD-4728</td>
+                    <td>
+                      <div class="customer-info">
+                        <div class="customer-avatar">AR</div>
+                        <div>
+                          <div class="customer-name">Amanda Rodriguez</div>
+                          <div class="customer-email">a.rodriguez@example.com</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Mar 13, 2025</td>
+                    <td><span class="order-status status-completed">Completed</span></td>
+                    <td>2 items</td>
+                    <td class="order-amount">₱128.50</td>
+                    <td>
+                      <button class="btn btn-secondary view-order" data-id="ORD-4728"><i class="fas fa-eye"></i></button>
+                      <button class="btn btn-primary edit-order" data-id="ORD-4728"><i class="fas fa-edit"></i></button>
+                      <button class="btn btn-danger delete-order" data-id="ORD-4728"><i class="fas fa-trash"></i></button>
+                    </td>
+                  </tr>
+                  <tr data-order-id="ORD-4727">
+                    <td class="order-id">#ORD-4727</td>
+                    <td>
+                      <div class="customer-info">
+                        <div class="customer-avatar">MP</div>
+                        <div>
+                          <div class="customer-name">Michael Patel</div>
+                          <div class="customer-email">m.patel@example.com</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Mar 13, 2025</td>
+                    <td><span class="order-status status-pending">Pending</span></td>
+                    <td>8 items</td>
+                    <td class="order-amount">₱512.75</td>
+                    <td>
+                      <button class="btn btn-secondary view-order" data-id="ORD-4727"><i class="fas fa-eye"></i></button>
+                      <button class="btn btn-primary edit-order" data-id="ORD-4727"><i class="fas fa-edit"></i></button>
+                      <button class="btn btn-danger delete-order" data-id="ORD-4727"><i class="fas fa-trash"></i></button>
+                    </td>
+                  </tr>
+                  <tr data-order-id="ORD-4726">
+                    <td class="order-id">#ORD-4726</td>
+                    <td>
+                      <div class="customer-info">
+                        <div class="customer-avatar">SJ</div>
+                        <div>
+                          <div class="customer-name">Sarah Johnson</div>
+                          <div class="customer-email">s.johnson@example.com</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Mar 12, 2025</td>
+                    <td><span class="order-status status-completed">Completed</span></td>
+                    <td>3 items</td>
+                    <td class="order-amount">₱189.99</td>
+                    <td>
+                      <button class="btn btn-secondary view-order" data-id="ORD-4726"><i class="fas fa-eye"></i></button>
+                      <button class="btn btn-primary edit-order" data-id="ORD-4726"><i class="fas fa-edit"></i></button>
+                      <button class="btn btn-danger delete-order" data-id="ORD-4726"><i class="fas fa-trash"></i></button>
+                    </td>
+                  </tr>
+                  <tr data-order-id="ORD-4725">
+                    <td class="order-id">#ORD-4725</td>
+                    <td>
+                      <div class="customer-info">
+                        <div class="customer-avatar">RW</div>
+                        <div>
+                          <div class="customer-name">Robert Williams</div>
+                          <div class="customer-email">r.williams@example.com</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Mar 12, 2025</td>
+                    <td><span class="order-status status-cancelled">Cancelled</span></td>
+                    <td>1 item</td>
+                    <td class="order-amount">₱78.25</td>
+                    <td>
+                      <button class="btn btn-secondary view-order" data-id="ORD-4725"><i class="fas fa-eye"></i></button>
+                      <button class="btn btn-primary edit-order" data-id="ORD-4725"><i class="fas fa-edit"></i></button>
+                      <button class="btn btn-danger delete-order" data-id="ORD-4725"><i class="fas fa-trash"></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="pagination">
+              <div class="pagination-info">Showing 1 to 5 of 248 entries</div>
+              <div class="pagination-controls">
+                <button class="page-btn"><i class="fas fa-chevron-left"></i></button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">4</button>
+                <button class="page-btn">5</button>
+                <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+              </div>
+            </div>
           </div>
+        </div>
+      </div>
+    </div>
 
-          <div class="table-responsive">
-            <table class="orders-table">
-              <thead>
-                <tr>
-                  <th>Order ID</th>
-                  <th>Customer</th>
-                  <th>Date</th>
-                  <th>Status</th>
-                  <th>Products</th>
-                  <th>Amount</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="order-id">#ORD-4729</td>
-                  <td>
-                    <div class="customer-info">
-                      <div class="customer-avatar">JS</div>
-                     <div class="customer-details">
-                       <div class="customer-name">John Smith</div>
-                       <div class="customer-email">john.smith@example.com</div>
-                     </div>
-                   </div>
-                 </td>
-                 <td>Mar 14, 2025</td>
-                 <td><span class="order-status status-processing">Processing</span></td>
-                 <td>5 items</td>
-                 <td class="order-amount">$347.80</td>
-                 <td>
-                   <div class="order-actions">
-                     <button class="action-btn"><i class="fas fa-eye"></i></button>
-                     <button class="action-btn"><i class="fas fa-edit"></i></button>
-                     <button class="action-btn"><i class="fas fa-trash"></i></button>
-                   </div>
-                 </td>
-               </tr>
-               <tr>
-                 <td class="order-id">#ORD-4728</td>
-                 <td>
-                   <div class="customer-info">
-                     <div class="customer-avatar">AR</div>
-                     <div class="customer-details">
-                       <div class="customer-name">Amanda Rodriguez</div>
-                       <div class="customer-email">a.rodriguez@example.com</div>
-                     </div>
-                   </div>
-                 </td>
-                 <td>Mar 13, 2025</td>
-                 <td><span class="order-status status-completed">Completed</span></td>
-                 <td>2 items</td>
-                 <td class="order-amount">$128.50</td>
-                 <td>
-                   <div class="order-actions">
-                     <button class="action-btn"><i class="fas fa-eye"></i></button>
-                     <button class="action-btn"><i class="fas fa-edit"></i></button>
-                     <button class="action-btn"><i class="fas fa-trash"></i></button>
-                   </div>
-                 </td>
-               </tr>
-               <tr>
-                 <td class="order-id">#ORD-4727</td>
-                 <td>
-                   <div class="customer-info">
-                     <div class="customer-avatar">MP</div>
-                     <div class="customer-details">
-                       <div class="customer-name">Michael Patel</div>
-                       <div class="customer-email">m.patel@example.com</div>
-                     </div>
-                   </div>
-                 </td>
-                 <td>Mar 13, 2025</td>
-                 <td><span class="order-status status-pending">Pending</span></td>
-                 <td>8 items</td>
-                 <td class="order-amount">$512.75</td>
-                 <td>
-                   <div class="order-actions">
-                     <button class="action-btn"><i class="fas fa-eye"></i></button>
-                     <button class="action-btn"><i class="fas fa-edit"></i></button>
-                     <button class="action-btn"><i class="fas fa-trash"></i></button>
-                   </div>
-                 </td>
-               </tr>
-               <tr>
-                 <td class="order-id">#ORD-4726</td>
-                 <td>
-                   <div class="customer-info">
-                     <div class="customer-avatar">SJ</div>
-                     <div class="customer-details">
-                       <div class="customer-name">Sarah Johnson</div>
-                       <div class="customer-email">s.johnson@example.com</div>
-                     </div>
-                   </div>
-                 </td>
-                 <td>Mar 12, 2025</td>
-                 <td><span class="order-status status-completed">Completed</span></td>
-                 <td>3 items</td>
-                 <td class="order-amount">$189.99</td>
-                 <td>
-                   <div class="order-actions">
-                     <button class="action-btn"><i class="fas fa-eye"></i></button>
-                     <button class="action-btn"><i class="fas fa-edit"></i></button>
-                     <button class="action-btn"><i class="fas fa-trash"></i></button>
-                   </div>
-                 </td>
-               </tr>
-               <tr>
-                 <td class="order-id">#ORD-4725</td>
-                 <td>
-                   <div class="customer-info">
-                     <div class="customer-avatar">RW</div>
-                     <div class="customer-details">
-                       <div class="customer-name">Robert Williams</div>
-                       <div class="customer-email">r.williams@example.com</div>
-                     </div>
-                   </div>
-                 </td>
-                 <td>Mar 12, 2025</td>
-                 <td><span class="order-status status-cancelled">Cancelled</span></td>
-                 <td>1 item</td>
-                 <td class="order-amount">$78.25</td>
-                 <td>
-                   <div class="order-actions">
-                     <button class="action-btn"><i class="fas fa-eye"></i></button>
-                     <button class="action-btn"><i class="fas fa-edit"></i></button>
-                     <button class="action-btn"><i class="fas fa-trash"></i></button>
-                   </div>
-                 </td>
-               </tr>
-             </tbody>
-           </table>
-         </div>
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
 
-         <div class="pagination">
-           <div class="pagination-info">Showing 1 to 5 of 248 entries</div>
-           <div class="pagination-controls">
-             <button class="page-btn"><i class="fas fa-chevron-left"></i></button>
-             <button class="page-btn active">1</button>
-             <button class="page-btn">2</button>
-             <button class="page-btn">3</button>
-             <button class="page-btn">4</button>
-             <button class="page-btn">5</button>
-             <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
-           </div>
-         </div>
-       </div>
-     </div>
-   </div>
- </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Utility Functions (from Products)
+        const $ = (selector) => document.querySelector(selector);
+        const $$ = (selector) => document.querySelectorAll(selector);
+        const toggleClass = (element, className) => element?.classList.toggle(className);
+        const showToast = (message, type = "success", duration = 3000) => {
+          const toastContainer = $("#toastContainer");
+          const toast = document.createElement("div");
+          toast.className = `toast toast-${type}`;
+          toast.innerHTML = `<span>${message}</span><i class="fas fa-times" onclick="this.parentElement.remove()"></i>`;
+          toastContainer.appendChild(toast);
+          setTimeout(() => toast.remove(), duration);
+        };
 
- <!-- Order Details Modal -->
- <div class="modal-overlay" id="orderDetailsModal">
-   <div class="modal">
-     <div class="modal-header">
-       <h3 class="modal-title">Order #ORD-4729 Details</h3>
-       <button class="modal-close">&times;</button>
-     </div>
-     <div class="modal-body">
-       <div class="form-group">
-         <label class="form-label">Customer</label>
-         <div class="customer-info">
-           <div class="customer-avatar">JS</div>
-           <div class="customer-details">
-             <div class="customer-name">John Smith</div>
-             <div class="customer-email">john.smith@example.com</div>
-           </div>
-         </div>
-       </div>
-       <div class="form-group">
-         <label class="form-label">Order Status</label>
-         <select class="form-select">
-           <option value="pending">Pending</option>
-           <option value="processing" selected>Processing</option>
-           <option value="completed">Completed</option>
-           <option value="cancelled">Cancelled</option>
-         </select>
-       </div>
-       <div class="form-group">
-         <label class="form-label">Order Items</label>
-         <table class="orders-table">
-           <thead>
-             <tr>
-               <th>Product</th>
-               <th>Quantity</th>
-               <th>Price</th>
-               <th>Total</th>
-             </tr>
-           </thead>
-           <tbody>
-             <tr>
-               <td>Organic Tomato Seeds</td>
-               <td>2</td>
-               <td>$12.50</td>
-               <td>$25.00</td>
-             </tr>
-             <tr>
-               <td>Premium Soil Mix</td>
-               <td>3</td>
-               <td>$24.95</td>
-               <td>$74.85</td>
-             </tr>
-             <tr>
-               <td>Garden Tool Set</td>
-               <td>1</td>
-               <td>$89.99</td>
-               <td>$89.99</td>
-             </tr>
-             <tr>
-               <td>Drip Irrigation Kit</td>
-               <td>1</td>
-               <td>$124.50</td>
-               <td>$124.50</td>
-             </tr>
-             <tr>
-               <td>Herb Planter Box</td>
-               <td>1</td>
-               <td>$33.46</td>
-               <td>$33.46</td>
-             </tr>
-           </tbody>
-           <tfoot>
-             <tr>
-               <td colspan="3" class="text-right"><strong>Subtotal:</strong></td>
-               <td>$347.80</td>
-             </tr>
-             <tr>
-               <td colspan="3" class="text-right"><strong>Tax:</strong></td>
-               <td>$27.82</td>
-             </tr>
-             <tr>
-               <td colspan="3" class="text-right"><strong>Shipping:</strong></td>
-               <td>$15.00</td>
-             </tr>
-             <tr>
-               <td colspan="3" class="text-right"><strong>Total:</strong></td>
-               <td><strong>$390.62</strong></td>
-             </tr>
-           </tfoot>
-         </table>
-       </div>
-       <div class="form-group">
-         <label class="form-label">Shipping Address</label>
-         <div>
-           John Smith<br>
-           123 Garden Street<br>
-           Greenville, CA 95432<br>
-           United States<br>
-           Phone: (555) 123-4567
-         </div>
-       </div>
-       <div class="form-group">
-         <label class="form-label">Notes</label>
-         <textarea class="form-control" rows="3">Please leave the package at the front door. Thanks!</textarea>
-       </div>
-     </div>
-     <div class="modal-footer">
-       <button class="btn btn-secondary">Cancel</button>
-       <button class="btn btn-primary">Save Changes</button>
-     </div>
-   </div>
- </div>
+        // Sidebar Toggle
+        const menuToggle = $("#menu-toggle");
+        const sidebar = $("#sidebar");
+        const mainContent = $("#main-content");
+        const overlay = $("#overlay");
 
- <script>
-   // Toggle sidebar
-   const sidebar = document.getElementById('sidebar');
-   const mainContent = document.getElementById('main-content');
-   const menuToggle = document.getElementById('menu-toggle');
-   const sidebarToggleMobile = document.querySelector('.sidebar-toggle-mobile');
+        if (menuToggle && sidebar && mainContent) {
+          menuToggle.addEventListener("click", () => {
+            toggleClass(sidebar, "sidebar-collapsed");
+            toggleClass(mainContent, "main-content-expanded");
+            const icon = menuToggle.querySelector("i");
+            icon.classList.toggle("fa-chevron-left");
+            icon.classList.toggle("fa-chevron-right");
+          });
+        }
 
-   menuToggle.addEventListener('click', () => {
-     sidebar.classList.toggle('sidebar-collapsed');
-     mainContent.classList.toggle('main-content-expanded');
-     if (sidebar.classList.contains('sidebar-collapsed')) {
-       menuToggle.innerHTML = '<i class="fas fa-chevron-right"></i>';
-     } else {
-       menuToggle.innerHTML = '<i class="fas fa-chevron-left"></i>';
-     }
-   });
+        // Mobile Menu Toggle
+        const mobileMenuToggle = $("#mobile-menu-toggle");
+        const sidebarToggleMobile = $(".sidebar-toggle-mobile");
 
-   sidebarToggleMobile.addEventListener('click', () => {
-     sidebar.classList.toggle('active');
-   });
+        const toggleMobileSidebar = () => {
+          toggleClass(sidebar, "active");
+          toggleClass(overlay, "active");
+        };
 
-   // Modal functionality
-   const modalOverlay = document.getElementById('orderDetailsModal');
-   const modalClose = document.querySelector('.modal-close');
-   const viewButtons = document.querySelectorAll('.action-btn:nth-child(1)');
+        if (mobileMenuToggle) mobileMenuToggle.addEventListener("click", toggleMobileSidebar);
+        if (sidebarToggleMobile) sidebarToggleMobile.addEventListener("click", toggleMobileSidebar);
+        if (overlay) overlay.addEventListener("click", toggleMobileSidebar);
 
-   viewButtons.forEach(button => {
-     button.addEventListener('click', () => {
-       modalOverlay.classList.add('active');
-     });
-   });
+        // Dark Mode Toggle
+        const darkModeToggle = $("#darkModeToggle");
+        const themeText = $("#themeText");
+        if (darkModeToggle) {
+          const toggleDarkMode = () => {
+            const isDark = document.body.classList.toggle("dark-mode");
+            localStorage.setItem("darkMode", isDark);
+            themeText.textContent = isDark ? "Light Mode" : "Dark Mode";
+          };
+          darkModeToggle.addEventListener("click", toggleDarkMode);
+          if (localStorage.getItem("darkMode") === "true") toggleDarkMode();
+        }
 
-   modalClose.addEventListener('click', () => {
-     modalOverlay.classList.remove('active');
-   });
+        // Notification Dropdown
+        const notificationIcon = $("#notificationIcon");
+        const notificationDropdown = $("#notificationDropdown");
+        if (notificationIcon && notificationDropdown) {
+          notificationIcon.addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleClass(notificationDropdown, "show");
+          });
+          document.addEventListener("click", (e) => {
+            if (!notificationIcon.contains(e.target)) {
+              notificationDropdown.classList.remove("show");
+            }
+          });
+        }
 
-   modalOverlay.addEventListener('click', (e) => {
-     if (e.target === modalOverlay) {
-       modalOverlay.classList.remove('active');
-     }
-   });
+        // User Profile Dropdown
+        const userProfile = $("#userProfile");
+        const userDropdown = $("#userDropdown");
+        if (userProfile && userDropdown) {
+          userProfile.addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleClass(userDropdown, "show");
+          });
+          document.addEventListener("click", (e) => {
+            if (!userProfile.contains(e.target)) {
+              userDropdown.classList.remove("show");
+            }
+          });
+        }
 
-   // Tab functionality
-   const tabs = document.querySelectorAll('.tab');
-   
-   tabs.forEach(tab => {
-     tab.addEventListener('click', () => {
-       tabs.forEach(t => t.classList.remove('active'));
-       tab.classList.add('active');
-       // Here you would typically update the table content based on the selected tab
-     });
-   });
- </script>
-</body>
+        // Logout Functionality
+        const userDropdownLogout = $("#userDropdownLogout");
+        const handleLogout = (e) => {
+          e.preventDefault();
+          showToast("Logged out successfully!", "success");
+          setTimeout(() => {
+            window.location.href = "/templates/admin/admin-login.html";
+          }, 2000);
+        };
+        if (userDropdownLogout) userDropdownLogout.addEventListener("click", handleLogout);
+
+        // Nav Links Active State
+        $$(".nav-link").forEach((link) => {
+          link.addEventListener("click", (e) => {
+            if (link.getAttribute("href").startsWith("#")) {
+              e.preventDefault();
+              $$(".nav-link").forEach((l) => l.classList.remove("active"));
+              link.classList.add("active");
+            }
+          });
+        });
+
+        // Currency Formatting
+        $$(".order-amount").forEach(amount => {
+          const value = parseFloat(amount.textContent.replace('₱', '').replace('$', ''));
+          amount.textContent = formatPeso(value);
+        });
+
+        // New Order Button
+        const addOrderBtn = $("#addOrderBtn");
+        if (addOrderBtn) {
+          addOrderBtn.addEventListener("click", () => {
+            showToast("Add Order functionality coming soon!", "info");
+          });
+        }
+
+        // View Order (placeholder for modal or redirect)
+        $$(".view-order").forEach((button) => {
+          button.addEventListener("click", () => {
+            const orderId = button.dataset.id;
+            showToast(`Viewing order #${orderId}`, "info");
+            // Future: Open modal with order details
+          });
+        });
+
+        // Edit Order
+        $$(".edit-order").forEach((button) => {
+          button.addEventListener("click", () => {
+            const orderId = button.dataset.id;
+            showToast(`Edit order #${orderId} functionality coming soon!`, "info");
+            // Future: Open edit modal or redirect
+          });
+        });
+
+        // Delete Order
+        $$(".delete-order").forEach((button) => {
+          button.addEventListener("click", () => {
+            const orderId = button.dataset.id;
+            if (confirm(`Are you sure you want to delete order #${orderId}?`)) {
+              const row = button.closest("tr");
+              row.remove();
+              showToast(`Order #${orderId} deleted successfully!`, "success");
+            }
+          });
+        });
+
+        // Refresh Orders
+        const refreshOrdersBtn = $("#refreshOrdersBtn");
+        if (refreshOrdersBtn) {
+          refreshOrdersBtn.addEventListener("click", () => {
+            showToast("Orders refreshed!", "success");
+            console.log("Refreshing orders...");
+          });
+        }
+
+        // Tab Functionality
+        $$(".tab").forEach((tab) => {
+          tab.addEventListener("click", () => {
+            $$(".tab").forEach((t) => t.classList.remove("active"));
+            tab.classList.add("active");
+            const status = tab.dataset.status;
+            $$("#ordersTable tr").forEach((row) => {
+              const orderStatus = row.querySelector(".order-status").textContent.toLowerCase();
+              row.style.display = (status === "all" || orderStatus === status) ? "" : "none";
+            });
+          });
+        });
+
+        // Search Functionality
+        const searchInput = $("#search-input");
+        if (searchInput) {
+          searchInput.addEventListener("input", (e) => {
+            const query = e.target.value.toLowerCase();
+            $$("#ordersTable tr").forEach((row) => {
+              const text = row.textContent.toLowerCase();
+              row.style.display = text.includes(query) ? "" : "none";
+            });
+          });
+        }
+      });
+    </script>
+  </body>
 </html>

@@ -13,211 +13,214 @@
       rel="stylesheet"
     />
     <style>
+      /* CSS Variables (aligned with Orders page) */
       :root {
-        /* Primary Colors */
         --green-primary: #2e7d32;
+        --green-primary-light: #4caf50;
+        --green-primary-dark: #1b5e20;
         --earth-brown: #8d6e63;
         --sky-blue: #4fc3f7;
-
-        /* Secondary Colors */
         --harvest-yellow: #fbc02d;
         --leaf-green: #81c784;
         --soil-tan: #d7ccc8;
-
-        /* Neutrals */
         --dark-gray: #424242;
+        --medium-gray: #757575;
         --light-gray: #f5f5f5;
         --white: #ffffff;
-
-        /* Spacing */
+        --black: #212121;
+        --success: #4caf50;
+        --warning: #ff9800;
+        --danger: #f44336;
+        --info: #2196f3;
+        --dark-bg: #121212;
+        --dark-surface: #1e1e1e;
+        --dark-card: #2d2d2d;
+        --dark-border: #333333;
+        --dark-text: #e0e0e0;
+        --dark-text-secondary: #aaaaaa;
         --spacing-xs: 4px;
         --spacing-sm: 8px;
         --spacing-md: 16px;
         --spacing-lg: 24px;
         --spacing-xl: 32px;
+        --spacing-xxl: 48px;
+        --transition-fast: 0.2s;
+        --transition-normal: 0.3s;
+        --transition-slow: 0.5s;
+        --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.1);
+        --shadow-md: 0 4px 10px rgba(0, 0, 0, 0.15);
+        --shadow-lg: 0 8px 20px rgba(0, 0, 0, 0.2);
+        --border-radius-sm: 4px;
+        --border-radius-md: 8px;
+        --border-radius-lg: 12px;
+        --border-radius-xl: 16px;
+        --border-radius-circle: 50%;
       }
 
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
+      /* Reset & Base Styles */
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
       body {
         font-family: "Open Sans", sans-serif;
         background-color: var(--light-gray);
         color: var(--dark-gray);
         overflow-x: hidden;
+        line-height: 1.5;
       }
-
+      body.dark-mode {
+        background-color: var(--dark-bg);
+        color: var(--dark-text);
+      }
       h1, h2, h3, h4, h5, h6 {
         font-family: "Montserrat", sans-serif;
         font-weight: 700;
+        margin-bottom: var(--spacing-md);
       }
-
-      .accent-text {
-        font-family: "Roboto", sans-serif;
-        font-weight: 500;
+      a {
+        text-decoration: none;
+        color: var(--green-primary);
+        transition: color var(--transition-fast);
       }
+      a:hover { color: var(--green-primary-dark); }
+      .container { display: flex; min-height: 100vh; }
 
-      .container {
-        display: flex;
-        min-height: 100vh;
+      /* Overlay */
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 90;
+        display: none;
+        animation: fadeIn 0.3s ease;
       }
 
       /* Sidebar Styles */
-    .sidebar {
-      width: 250px;
-      background-color: var(--white);
-      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-      position: fixed;
-      height: 100vh;
-      z-index: 100;
-      transition: all 0.3s ease;
-      overflow-y: auto;
-    }
-
-    .sidebar-collapsed {
-      width: 70px;
-    }
-
-    .sidebar-header {
-      padding: var(--spacing-md);
-      display: flex;
-      align-items: center;
-      border-bottom: 1px solid var(--light-gray);
-      position: relative;
-    }
-
-    .sidebar-header img {
-      height: 40px;
-    }
-
-    .sidebar-header h2 {
-      margin-left: var(--spacing-sm);
-      color: var(--green-primary);
-      font-size: 1.5rem;
-      transition: opacity 0.3s, width 0.3s;
-      white-space: nowrap;
-    }
-
-    .sidebar-collapsed .sidebar-header h2 {
-      opacity: 0;
-      width: 0;
-      overflow: hidden;
-    }
-
-    .sidebar-menu {
-      margin-top: var(--spacing-lg);
-    }
-
-    .nav-list {
-      list-style: none;
-    }
-
-    .nav-item {
-      margin-bottom: 2px;
-    }
-
-    .nav-link {
-      padding: var(--spacing-md);
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      color: var(--dark-gray);
-      text-decoration: none;
-    }
-
-    .nav-link:hover {
-      background-color: rgba(46, 125, 50, 0.1);
-      color: var(--green-primary);
-    }
-
-    .nav-link.active {
-      background-color: var(--green-primary);
-      color: var(--white);
-    }
-
-    .nav-link i {
-      font-size: 1.2rem;
-      width: 30px;
-      text-align: center;
-    }
-
-    .nav-link span {
-      margin-left: var(--spacing-md);
-      transition: opacity 0.3s, width 0.3s;
-      white-space: nowrap;
-    }
-
-    .sidebar-collapsed .nav-link span {
-      opacity: 0;
-      width: 0;
-      overflow: hidden;
-    }
-
-    .menu-toggle {
+      .sidebar {
+        width: 250px;
+        background-color: var(--white);
+        box-shadow: var(--shadow-md);
+        position: fixed;
+        height: 100vh;
+        z-index: 100;
+        transition: all var(--transition-normal);
+        overflow-y: auto;
+      }
+      .dark-mode .sidebar {
+        background-color: var(--dark-surface);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      }
+      .sidebar-collapsed { width: 70px; }
+      .sidebar-header {
+        padding: var(--spacing-md);
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid var(--light-gray);
+        height: 70px;
+      }
+      .dark-mode .sidebar-header { border-bottom-color: var(--dark-border); }
+      .sidebar-header img.logo {
+        height: 40px;
+        width: 40px;
+        object-fit: contain;
+      }
+      .sidebar-header h2 {
+        margin-left: var(--spacing-sm);
+        margin-bottom: 0;
+        color: var(--green-primary);
+        font-size: 1.5rem;
+        transition: opacity var(--transition-normal), width var(--transition-normal);
+        white-space: nowrap;
+      }
+      .sidebar-collapsed .sidebar-header h2 {
+        opacity: 0;
+        width: 0;
+        overflow: hidden;
+      }
+      .sidebar-menu { margin-top: var(--spacing-md); }
+      .nav-list { list-style: none; }
+      .nav-item { margin-bottom: 2px; }
+      .nav-link {
+        padding: var(--spacing-md);
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        transition: all var(--transition-fast);
+        color: var(--dark-gray);
+        text-decoration: none;
+        border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+      }
+      .dark-mode .nav-link { color: var(--dark-text); }
+      .nav-link:hover {
+        background-color: rgba(46, 125, 50, 0.1);
+        color: var(--green-primary);
+      }
+      .dark-mode .nav-link:hover { background-color: rgba(76, 175, 80, 0.1); }
+      .nav-link.active {
+        background-color: var(--green-primary);
+        color: var(--white);
+        box-shadow: var(--shadow-sm);
+      }
+      .dark-mode .nav-link.active { background-color: var(--green-primary-dark); }
+      .nav-link i { font-size: 1.2rem; width: 30px; text-align: center; }
+      .nav-link span {
+        margin-left: var(--spacing-md);
+        transition: opacity var(--transition-normal), width var(--transition-normal);
+        white-space: nowrap;
+      }
+      .sidebar-collapsed .nav-link span { opacity: 0; width: 0; overflow: hidden; }
+      .menu-toggle {
         position: absolute;
-        right: -10px;
-        top: 70px;
+        right: -5px;
+        top: 65px;
         background-color: var(--green-primary);
         color: white;
         border: none;
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        border-radius: var(--border-radius-circle);
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        box-shadow: var(--shadow-sm);
+        transition: background-color var(--transition-fast);
+      }
+      .menu-toggle:hover { background-color: var(--green-primary-dark); }
+      .sidebar-toggle-mobile {
+        display: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: var(--spacing-md);
+        text-align: center;
+        background-color: var(--green-primary);
+        color: var(--white);
+        position: sticky;
+        bottom: 0;
+        z-index: 101;
       }
 
-    /* Logout Button */
-    .nav-item.logout {
-      margin-top: 20px;
-      border-top: 1px solid var(--light-gray);
-      padding-top: 10px;
-    }
-
-    /* Mobile Toggle Button */
-    .sidebar-toggle-mobile {
-      display: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      padding: var(--spacing-md);
-      text-align: center;
-      background-color: var(--green-primary);
-      color: var(--white);
-      position: sticky;
-      bottom: 0;
-      z-index: 101;
-    }
-
-    /* Main Content Styles */
-    .main-content {
-      flex: 1;
-      margin-left: 250px;
-      transition: margin-left 0.3s ease;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .main-content-expanded {
-      margin-left: 70px;
-    }
-
-    /* Mobile Menu Toggle Button */
-    .mobile-menu-toggle {
-      display: none;
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      color: var(--dark-gray);
-      cursor: pointer;
-    }
+      /* Main Content Styles */
+      .main-content {
+        flex: 1;
+        margin-left: 250px;
+        transition: margin-left var(--transition-normal);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      .main-content-expanded { margin-left: 70px; }
+      .mobile-menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: var(--dark-gray);
+        cursor: pointer;
+      }
+      .dark-mode .mobile-menu-toggle { color: var(--dark-text); }
 
       /* Header Styles */
       .header {
@@ -226,12 +229,16 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        box-shadow: var(--shadow-sm);
         position: sticky;
         top: 0;
         z-index: 99;
+        height: 70px;
       }
-
+      .dark-mode .header {
+        background-color: var(--dark-surface);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      }
       .search-bar {
         display: flex;
         align-items: center;
@@ -239,33 +246,50 @@
         border-radius: 20px;
         padding: var(--spacing-sm) var(--spacing-md);
         width: 300px;
+        transition: all var(--transition-fast);
       }
-
+      .dark-mode .search-bar { background-color: var(--dark-card); }
+      .search-bar:focus-within { box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.3); }
       .search-bar input {
         border: none;
         background: transparent;
-        padding: var(--spacing-xs);
+        padding: var(--spacing-xs) var(--spacing-sm);
         flex: 1;
-        margin-left: var(--spacing-sm);
         outline: none;
         font-family: "Open Sans", sans-serif;
-      }
-
-      .search-bar i {
         color: var(--dark-gray);
+        font-size: 0.95rem;
       }
-
-      .header-actions {
+      .dark-mode .search-bar input { color: var(--dark-text); }
+      .search-bar input::placeholder { color: var(--medium-gray); opacity: 0.8; }
+      .dark-mode .search-bar input::placeholder { color: var(--dark-text-secondary); }
+      .search-bar i { color: var(--medium-gray); }
+      .dark-mode .search-bar i { color: var(--dark-text-secondary); }
+      .search-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--green-primary);
+        padding: var(--spacing-xs);
+        border-radius: var(--border-radius-circle);
         display: flex;
         align-items: center;
-        gap: var(--spacing-lg);
+        justify-content: center;
+        transition: all var(--transition-fast);
       }
+      .search-button:hover { background-color: rgba(46, 125, 50, 0.1); }
+      .header-actions { display: flex; align-items: center; gap: var(--spacing-lg); }
 
+      /* Notification Styles */
       .notification {
         position: relative;
         cursor: pointer;
+        padding: var(--spacing-xs);
+        border-radius: var(--border-radius-circle);
+        transition: background-color var(--transition-fast);
       }
-
+      .notification:hover { background-color: rgba(0, 0, 0, 0.05); }
+      .dark-mode .notification:hover { background-color: rgba(255, 255, 255, 0.05); }
       .notification-count {
         position: absolute;
         top: -5px;
@@ -273,123 +297,191 @@
         background-color: var(--harvest-yellow);
         color: var(--dark-gray);
         font-size: 0.7rem;
-        border-radius: 50%;
-        width: 16px;
-        height: 16px;
+        width: 18px;
+        height: 18px;
+        border-radius: var(--border-radius-circle);
         display: flex;
         align-items: center;
         justify-content: center;
+        font-weight: bold;
       }
+      .notification-dropdown {
+        position: absolute;
+        top: calc(100% + 10px);
+        right: -10px;
+        width: 320px;
+        background-color: var(--white);
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-md);
+        z-index: 100;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        transition: all var(--transition-normal);
+        overflow: hidden;
+        max-height: 400px;
+        display: flex;
+        flex-direction: column;
+      }
+      .dark-mode .notification-dropdown {
+        background-color: var(--dark-card);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+      .notification-dropdown.show {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+      .notification-dropdown h3 {
+        padding: var(--spacing-md);
+        border-bottom: 1px solid var(--light-gray);
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--green-primary);
+      }
+      .dark-mode .notification-dropdown h3 { border-bottom-color: var(--dark-border); color: var(--green-primary-light); }
+      .notification-list { list-style: none; padding: 0; margin: 0; overflow-y: auto; flex: 1; }
+      .notification-item {
+        display: flex;
+        align-items: center;
+        padding: var(--spacing-md);
+        border-bottom: 1px solid var(--light-gray);
+        transition: background-color var(--transition-fast);
+      }
+      .dark-mode .notification-item { border-bottom-color: var(--dark-border); }
+      .notification-item:hover { background-color: var(--light-gray); }
+      .dark-mode .notification-item:hover { background-color: var(--dark-surface); }
+      .notification-icon {
+        width: 30px;
+        height: 30px;
+        border-radius: var(--border-radius-circle);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: var(--spacing-md);
+        font-size: 1rem;
+      }
+      .notification-icon.new { background-color: var(--info); color: var(--white); }
+      .notification-icon.warning { background-color: var(--warning); color: var(--white); }
+      .notification-icon.success { background-color: var(--success); color: var(--white); }
+      .notification-content p { margin: 0; font-size: 0.9rem; color: var(--dark-gray); }
+      .dark-mode .notification-content p { color: var(--dark-text); }
+      .notification-content strong { font-weight: 600; color: var(--black); }
+      .dark-mode .notification-content strong { color: var(--white); }
+      .notification-time { font-size: 0.75rem; color: var(--medium-gray); }
+      .dark-mode .notification-time { color: var(--dark-text-secondary); }
+      .notification-footer { padding: var(--spacing-md); text-align: center; border-top: 1px solid var(--light-gray); }
+      .dark-mode .notification-footer { border-top-color: var(--dark-border); }
+      .notification-footer a { font-size: 0.85rem; color: var(--green-primary); }
+      .notification-footer a:hover { color: var(--green-primary-dark); }
 
+      /* User Profile Styles */
       .user-profile {
         display: flex;
         align-items: center;
         cursor: pointer;
+        padding: var(--spacing-sm);
+        border-radius: var(--border-radius-md);
+        transition: background-color var(--transition-fast);
+        position: relative;
       }
-
+      .user-profile:hover { background-color: rgba(0, 0, 0, 0.05); }
+      .dark-mode .user-profile:hover { background-color: rgba(255, 255, 255, 0.05); }
       .user-avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background-color: var(--leaf-green);
+        width: 35px;
+        height: 35px;
+        background-color: var(--green-primary);
+        color: var(--white);
+        border-radius: var(--border-radius-circle);
         display: flex;
         align-items: center;
         justify-content: center;
-        color: var(--white);
-        font-weight: bold;
+        font-size: 1rem;
+        font-weight: 600;
         margin-right: var(--spacing-sm);
       }
-
-      .user-info {
-        display: flex;
-        flex-direction: column;
+      .user-info { display: flex; flex-direction: column; }
+      .user-name { font-size: 0.95rem; font-weight: 600; color: var(--black); }
+      .dark-mode .user-name { color: var(--dark-text); }
+      .role-badge { font-size: 0.75rem; color: var(--medium-gray); }
+      .dark-mode .role-badge { color: var(--dark-text-secondary); }
+      .dropdown-icon { margin-left: var(--spacing-sm); color: var(--medium-gray); transition: transform var(--transition-fast); }
+      .user-profile:hover .dropdown-icon { transform: rotate(180deg); }
+      .user-dropdown {
+        position: absolute;
+        top: calc(100% + 10px);
+        right: 0;
+        width: 200px;
+        background-color: var(--white);
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-md);
+        z-index: 100;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        transition: all var(--transition-normal);
       }
-
-      .role-badge {
-        background-color: var(--soil-tan);
-        padding: var(--spacing-xs) var(--spacing-sm);
-        border-radius: 4px;
-        font-size: 0.8rem;
-        margin-top: 2px;
+      .dark-mode .user-dropdown {
+        background-color: var(--dark-card);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
       }
+      .user-dropdown.show { opacity: 1; visibility: visible; transform: translateY(0); }
+      .user-dropdown ul { list-style: none; padding: var(--spacing-sm) 0; margin: 0; }
+      .user-dropdown li { padding: var(--spacing-sm) var(--spacing-md); transition: background-color var(--transition-fast); }
+      .user-dropdown li:hover { background-color: var(--light-gray); }
+      .dark-mode .user-dropdown li:hover { background-color: var(--dark-surface); }
+      .user-dropdown li.divider { height: 1px; background-color: var(--light-gray); padding: 0; margin: var(--spacing-sm) 0; }
+      .dark-mode .user-dropdown li.divider { background-color: var(--dark-border); }
+      .user-dropdown a { display: flex; align-items: center; color: var(--dark-gray); font-size: 0.9rem; }
+      .dark-mode .user-dropdown a { color: var(--dark-text); }
+      .user-dropdown a i { margin-right: var(--spacing-md); width: 20px; text-align: center; }
 
       /* User Management Content */
-      .user-management-content {
-        padding: var(--spacing-lg);
-        flex: 1;
-      }
+      .user-management-content { padding: var(--spacing-lg); flex: 1; }
+      .page-title { font-size: 1.8rem; color: var(--green-primary); }
+      .dark-mode .page-title { color: var(--green-primary-light); }
 
-      .page-title {
-        margin-bottom: var(--spacing-lg);
-        font-size: 1.8rem;
-        color: var(--dark-gray);
-      }
-
-      /* Content Sections */
+      /* Section Styles */
       .section {
         background-color: var(--white);
-        border-radius: 8px;
-        padding: var(--spacing-lg);
-        margin-bottom: var(--spacing-xl);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-sm);
+        margin-bottom: var(--spacing-lg);
+        overflow: hidden;
       }
-
+      .dark-mode .section { background-color: var(--dark-card); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); }
       .section-header {
+        padding: var(--spacing-md) var(--spacing-lg);
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: var(--spacing-lg);
+        border-bottom: 1px solid var(--light-gray);
       }
-
-      .section-title {
-        font-size: 1.2rem;
-        color: var(--dark-gray);
-      }
-
-      .section-actions {
-        display: flex;
-        gap: var(--spacing-sm);
-      }
-
+      .dark-mode .section-header { border-bottom-color: var(--dark-border); }
+      .section-title { font-size: 1.2rem; font-weight: 600; color: var(--green-primary); }
+      .dark-mode .section-title { color: var(--green-primary-light); }
+      .section-actions { display: flex; gap: var(--spacing-md); }
       .btn {
         padding: var(--spacing-sm) var(--spacing-md);
-        border-radius: 6px;
-        cursor: pointer;
-        font-family: "Roboto", sans-serif;
+        border-radius: var(--border-radius-md);
+        font-size: 0.9rem;
         font-weight: 500;
-        transition: all 0.2s ease;
-        border: none;
+        cursor: pointer;
         display: flex;
         align-items: center;
         gap: var(--spacing-sm);
+        transition: all var(--transition-fast);
+        border: none;
       }
-
-      .btn-primary {
-        background-color: var(--green-primary);
-        color: var(--white);
-      }
-
-      .btn-primary:hover {
-        background-color: #1b5e20;
-      }
-
-      .btn-secondary {
-        background-color: rgba(46, 125, 50, 0.1);
-        color: var(--green-primary);
-      }
-
-      .btn-secondary:hover {
-        background-color: rgba(46, 125, 50, 0.2);
-      }
-
-      .btn-danger {
-        background-color: rgba(244, 67, 54, 0.1);
-        color: #f44336;
-      }
-
-      .btn-danger:hover {
-        background-color: rgba(244, 67, 54, 0.2);
-      }
+      .btn-primary { background-color: var(--green-primary); color: var(--white); }
+      .btn-primary:hover { background-color: var(--green-primary-dark); }
+      .btn-secondary { background-color: var(--light-gray); color: var(--dark-gray); }
+      .dark-mode .btn-secondary { background-color: var(--dark-surface); color: var(--dark-text); }
+      .btn-secondary:hover { background-color: var(--soil-tan); }
+      .dark-mode .btn-secondary:hover { background-color: var(--dark-border); }
+      .btn-danger { background-color: var(--danger); color: var(--white); }
+      .btn-danger:hover { background-color: #d32f2f; }
 
       /* Tabs */
       .tabs {
@@ -397,202 +489,122 @@
         border-bottom: 1px solid var(--light-gray);
         margin-bottom: var(--spacing-lg);
         overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
       }
-
+      .dark-mode .tabs { border-bottom-color: var(--dark-border); }
       .tab {
         padding: var(--spacing-md) var(--spacing-lg);
         cursor: pointer;
         border-bottom: 2px solid transparent;
-        transition: all 0.2s ease;
+        transition: all var(--transition-fast);
         white-space: nowrap;
       }
-
       .tab.active {
         border-bottom-color: var(--green-primary);
         color: var(--green-primary);
         font-weight: bold;
       }
-
-      .tab:hover:not(.active) {
-        background-color: rgba(0, 0, 0, 0.02);
-      }
+      .tab:hover:not(.active) { background-color: rgba(0, 0, 0, 0.02); }
 
       /* User Table */
-      .user-table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-
-      .user-table th {
+      .table-responsive { overflow-x: auto; padding: var(--spacing-lg); }
+      .user-table { width: 100%; border-collapse: collapse; min-width: 800px; }
+      .user-table th, .user-table td {
+        padding: var(--spacing-md);
         text-align: left;
-        padding: 12px 8px;
         border-bottom: 1px solid var(--light-gray);
+      }
+      .dark-mode .user-table th, .dark-mode .user-table td { border-bottom-color: var(--dark-border); }
+      .user-table th {
+        font-family: "Montserrat", sans-serif;
         font-weight: 600;
+        font-size: 0.9rem;
+        color: var(--dark-gray);
+        background-color: var(--light-gray);
       }
-
-      .user-table td {
-        padding: 12px 8px;
-        border-bottom: 1px solid var(--light-gray);
-      }
-
-      .user-info-cell {
-        display: flex;
-        align-items: center;
-      }
-
+      .dark-mode .user-table th { color: var(--dark-text); background-color: var(--dark-surface); }
+      .user-table td { font-size: 0.85rem; color: var(--dark-gray); }
+      .dark-mode .user-table td { color: var(--dark-text); }
+      .user-table tr:hover td { background-color: var(--light-gray); }
+      .dark-mode .user-table tr:hover td { background-color: var(--dark-surface); }
+      .user-info-cell { display: flex; align-items: center; }
       .user-avatar-small {
         width: 32px;
         height: 32px;
-        border-radius: 50%;
+        border-radius: var(--border-radius-circle);
         display: flex;
         align-items: center;
         justify-content: center;
-        color: white;
-        margin-right: 8px;
-      }
-
-      .user-name {
+        color: var(--white);
+        margin-right: var(--spacing-sm);
         font-weight: bold;
-      }
-
-      .user-email {
         font-size: 0.8rem;
-        color: var(--dark-gray);
-        opacity: 0.7;
       }
-
+      .user-name { font-weight: 600; }
+      .user-email { font-size: 0.8rem; color: var(--medium-gray); }
+      .dark-mode .user-email { color: var(--dark-text-secondary); }
       .badge {
-        padding: 4px 8px;
-        border-radius: 4px;
+        padding: var(--spacing-xs) var(--spacing-sm);
+        border-radius: 100px;
         font-size: 0.8rem;
+        display: inline-block;
+        text-align: center;
+        min-width: 80px;
       }
-
-      .badge-success {
-        background-color: rgba(46, 125, 50, 0.1);
-        color: var(--green-primary);
-      }
-
-      .badge-warning {
-        background-color: rgba(251, 192, 45, 0.1);
-        color: var(--harvest-yellow);
-      }
-
-      .badge-danger {
-        background-color: rgba(244, 67, 54, 0.1);
-        color: #f44336;
-      }
-
-      .badge-info {
-        background-color: rgba(79, 195, 247, 0.1);
-        color: var(--sky-blue);
-      }
-
-      .action-btn {
-        background: none;
-        border: none;
-        color: var(--dark-gray);
-        cursor: pointer;
-        margin-left: 8px;
-      }
-
-      .action-btn:hover {
-        color: var(--green-primary);
-      }
+      .badge-success { background-color: rgba(46, 125, 50, 0.1); color: var(--success); }
+      .badge-warning { background-color: rgba(251, 192, 45, 0.1); color: var(--warning); }
+      .badge-danger { background-color: rgba(244, 67, 54, 0.1); color: var(--danger); }
+      .badge-info { background-color: rgba(79, 195, 247, 0.1); color: var(--sky-blue); }
 
       /* Pagination */
-      .pagination-container {
+      .pagination {
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
         margin-top: var(--spacing-lg);
-        margin-bottom: var(--spacing-lg);
-        flex-wrap: wrap;
-        gap: 4px;
+        padding: var(--spacing-md) var(--spacing-lg);
       }
-
-      .pagination-btn {
-        display: inline-flex;
+      .pagination-info { font-size: 0.9rem; color: var(--medium-gray); }
+      .dark-mode .pagination-info { color: var(--dark-text-secondary); }
+      .pagination-controls { display: flex; gap: var(--spacing-sm); }
+      .page-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: var(--border-radius-md);
+        display: flex;
         align-items: center;
         justify-content: center;
-        min-width: 40px;
-        height: 40px;
-        border-radius: 6px;
         cursor: pointer;
-        font-family: "Roboto", sans-serif;
-        font-weight: 500;
-        transition: all 0.2s ease;
-        border: none;
+        transition: all var(--transition-fast);
+        border: 1px solid var(--light-gray);
+        background-color: var(--white);
       }
+      .dark-mode .page-btn { border-color: var(--dark-border); background-color: var(--dark-card); }
+      .page-btn.active { background-color: var(--green-primary); color: var(--white); border-color: var(--green-primary); }
+      .page-btn:hover:not(.active) { background-color: var(--light-gray); }
+      .dark-mode .page-btn:hover:not(.active) { background-color: var(--dark-surface); }
 
-      .pagination-btn-primary {
-        background-color: var(--green-primary);
-        color: var(--white);
-        box-shadow: 0 2px 4px rgba(46, 125, 50, 0.2);
-      }
-
-      .pagination-btn-primary:hover {
-        background-color: #1b5e20;
-        transform: translateY(-1px);
-        box-shadow: 0 3px 6px rgba(46, 125, 50, 0.3);
-      }
-
-      .pagination-btn-secondary {
-        background-color: var(--light-gray);
-        color: var(--dark-gray);
-      }
-
-      .pagination-btn-secondary:hover {
-        background-color: #e0e0e0;
-        transform: translateY(-1px);
-      }
-
-      /* Verification Requests Styles */
-      .verification-requests {
-        display: flex;
-        flex-direction: column;
-        gap: var(--spacing-md);
-      }
-
+      /* Verification Requests */
+      .verification-requests { display: flex; flex-direction: column; gap: var(--spacing-md); }
       .verification-card {
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: var(--spacing-md);
-        border-radius: 8px;
+        border-radius: var(--border-radius-md);
         background-color: var(--light-gray);
         border-left: 4px solid var(--harvest-yellow);
+        transition: transform var(--transition-fast);
       }
+      .dark-mode .verification-card { background-color: var(--dark-surface); }
+      .verification-card:hover { transform: translateY(-2px); }
+      .verification-info { flex: 1; }
+      .verification-info h4 { margin-bottom: var(--spacing-xs); color: var(--dark-gray); }
+      .dark-mode .verification-info h4 { color: var(--dark-text); }
+      .verification-info p { margin: var(--spacing-xs) 0; font-size: 0.9rem; color: var(--medium-gray); }
+      .dark-mode .verification-info p { color: var(--dark-text-secondary); }
+      .verification-actions { display: flex; gap: var(--spacing-sm); flex-wrap: wrap; }
 
-      .verification-info {
-        flex: 1;
-      }
-
-      .verification-info h4 {
-        margin-bottom: 5px;
-        color: var(--dark-gray);
-      }
-
-      .verification-actions {
-        display: flex;
-        gap: var(--spacing-sm);
-        flex-wrap: wrap;
-      }
-
-      @media (max-width: 768px) {
-        .verification-card {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-        
-        .verification-actions {
-          margin-top: var(--spacing-md);
-          width: 100%;
-          justify-content: flex-end;
-        }
-      }
-
-      /* User Details Modal */
+      /* Modal Styles */
       .modal {
         display: none;
         position: fixed;
@@ -604,17 +616,16 @@
         z-index: 1000;
         overflow-y: auto;
       }
-
       .modal-content {
         background-color: var(--white);
         margin: 50px auto;
         width: 90%;
         max-width: 600px;
-        border-radius: 8px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-lg);
         position: relative;
       }
-
+      .dark-mode .modal-content { background-color: var(--dark-card); }
       .modal-header {
         padding: var(--spacing-lg);
         border-bottom: 1px solid var(--light-gray);
@@ -622,12 +633,9 @@
         justify-content: space-between;
         align-items: center;
       }
-
-      .modal-title {
-        font-size: 1.2rem;
-        font-weight: bold;
-      }
-
+      .dark-mode .modal-header { border-bottom-color: var(--dark-border); }
+      .modal-title { font-size: 1.2rem; font-weight: bold; color: var(--green-primary); }
+      .dark-mode .modal-title { color: var(--green-primary-light); }
       .modal-close {
         background: none;
         border: none;
@@ -635,11 +643,8 @@
         cursor: pointer;
         color: var(--dark-gray);
       }
-
-      .modal-body {
-        padding: var(--spacing-lg);
-      }
-
+      .dark-mode .modal-close { color: var(--dark-text); }
+      .modal-body { padding: var(--spacing-lg); }
       .modal-footer {
         padding: var(--spacing-lg);
         border-top: 1px solid var(--light-gray);
@@ -647,183 +652,107 @@
         justify-content: flex-end;
         gap: var(--spacing-md);
       }
+      .dark-mode .modal-footer { border-top-color: var(--dark-border); }
 
       /* Form Styles */
-      .form-group {
-        margin-bottom: var(--spacing-md);
-      }
-
+      .form-group { margin-bottom: var(--spacing-md); }
       .form-label {
         display: block;
         margin-bottom: var(--spacing-xs);
         font-weight: 600;
+        color: var(--dark-gray);
       }
-
+      .dark-mode .form-label { color: var(--dark-text); }
       .form-control {
         width: 100%;
         padding: 10px;
         border: 1px solid var(--light-gray);
-        border-radius: 4px;
+        border-radius: var(--border-radius-sm);
         font-family: "Open Sans", sans-serif;
+        background-color: var(--white);
+        color: var(--dark-gray);
       }
-
+      .dark-mode .form-control { border-color: var(--dark-border); background-color: var(--dark-surface); color: var(--dark-text); }
       .form-control:focus {
         outline: none;
         border-color: var(--green-primary);
         box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.2);
       }
-
       .form-select {
         width: 100%;
         padding: 10px;
         border: 1px solid var(--light-gray);
-        border-radius: 4px;
+        border-radius: var(--border-radius-sm);
         font-family: "Open Sans", sans-serif;
         background-color: var(--white);
+        color: var(--dark-gray);
       }
+      .dark-mode .form-select { border-color: var(--dark-border); background-color: var(--dark-surface); color: var(--dark-text); }
 
       /* User Details */
-      .user-details {
-        display: flex;
-        flex-direction: column;
-        gap: var(--spacing-md);
-      }
-
+      .user-details { display: flex; flex-direction: column; gap: var(--spacing-md); }
       .user-detail-item {
         display: flex;
         border-bottom: 1px solid var(--light-gray);
         padding-bottom: var(--spacing-sm);
       }
+      .dark-mode .user-detail-item { border-bottom-color: var(--dark-border); }
+      .detail-label { width: 120px; font-weight: 600; color: var(--dark-gray); }
+      .dark-mode .detail-label { color: var(--dark-text); }
+      .detail-value { flex: 1; color: var(--dark-gray); }
+      .dark-mode .detail-value { color: var(--dark-text); }
 
-      .detail-label {
-        width: 120px;
-        font-weight: 600;
+      /* Toast Notifications */
+      .toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
+      .toast {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--spacing-md);
+        margin-top: var(--spacing-sm);
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-sm);
+        animation: slideIn 0.3s ease;
       }
+      .toast-success { background-color: var(--success); color: var(--white); }
+      .toast-info { background-color: var(--info); color: var(--white); }
+      .toast i { cursor: pointer; margin-left: var(--spacing-md); }
 
-      .detail-value {
-        flex: 1;
-      }
-
-      /* Responsive styles */
-      @media (max-width: 1024px) {
-        .sidebar {
-          width: 70px;
-        }
-
-        .sidebar-header h2 {
-          opacity: 0;
-          width: 0;
-          overflow: hidden;
-        }
-
-        .nav-link span {
-          opacity: 0;
-          width: 0;
-          overflow: hidden;
-        }
-
-        .main-content {
-          margin-left: 70px;
-        }
-
-        .menu-toggle {
-          display: none;
-        }
-      }
-
+      /* Media Queries */
       @media (max-width: 768px) {
-        .mobile-menu-toggle {
-          display: block;
-        }
-        
-        .sidebar {
-          width: 250px;
-          left: -250px;
-          transition: left 0.3s ease;
-        }
-        
-        .sidebar.active {
-          left: 0;
-        }
-        
-        .sidebar.active .sidebar-header h2,
-        .sidebar.active .nav-link span {
-          opacity: 1;
-          width: auto;
-        }
-        
-        .main-content {
-          margin-left: 0;
-        }
-        
-        .header-actions {
-          gap: var(--spacing-md);
-        }
-        
-        .user-info {
-          display: none;
-        }
-        
-        .section-header {
-          flex-direction: column;
-          align-items: flex-start;
-          gap: var(--spacing-md);
-        }
-        
-        .section-actions {
-          width: 100%;
-          justify-content: flex-end;
-        }
-        
-        .sidebar-toggle-mobile {
-          display: block;
-        }
+        .sidebar { width: 250px; transform: translateX(-100%); position: fixed; }
+        .sidebar.active { transform: translateX(0); }
+        .overlay.active { display: block; }
+        .main-content { margin-left: 0; }
+        .mobile-menu-toggle { display: block; }
+        .sidebar-toggle-mobile { display: block; }
+        .search-bar { width: 100%; margin: var(--spacing-sm) 0; }
+        .header { flex-direction: column; align-items: flex-start; height: auto; padding-bottom: var(--spacing-lg); }
+        .header-actions { width: 100%; justify-content: space-between; }
+        .verification-card { flex-direction: column; align-items: flex-start; }
+        .verification-actions { margin-top: var(--spacing-md); width: 100%; justify-content: flex-end; }
+      }
+      @media (max-width: 480px) {
+        .notification-dropdown, .user-dropdown { width: 100%; right: 0; left: 0; margin: 0 var(--spacing-md); }
+        .section-actions { flex-direction: column; gap: var(--spacing-sm); width: 100%; }
+        .btn { width: 100%; justify-content: center; }
+        .modal-content { max-width: 100%; margin: 20px; }
       }
 
-      @media (max-width: 480px) {
-        .sidebar {
-          width: 250px;
-        }
-        
-        .search-bar {
-          width: 150px;
-        }
-        
-        .header {
-          padding: var(--spacing-sm);
-        }
-        
-        .user-management-content {
-          padding: var(--spacing-md);
-        }
-        
-        .btn {
-          padding: var(--spacing-xs) var(--spacing-sm);
-          font-size: 0.9rem;
-        }
-        
-        .section {
-          padding: var(--spacing-md);
-        }
-        
-        .tabs {
-          padding-bottom: var(--spacing-xs);
-        }
-        
-        .tab {
-          padding: var(--spacing-sm) var(--spacing-md);
-        }
-      }
+      /* Animations */
+      @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+      @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
     </style>
   </head>
   <body>
+    <div class="overlay" id="overlay"></div>
     <div class="container">
       <!-- Sidebar -->
       <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
-          <img src="/templates/images/logo.png" alt="AgriGo Logo" />
+          <img src="/templates/images/logo.png" alt="AgriGo Logo" class="logo" />
           <h2>AgriGo</h2>
-          <button class="menu-toggle" id="menu-toggle">
+          <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
             <i class="fas fa-chevron-left"></i>
           </button>
         </div>
@@ -835,20 +764,12 @@
               </a>
             </li>
             <li class="nav-item">
-              <a
-                href="#"
-                class="nav-link active"
-                data-tab="users"
-              >
+              <a href="#" class="nav-link active" data-tab="users">
                 <i class="fas fa-users"></i> <span>User Management</span>
               </a>
             </li>
             <li class="nav-item">
-              <a
-                href="/templates/admin/products.html"
-                class="nav-link"
-                data-tab="products"
-              >
+              <a href="/templates/admin/products.html" class="nav-link" data-tab="products">
                 <i class="fas fa-shopping-basket"></i> <span>Products</span>
               </a>
             </li>
@@ -872,11 +793,6 @@
                 <i class="fas fa-chart-line"></i> <span>Analytics</span>
               </a>
             </li>
-            <li class="nav-item">
-              <a href="/templates/admin/settings.html" class="nav-link" data-tab="settings">
-                <i class="fas fa-cog"></i> <span>Settings</span>
-              </a>
-            </li>
           </ul>
           <div class="sidebar-toggle-mobile">
             <i class="fas fa-times"></i>
@@ -888,23 +804,67 @@
       <div class="main-content" id="main-content">
         <!-- Header -->
         <div class="header">
-          <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+          <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Mobile menu">
             <i class="fas fa-bars"></i>
           </button>
           <div class="search-bar">
             <i class="fas fa-search"></i>
-            <input type="text" placeholder="Search users..." />
+            <input type="text" id="search-input" placeholder="Search users..." aria-label="Search" />
+            <button class="search-button" aria-label="Submit search">
+              <i class="fas fa-arrow-right"></i>
+            </button>
           </div>
           <div class="header-actions">
-            <div class="notification">
+            <div class="notification" id="notificationIcon">
               <i class="fas fa-bell"></i>
               <span class="notification-count">5</span>
+              <div class="notification-dropdown" id="notificationDropdown">
+                <h3>Notifications</h3>
+                <ul class="notification-list">
+                  <li class="notification-item">
+                    <div class="notification-icon new"><i class="fas fa-user-plus"></i></div>
+                    <div class="notification-content">
+                      <p>New user registration: <strong>Pedro A.</strong></p>
+                      <span class="notification-time">10 minutes ago</span>
+                    </div>
+                  </li>
+                  <li class="notification-item">
+                    <div class="notification-icon warning"><i class="fas fa-exclamation-triangle"></i></div>
+                    <div class="notification-content">
+                      <p>Verification pending: <strong>Sarah T.</strong></p>
+                      <span class="notification-time">1 hour ago</span>
+                    </div>
+                  </li>
+                  <li class="notification-item">
+                    <div class="notification-icon success"><i class="fas fa-check-circle"></i></div>
+                    <div class="notification-content">
+                      <p>User verified: <strong>Ramon F.</strong></p>
+                      <span class="notification-time">2 hours ago</span>
+                    </div>
+                  </li>
+                </ul>
+                <div class="notification-footer">
+                  <a href="#notifications">View all notifications</a>
+                </div>
+              </div>
             </div>
-            <div class="user-profile">
+            <div class="user-profile" id="userProfile">
               <div class="user-avatar">AD</div>
               <div class="user-info">
                 <div class="user-name">Admin Dashboard</div>
                 <span class="role-badge">Administrator</span>
+              </div>
+              <i class="fas fa-chevron-down dropdown-icon"></i>
+              <div class="user-dropdown" id="userDropdown">
+                <ul>
+                  <li><a href="#profile"><i class="fas fa-user"></i> My Profile</a></li>
+                  <li><a href="#settings"><i class="fas fa-cog"></i> Account Settings</a></li>
+                  <li><a href="#help"><i class="fas fa-question-circle"></i> Help & Support</a></li>
+                  <li class="divider"></li>
+                  <li><a href="#" id="darkModeToggle"><i class="fas fa-moon"></i> <span id="themeText">Dark Mode</span></a></li>
+                  <li class="divider"></li>
+                  <li><a href="#" id="userDropdownLogout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
               </div>
             </div>
           </div>
@@ -914,181 +874,168 @@
         <div class="user-management-content">
           <h1 class="page-title">User Management</h1>
 
+          <!-- All Users Section -->
           <div class="section">
             <div class="section-header">
-              <div class="section-title">All Users</div>
+              <div class="section-title">Users</div>
               <div class="section-actions">
-                <button class="btn btn-secondary">
-                  <i class="fas fa-filter"></i> Filter
-                </button>
-                <button class="btn btn-secondary">
-                  <i class="fas fa-download"></i> Export
-                </button>
-                <button class="btn btn-primary" id="addUserBtn">
-                  <i class="fas fa-plus"></i> Add User
-                </button>
+                <button class="btn btn-secondary" id="filterBtn"><i class="fas fa-filter"></i> Filter</button>
+                <button class="btn btn-secondary" id="exportBtn"><i class="fas fa-download"></i> Export</button>
+                <button class="btn btn-primary" id="addUserBtn"><i class="fas fa-plus"></i> Add User</button>
               </div>
             </div>
-
             <div class="tabs">
-              <div class="tab active">All Users</div>
-              <div class="tab">Farmers</div>
-              <div class="tab">Buyers</div>
-              <div class="tab">Pending Verification</div>
-              <div class="tab">Inactive</div>
+              <div class="tab active" data-tab="all">All Users</div>
+              <div class="tab" data-tab="farmers">Farmers</div>
+              <div class="tab" data-tab="buyers">Buyers</div>
+              <div class="tab" data-tab="pending">Pending Verification</div>
+              <div class="tab" data-tab="inactive">Inactive</div>
             </div>
-
-            <table class="user-table">
-              <thead>
-                <tr>
-                  <th>User</th>
-                  <th>Role</th>
-                  <th>Location</th>
-                  <th>Joined</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <div class="user-info-cell">
-                      <div class="user-avatar-small" style="background-color: var(--leaf-green);">RF</div>
-                      <div>
-                        <div class="user-name">Ramon Fernandez</div>
-                        <div class="user-email">ramon.fernandez@agrigo.ph</div>
+            <div class="table-responsive">
+              <table class="user-table">
+                <thead>
+                  <tr>
+                    <th>User</th>
+                    <th>Role</th>
+                    <th>Location</th>
+                    <th>Joined</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="usersTable">
+                  <tr data-user-id="1">
+                    <td>
+                      <div class="user-info-cell">
+                        <div class="user-avatar-small" style="background-color: var(--leaf-green);">RF</div>
+                        <div>
+                          <div class="user-name">Ramon Fernandez</div>
+                          <div class="user-email">ramon.fernandez@agrigo.ph</div>
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td><span class="badge badge-success">Farmer</span></td>
-                  <td>Cebu, Philippines</td>
-                  <td>Jan 15, 2025</td>
-                  <td><span class="badge badge-success">Active</span></td>
-                  <td style="text-align: right;">
-                    <button class="action-btn view-user-btn" data-id="1"><i class="fas fa-eye"></i></button>
-                    <button class="action-btn edit-user-btn" data-id="1"><i class="fas fa-edit"></i></button>
-                    <button class="action-btn delete-user-btn" data-id="1"><i class="fas fa-trash"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="user-info-cell">
-                      <div class="user-avatar-small" style="background-color: var(--sky-blue);">MS</div>
-                      <div>
-                        <div class="user-name">Maricel Santos</div>
-                        <div class="user-email">maricel.santos@agrigo.ph</div>
+                    </td>
+                    <td><span class="badge badge-success">Farmer</span></td>
+                    <td>Cebu, Philippines</td>
+                    <td>Jan 15, 2025</td>
+                    <td><span class="badge badge-success">Active</span></td>
+                    <td>
+                      <button class="btn btn-secondary view-user-btn" data-id="1"><i class="fas fa-eye"></i> View</button>
+                      <button class="btn btn-primary edit-user-btn" data-id="1"><i class="fas fa-edit"></i> Edit</button>
+                      <button class="btn btn-danger delete-user-btn" data-id="1"><i class="fas fa-trash"></i> Delete</button>
+                    </td>
+                  </tr>
+                  <tr data-user-id="2">
+                    <td>
+                      <div class="user-info-cell">
+                        <div class="user-avatar-small" style="background-color: var(--sky-blue);">MS</div>
+                        <div>
+                          <div class="user-name">Maricel Santos</div>
+                          <div class="user-email">maricel.santos@agrigo.ph</div>
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td><span class="badge badge-info">Buyer</span></td>
-                  <td>Manila, Philippines</td>
-                  <td>Feb 03, 2025</td>
-                  <td><span class="badge badge-success">Active</span></td>
-                  <td style="text-align: right;">
-                    <button class="action-btn view-user-btn" data-id="2"><i class="fas fa-eye"></i></button>
-                    <button class="action-btn edit-user-btn" data-id="2"><i class="fas fa-edit"></i></button>
-                    <button class="action-btn delete-user-btn" data-id="2"><i class="fas fa-trash"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="user-info-cell">
-                      <div class="user-avatar-small" style="background-color: var(--harvest-yellow);">AR</div>
-                      <div>
-                        <div class="user-name">Antonio Reyes</div>
-                        <div class="user-email">antonio.reyes@agrigo.ph</div>
+                    </td>
+                    <td><span class="badge badge-info">Buyer</span></td>
+                    <td>Manila, Philippines</td>
+                    <td>Feb 03, 2025</td>
+                    <td><span class="badge badge-success">Active</span></td>
+                    <td>
+                      <button class="btn btn-secondary view-user-btn" data-id="2"><i class="fas fa-eye"></i> View</button>
+                      <button class="btn btn-primary edit-user-btn" data-id="2"><i class="fas fa-edit"></i> Edit</button>
+                      <button class="btn btn-danger delete-user-btn" data-id="2"><i class="fas fa-trash"></i> Delete</button>
+                    </td>
+                  </tr>
+                  <tr data-user-id="3">
+                    <td>
+                      <div class="user-info-cell">
+                        <div class="user-avatar-small" style="background-color: var(--harvest-yellow);">AR</div>
+                        <div>
+                          <div class="user-name">Antonio Reyes</div>
+                          <div class="user-email">antonio.reyes@agrigo.ph</div>
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td><span class="badge badge-success">Farmer</span></td>
-                  <td>Davao, Philippines</td>
-                  <td>Feb 21, 2025</td>
-                  <td><span class="badge badge-warning">Pending</span></td>
-                  <td style="text-align: right;">
-                    <button class="action-btn view-user-btn" data-id="3"><i class="fas fa-eye"></i></button>
-                    <button class="action-btn edit-user-btn" data-id="3"><i class="fas fa-edit"></i></button>
-                    <button class="action-btn delete-user-btn" data-id="3"><i class="fas fa-trash"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="user-info-cell">
-                      <div class="user-avatar-small" style="background-color: var(--earth-brown);">PA</div>
-                      <div>
-                        <div class="user-name">Pedro Abellanosa</div>
-                        <div class="user-email">pedro.abellanosa@agrigo.ph</div>
+                    </td>
+                    <td><span class="badge badge-success">Farmer</span></td>
+                    <td>Davao, Philippines</td>
+                    <td>Feb 21, 2025</td>
+                    <td><span class="badge badge-warning">Pending</span></td>
+                    <td>
+                      <button class="btn btn-secondary view-user-btn" data-id="3"><i class="fas fa-eye"></i> View</button>
+                      <button class="btn btn-primary edit-user-btn" data-id="3"><i class="fas fa-edit"></i> Edit</button>
+                      <button class="btn btn-danger delete-user-btn" data-id="3"><i class="fas fa-trash"></i> Delete</button>
+                    </td>
+                  </tr>
+                  <tr data-user-id="4">
+                    <td>
+                      <div class="user-info-cell">
+                        <div class="user-avatar-small" style="background-color: var(--earth-brown);">PA</div>
+                        <div>
+                          <div class="user-name">Pedro Abellanosa</div>
+                          <div class="user-email">pedro.abellanosa@agrigo.ph</div>
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td><span class="badge badge-success">Farmer</span></td>
-                  <td>Talisay, Philippines</td>
-                  <td>Feb 21, 2025</td>
-                  <td><span class="badge badge-warning">Pending</span></td>
-                  <td style="text-align: right;">
-                    <button class="action-btn view-user-btn" data-id="4"><i class="fas fa-eye"></i></button>
-                    <button class="action-btn edit-user-btn" data-id="4"><i class="fas fa-edit"></i></button>
-                    <button class="action-btn delete-user-btn" data-id="4"><i class="fas fa-trash"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="user-info-cell">
-                      <div class="user-avatar-small" style="background-color: var(--sky-blue);">ST</div>
-                      <div>
-                        <div class="user-name">Sarah Tudtud</div>
-                        <div class="user-email">sarah.tudtud@agrigo.ph</div>
+                    </td>
+                    <td><span class="badge badge-success">Farmer</span></td>
+                    <td>Talisay, Philippines</td>
+                    <td>Feb 21, 2025</td>
+                    <td><span class="badge badge-warning">Pending</span></td>
+                    <td>
+                      <button class="btn btn-secondary view-user-btn" data-id="4"><i class="fas fa-eye"></i> View</button>
+                      <button class="btn btn-primary edit-user-btn" data-id="4"><i class="fas fa-edit"></i> Edit</button>
+                      <button class="btn btn-danger delete-user-btn" data-id="4"><i class="fas fa-trash"></i> Delete</button>
+                    </td>
+                  </tr>
+                  <tr data-user-id="5">
+                    <td>
+                      <div class="user-info-cell">
+                        <div class="user-avatar-small" style="background-color: var(--sky-blue);">ST</div>
+                        <div>
+                          <div class="user-name">Sarah Tudtud</div>
+                          <div class="user-email">sarah.tudtud@agrigo.ph</div>
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td><span class="badge badge-success">Farmer</span></td>
-                  <td>Lapu-Lapu, Philippines</td>
-                  <td>Feb 22, 2025</td>
-                  <td><span class="badge badge-warning">Pending</span></td>
-                  <td style="text-align: right;">
-                    <button class="action-btn view-user-btn" data-id="5"><i class="fas fa-eye"></i></button>
-                    <button class="action-btn edit-user-btn" data-id="5"><i class="fas fa-edit"></i></button>
-                    <button class="action-btn delete-user-btn" data-id="5"><i class="fas fa-trash"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="user-info-cell">
-                      <div class="user-avatar-small" style="background-color: var(--leaf-green);">MS</div>
-                      <div>
-                        <div class="user-name">Miguel Santos</div>
-                        <div class="user-email">miguel.santos@agrigo.ph</div>
+                    </td>
+                    <td><span class="badge badge-success">Farmer</span></td>
+                    <td>Lapu-Lapu, Philippines</td>
+                    <td>Feb 22, 2025</td>
+                    <td><span class="badge badge-warning">Pending</span></td>
+                    <td>
+                      <button class="btn btn-secondary view-user-btn" data-id="5"><i class="fas fa-eye"></i> View</button>
+                      <button class="btn btn-primary edit-user-btn" data-id="5"><i class="fas fa-edit"></i> Edit</button>
+                      <button class="btn btn-danger delete-user-btn" data-id="5"><i class="fas fa-trash"></i> Delete</button>
+                    </td>
+                  </tr>
+                  <tr data-user-id="6">
+                    <td>
+                      <div class="user-info-cell">
+                        <div class="user-avatar-small" style="background-color: var(--leaf-green);">MS</div>
+                        <div>
+                          <div class="user-name">Miguel Santos</div>
+                          <div class="user-email">miguel.santos@agrigo.ph</div>
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td><span class="badge badge-success">Farmer</span></td>
-                  <td>Toledo, Philippines</td>
-                  <td>Feb 20, 2025</td>
-                  <td><span class="badge badge-warning">Pending</span></td>
-                  <td style="text-align: right;">
-                    <button class="action-btn view-user-btn" data-id="6"><i class="fas fa-eye"></i></button>
-                    <button class="action-btn edit-user-btn" data-id="6"><i class="fas fa-edit"></i></button>
-                    <button class="action-btn delete-user-btn" data-id="6"><i class="fas fa-trash"></i></button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-
-            <div class="pagination-container">
-              <button class="pagination-btn pagination-btn-secondary" aria-label="Previous page">
-                <i class="fas fa-chevron-left"></i>
-              </button>
-              <button class="pagination-btn pagination-btn-primary" aria-current="page">
-                1
-              </button>
-              <button class="pagination-btn pagination-btn-secondary">
-                2
-              </button>
-              <button class="pagination-btn pagination-btn-secondary">
-                3
-              </button>
-              <button class="pagination-btn pagination-btn-secondary" aria-label="Next page">
-                <i class="fas fa-chevron-right"></i>
-              </button>
+                    </td>
+                    <td><span class="badge badge-success">Farmer</span></td>
+                    <td>Toledo, Philippines</td>
+                    <td>Feb 20, 2025</td>
+                    <td><span class="badge badge-warning">Pending</span></td>
+                    <td>
+                      <button class="btn btn-secondary view-user-btn" data-id="6"><i class="fas fa-eye"></i> View</button>
+                      <button class="btn btn-primary edit-user-btn" data-id="6"><i class="fas fa-edit"></i> Edit</button>
+                      <button class="btn btn-danger delete-user-btn" data-id="6"><i class="fas fa-trash"></i> Delete</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="pagination">
+              <div class="pagination-info">Showing 1 to 6 of 50 entries</div>
+              <div class="pagination-controls">
+                <button class="page-btn"><i class="fas fa-chevron-left"></i></button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+              </div>
             </div>
           </div>
 
@@ -1097,76 +1044,47 @@
             <div class="section-header">
               <div class="section-title">Pending Verification Requests</div>
               <div class="section-actions">
-                <button class="btn btn-secondary">
-                  <i class="fas fa-sync-alt"></i> Refresh
-                </button>
+                <button class="btn btn-secondary" id="refreshVerificationBtn"><i class="fas fa-sync-alt"></i> Refresh</button>
               </div>
             </div>
-
             <div class="verification-requests">
               <div class="verification-card">
                 <div class="verification-info">
                   <h4>Pedro Abellanosa</h4>
-                  <p style="margin: 5px 0; color: var(--dark-gray); opacity: 0.8">
-                    Requesting verification as Farmer
-                  </p>
-                  <p style="margin: 5px 0; font-size: 0.9rem">
-                    Location: Harmony Farm, Talisay
-                  </p>
-                  <p style="margin: 5px 0; font-size: 0.9rem">
-                    Submitted: Feb 21, 2025
-                  </p>
+                  <p>Requesting verification as Farmer</p>
+                  <p>Location: Harmony Farm, Talisay</p>
+                  <p>Submitted: Feb 21, 2025</p>
                 </div>
                 <div class="verification-actions">
-                  <button class="btn btn-primary">Approve</button>
-                  <button class="btn btn-secondary">Reject</button>
-                  <button class="btn btn-secondary">
-                    <i class="fas fa-eye"></i> Details
-                  </button>
+                  <button class="btn btn-primary approve-btn" data-id="4">Approve</button>
+                  <button class="btn btn-secondary reject-btn" data-id="4">Reject</button>
+                  <button class="btn btn-secondary view-details-btn" data-id="4"><i class="fas fa-eye"></i> Details</button>
                 </div>
               </div>
-
               <div class="verification-card">
                 <div class="verification-info">
                   <h4>Sarah Tudtud</h4>
-                  <p style="margin: 5px 0; color: var(--dark-gray); opacity: 0.8">
-                    Requesting verification as Farmer
-                  </p>
-                  <p style="margin: 5px 0; font-size: 0.9rem">
-                    Location: Fresh Fields, Lapu-Lapu
-                  </p>
-                  <p style="margin: 5px 0; font-size: 0.9rem">
-                    Submitted: Feb 22, 2025
-                  </p>
+                  <p>Requesting verification as Farmer</p>
+                  <p>Location: Fresh Fields, Lapu-Lapu</p>
+                  <p>Submitted: Feb 22, 2025</p>
                 </div>
                 <div class="verification-actions">
-                  <button class="btn btn-primary">Approve</button>
-                  <button class="btn btn-secondary">Reject</button>
-                  <button class="btn btn-secondary">
-                    <i class="fas fa-eye"></i> Details
-                  </button>
+                  <button class="btn btn-primary approve-btn" data-id="5">Approve</button>
+                  <button class="btn btn-secondary reject-btn" data-id="5">Reject</button>
+                  <button class="btn btn-secondary view-details-btn" data-id="5"><i class="fas fa-eye"></i> Details</button>
                 </div>
               </div>
-
               <div class="verification-card">
                 <div class="verification-info">
                   <h4>Miguel Santos</h4>
-                  <p style="margin: 5px 0; color: var(--dark-gray); opacity: 0.8">
-                    Requesting verification as Farmer
-                  </p>
-                  <p style="margin: 5px 0; font-size: 0.9rem">
-                    Location: Happy Earth Farm, Toledo
-                  </p>
-                  <p style="margin: 5px 0; font-size: 0.9rem">
-                    Submitted: Feb 20, 2025
-                  </p>
+                  <p>Requesting verification as Farmer</p>
+                  <p>Location: Happy Earth Farm, Toledo</p>
+                  <p>Submitted: Feb 20, 2025</p>
                 </div>
                 <div class="verification-actions">
-                  <button class="btn btn-primary">Approve</button>
-                  <button class="btn btn-secondary">Reject</button>
-                  <button class="btn btn-secondary">
-                    <i class="fas fa-eye"></i> Details
-                  </button>
+                  <button class="btn btn-primary approve-btn" data-id="6">Approve</button>
+                  <button class="btn btn-secondary reject-btn" data-id="6">Reject</button>
+                  <button class="btn btn-secondary view-details-btn" data-id="6"><i class="fas fa-eye"></i> Details</button>
                 </div>
               </div>
             </div>
@@ -1175,50 +1093,50 @@
       </div>
     </div>
 
-    <!-- User Details Modal -->
+    <!-- Modals -->
     <div class="modal" id="userDetailsModal">
       <div class="modal-content">
         <div class="modal-header">
           <h3 class="modal-title">User Details</h3>
-          <button class="modal-close" id="closeUserDetailsModal">&times;</button>
+          <button class="modal-close" id="closeUserDetailsModal">×</button>
         </div>
         <div class="modal-body">
           <div class="user-details">
             <div class="user-detail-item">
               <div class="detail-label">Name:</div>
-              <div class="detail-value" id="userDetailName">Ramon Fernandez</div>
+              <div class="detail-value" id="userDetailName"></div>
             </div>
             <div class="user-detail-item">
               <div class="detail-label">Email:</div>
-              <div class="detail-value" id="userDetailEmail">ramon.fernandez@agrigo.ph</div>
+              <div class="detail-value" id="userDetailEmail"></div>
             </div>
             <div class="user-detail-item">
               <div class="detail-label">Role:</div>
-              <div class="detail-value" id="userDetailRole">Farmer</div>
+              <div class="detail-value" id="userDetailRole"></div>
             </div>
             <div class="user-detail-item">
               <div class="detail-label">Location:</div>
-              <div class="detail-value" id="userDetailLocation">Cebu, Philippines</div>
+              <div class="detail-value" id="userDetailLocation"></div>
             </div>
             <div class="user-detail-item">
               <div class="detail-label">Joined:</div>
-              <div class="detail-value" id="userDetailJoined">Jan 15, 2025</div>
+              <div class="detail-value" id="userDetailJoined"></div>
             </div>
             <div class="user-detail-item">
               <div class="detail-label">Status:</div>
-              <div class="detail-value" id="userDetailStatus">Active</div>
+              <div class="detail-value" id="userDetailStatus"></div>
             </div>
             <div class="user-detail-item">
               <div class="detail-label">Phone:</div>
-              <div class="detail-value" id="userDetailPhone">+63 912 345 6789</div>
+              <div class="detail-value" id="userDetailPhone"></div>
             </div>
             <div class="user-detail-item">
               <div class="detail-label">Farm Size:</div>
-              <div class="detail-value" id="userDetailFarmSize">5 hectares</div>
+              <div class="detail-value" id="userDetailFarmSize"></div>
             </div>
             <div class="user-detail-item">
               <div class="detail-label">Products:</div>
-              <div class="detail-value" id="userDetailProducts">Rice, Vegetables, Fruits</div>
+              <div class="detail-value" id="userDetailProducts"></div>
             </div>
           </div>
         </div>
@@ -1229,12 +1147,11 @@
       </div>
     </div>
 
-    <!-- Add/Edit User Modal -->
     <div class="modal" id="editUserModal">
       <div class="modal-content">
         <div class="modal-header">
           <h3 class="modal-title" id="editUserModalTitle">Add New User</h3>
-          <button class="modal-close" id="closeEditUserModal">&times;</button>
+          <button class="modal-close" id="closeEditUserModal">×</button>
         </div>
         <div class="modal-body">
           <form id="userForm">
@@ -1279,12 +1196,11 @@
       </div>
     </div>
 
-    <!-- Delete Confirmation Modal -->
     <div class="modal" id="deleteConfirmModal">
       <div class="modal-content" style="max-width: 400px;">
         <div class="modal-header">
           <h3 class="modal-title">Confirm Delete</h3>
-          <button class="modal-close" id="closeDeleteConfirmModal">&times;</button>
+          <button class="modal-close" id="closeDeleteConfirmModal">×</button>
         </div>
         <div class="modal-body">
           <p>Are you sure you want to delete this user? This action cannot be undone.</p>
@@ -1296,227 +1212,294 @@
       </div>
     </div>
 
-    <!-- JavaScript -->
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        // Sidebar Toggle
-        const menuToggle = document.getElementById("menu-toggle");
-        const sidebar = document.getElementById("sidebar");
-        const mainContent = document.getElementById("main-content");
+        // Utility Functions
+        const $ = (selector) => document.querySelector(selector);
+        const $$ = (selector) => document.querySelectorAll(selector);
+        const toggleClass = (element, className) => element?.classList.toggle(className);
+        const showToast = (message, type = "success", duration = 3000) => {
+          const toastContainer = $("#toastContainer");
+          const toast = document.createElement("div");
+          toast.className = `toast toast-${type}`;
+          toast.innerHTML = `<span>${message}</span><i class="fas fa-times" onclick="this.parentElement.remove()"></i>`;
+          toastContainer.appendChild(toast);
+          setTimeout(() => toast.remove(), duration);
+        };
 
-        if (menuToggle) {
-          menuToggle.addEventListener("click", function () {
-            sidebar.classList.toggle("sidebar-collapsed");
-            mainContent.classList.toggle("main-content-expanded");
-            
-            // Change icon based on state
+        // Sidebar Toggle
+        const menuToggle = $("#menu-toggle");
+        const sidebar = $("#sidebar");
+        const mainContent = $("#main-content");
+        const overlay = $("#overlay");
+
+        if (menuToggle && sidebar && mainContent) {
+          menuToggle.addEventListener("click", () => {
+            toggleClass(sidebar, "sidebar-collapsed");
+            toggleClass(mainContent, "main-content-expanded");
             const icon = menuToggle.querySelector("i");
-            if (sidebar.classList.contains("sidebar-collapsed")) {
-              icon.classList.remove("fa-chevron-left");
-              icon.classList.add("fa-chevron-right");
-            } else {
-              icon.classList.remove("fa-chevron-right");
-              icon.classList.add("fa-chevron-left");
-            }
+            icon.classList.toggle("fa-chevron-left");
+            icon.classList.toggle("fa-chevron-right");
           });
         }
 
         // Mobile Menu Toggle
-        const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
-        if (mobileMenuToggle) {
-          mobileMenuToggle.addEventListener("click", function () {
-            sidebar.classList.toggle("active");
+        const mobileMenuToggle = $("#mobile-menu-toggle");
+        const sidebarToggleMobile = $(".sidebar-toggle-mobile");
+
+        const toggleMobileSidebar = () => {
+          toggleClass(sidebar, "active");
+          toggleClass(overlay, "active");
+        };
+
+        if (mobileMenuToggle) mobileMenuToggle.addEventListener("click", toggleMobileSidebar);
+        if (sidebarToggleMobile) sidebarToggleMobile.addEventListener("click", toggleMobileSidebar);
+        if (overlay) overlay.addEventListener("click", toggleMobileSidebar);
+
+        // Dark Mode Toggle
+        const darkModeToggle = $("#darkModeToggle");
+        const themeText = $("#themeText");
+        if (darkModeToggle) {
+          const toggleDarkMode = () => {
+            const isDark = document.body.classList.toggle("dark-mode");
+            localStorage.setItem("darkMode", isDark);
+            themeText.textContent = isDark ? "Light Mode" : "Dark Mode";
+          };
+          darkModeToggle.addEventListener("click", toggleDarkMode);
+          if (localStorage.getItem("darkMode") === "true") toggleDarkMode();
+        }
+
+        // Notification Dropdown
+        const notificationIcon = $("#notificationIcon");
+        const notificationDropdown = $("#notificationDropdown");
+        if (notificationIcon && notificationDropdown) {
+          notificationIcon.addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleClass(notificationDropdown, "show");
+          });
+          document.addEventListener("click", (e) => {
+            if (!notificationIcon.contains(e.target)) {
+              notificationDropdown.classList.remove("show");
+            }
           });
         }
 
-        // Sidebar Toggle Mobile
-        const sidebarToggleMobile = document.querySelector(".sidebar-toggle-mobile");
-        if (sidebarToggleMobile) {
-          sidebarToggleMobile.addEventListener("click", function () {
-            sidebar.classList.toggle("active");
+        // User Profile Dropdown
+        const userProfile = $("#userProfile");
+        const userDropdown = $("#userDropdown");
+        if (userProfile && userDropdown) {
+          userProfile.addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleClass(userDropdown, "show");
+          });
+          document.addEventListener("click", (e) => {
+            if (!userProfile.contains(e.target)) {
+              userDropdown.classList.remove("show");
+            }
           });
         }
 
-        // Logout functionality
-        const logoutBtn = document.getElementById("logoutBtn");
-        if (logoutBtn) {
-          logoutBtn.addEventListener("click", function (e) {
-            e.preventDefault();
-            
-            // Create a notification element
-            const notification = document.createElement("div");
-            notification.className = "logout-notification";
-            
-            const message = document.createElement("div");
-            message.className = "logout-message";
-            message.innerHTML = '<i class="fas fa-check-circle"></i> Logged out successfully!';
-            
-            notification.appendChild(message);
-            document.body.appendChild(notification);
-            
-            // Remove notification after 3 seconds
-            setTimeout(function() {
-              notification.remove();
-              // Redirect to login page (in a real app)
-              window.location.href = "/templates/admin/admin-login.html";
-            }, 3000);
-          });
-        }
+        // Logout Functionality
+        const userDropdownLogout = $("#userDropdownLogout");
+        const handleLogout = (e) => {
+          e.preventDefault();
+          showToast("Logged out successfully!", "success");
+          setTimeout(() => {
+            window.location.href = "/templates/admin/admin-login.html";
+          }, 2000);
+        };
+        if (userDropdownLogout) userDropdownLogout.addEventListener("click", handleLogout);
 
-        // Tab switching functionality
-        const tabs = document.querySelectorAll(".tab");
-        tabs.forEach(tab => {
-          tab.addEventListener("click", function() {
-            // Remove active class from all tabs
-            tabs.forEach(t => t.classList.remove("active"));
-            // Add active class to clicked tab
-            this.classList.add("active");
+        // Nav Links Active State
+        $$(".nav-link").forEach((link) => {
+          link.addEventListener("click", (e) => {
+            if (link.getAttribute("href").startsWith("#")) {
+              e.preventDefault();
+              $$(".nav-link").forEach((l) => l.classList.remove("active"));
+              link.classList.add("active");
+            }
           });
         });
 
-        // Modal functionality
-        const userDetailsModal = document.getElementById("userDetailsModal");
-        const editUserModal = document.getElementById("editUserModal");
-        const deleteConfirmModal = document.getElementById("deleteConfirmModal");
-        
+        // Modal Functionality
+        const userDetailsModal = $("#userDetailsModal");
+        const editUserModal = $("#editUserModal");
+        const deleteConfirmModal = $("#deleteConfirmModal");
+
+        const usersData = {
+          1: { name: "Ramon Fernandez", email: "ramon.fernandez@agrigo.ph", role: "Farmer", location: "Cebu, Philippines", joined: "Jan 15, 2025", status: "Active", phone: "+63 912 345 6789", farmSize: "5 hectares", products: "Rice, Vegetables, Fruits" },
+          2: { name: "Maricel Santos", email: "maricel.santos@agrigo.ph", role: "Buyer", location: "Manila, Philippines", joined: "Feb 03, 2025", status: "Active", phone: "+63 923 456 7890", farmSize: "N/A", products: "N/A" },
+          3: { name: "Antonio Reyes", email: "antonio.reyes@agrigo.ph", role: "Farmer", location: "Davao, Philippines", joined: "Feb 21, 2025", status: "Pending", phone: "+63 934 567 8901", farmSize: "3 hectares", products: "Corn, Fruits" },
+          4: { name: "Pedro Abellanosa", email: "pedro.abellanosa@agrigo.ph", role: "Farmer", location: "Talisay, Philippines", joined: "Feb 21, 2025", status: "Pending", phone: "+63 945 678 9012", farmSize: "4 hectares", products: "Vegetables" },
+          5: { name: "Sarah Tudtud", email: "sarah.tudtud@agrigo.ph", role: "Farmer", location: "Lapu-Lapu, Philippines", joined: "Feb 22, 2025", status: "Pending", phone: "+63 956 789 0123", farmSize: "2 hectares", products: "Rice, Fish" },
+          6: { name: "Miguel Santos", email: "miguel.santos@agrigo.ph", role: "Farmer", location: "Toledo, Philippines", joined: "Feb 20, 2025", status: "Pending", phone: "+63 967 890 1234", farmSize: "6 hectares", products: "Poultry, Eggs" }
+        };
+
         // View User Details
-        const viewUserBtns = document.querySelectorAll(".view-user-btn");
-        viewUserBtns.forEach(btn => {
-          btn.addEventListener("click", function() {
-            const userId = this.getAttribute("data-id");
-            // In a real app, you would fetch user details from the server
-            // For now, we'll just show the modal
-            userDetailsModal.style.display = "block";
+        $$(".view-user-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const userId = btn.dataset.id;
+            const user = usersData[userId];
+            if (user) {
+              $("#userDetailName").textContent = user.name;
+              $("#userDetailEmail").textContent = user.email;
+              $("#userDetailRole").textContent = user.role;
+              $("#userDetailLocation").textContent = user.location;
+              $("#userDetailJoined").textContent = user.joined;
+              $("#userDetailStatus").textContent = user.status;
+              $("#userDetailPhone").textContent = user.phone;
+              $("#userDetailFarmSize").textContent = user.farmSize;
+              $("#userDetailProducts").textContent = user.products;
+              userDetailsModal.style.display = "block";
+            }
           });
         });
-        
+
         // Close User Details Modal
-        const closeUserDetailsModal = document.getElementById("closeUserDetailsModal");
-        const closeUserDetailsBtn = document.getElementById("closeUserDetailsBtn");
-        if (closeUserDetailsModal) {
-          closeUserDetailsModal.addEventListener("click", function() {
-            userDetailsModal.style.display = "none";
-          });
-        }
-        if (closeUserDetailsBtn) {
-          closeUserDetailsBtn.addEventListener("click", function() {
-            userDetailsModal.style.display = "none";
-          });
-        }
-        
+        $("#closeUserDetailsModal").addEventListener("click", () => userDetailsModal.style.display = "none");
+        $("#closeUserDetailsBtn").addEventListener("click", () => userDetailsModal.style.display = "none");
+
         // Add User
-        const addUserBtn = document.getElementById("addUserBtn");
-        if (addUserBtn) {
-          addUserBtn.addEventListener("click", function() {
-            document.getElementById("editUserModalTitle").textContent = "Add New User";
-            document.getElementById("userForm").reset();
-            editUserModal.style.display = "block";
-          });
-        }
-        
+        $("#addUserBtn").addEventListener("click", () => {
+          $("#editUserModalTitle").textContent = "Add New User";
+          $("#userForm").reset();
+          editUserModal.style.display = "block";
+        });
+
         // Edit User
-        const editUserBtns = document.querySelectorAll(".edit-user-btn");
-        editUserBtns.forEach(btn => {
-          btn.addEventListener("click", function() {
-            const userId = this.getAttribute("data-id");
-            document.getElementById("editUserModalTitle").textContent = "Edit User";
-            // In a real app, you would fetch user details and populate the form
-            editUserModal.style.display = "block";
+        $$(".edit-user-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const userId = btn.dataset.id;
+            const user = usersData[userId];
+            if (user) {
+              $("#editUserModalTitle").textContent = "Edit User";
+              $("#userName").value = user.name;
+              $("#userEmail").value = user.email;
+              $("#userRole").value = user.role.toLowerCase();
+              $("#userLocation").value = user.location;
+              $("#userStatus").value = user.status.toLowerCase();
+              $("#userPhone").value = user.phone;
+              editUserModal.dataset.userId = userId;
+              editUserModal.style.display = "block";
+            }
           });
         });
-        
-        // Edit User from Details
-        const editUserFromDetailsBtn = document.getElementById("editUserFromDetailsBtn");
-        if (editUserFromDetailsBtn) {
-          editUserFromDetailsBtn.addEventListener("click", function() {
-            userDetailsModal.style.display = "none";
-            document.getElementById("editUserModalTitle").textContent = "Edit User";
-            // In a real app, you would populate the form with user details
-            editUserModal.style.display = "block";
-          });
-        }
-        
+
+        $("#editUserFromDetailsBtn").addEventListener("click", () => {
+          userDetailsModal.style.display = "none";
+          $("#editUserModalTitle").textContent = "Edit User";
+          editUserModal.style.display = "block";
+        });
+
         // Close Edit User Modal
-        const closeEditUserModal = document.getElementById("closeEditUserModal");
-        const cancelEditUserBtn = document.getElementById("cancelEditUserBtn");
-        if (closeEditUserModal) {
-          closeEditUserModal.addEventListener("click", function() {
-            editUserModal.style.display = "none";
-          });
-        }
-        if (cancelEditUserBtn) {
-          cancelEditUserBtn.addEventListener("click", function() {
-            editUserModal.style.display = "none";
-          });
-        }
-        
+        $("#closeEditUserModal").addEventListener("click", () => editUserModal.style.display = "none");
+        $("#cancelEditUserBtn").addEventListener("click", () => editUserModal.style.display = "none");
+
         // Save User
-        const saveUserBtn = document.getElementById("saveUserBtn");
-        if (saveUserBtn) {
-          saveUserBtn.addEventListener("click", function() {
-            // In a real app, you would save the user data to the server
-            editUserModal.style.display = "none";
-            // Show success notification
-            const notification = document.createElement("div");
-            notification.className = "logout-notification";
-            notification.innerHTML = '<div class="logout-message"><i class="fas fa-check-circle"></i> User saved successfully!</div>';
-            document.body.appendChild(notification);
-            setTimeout(() => notification.remove(), 3000);
-          });
-        }
-        
+        $("#saveUserBtn").addEventListener("click", () => {
+          const userId = editUserModal.dataset.userId;
+          showToast(userId ? "User updated successfully!" : "User added successfully!", "success");
+          editUserModal.style.display = "none";
+        });
+
         // Delete User
-        const deleteUserBtns = document.querySelectorAll(".delete-user-btn");
-        deleteUserBtns.forEach(btn => {
-          btn.addEventListener("click", function() {
-            const userId = this.getAttribute("data-id");
-            // Store the user ID for deletion
-            document.getElementById("confirmDeleteBtn").setAttribute("data-id", userId);
+        $$(".delete-user-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const userId = btn.dataset.id;
+            $("#confirmDeleteBtn").dataset.userId = userId;
             deleteConfirmModal.style.display = "block";
           });
         });
-        
-        // Close Delete Confirmation Modal
-        const closeDeleteConfirmModal = document.getElementById("closeDeleteConfirmModal");
-        const cancelDeleteBtn = document.getElementById("cancelDeleteBtn");
-        if (closeDeleteConfirmModal) {
-          closeDeleteConfirmModal.addEventListener("click", function() {
-            deleteConfirmModal.style.display = "none";
+
+        $("#closeDeleteConfirmModal").addEventListener("click", () => deleteConfirmModal.style.display = "none");
+        $("#cancelDeleteBtn").addEventListener("click", () => deleteConfirmModal.style.display = "none");
+
+        $("#confirmDeleteBtn").addEventListener("click", () => {
+          const userId = $("#confirmDeleteBtn").dataset.userId;
+          const row = $(`tr[data-user-id="${userId}"]`);
+          if (row) row.remove();
+          deleteConfirmModal.style.display = "none";
+          showToast("User deleted successfully!", "success");
+        });
+
+        // Verification Actions
+        $$(".approve-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const userId = btn.dataset.id;
+            showToast(`User ${usersData[userId].name} approved!`, "success");
+            const row = btn.closest(".verification-card");
+            if (row) row.remove();
           });
-        }
-        if (cancelDeleteBtn) {
-          cancelDeleteBtn.addEventListener("click", function() {
-            deleteConfirmModal.style.display = "none";
+        });
+
+        $$(".reject-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const userId = btn.dataset.id;
+            showToast(`User ${usersData[userId].name} rejected!`, "info");
+            const row = btn.closest(".verification-card");
+            if (row) row.remove();
           });
-        }
-        
-        // Confirm Delete
-        const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
-        if (confirmDeleteBtn) {
-          confirmDeleteBtn.addEventListener("click", function() {
-            const userId = this.getAttribute("data-id");
-            // In a real app, you would delete the user from the server
-            deleteConfirmModal.style.display = "none";
-            // Show success notification
-            const notification = document.createElement("div");
-            notification.className = "logout-notification";
-            notification.innerHTML = '<div class="logout-message"><i class="fas fa-check-circle"></i> User deleted successfully!</div>';
-            document.body.appendChild(notification);
-            setTimeout(() => notification.remove(), 3000);
+        });
+
+        $$(".view-details-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const userId = btn.dataset.id;
+            const user = usersData[userId];
+            if (user) {
+              $("#userDetailName").textContent = user.name;
+              $("#userDetailEmail").textContent = user.email;
+              $("#userDetailRole").textContent = user.role;
+              $("#userDetailLocation").textContent = user.location;
+              $("#userDetailJoined").textContent = user.joined;
+              $("#userDetailStatus").textContent = user.status;
+              $("#userDetailPhone").textContent = user.phone;
+              $("#userDetailFarmSize").textContent = user.farmSize;
+              $("#userDetailProducts").textContent = user.products;
+              userDetailsModal.style.display = "block";
+            }
           });
-        }
-        
-        // Close modals when clicking outside
-        window.addEventListener("click", function(event) {
-          if (event.target === userDetailsModal) {
-            userDetailsModal.style.display = "none";
-          }
-          if (event.target === editUserModal) {
-            editUserModal.style.display = "none";
-          }
-          if (event.target === deleteConfirmModal) {
-            deleteConfirmModal.style.display = "none";
-          }
+        });
+
+        // Refresh Verification
+        $("#refreshVerificationBtn").addEventListener("click", () => {
+          showToast("Verification requests refreshed!", "success");
+        });
+
+        // Tab Switching
+        $$(".tab").forEach((tab) => {
+          tab.addEventListener("click", () => {
+            $$(".tab").forEach((t) => t.classList.remove("active"));
+            tab.classList.add("active");
+            const tabType = tab.dataset.tab;
+            $$("#usersTable tr").forEach((row) => {
+              const role = row.querySelector(".badge").textContent.toLowerCase();
+              const status = row.querySelectorAll(".badge")[1].textContent.toLowerCase();
+              row.style.display = (tabType === "all" ||
+                (tabType === "farmers" && role === "farmer") ||
+                (tabType === "buyers" && role === "buyer") ||
+                (tabType === "pending" && status === "pending") ||
+                (tabType === "inactive" && status === "inactive")) ? "" : "none";
+            });
+          });
+        });
+
+        // Search Functionality
+        $("#search-input").addEventListener("input", (e) => {
+          const query = e.target.value.toLowerCase();
+          $$("#usersTable tr").forEach((row) => {
+            const text = row.textContent.toLowerCase();
+            row.style.display = text.includes(query) ? "" : "none";
+          });
+        });
+
+        // Close modals on outside click
+        window.addEventListener("click", (event) => {
+          if (event.target === userDetailsModal) userDetailsModal.style.display = "none";
+          if (event.target === editUserModal) editUserModal.style.display = "none";
+          if (event.target === deleteConfirmModal) deleteConfirmModal.style.display = "none";
         });
       });
     </script>
