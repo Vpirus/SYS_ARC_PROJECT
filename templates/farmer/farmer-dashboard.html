@@ -1,1120 +1,2546 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AgriGo Farmer Dashboard</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&family=Roboto:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        :root {
-            /* Primary Colors */
-            --green-primary: #2E7D32;
-            --earth-brown: #8D6E63;
-            --sky-blue: #4FC3F7;
-            
-            /* Secondary Colors */
-            --harvest-yellow: #FBC02D;
-            --leaf-green: #81C784;
-            --soil-tan: #D7CCC8;
-            
-            /* Additional Farmer-specific colors */
-            --crop-green: #66BB6A;
-            --sunrise-orange: #FFB74D;
-            --water-blue: #29B6F6;
-            --wheat-gold: #F9A825;
-            
-            /* Neutrals */
-            --dark-gray: #424242;
-            --light-gray: #F5F5F5;
-            --white: #FFFFFF;
-            
-            /* Spacing */
-            --spacing-xs: 4px;
-            --spacing-sm: 8px;
-            --spacing-md: 16px;
-            --spacing-lg: 24px;
-            --spacing-xl: 32px;
+      :root {
+        /* Primary Colors */
+        --green-primary: #2e7d32;
+        --green-primary-light: #4caf50;
+        --green-primary-dark: #1b5e20;
+        --earth-brown: #8d6e63;
+        --sky-blue: #4fc3f7;
+
+        /* Secondary Colors */
+        --harvest-yellow: #fbc02d;
+        --leaf-green: #81c784;
+        --soil-tan: #d7ccc8;
+
+        /* Additional Farmer-specific Colors */
+        --crop-green: #66bb6a;
+        --sunrise-orange: #ffb74d;
+        --water-blue: #29b6f6;
+        --wheat-gold: #f9a825;
+
+        /* Neutrals */
+        --dark-gray: #424242;
+        --medium-gray: #757575;
+        --light-gray: #f5f5f5;
+        --white: #ffffff;
+        --black: #212121;
+
+        /* Status Colors */
+        --success: #4caf50;
+        --warning: #ff9800;
+        --danger: #f44336;
+        --info: #2196f3;
+
+        /* Dark Theme Colors */
+        --dark-bg: #121212;
+        --dark-surface: #1e1e1e;
+        --dark-card: #2d2d2d;
+        --dark-border: #333333;
+        --dark-text: #e0e0e0;
+        --dark-text-secondary: #aaaaaa;
+
+        /* Spacing */
+        --spacing-xs: 4px;
+        --spacing-sm: 8px;
+        --spacing-md: 16px;
+        --spacing-lg: 24px;
+        --spacing-xl: 32px;
+        --spacing-xxl: 48px;
+
+        /* Animation */
+        --transition-fast: 0.2s;
+        --transition-normal: 0.3s;
+        --transition-slow: 0.5s;
+
+        /* Shadows */
+        --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.1);
+        --shadow-md: 0 4px 10px rgba(0, 0, 0, 0.15);
+        --shadow-lg: 0 8px 20px rgba(0, 0, 0, 0.2);
+
+        /* Borders */
+        --border-radius-sm: 4px;
+        --border-radius-md: 8px;
+        --border-radius-lg: 12px;
+        --border-radius-xl: 16px;
+        --border-radius-circle: 50%;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Open Sans", sans-serif;
+        background-color: var(--light-gray);
+        color: var(--dark-gray);
+        overflow-x: hidden;
+        line-height: 1.5;
+      }
+      body.dark-mode {
+        background-color: var(--dark-bg);
+        color: var(--dark-text);
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: "Montserrat", sans-serif;
+        font-weight: 700;
+        margin-bottom: var(--spacing-md);
+      }
+      .container {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      /* Overlay */
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 90;
+        display: none;
+        animation: fadeIn 0.3s ease;
+      }
+      .overlay.active {
+        display: block;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        width: 250px;
+        background-color: var(--white);
+        box-shadow: var(--shadow-md);
+        position: fixed;
+        height: 100vh;
+        z-index: 100;
+        transition: all var(--transition-normal);
+        overflow-y: auto;
+      }
+      .dark-mode .sidebar {
+        background-color: var(--dark-surface);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      }
+      .sidebar-collapsed {
+        width: 70px;
+      }
+      .sidebar-header {
+        padding: var(--spacing-md);
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid var(--light-gray);
+        height: 70px;
+      }
+      .dark-mode .sidebar-header {
+        border-bottom-color: var(--dark-border);
+      }
+      .sidebar-header img.logo {
+        height: 40px;
+        width: 40px;
+        object-fit: contain;
+      }
+      .sidebar-header h2 {
+        margin-left: var(--spacing-sm);
+        color: var(--green-primary);
+        font-size: 1.5rem;
+        transition: opacity var(--transition-normal),
+          width var(--transition-normal);
+        white-space: nowrap;
+        margin-bottom: 0;
+      }
+      .sidebar-collapsed .sidebar-header h2 {
+        opacity: 0;
+        width: 0;
+        overflow: hidden;
+      }
+      .sidebar-menu {
+        margin-top: var(--spacing-md);
+      }
+      .nav-list {
+        list-style: none;
+      }
+      .nav-item {
+        margin-bottom: 2px;
+      }
+      .nav-link {
+        padding: var(--spacing-md);
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        transition: all var(--transition-fast);
+        color: var(--dark-gray);
+        text-decoration: none;
+        border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+      }
+      .dark-mode .nav-link {
+        color: var(--dark-text);
+      }
+      .nav-link:hover {
+        background-color: rgba(46, 125, 50, 0.1);
+        color: var(--green-primary);
+      }
+      .dark-mode .nav-link:hover {
+        background-color: rgba(76, 175, 80, 0.1);
+      }
+      .nav-link.active {
+        background-color: var(--green-primary);
+        color: var(--white);
+        box-shadow: var(--shadow-sm);
+      }
+      .dark-mode .nav-link.active {
+        background-color: var(--green-primary-dark);
+      }
+      .nav-link i {
+        font-size: 1.2rem;
+        width: 30px;
+        text-align: center;
+      }
+      .nav-link span {
+        margin-left: var(--spacing-md);
+        transition: opacity var(--transition-normal),
+          width var(--transition-normal);
+        white-space: nowrap;
+      }
+      .sidebar-collapsed .nav-link span {
+        opacity: 0;
+        width: 0;
+        overflow: hidden;
+      }
+      .menu-toggle {
+        position: absolute;
+        right: -5px;
+        top: 65px;
+        background-color: var(--green-primary);
+        color: var(--white);
+        border: none;
+        width: 24px;
+        height: 24px;
+        border-radius: var(--border-radius-circle);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: var(--shadow-sm);
+        transition: background-color var(--transition-fast);
+      }
+      .menu-toggle:hover {
+        background-color: var(--green-primary-dark);
+      }
+      .sidebar-toggle-mobile {
+        display: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: var(--spacing-md);
+        text-align: center;
+        background-color: var(--green-primary);
+        color: var(--white);
+        position: sticky;
+        bottom: 0;
+        z-index: 101;
+      }
+
+      /* Main Content */
+      .main-content {
+        flex: 1;
+        margin-left: 250px;
+        transition: margin-left var(--transition-normal);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        background-color: var(--light-gray);
+      }
+      .dark-mode .main-content {
+        background-color: var(--dark-bg);
+      }
+      .main-content-expanded {
+        margin-left: 70px;
+      }
+      .mobile-menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: var(--dark-gray);
+        cursor: pointer;
+        padding: var(--spacing-sm);
+      }
+      .dark-mode .mobile-menu-toggle {
+        color: var(--dark-text);
+      }
+
+      /* Header */
+      .header {
+        background-color: var(--white);
+        padding: var(--spacing-md) var(--spacing-lg);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: var(--shadow-sm);
+        position: sticky;
+        top: 0;
+        z-index: 99;
+        height: 70px;
+      }
+      .dark-mode .header {
+        background-color: var(--dark-surface);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      }
+      .search-bar {
+        display: flex;
+        align-items: center;
+        background-color: var(--light-gray);
+        border-radius: 20px;
+        padding: var(--spacing-sm) var(--spacing-md);
+        width: 300px;
+        transition: all var(--transition-fast);
+      }
+      .dark-mode .search-bar {
+        background-color: var(--dark-card);
+      }
+      .search-bar:focus-within {
+        box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.3);
+      }
+      .search-bar input {
+        border: none;
+        background: transparent;
+        padding: var(--spacing-xs) var(--spacing-sm);
+        flex: 1;
+        outline: none;
+        font-family: "Open Sans", sans-serif;
+        color: var(--dark-gray);
+        font-size: 0.95rem;
+      }
+      .dark-mode .search-bar input {
+        color: var(--dark-text);
+      }
+      .search-bar input::placeholder {
+        color: var(--medium-gray);
+        opacity: 0.8;
+      }
+      .dark-mode .search-bar input::placeholder {
+        color: var(--dark-text-secondary);
+      }
+      .search-bar i {
+        color: var(--medium-gray);
+      }
+      .dark-mode .search-bar i {
+        color: var(--dark-text-secondary);
+      }
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-lg);
+      }
+
+      /* Notification */
+      .notification {
+        position: relative;
+        cursor: pointer;
+        padding: var(--spacing-xs);
+        border-radius: var(--border-radius-circle);
+        transition: background-color var(--transition-fast);
+      }
+      .notification:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+      .dark-mode .notification:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+      .notification-count {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background-color: var(--harvest-yellow);
+        color: var(--dark-gray);
+        font-size: 0.7rem;
+        width: 18px;
+        height: 18px;
+        border-radius: var(--border-radius-circle);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+      }
+      .notification-dropdown {
+        position: absolute;
+        top: calc(100% + 10px);
+        right: -10px;
+        width: 320px;
+        background-color: var(--white);
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-md);
+        z-index: 100;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        transition: all var(--transition-normal);
+        overflow: hidden;
+        max-height: 400px;
+        display: flex;
+        flex-direction: column;
+      }
+      .dark-mode .notification-dropdown {
+        background-color: var(--dark-card);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+      .notification-dropdown.show {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+      .notification-dropdown h3 {
+        padding: var(--spacing-md);
+        border-bottom: 1px solid var(--light-gray);
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--green-primary);
+      }
+      .dark-mode .notification-dropdown h3 {
+        border-bottom-color: var(--dark-border);
+        color: var(--green-primary-light);
+      }
+      .notification-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        overflow-y: auto;
+        flex: 1;
+      }
+      .notification-item {
+        display: flex;
+        align-items: center;
+        padding: var(--spacing-md);
+        border-bottom: 1px solid var(--light-gray);
+        transition: background-color var(--transition-fast);
+      }
+      .dark-mode .notification-item {
+        border-bottom-color: var(--dark-border);
+      }
+      .notification-item:hover {
+        background-color: var(--light-gray);
+      }
+      .dark-mode .notification-item:hover {
+        background-color: var(--dark-surface);
+      }
+      .notification-icon {
+        width: 30px;
+        height: 30px;
+        border-radius: var(--border-radius-circle);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: var(--spacing-md);
+        font-size: 1rem;
+      }
+      .notification-icon.warning {
+        background-color: var(--warning);
+        color: var(--white);
+      }
+      .notification-icon.success {
+        background-color: var(--success);
+        color: var(--white);
+      }
+      .notification-icon.info {
+        background-color: var(--sky-blue);
+        color: var(--white);
+      }
+      .notification-content p {
+        margin: 0;
+        font-size: 0.9rem;
+        color: var(--dark-gray);
+      }
+      .dark-mode .notification-content p {
+        color: var(--dark-text);
+      }
+      .notification-content strong {
+        font-weight: 600;
+        color: var(--black);
+      }
+      .dark-mode .notification-content strong {
+        color: var(--white);
+      }
+      .notification-time {
+        font-size: 0.75rem;
+        color: var(--medium-gray);
+      }
+      .dark-mode .notification-time {
+        color: var(--dark-text-secondary);
+      }
+      .notification-footer {
+        padding: var(--spacing-md);
+        text-align: center;
+        border-top: 1px solid var(--light-gray);
+      }
+      .dark-mode .notification-footer {
+        border-top-color: var(--dark-border);
+      }
+      .notification-footer a {
+        font-size: 0.85rem;
+        color: var(--green-primary);
+      }
+      .notification-footer a:hover {
+        color: var(--green-primary-dark);
+      }
+
+      /* User Profile */
+      .user-profile {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        padding: var(--spacing-sm);
+        border-radius: var(--border-radius-md);
+        transition: background-color var(--transition-fast);
+        position: relative;
+      }
+      .user-profile:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+      .dark-mode .user-profile:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+      .user-avatar {
+        width: 35px;
+        height: 35px;
+        background-color: var(--green-primary);
+        color: var(--white);
+        border-radius: var(--border-radius-circle);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        font-weight: 600;
+        margin-right: var(--spacing-sm);
+      }
+      .user-info {
+        display: flex;
+        flex-direction: column;
+      }
+      .user-name {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--black);
+      }
+      .dark-mode .user-name {
+        color: var(--dark-text);
+      }
+      .role-badge {
+        font-size: 0.75rem;
+        color: var(--medium-gray);
+      }
+      .dark-mode .role-badge {
+        color: var(--dark-text-secondary);
+      }
+      .dropdown-icon {
+        margin-left: var(--spacing-sm);
+        color: var(--medium-gray);
+        transition: transform var(--transition-fast);
+      }
+      .user-profile:hover .dropdown-icon {
+        transform: rotate(180deg);
+      }
+      .user-dropdown {
+        position: absolute;
+        top: calc(100% + 10px);
+        right: 0;
+        width: 200px;
+        background-color: var(--white);
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-md);
+        z-index: 100;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        transition: all var(--transition-normal);
+      }
+      .dark-mode .user-dropdown {
+        background-color: var(--dark-card);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+      .user-dropdown.show {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+      .user-dropdown ul {
+        list-style: none;
+        padding: var(--spacing-sm) 0;
+        margin: 0;
+      }
+      .user-dropdown li {
+        padding: var(--spacing-sm) var(--spacing-md);
+        transition: background-color var(--transition-fast);
+      }
+      .user-dropdown li:hover {
+        background-color: var(--light-gray);
+      }
+      .dark-mode .user-dropdown li:hover {
+        background-color: var(--dark-surface);
+      }
+      .user-dropdown li.divider {
+        height: 1px;
+        background-color: var(--light-gray);
+        padding: 0;
+        margin: var(--spacing-sm) 0;
+      }
+      .dark-mode .user-dropdown li.divider {
+        background-color: var(--dark-border);
+      }
+      .user-dropdown a {
+        display: flex;
+        align-items: center;
+        color: var(--dark-gray);
+        font-size: 0.9rem;
+        text-decoration: none;
+      }
+      .dark-mode .user-dropdown a {
+        color: var(--dark-text);
+      }
+      .user-dropdown a i {
+        margin-right: var(--spacing-md);
+        width: 20px;
+        text-align: center;
+      }
+
+      /* Dashboard Content */
+      .dashboard-content {
+        padding: var(--spacing-lg);
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-lg);
+      }
+      .welcome-section {
+        background: linear-gradient(
+          to right,
+          var(--green-primary),
+          var(--crop-green)
+        );
+        padding: var(--spacing-xl);
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-sm);
+        margin-bottom: var(--spacing-xl);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        color: var(--white);
+      }
+      .dark-mode .welcome-section {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+      .welcome-bg {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: 250px;
+        height: 250px;
+        opacity: 0.2;
+      }
+      .welcome-content {
+        position: relative;
+        z-index: 1;
+        max-width: 70%;
+      }
+      .welcome-title {
+        font-size: 1.8rem;
+        margin-bottom: var(--spacing-xs);
+      }
+      .welcome-content p {
+        margin: 0;
+        font-size: 0.95rem;
+      }
+      .date-display {
+        font-size: 0.9rem;
+        text-align: right;
+      }
+
+      /* Metrics Grid */
+      .metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: var(--spacing-lg);
+      }
+      .metric-card {
+        background-color: var(--white);
+        border-radius: var(--border-radius-md);
+        padding: var(--spacing-lg);
+        box-shadow: var(--shadow-sm);
+        transition: transform var(--transition-normal),
+          box-shadow var(--transition-normal);
+      }
+      .dark-mode .metric-card {
+        background-color: var(--dark-card);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+      .metric-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-md);
+      }
+      .metric-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: var(--spacing-md);
+      }
+      .metric-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: var(--border-radius-md);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: var(--spacing-md);
+      }
+      .metric-icon.green {
+        background-color: rgba(46, 125, 50, 0.1);
+        color: var(--green-primary);
+      }
+      .metric-icon.yellow {
+        background-color: rgba(251, 192, 45, 0.1);
+        color: var(--harvest-yellow);
+      }
+      .metric-icon.blue {
+        background-color: rgba(79, 195, 247, 0.1);
+        color: var(--sky-blue);
+      }
+      .metric-icon.orange {
+        background-color: rgba(255, 183, 77, 0.1);
+        color: var(--sunrise-orange);
+      }
+      .metric-title {
+        font-size: 0.9rem;
+        color: var(--dark-gray);
+        opacity: 0.8;
+      }
+      .dark-mode .metric-title {
+        color: var(--dark-text-secondary);
+      }
+      .metric-value {
+        font-size: 1.8rem;
+        font-weight: bold;
+        margin: var(--spacing-sm) 0;
+        color: var(--black);
+      }
+      .dark-mode .metric-value {
+        color: var(--white);
+      }
+      .metric-trend {
+        font-size: 0.8rem;
+        display: flex;
+        align-items: center;
+      }
+      .trend-up {
+        color: var(--success);
+      }
+      .trend-down {
+        color: var(--danger);
+      }
+
+      /* Product Grid */
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: var(--spacing-lg);
+      }
+      .product-card {
+        background-color: var(--white);
+        border-radius: var(--border-radius-md);
+        overflow: hidden;
+        box-shadow: var(--shadow-sm);
+        transition: transform var(--transition-normal),
+          box-shadow var(--transition-normal);
+      }
+      .dark-mode .product-card {
+        background-color: var(--dark-card);
+      }
+      .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-md);
+      }
+      .product-image {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+      }
+      .product-details {
+        padding: var(--spacing-md);
+      }
+      .product-name {
+        font-weight: bold;
+        margin-bottom: var(--spacing-xs);
+      }
+      .product-category {
+        color: var(--dark-gray);
+        opacity: 0.7;
+        font-size: 0.8rem;
+        margin-bottom: var(--spacing-xs);
+      }
+      .dark-mode .product-category {
+        color: var(--dark-text-secondary);
+      }
+      .product-price {
+        font-weight: bold;
+        color: var(--green-primary);
+        margin-bottom: var(--spacing-xs);
+      }
+      .product-stock {
+        font-size: 0.8rem;
+        margin-bottom: var(--spacing-md);
+      }
+      .stock-indicator {
+        display: inline-block;
+        width: 100%;
+        height: 4px;
+        background-color: var(--light-gray);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .dark-mode .stock-indicator {
+        background-color: var(--dark-border);
+      }
+      .stock-level {
+        height: 100%;
+        background-color: var(--green-primary);
+      }
+      .stock-low {
+        background-color: var(--danger);
+      }
+      .stock-medium {
+        background-color: var(--harvest-yellow);
+      }
+      .product-actions {
+        display: flex;
+        gap: var(--spacing-sm);
+      }
+
+      /* Section */
+      .section {
+        background-color: var(--white);
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-sm);
+        padding: var(--spacing-lg);
+        margin-bottom: var(--spacing-xl);
+      }
+      .dark-mode .section {
+        background-color: var(--dark-card);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: var(--spacing-lg);
+      }
+      .section-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--green-primary);
+      }
+      .dark-mode .section-title {
+        color: var(--green-primary-light);
+      }
+      .section-actions {
+        display: flex;
+        gap: var(--spacing-sm);
+        align-items: center;
+      }
+
+      /* Buttons */
+      .btn {
+        padding: var(--spacing-sm) var(--spacing-md);
+        border-radius: 6px;
+        cursor: pointer;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-size: 0.9rem;
+        transition: all var(--transition-fast) ease;
+        border: none;
+        display: inline-flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        text-align: center;
+        justify-content: center;
+      }
+      .btn-primary {
+        background-color: var(--green-primary);
+        color: var(--white);
+      }
+      .btn-primary:hover {
+        background-color: var(--green-primary-dark);
+        transform: translateY(-2px);
+      }
+      .btn-secondary {
+        background-color: rgba(46, 125, 50, 0.1);
+        color: var(--green-primary);
+      }
+      .btn-secondary:hover {
+        background-color: rgba(46, 125, 50, 0.2);
+        transform: translateY(-2px);
+      }
+      .btn-outline {
+        border: 1px solid var(--green-primary);
+        background-color: transparent;
+        color: var(--green-primary);
+      }
+      .btn-outline:hover {
+        background-color: rgba(46, 125, 50, 0.1);
+        transform: translateY(-2px);
+      }
+      .dark-mode .btn-secondary {
+        background-color: rgba(76, 175, 80, 0.1);
+        color: var(--green-primary-light);
+      }
+      .dark-mode .btn-secondary:hover {
+        background-color: rgba(76, 175, 80, 0.2);
+      }
+      .dark-mode .btn-outline {
+        border-color: var(--green-primary-light);
+        color: var(--green-primary-light);
+      }
+      .dark-mode .btn-outline:hover {
+        background-color: rgba(76, 175, 80, 0.1);
+      }
+      .btn:disabled {
+        background-color: var(--medium-gray);
+        color: var(--light-gray);
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      /* Dropdown Menu */
+      .dropdown {
+        position: relative;
+      }
+      .dropdown-toggle::after {
+        content: "";
+        margin-left: var(--spacing-sm);
+        border: 4px solid transparent;
+        border-top-color: var(--dark-gray);
+        transition: transform var(--transition-fast);
+      }
+      .dark-mode .dropdown-toggle::after {
+        border-top-color: var(--dark-text);
+      }
+      .dropdown-toggle:hover::after {
+        transform: rotate(180deg);
+      }
+      .dropdown-menu {
+        position: absolute;
+        top: calc(100% + 5px);
+        right: 0;
+        background-color: var(--white);
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-md);
+        z-index: 100;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        transition: all var(--transition-normal);
+        min-width: 150px;
+      }
+      .dark-mode .dropdown-menu {
+        background-color: var(--dark-card);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+      .dropdown-menu.show {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+      .dropdown-menu a {
+        display: block;
+        padding: var(--spacing-sm) var(--spacing-md);
+        color: var(--dark-gray);
+        text-decoration: none;
+        font-size: 0.85rem;
+        transition: background-color var(--transition-fast);
+      }
+      .dark-mode .dropdown-menu a {
+        color: var(--dark-text);
+      }
+      .dropdown-menu a:hover {
+        background-color: var(--light-gray);
+      }
+      .dark-mode .dropdown-menu a:hover {
+        background-color: var(--dark-surface);
+      }
+      .dropdown-menu a.active {
+        background-color: rgba(46, 125, 50, 0.1);
+        color: var(--green-primary);
+        font-weight: 600;
+      }
+      .dark-mode .dropdown-menu a.active {
+        background-color: rgba(76, 175, 80, 0.1);
+        color: var(--green-primary-light);
+      }
+
+      /* Tabs */
+      .tabs {
+        display: flex;
+        border-bottom: 1px solid var(--light-gray);
+        padding: var(--spacing-md) var(--spacing-lg) 0;
+      }
+      .dark-mode .tabs {
+        border-bottom-color: var(--dark-border);
+      }
+      .tab {
+        padding: var(--spacing-sm) var(--spacing-md);
+        cursor: pointer;
+        transition: all var(--transition-fast);
+        font-weight: 500;
+        color: var(--medium-gray);
+        position: relative;
+      }
+      .dark-mode .tab {
+        color: var(--dark-text-secondary);
+      }
+      .tab:hover {
+        color: var(--green-primary);
+      }
+      .dark-mode .tab:hover {
+        color: var(--green-primary-light);
+      }
+      .tab.active {
+        color: var(--green-primary);
+        font-weight: 600;
+      }
+      .dark-mode .tab.active {
+        color: var(--green-primary-light);
+      }
+      .tab.active::after {
+        content: "";
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: var(--green-primary);
+      }
+      .dark-mode .tab.active::after {
+        background-color: var(--green-primary-light);
+      }
+      .tab-content {
+        padding: var(--spacing-md) var(--spacing-lg);
+      }
+      .tab-content.hidden {
+        display: none;
+      }
+
+      /* Order List */
+      .order-list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-md);
+      }
+      .order-item {
+        display: flex;
+        align-items: center;
+        padding: var(--spacing-md);
+        border: 1px solid var(--light-gray);
+        border-radius: var(--border-radius-md);
+        transition: all var(--transition-fast);
+        background-color: var(--white);
+      }
+      .dark-mode .order-item {
+        border-color: var(--dark-border);
+        background-color: var(--dark-card);
+      }
+      .order-item:hover {
+        border-color: var(--green-primary);
+        box-shadow: var(--shadow-sm);
+      }
+      .order-info {
+        flex: 1;
+      }
+      .order-detail {
+        display: flex;
+        gap: var(--spacing-lg);
+        margin-top: var(--spacing-xs);
+        font-size: 0.9rem;
+        color: var(--dark-gray);
+        opacity: 0.7;
+      }
+      .dark-mode .order-detail {
+        color: var(--dark-text-secondary);
+      }
+      .order-actions {
+        display: flex;
+        gap: var(--spacing-sm);
+      }
+      .badge {
+        padding: 4px 8px;
+        border-radius: var(--border-radius-sm);
+        font-size: 0.8rem;
+      }
+      .badge-success {
+        background-color: rgba(46, 125, 50, 0.1);
+        color: var(--green-primary);
+      }
+      .badge-warning {
+        background-color: rgba(251, 192, 45, 0.1);
+        color: var(--harvest-yellow);
+      }
+      .badge-danger {
+        background-color: rgba(244, 67, 54, 0.1);
+        color: var(--danger);
+      }
+      .badge-info {
+        background-color: rgba(79, 195, 247, 0.1);
+        color: var(--sky-blue);
+      }
+
+      /* Weather Widget */
+      .weather-widget {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--spacing-md);
+        border-radius: var(--border-radius-md);
+        margin-bottom: var(--spacing-lg);
+        background: linear-gradient(135deg, var(--sky-blue), var(--water-blue));
+        color: var(--white);
+        box-shadow: var(--shadow-sm);
+      }
+      .weather-info {
+        display: flex;
+        align-items: center;
+      }
+      .weather-icon {
+        font-size: 2.5rem;
+        margin-right: var(--spacing-md);
+      }
+      .weather-temp {
+        font-size: 1.8rem;
+        font-weight: bold;
+      }
+      .weather-desc {
+        opacity: 0.9;
+      }
+      .weather-details {
+        display: flex;
+        gap: var(--spacing-lg);
+      }
+      .weather-detail {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .weather-detail-icon {
+        font-size: 1.2rem;
+        margin-bottom: var(--spacing-xs);
+      }
+
+      /* Growing Tips */
+      .growing-tips {
+        margin-top: var(--spacing-lg);
+      }
+      .tip-card {
+        padding: var(--spacing-md);
+        border-radius: var(--border-radius-md);
+        margin-bottom: var(--spacing-md);
+        background-color: var(--light-gray);
+        border-left: 4px solid var(--green-primary);
+      }
+      .dark-mode .tip-card {
+        background-color: var(--dark-surface);
+      }
+      .tip-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: var(--spacing-sm);
+      }
+      .tip-icon {
+        color: var(--green-primary);
+        margin-right: var(--spacing-sm);
+        font-size: 1.2rem;
+      }
+      .tip-title {
+        font-weight: bold;
+      }
+      .tip-content {
+        font-size: 0.9rem;
+        color: var(--dark-gray);
+      }
+      .dark-mode .tip-content {
+        color: var(--dark-text);
+      }
+
+      /* Market Prices Section */
+      .market-prices .chart-container {
+        padding: var(--spacing-lg);
+        background-color: var(--white);
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-sm);
+        margin-top: var(--spacing-md);
+        position: relative;
+        height: 320px;
+      }
+      .dark-mode .market-prices .chart-container {
+        background-color: var(--dark-card);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+      .market-prices .chart-loader {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.8);
+        z-index: 10;
+      }
+      .dark-mode .market-prices .chart-loader {
+        background-color: rgba(18, 18, 18, 0.8);
+      }
+      .market-prices .spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid rgba(46, 125, 50, 0.1);
+        border-radius: var(--border-radius-circle);
+        border-top-color: var(--green-primary);
+        animation: spin 1s linear infinite;
+        margin-bottom: var(--spacing-md);
+      }
+      .dark-mode .market-prices .spinner {
+        border-color: rgba(76, 175, 80, 0.1);
+        border-top-color: var(--green-primary-light);
+      }
+
+      /* Footer */
+      .footer {
+        background-color: var(--white);
+        padding: var(--spacing-lg) var(--spacing-xl);
+        border-top: 1px solid var(--light-gray);
+        margin-top: auto;
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
+      }
+      .dark-mode .footer {
+        background-color: var(--dark-surface);
+        border-top-color: var(--dark-border);
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+      }
+      .footer-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .footer-content p {
+        font-size: 0.85rem;
+        color: var(--medium-gray);
+        margin: 0;
+      }
+      .dark-mode .footer-content p {
+        color: var(--dark-text-secondary);
+      }
+      .footer-links {
+        display: flex;
+        gap: var(--spacing-lg);
+      }
+      .footer-links a {
+        font-size: 0.85rem;
+        color: var(--green-primary);
+        text-decoration: none;
+        transition: color var(--transition-fast);
+      }
+      .dark-mode .footer-links a {
+        color: var(--green-primary-light);
+      }
+      .footer-links a:hover {
+        color: var(--green-primary-dark);
+      }
+      .dark-mode .footer-links a:hover {
+        color: var(--green-primary);
+      }
+
+      /* Toast */
+      .toast-container {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+      }
+      .toast {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--spacing-md);
+        margin-top: var(--spacing-sm);
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-sm);
+        animation: slideIn 0.3s ease;
+      }
+      .toast-success {
+        background-color: var(--success);
+        color: var(--white);
+      }
+      .toast-info {
+        background-color: var(--info);
+        color: var(--white);
+      }
+      .toast-error {
+        background-color: var(--danger);
+        color: var(--white);
+      }
+      .toast i {
+        cursor: pointer;
+        margin-left: var(--spacing-md);
+      }
+
+      /* Animations */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
         }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        to {
+          opacity: 1;
         }
-        
-        body {
-            font-family: 'Open Sans', sans-serif;
-            background-color: var(--light-gray);
-            color: var(--dark-gray);
-            overflow-x: hidden;
+      }
+      @keyframes slideIn {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
         }
-        
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
+        to {
+          transform: translateX(0);
+          opacity: 1;
         }
-        
-        .accent-text {
-            font-family: 'Roboto', sans-serif;
-            font-weight: 500;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
         }
-        
-        .container {
-            display: flex;
-            min-height: 100vh;
+        100% {
+          transform: rotate(360deg);
         }
-        
-        /* Sidebar Styles */
+      }
+
+      /* Media Queries */
+      @media (max-width: 768px) {
         .sidebar {
-            width: 250px;
-            background-color: var(--white);
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-            position: fixed;
-            height: 100vh;
-            z-index: 100;
-            transition: all 0.3s ease;
+          width: 250px;
+          transform: translateX(-100%);
+          position: fixed;
         }
-        
-        .sidebar-collapsed {
-            width: 70px;
+        .sidebar.active {
+          transform: translateX(0);
         }
-        
-        .sidebar-header {
-            padding: var(--spacing-md);
-            display: flex;
-            align-items: center;
-            border-bottom: 1px solid var(--light-gray);
-        }
-        
-        .sidebar-header img {
-            height: 40px;
-        }
-        
-        .sidebar-header h2 {
-            margin-left: var(--spacing-sm);
-            color: var(--green-primary);
-            font-size: 1.5rem;
-            transition: opacity 0.3s;
-        }
-        
-        .sidebar-collapsed .sidebar-header h2 {
-            opacity: 0;
-            width: 0;
-            overflow: hidden;
-        }
-        
-        .sidebar-menu {
-            margin-top: var(--spacing-lg);
-        }
-        
-        .menu-item {
-            padding: var(--spacing-md);
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            color: var(--dark-gray);
-            text-decoration: none;
-        }
-        
-        .menu-item:hover {
-            background-color: rgba(46, 125, 50, 0.1);
-            color: var(--green-primary);
-        }
-        
-        .menu-item.active {
-            background-color: var(--green-primary);
-            color: var(--white);
-        }
-        
-        .menu-item i {
-            font-size: 1.2rem;
-            width: 30px;
-            text-align: center;
-        }
-        
-        .menu-item span {
-            margin-left: var(--spacing-md);
-            transition: opacity 0.3s;
-        }
-        
-        .sidebar-collapsed .menu-item span {
-            opacity: 0;
-            width: 0;
-            overflow: hidden;
-        }
-        
-        .menu-toggle {
-            position: absolute;
-            right: -10px;
-            top: 70px;
-            background-color: var(--green-primary);
-            color: white;
-            border: none;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-        
-        /* Main Content Styles */
         .main-content {
-            flex: 1;
-            margin-left: 250px;
-            transition: margin-left 0.3s ease;
+          margin-left: 0;
         }
-        
-        .main-content-expanded {
-            margin-left: 70px;
+        .mobile-menu-toggle {
+          display: block;
         }
-        
-        /* Header Styles */
+        .sidebar-toggle-mobile {
+          display: block;
+        }
         .header {
-            background-color: var(--white);
-            padding: var(--spacing-md) var(--spacing-lg);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 99;
+          flex-direction: row;
+          align-items: center;
+          height: auto;
+          padding: var(--spacing-md);
+          gap: var(--spacing-md);
         }
-        
         .search-bar {
-            display: flex;
-            align-items: center;
-            background-color: var(--light-gray);
-            border-radius: 20px;
-            padding: var(--spacing-sm) var(--spacing-md);
-            width: 300px;
+          width: 100%;
+          max-width: 200px;
         }
-        
-        .search-bar input {
-            border: none;
-            background: transparent;
-            padding: var(--spacing-xs);
-            flex: 1;
-            margin-left: var(--spacing-sm);
-            outline: none;
-            font-family: 'Open Sans', sans-serif;
-        }
-        
-        .search-bar i {
-            color: var(--dark-gray);
-        }
-        
         .header-actions {
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-lg);
+          gap: var(--spacing-md);
         }
-        
-        .notification {
-            position: relative;
-            cursor: pointer;
-        }
-        
-        .notification-count {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background-color: var(--harvest-yellow);
-            color: var(--dark-gray);
-            font-size: 0.7rem;
-            border-radius: 50%;
-            width: 16px;
-            height: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .user-profile {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-        }
-        
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: var(--leaf-green);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--white);
-            font-weight: bold;
-            margin-right: var(--spacing-sm);
-        }
-        
-        .role-badge {
-            background-color: var(--soil-tan);
-            padding: var(--spacing-xs) var(--spacing-sm);
-            border-radius: 4px;
-            font-size: 0.8rem;
-            margin-left: var(--spacing-sm);
-        }
-        
-        /* Dashboard Content */
-        .dashboard-content {
-            padding: var(--spacing-lg);
-        }
-        
-        .welcome-section {
-            background: linear-gradient(to right, var(--green-primary), var(--crop-green));
-            border-radius: 12px;
-            padding: var(--spacing-xl);
-            margin-bottom: var(--spacing-xl);
-            color: var(--white);
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
-        
-        .welcome-bg {
-            position: absolute;
-            right: 0;
-            bottom: 0;
-            width: 250px;
-            height: 250px;
-            opacity: 0.2;
-        }
-        
-        .welcome-content {
-            position: relative;
-            z-index: 1;
-            max-width: 70%;
-        }
-        
-        .welcome-title {
-            font-size: 2rem;
-            margin-bottom: var(--spacing-md);
-        }
-        
-        .page-title {
-            margin-bottom: var(--spacing-lg);
-            font-size: 1.8rem;
-            color: var(--dark-gray);
-        }
-        
         .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: var(--spacing-lg);
-            margin-bottom: var(--spacing-xl);
+          grid-template-columns: 1fr;
         }
-        
-        .metric-card {
-            background-color: var(--white);
-            border-radius: 8px;
-            padding: var(--spacing-lg);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .metric-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .metric-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: var(--spacing-md);
-        }
-        
-        .metric-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: var(--spacing-md);
-        }
-        
-        .metric-icon.green {
-            background-color: rgba(46, 125, 50, 0.1);
-            color: var(--green-primary);
-        }
-        
-        .metric-icon.yellow {
-            background-color: rgba(251, 192, 45, 0.1);
-            color: var(--harvest-yellow);
-        }
-        
-        .metric-icon.blue {
-            background-color: rgba(79, 195, 247, 0.1);
-            color: var(--sky-blue);
-        }
-        
-        .metric-icon.orange {
-            background-color: rgba(255, 183, 77, 0.1);
-            color: var(--sunrise-orange);
-        }
-        
-        .metric-icon.brown {
-            background-color: rgba(141, 110, 99, 0.1);
-            color: var(--earth-brown);
-        }
-        
-        .metric-title {
-            font-size: 0.9rem;
-            color: var(--dark-gray);
-            opacity: 0.8;
-        }
-        
-        .metric-value {
-            font-size: 1.8rem;
-            font-weight: bold;
-            margin: var(--spacing-sm) 0;
-        }
-        
-        .metric-trend {
-            font-size: 0.8rem;
-            display: flex;
-            align-items: center;
-        }
-        
-        .trend-up {
-            color: var(--green-primary);
-        }
-        
-        .trend-down {
-            color: #F44336;
-        }
-        
-        /* Product Grid */
         .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: var(--spacing-lg);
-            margin-top: var(--spacing-lg);
+          grid-template-columns: 1fr;
         }
-        
-        .product-card {
-            background-color: var(--white);
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .product-image {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-        }
-        
-        .product-details {
-            padding: var(--spacing-md);
-        }
-        
-        .product-name {
-            font-weight: bold;
-            margin-bottom: var(--spacing-xs);
-        }
-        
-        .product-category {
-            color: var(--dark-gray);
-            opacity: 0.7;
-            font-size: 0.8rem;
-            margin-bottom: var(--spacing-xs);
-        }
-        
-        .product-price {
-            font-weight: bold;
-            color: var(--green-primary);
-            margin-bottom: var(--spacing-xs);
-        }
-        
-        .product-stock {
-            font-size: 0.8rem;
-            margin-bottom: var(--spacing-md);
-        }
-        
-        .stock-indicator {
-            display: inline-block;
-            width: 100%;
-            height: 4px;
-            background-color: var(--light-gray);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-        
-        .stock-level {
-            height: 100%;
-            background-color: var(--green-primary);
-        }
-        
-        .stock-low {
-            background-color: #F44336;
-        }
-        
-        .stock-medium {
-            background-color: var(--harvest-yellow);
-        }
-        
-        .product-actions {
-            display: flex;
-            gap: var(--spacing-sm);
-        }
-        
-        /* Content Sections */
-        .section {
-            background-color: var(--white);
-            border-radius: 8px;
-            padding: var(--spacing-lg);
-            margin-bottom: var(--spacing-xl);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        }
-        
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: var(--spacing-lg);
-        }
-        
-        .section-title {
-            font-size: 1.2rem;
-            color: var(--dark-gray);
-        }
-        
-        .section-actions {
-            display: flex;
-            gap: var(--spacing-sm);
-        }
-        
-        .btn {
-            padding: var(--spacing-sm) var(--spacing-md);
-            border-radius: 6px;
-            cursor: pointer;
-            font-family: 'Roboto', sans-serif;
-            font-weight: 500;
-            transition: all 0.2s ease;
-            border: none;
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-sm);
-        }
-        
-        .btn-primary {
-            background-color: var(--green-primary);
-            color: var(--white);
-        }
-        
-        .btn-primary:hover {
-            background-color: #1B5E20;
-            transform: translateY(-2px);
-        }
-        
-        .btn-secondary {
-            background-color: rgba(46, 125, 50, 0.1);
-            color: var(--green-primary);
-        }
-        
-        .btn-secondary:hover {
-            background-color: rgba(46, 125, 50, 0.2);
-            transform: translateY(-2px);
-        }
-        
-        .btn-outline {
-            border: 1px solid var(--green-primary);
-            background-color: transparent;
-            color: var(--green-primary);
-        }
-        
-        .btn-outline:hover {
-            background-color: rgba(46, 125, 50, 0.1);
-            transform: translateY(-2px);
-        }
-        
-        /* Tabs */
-        .tabs {
-            display: flex;
-            border-bottom: 1px solid var(--light-gray);
-            margin-bottom: var(--spacing-lg);
-        }
-        
-        .tab {
-            padding: var(--spacing-md) var(--spacing-lg);
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
-            transition: all 0.2s ease;
-        }
-        
-        .tab.active {
-            border-bottom-color: var(--green-primary);
-            color: var(--green-primary);
-            font-weight: bold;
-        }
-        
-        .tab:hover:not(.active) {
-            background-color: rgba(0, 0, 0, 0.02);
-        }
-        
-        /* Order list */
-        .order-list {
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-md);
-        }
-        
-        .order-item {
-            display: flex;
-            align-items: center;
-            padding: var(--spacing-md);
-            border: 1px solid var(--light-gray);
-            border-radius: 8px;
-            transition: all 0.2s ease;
-            background-color: var(--white);
-        }
-        
-        .order-item:hover {
-            border-color: var(--green-primary);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        }
-        
-        .order-info {
-            flex: 1;
-        }
-        
-        .order-detail {
-            display: flex;
-            gap: var(--spacing-lg);
-            margin-top: var(--spacing-xs);
-            font-size: 0.9rem;
-            color: var(--dark-gray);
-            opacity: 0.7;
-        }
-        
-        .order-actions {
-            display: flex;
-            gap: var(--spacing-sm);
-        }
-        
-        .badge {
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-        }
-        
-        .badge-success {
-            background-color: rgba(46, 125, 50, 0.1);
-            color: var(--green-primary);
-        }
-        
-        .badge-warning {
-            background-color: rgba(251, 192, 45, 0.1);
-            color: var(--harvest-yellow);
-        }
-        
-        .badge-danger {
-            background-color: rgba(244, 67, 54, 0.1);
-            color: #F44336;
-        }
-        
-        .badge-info {
-            background-color: rgba(79, 195, 247, 0.1);
-            color: var(--sky-blue);
-        }
-        
-        /* Weather Widget */
-        .weather-widget {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: var(--spacing-md);
-            border-radius: 8px;
-            margin-bottom: var(--spacing-lg);
-            background: linear-gradient(135deg, var(--sky-blue), var(--water-blue));
-            color: white;
-        }
-        
-        .weather-info {
-            display: flex;
-            align-items: center;
-        }
-        
-        .weather-icon {
-            font-size: 2.5rem;
-            margin-right: var(--spacing-md);
-        }
-        
-        .weather-temp {
-            font-size: 1.8rem;
-            font-weight: bold;
-        }
-        
-        .weather-desc {
-            opacity: 0.9;
-        }
-        
         .weather-details {
-            display: flex;
-            gap: var(--spacing-lg);
+          display: none;
         }
-        
-        .weather-detail {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        .section-actions {
+          flex-direction: column;
+          align-items: flex-start;
         }
-        
-        .weather-detail-icon {
-            font-size: 1.2rem;
-            margin-bottom: var(--spacing-xs);
+        .btn {
+          width: 100%;
         }
-        
-        /* Growing Tips */
-        .growing-tips {
-            margin-top: var(--spacing-lg);
+        .footer-content {
+          flex-direction: column;
+          gap: var(--spacing-md);
+          align-items: flex-start;
         }
-        
-        .tip-card {
-            padding: var(--spacing-md);
-            border-radius: 8px;
-            margin-bottom: var(--spacing-md);
-            background-color: var(--light-gray);
-            border-left: 4px solid var(--green-primary);
+        .footer-links {
+          flex-direction: column;
+          gap: var(--spacing-sm);
         }
-        
-        .tip-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: var(--spacing-sm);
+      }
+      @media (max-width: 480px) {
+        .notification-dropdown,
+        .user-dropdown {
+          width: 100%;
+          right: 0;
+          left: 0;
+          margin: 0 var(--spacing-md);
         }
-        
-        .tip-icon {
-            color: var(--green-primary);
-            margin-right: var(--spacing-sm);
-            font-size: 1.2rem;
+        .section-actions {
+          flex-direction: column;
+          gap: var(--spacing-sm);
+          width: 100%;
         }
-        
-        .tip-title {
-            font-weight: bold;
+        .btn {
+          width: 100%;
+          justify-content: center;
         }
-        
-        .tip-content {
-            font-size: 0.9rem;
-            color: var(--dark-gray);
+        .market-prices .chart-container {
+          height: 240px;
         }
-        
-        
-        /* Price Chart */
-        .chart {
-            width: 100%;
-            height: 300px;
-            background-color: var(--light-gray);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: var(--spacing-lg);
+        .header {
+          flex-direction: column;
+          align-items: flex-start;
         }
-        
-        /* Animations */
-        .fade-in {
-            animation: fadeIn 0.5s ease;
+        .search-bar {
+          max-width: 100%;
         }
-        
-        .slide-in-right {
-            animation: slideInRight 0.5s ease;
+        .welcome-content {
+          max-width: 100%;
         }
-        
-        .slide-in-up {
-            animation: slideInUp 0.5s ease;
-        }
-        
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        @keyframes slideInRight {
-            from { transform: translateX(20px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        
-        @keyframes slideInUp {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
-        /* Responsive styles */
-        @media (max-width: 1024px) {
-            .sidebar {
-                width: 70px;
-            }
-            
-            .sidebar-header h2 {
-                opacity: 0;
-                width: 0;
-                overflow: hidden;
-            }
-            
-            .menu-item span {
-                opacity: 0;
-                width: 0;
-                overflow: hidden;
-            }
-            
-            .main-content {
-                margin-left: 70px;
-            }
-            
-            .menu-toggle {
-                display: none;
-            }
-            
-            .welcome-content {
-                max-width: 90%;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .metrics-grid {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            }
-            
-            .search-bar {
-                width: 200px;
-            }
-            
-            .header-actions {
-                gap: var(--spacing-md);
-            }
-            
-            .user-name {
-                display: none;
-            }
-            
-            .welcome-title {
-                font-size: 1.5rem;
-            }
-            
-            .welcome-content {
-                max-width: 100%;
-            }
-            
-            .welcome-section {
-                padding: var(--spacing-lg);
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .sidebar {
-                width: 0;
-                left: -70px;
-            }
-            
-            .sidebar.active {
-                width: 70px;
-                left: 0;
-            }
-            
-            .main-content {
-                margin-left: 0;
-            }
-            
-            .search-bar {
-                width: 150px;
-            }
-            
-            .metrics-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .weather-details {
-                display: none;
-            }
-            
-            .product-grid {
-                grid-template-columns: 1fr;
-            }
-            
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
+    <div class="overlay" id="overlay"></div>
     <div class="container">
-        <!-- Sidebar -->
-        <div class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <img src="/templates/images/logo.png" alt="AgriGo Logo"/>
-                <h2>AgriGo</h2>
-            </div>
-            <button class="menu-toggle" id="menu-toggle">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            <div class="sidebar-menu">
-                <a href="#" class="menu-item active">
-                    <i class="fas fa-home"></i>
-                    <span>Dashboard</span>
-                </a>
-                <a href="/templates/farmer/farm.html" class="menu-item">
-                    <i class="fas fa-seedling"></i>
-                    <span>My Farm</span>
-                </a>
-                <a href="/templates/farmer/products.html" class="menu-item">
-                    <i class="fas fa-box"></i>
-                    <span>Products</span>
-                </a>
-                <a href="/templates/farmer/orders.html" class="menu-item">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span>Orders</span>
-                </a>
-                <a href="/templates/farmer/payments.html" class="menu-item">
-                    <i class="fas fa-credit-card"></i>
-                    <span>Payments</span>
-                </a>
-                <a href="/templates/farmer/reviews.html" class="menu-item">
-                    <i class="fas fa-comment-alt"></i>
-                    <span>Reviews</span>
-                </a>
-                <a href="/templates/farmer/analytics.html" class="menu-item">
-                    <i class="fas fa-chart-line"></i>
-                    <span>Analytics</span>
-                </a>
-                <a href="#" class="menu-item">
-                    <i class="fas fa-cog"></i>
-                    <span>Settings</span>
-                </a>
-            </div>
+      <!-- Sidebar -->
+      <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <img
+            src="/templates/images/logo.png"
+            alt="AgriGo Logo"
+            class="logo"
+          />
+          <h2>AgriGo</h2>
+          <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+            <i class="fas fa-chevron-left"></i>
+          </button>
         </div>
-        
-        <!-- Main Content -->
-        <div class="main-content" id="main-content">
-            <!-- Header -->
-            <div class="header">
-                <div class="search-bar">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search products, orders...">
-                </div>
-                
-                <div class="header-actions">
-                    <div class="notification">
-                        <i class="fas fa-bell"></i>
-                        <span class="notification-count">3</span>
-                    </div>
-                    
-                    <div class="user-profile">
-                        <div class="user-avatar">
-                            JD
-                        </div>
-                        <div class="user-info">
-                            <div class="user-name">Vicente Fernandez</div>
-                            <span class="role-badge">Verified Farmer</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Dashboard Content -->
-            <div class="dashboard-content">
-                <!-- Welcome Section -->
-                <div class="welcome-section animate__animated animate__fadeIn">
-                    <img src="/api/placeholder/250/250" alt="Farm illustration" class="welcome-bg"/>
-                    <div class="welcome-content">
-                        <h1 class="welcome-title">Welcome back, Vicente!</h1
-                            <p>Here's what's happening on your farm today.</p>
-                        </div>
-                    </div>
-    
-                    <!-- Metrics Grid -->
-                    <div class="metrics-grid">
-                        <div class="metric-card animate__animated animate__slideInUp">
-                            <div class="metric-header">
-                                <div class="metric-icon green">
-                                    <i class="fas fa-tractor"></i>
-                                </div>
-                                <div class="metric-title">Total Farm Area</div>
-                            </div>
-                            <div class="metric-value">50 Acres</div>
-                            <div class="metric-trend trend-up">
-                                <i class="fas fa-arrow-up"></i> 5% increase
-                            </div>
-                        </div>
-                        <div class="metric-card animate__animated animate__slideInUp">
-                            <div class="metric-header">
-                                <div class="metric-icon yellow">
-                                    <i class="fas fa-seedling"></i>
-                                </div>
-                                <div class="metric-title">Active Crops</div>
-                            </div>
-                            <div class="metric-value">12 Crops</div>
-                            <div class="metric-trend trend-down">
-                                <i class="fas fa-arrow-down"></i> 2% decrease
-                            </div>
-                        </div>
-                        <div class="metric-card animate__animated animate__slideInUp">
-                            <div class="metric-header">
-                                <div class="metric-icon blue">
-                                    <i class="fas fa-tint"></i>
-                                </div>
-                                <div class="metric-title">Water Usage</div>
-                            </div>
-                            <div class="metric-value">1,200 L</div>
-                            <div class="metric-trend trend-up">
-                                <i class="fas fa-arrow-up"></i> 10% increase
-                            </div>
-                        </div>
-                        <div class="metric-card animate__animated animate__slideInUp">
-                            <div class="metric-header">
-                                <div class="metric-icon orange">
-                                    <i class="fas fa-sun"></i>
-                                </div>
-                                <div class="metric-title">Sunlight Hours</div>
-                            </div>
-                            <div class="metric-value">8.5 hrs</div>
-                            <div class="metric-trend trend-up">
-                                <i class="fas fa-arrow-up"></i> 3% increase
-                            </div>
-                        </div>
-                    </div>
-    
-                    <!-- Weather Widget -->
-                    <div class="weather-widget animate__animated animate__fadeIn">
-                        <div class="weather-info">
-                            <i class="fas fa-sun weather-icon"></i>
-                            <div class="weather-temp">28°C</div>
-                            <div class="weather-desc">Sunny</div>
-                        </div>
-                        <div class="weather-details">
-                            <div class="weather-detail">
-                                <i class="fas fa-wind weather-detail-icon"></i>
-                                <span>10 km/h</span>
-                            </div>
-                            <div class="weather-detail">
-                                <i class="fas fa-tint weather-detail-icon"></i>
-                                <span>45%</span>
-                            </div>
-                            <div class="weather-detail">
-                                <i class="fas fa-cloud weather-detail-icon"></i>
-                                <span>20%</span>
-                            </div>
-                        </div>
-                    </div>
-    
-                    <!-- Product Grid -->
-                    <h2 class="page-title">Your Products</h2>
-                    <div class="product-grid">
-                        <div class="product-card animate__animated animate__slideInRight">
-                            <img src="https://images.pexels.com/photos/1327838/pexels-photo-1327838.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Product Image" class="product-image"/>
-                            <div class="product-details">
-                                <div class="product-name">Organic Tomatoes</div>
-                                <div class="product-category">Vegetables</div>
-                                <div class="product-price">$2.50/kg</div>
-                                <div class="product-stock">
-                                    <div class="stock-indicator">
-                                        <div class="stock-level" style="width: 70%;"></div>
-                                    </div>
-                                    <span>70% in stock</span>
-                                </div>
-                                <div class="product-actions">
-                                    <button class="btn btn-primary">Edit</button>
-                                    <button class="btn btn-outline">View</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-card animate__animated animate__slideInRight">
-                            <img src="https://images.pexels.com/photos/12280893/pexels-photo-12280893.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Product Image" class="product-image"/>
-                            <div class="product-details">
-                                <div class="product-name">Fresh Strawberries</div>
-                                <div class="product-category">Fruits</div>
-                                <div class="product-price">$4.00/kg</div>
-                                <div class="product-stock">
-                                    <div class="stock-indicator">
-                                        <div class="stock-level stock-medium" style="width: 40%;"></div>
-                                    </div>
-                                    <span>40% in stock</span>
-                                </div>
-                                <div class="product-actions">
-                                    <button class="btn btn-primary">Edit</button>
-                                    <button class="btn btn-outline">View</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-card animate__animated animate__slideInRight">
-                            <img src="https://images.pexels.com/photos/6054529/pexels-photo-6054529.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Product Image" class="product-image"/>
-                            <div class="product-details">
-                                <div class="product-name">Organic Wheat</div>
-                                <div class="product-category">Grains</div>
-                                <div class="product-price">$1.80/kg</div>
-                                <div class="product-stock">
-                                    <div class="stock-indicator">
-                                        <div class="stock-level stock-low" style="width: 20%;"></div>
-                                    </div>
-                                    <span>20% in stock</span>
-                                </div>
-                                <div class="product-actions">
-                                    <button class="btn btn-primary">Edit</button>
-                                    <button class="btn btn-outline">View</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-    
-                    <!-- Growing Tips Section -->
-                    <div class="growing-tips">
-                        <h2 class="page-title">Growing Tips</h2>
-                        <div class="tip-card animate__animated animate__fadeIn">
-                            <div class="tip-header">
-                                <i class="fas fa-lightbulb tip-icon"></i>
-                                <div class="tip-title">Optimal Watering Schedule</div>
-                            </div>
-                            <div class="tip-content">
-                                Water your crops early in the morning to reduce evaporation and ensure maximum absorption.
-                            </div>
-                        </div>
-                        <div class="tip-card animate__animated animate__fadeIn">
-                            <div class="tip-header">
-                                <i class="fas fa-lightbulb tip-icon"></i>
-                                <div class="tip-title">Soil Health</div>
-                            </div>
-                            <div class="tip-content">
-                                Regularly test your soil pH and nutrient levels to maintain optimal growing conditions.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="sidebar-menu">
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="#" class="nav-link active" data-tab="dashboard">
+                <i class="fas fa-home"></i> <span>Dashboard</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="/templates/farmer/farm.html"
+                class="nav-link"
+                data-tab="farm"
+              >
+                <i class="fas fa-seedling"></i> <span>My Farm</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="/templates/farmer/products.html"
+                class="nav-link"
+                data-tab="products"
+              >
+                <i class="fas fa-box"></i> <span>Products</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="/templates/farmer/orders.html"
+                class="nav-link"
+                data-tab="orders"
+              >
+                <i class="fas fa-shopping-cart"></i> <span>Orders</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="/templates/farmer/payments.html"
+                class="nav-link"
+                data-tab="payments"
+              >
+                <i class="fas fa-credit-card"></i> <span>Payments</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="/templates/farmer/reviews.html"
+                class="nav-link"
+                data-tab="reviews"
+              >
+                <i class="fas fa-comment-alt"></i> <span>Reviews</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="/templates/farmer/analytics.html"
+                class="nav-link"
+                data-tab="analytics"
+              >
+                <i class="fas fa-chart-line"></i> <span>Analytics</span>
+              </a>
+            </li>
+          </ul>
+          <div class="sidebar-toggle-mobile">
+            <i class="fas fa-times"></i>
+          </div>
         </div>
-    
-        <script>
-            // Toggle sidebar collapse
-            const sidebar = document.getElementById('sidebar');
-            const mainContent = document.getElementById('main-content');
-            const menuToggle = document.getElementById('menu-toggle');
-    
-            menuToggle.addEventListener('click', () => {
-                sidebar.classList.toggle('sidebar-collapsed');
-                mainContent.classList.toggle('main-content-expanded');
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content" id="main-content">
+        <!-- Header -->
+        <div class="header">
+          <button
+            class="mobile-menu-toggle"
+            id="mobile-menu-toggle"
+            aria-label="Mobile menu"
+          >
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Search products, orders..."
+              aria-label="Search"
+            />
+          </div>
+          <div class="header-actions">
+            <div class="notification" id="notificationIcon">
+              <i class="fas fa-bell"></i>
+              <span class="notification-count">3</span>
+              <div class="notification-dropdown" id="notificationDropdown">
+                <h3>Notifications</h3>
+                <ul class="notification-list">
+                  <li class="notification-item">
+                    <div class="notification-icon warning">
+                      <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="notification-content">
+                      <p>Low stock alert: <strong>Organic Wheat</strong></p>
+                      <span class="notification-time">1 hour ago</span>
+                    </div>
+                  </li>
+                  <li class="notification-item">
+                    <div class="notification-icon success">
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="notification-content">
+                      <p>Order #12345 successfully delivered</p>
+                      <span class="notification-time">2 hours ago</span>
+                    </div>
+                  </li>
+                  <li class="notification-item">
+                    <div class="notification-icon info">
+                      <i class="fas fa-info-circle"></i>
+                    </div>
+                    <div class="notification-content">
+                      <p>New market price update available</p>
+                      <span class="notification-time">5 hours ago</span>
+                    </div>
+                  </li>
+                </ul>
+                <div class="notification-footer">
+                  <a href="#notifications">View all notifications</a>
+                </div>
+              </div>
+            </div>
+            <div class="user-profile" id="userProfile">
+              <div class="user-avatar">VF</div>
+              <div class="user-info">
+                <div class="user-name">Vicente Fernandez</div>
+                <span class="role-badge">Verified Farmer</span>
+              </div>
+              <i class="fas fa-chevron-down dropdown-icon"></i>
+              <div class="user-dropdown" id="userDropdown">
+                <ul>
+                  <li>
+                    <a href="#profile"
+                      ><i class="fas fa-user"></i> My Profile</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#settings"
+                      ><i class="fas fa-cog"></i> Account Settings</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#help"
+                      ><i class="fas fa-question-circle"></i> Help & Support</a
+                    >
+                  </li>
+                  <li class="divider"></li>
+                  <li>
+                    <a href="#" id="darkModeToggle"
+                      ><i class="fas fa-moon"></i>
+                      <span id="themeText">Dark Mode</span></a
+                    >
+                  </li>
+                  <li class="divider"></li>
+                  <li>
+                    <a href="#" id="userDropdownLogout"
+                      ><i class="fas fa-sign-out-alt"></i> Logout</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-content">
+          <!-- Welcome Section -->
+          <div class="welcome-section animate__animated animate__fadeIn">
+            <img
+              src="/api/placeholder/250/250"
+              alt="Farm illustration"
+              class="welcome-bg"
+            />
+            <div class="welcome-content">
+              <h1 class="welcome-title">Welcome back, Vicente!</h1>
+              <p>Here's what's happening on your farm today.</p>
+            </div>
+            <div class="date-display" id="currentDate"></div>
+          </div>
+
+          <!-- Metrics Grid -->
+          <div class="metrics-grid">
+            <div class="metric-card animate__animated animate__slideInUp">
+              <div class="metric-header">
+                <div class="metric-icon green">
+                  <i class="fas fa-tractor"></i>
+                </div>
+                <div class="metric-title">Total Farm Area</div>
+              </div>
+              <div class="metric-value">50 Acres</div>
+              <div class="metric-trend trend-up">
+                <i class="fas fa-arrow-up"></i> 5% increase
+              </div>
+            </div>
+            <div class="metric-card animate__animated animate__slideInUp">
+              <div class="metric-header">
+                <div class="metric-icon yellow">
+                  <i class="fas fa-seedling"></i>
+                </div>
+                <div class="metric-title">Active Crops</div>
+              </div>
+              <div class="metric-value">12 Crops</div>
+              <div class="metric-trend trend-down">
+                <i class="fas fa-arrow-down"></i> 2% decrease
+              </div>
+            </div>
+            <div class="metric-card animate__animated animate__slideInUp">
+              <div class="metric-header">
+                <div class="metric-icon blue"><i class="fas fa-tint"></i></div>
+                <div class="metric-title">Water Usage</div>
+              </div>
+              <div class="metric-value">1,200 L</div>
+              <div class="metric-trend trend-up">
+                <i class="fas fa-arrow-up"></i> 10% increase
+              </div>
+            </div>
+            <div class="metric-card animate__animated animate__slideInUp">
+              <div class="metric-header">
+                <div class="metric-icon orange"><i class="fas fa-sun"></i></div>
+                <div class="metric-title">Sunlight Hours</div>
+              </div>
+              <div class="metric-value">8.5 hrs</div>
+              <div class="metric-trend trend-up">
+                <i class="fas fa-arrow-up"></i> 3% increase
+              </div>
+            </div>
+          </div>
+
+          <!-- Weather Widget -->
+          <div class="weather-widget animate__animated animate__fadeIn">
+            <div class="weather-info">
+              <i class="fas fa-sun weather-icon"></i>
+              <div class="weather-temp">28°C</div>
+              <div class="weather-desc">Sunny</div>
+            </div>
+            <div class="weather-details">
+              <div class="weather-detail">
+                <i class="fas fa-wind weather-detail-icon"></i>
+                <span>10 km/h</span>
+              </div>
+              <div class="weather-detail">
+                <i class="fas fa-tint weather-detail-icon"></i>
+                <span>45%</span>
+              </div>
+              <div class="weather-detail">
+                <i class="fas fa-cloud weather-detail-icon"></i>
+                <span>20%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product Grid -->
+          <div class="section">
+            <div class="section-header">
+              <div class="section-title">Your Products</div>
+              <div class="section-actions">
+                <button class="btn btn-primary" id="addProductBtn">
+                  <i class="fas fa-plus"></i> Add Product
+                </button>
+              </div>
+            </div>
+            <div class="product-grid">
+              <div
+                class="product-card animate__animated animate__slideInRight"
+                data-product-id="1"
+              >
+                <img
+                  src="https://images.pexels.com/photos/1327838/pexels-photo-1327838.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                  alt="Organic Tomatoes"
+                  class="product-image"
+                />
+                <div class="product-details">
+                  <div class="product-name">Organic Tomatoes</div>
+                  <div class="product-category">Vegetables</div>
+                  <div class="product-price">₱145/kg</div>
+                  <div class="product-stock">
+                    <div class="stock-indicator">
+                      <div class="stock-level" style="width: 70%"></div>
+                    </div>
+                    <span>70% in stock</span>
+                  </div>
+                  <div class="product-actions">
+                    <button
+                      class="btn btn-primary edit-product"
+                      data-product-id="1"
+                    >
+                      <i class="fas fa-edit"></i> Edit
+                    </button>
+                    <button
+                      class="btn btn-outline view-product"
+                      data-product-id="1"
+                    >
+                      <i class="fas fa-eye"></i> View
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="product-card animate__animated animate__slideInRight"
+                data-product-id="2"
+              >
+                <img
+                  src="https://images.pexels.com/photos/12280893/pexels-photo-12280893.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                  alt="Fresh Strawberries"
+                  class="product-image"
+                />
+                <div class="product-details">
+                  <div class="product-name">Fresh Strawberries</div>
+                  <div class="product-category">Fruits</div>
+                  <div class="product-price">₱232/kg</div>
+                  <div class="product-stock">
+                    <div class="stock-indicator">
+                      <div
+                        class="stock-level stock-medium"
+                        style="width: 40%"
+                      ></div>
+                    </div>
+                    <span>40% in stock</span>
+                  </div>
+                  <div class="product-actions">
+                    <button
+                      class="btn btn-primary edit-product"
+                      data-product-id="2"
+                    >
+                      <i class="fas fa-edit"></i> Edit
+                    </button>
+                    <button
+                      class="btn btn-outline view-product"
+                      data-product-id="2"
+                    >
+                      <i class="fas fa-eye"></i> View
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="product-card animate__animated animate__slideInRight"
+                data-product-id="3"
+              >
+                <img
+                  src="https://images.pexels.com/photos/6054529/pexels-photo-6054529.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                  alt="Organic Wheat"
+                  class="product-image"
+                />
+                <div class="product-details">
+                  <div class="product-name">Organic Wheat</div>
+                  <div class="product-category">Grains</div>
+                  <div class="product-price">₱104/kg</div>
+                  <div class="product-stock">
+                    <div class="stock-indicator">
+                      <div
+                        class="stock-level stock-low"
+                        style="width: 20%"
+                      ></div>
+                    </div>
+                    <span>20% in stock</span>
+                  </div>
+                  <div class="product-actions">
+                    <button
+                      class="btn btn-primary edit-product"
+                      data-product-id="3"
+                    >
+                      <i class="fas fa-edit"></i> Edit
+                    </button>
+                    <button
+                      class="btn btn-outline view-product"
+                      data-product-id="3"
+                    >
+                      <i class="fas fa-eye"></i> View
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Market Prices -->
+          <div class="section market-prices">
+            <div class="section-header">
+              <div class="section-title">Market Prices</div>
+              <div class="section-actions">
+                <div class="dropdown time-filter">
+                  <button
+                    class="btn btn-secondary dropdown-toggle"
+                    id="timeRangeBtn"
+                    aria-expanded="false"
+                  >
+                    <i class="fas fa-calendar"></i>
+                    <span id="timeRangeText">Last 30 Days</span>
+                  </button>
+                  <div class="dropdown-menu" id="timeRangeMenu">
+                    <a href="#" data-range="7">Last 7 Days</a>
+                    <a href="#" data-range="30" class="active">Last 30 Days</a>
+                    <a href="#" data-range="90">Last 90 Days</a>
+                  </div>
+                </div>
+                <button class="btn btn-primary" id="exportBtn">
+                  <i class="fas fa-download"></i> Export
+                </button>
+              </div>
+            </div>
+            <div class="chart-container">
+              <canvas id="priceChart"></canvas>
+              <div class="chart-loader" id="priceChartLoader">
+                <div class="spinner"></div>
+                <p>Loading data...</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Orders Section -->
+          <div class="section">
+            <div class="section-header">
+              <div class="section-title">Recent Orders</div>
+              <div class="section-actions">
+                <button class="btn btn-primary" id="refreshOrdersBtn">
+                  <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+              </div>
+            </div>
+            <div class="tabs">
+              <div class="tab active" data-tab="pending">Pending</div>
+              <div class="tab" data-tab="completed">Completed</div>
+              <div class="tab" data-tab="cancelled">Cancelled</div>
+            </div>
+            <div class="tab-content" id="pendingTab">
+              <div class="order-list" id="pendingOrders"></div>
+            </div>
+            <div class="tab-content hidden" id="completedTab">
+              <div class="order-list" id="completedOrders"></div>
+            </div>
+            <div class="tab-content hidden" id="cancelledTab">
+              <div class="order-list" id="cancelledOrders"></div>
+            </div>
+          </div>
+
+          <!-- Growing Tips Section -->
+          <div class="section growing-tips">
+            <div class="section-header">
+              <div class="section-title">Growing Tips</div>
+              <div class="section-actions">
+                <button class="btn btn-primary" id="viewAllTipsBtn">
+                  <i class="fas fa-book"></i> View All
+                </button>
+              </div>
+            </div>
+            <div class="tip-card animate__animated animate__fadeIn">
+              <div class="tip-header">
+                <i class="fas fa-lightbulb tip-icon"></i>
+                <div class="tip-title">Optimal Watering Schedule</div>
+              </div>
+              <div class="tip-content">
+                Water your crops early in the morning to reduce evaporation and
+                ensure maximum absorption.
+              </div>
+            </div>
+            <div class="tip-card animate__animated animate__fadeIn">
+              <div class="tip-header">
+                <i class="fas fa-lightbulb tip-icon"></i>
+                <div class="tip-title">Soil Health</div>
+              </div>
+              <div class="tip-content">
+                Regularly test your soil pH and nutrient levels to maintain
+                optimal growing conditions.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+          <div class="footer-content">
+            <p>© 2025 AgriGo. All rights reserved.</p>
+            <div class="footer-links">
+              <a href="#terms">Terms of Service</a>
+              <a href="#privacy">Privacy Policy</a>
+              <a href="#help">Help Center</a>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Utility Functions
+        const $ = (selector) => document.querySelector(selector);
+        const $$ = (selector) => document.querySelectorAll(selector);
+        const toggleClass = (element, className) =>
+          element?.classList.toggle(className);
+        const showToast = (message, type = "success", duration = 3000) => {
+          const toastContainer = $("#toastContainer");
+          const toast = document.createElement("div");
+          toast.className = `toast toast-${type}`;
+          toast.innerHTML = `<span>${message}</span><i class="fas fa-times" onclick="this.parentElement.remove()"></i>`;
+          toastContainer.appendChild(toast);
+          setTimeout(() => toast.remove(), duration);
+        };
+
+        // Sidebar Toggle
+        const menuToggle = $("#menu-toggle");
+        const sidebar = $("#sidebar");
+        const mainContent = $("#main-content");
+        const overlay = $("#overlay");
+
+        if (menuToggle && sidebar && mainContent) {
+          menuToggle.addEventListener("click", () => {
+            toggleClass(sidebar, "sidebar-collapsed");
+            toggleClass(mainContent, "main-content-expanded");
+            const icon = menuToggle.querySelector("i");
+            icon.classList.toggle("fa-chevron-left");
+            icon.classList.toggle("fa-chevron-right");
+          });
+        }
+
+        // Mobile Menu Toggle
+        const mobileMenuToggle = $("#mobile-menu-toggle");
+        const sidebarToggleMobile = $(".sidebar-toggle-mobile");
+
+        const toggleMobileSidebar = () => {
+          toggleClass(sidebar, "active");
+          toggleClass(overlay, "active");
+        };
+
+        if (mobileMenuToggle)
+          mobileMenuToggle.addEventListener("click", toggleMobileSidebar);
+        if (sidebarToggleMobile)
+          sidebarToggleMobile.addEventListener("click", toggleMobileSidebar);
+        if (overlay) overlay.addEventListener("click", toggleMobileSidebar);
+
+        // Dark Mode Toggle
+        const darkModeToggle = $("#darkModeToggle");
+        const themeText = $("#themeText");
+        if (darkModeToggle) {
+          const toggleDarkMode = () => {
+            const isDark = document.body.classList.toggle("dark-mode");
+            localStorage.setItem("darkMode", isDark);
+            themeText.textContent = isDark ? "Light Mode" : "Dark Mode";
+            updateChart();
+          };
+          darkModeToggle.addEventListener("click", toggleDarkMode);
+          if (localStorage.getItem("darkMode") === "true") toggleDarkMode();
+        }
+
+        // Notification Dropdown
+        const notificationIcon = $("#notificationIcon");
+        const notificationDropdown = $("#notificationDropdown");
+        if (notificationIcon && notificationDropdown) {
+          notificationIcon.addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleClass(notificationDropdown, "show");
+          });
+          document.addEventListener("click", (e) => {
+            if (!notificationIcon.contains(e.target))
+              notificationDropdown.classList.remove("show");
+          });
+        }
+
+        // User Profile Dropdown
+        const userProfile = $("#userProfile");
+        const userDropdown = $("#userDropdown");
+        if (userProfile && userDropdown) {
+          userProfile.addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleClass(userDropdown, "show");
+          });
+          document.addEventListener("click", (e) => {
+            if (!userProfile.contains(e.target))
+              userDropdown.classList.remove("show");
+          });
+        }
+
+        // Logout Functionality
+        const userDropdownLogout = $("#userDropdownLogout");
+        if (userDropdownLogout)
+          userDropdownLogout.addEventListener("click", (e) => {
+            e.preventDefault();
+            showToast("Logged out successfully!", "success");
+            setTimeout(
+              () => (window.location.href = "/templates/login.html"),
+              2000
+            );
+          });
+
+        // Current Date
+        const currentDate = $("#currentDate");
+        if (currentDate) {
+          currentDate.textContent = new Date().toLocaleDateString("en-US", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          });
+        }
+
+        // Simulated Data
+        const dashboardData = {
+          products: [
+            {
+              id: "1",
+              name: "Organic Tomatoes",
+              category: "Vegetables",
+              price: "₱145/kg",
+              stock: "70%",
+            },
+            {
+              id: "2",
+              name: "Fresh Strawberries",
+              category: "Fruits",
+              price: "₱232/kg",
+              stock: "40%",
+            },
+            {
+              id: "3",
+              name: "Organic Wheat",
+              category: "Grains",
+              price: "₱104/kg",
+              stock: "20%",
+            },
+          ],
+          prices: {
+            7: {
+              labels: [
+                "Apr 15",
+                "Apr 16",
+                "Apr 17",
+                "Apr 18",
+                "Apr 19",
+                "Apr 20",
+                "Apr 21",
+              ],
+              data: [135, 140, 138, 145, 142, 148, 145],
+            },
+            30: {
+              labels: ["Mar 22", "Mar 29", "Apr 5", "Apr 12", "Apr 19"],
+              data: [130, 135, 140, 142, 145],
+            },
+            90: {
+              labels: ["Jan", "Feb", "Mar", "Apr"],
+              data: [125, 130, 135, 145],
+            },
+          },
+          orders: {
+            pending: [
+              {
+                id: "12345",
+                customer: "Maria Santos",
+                product: "Organic Tomatoes",
+                total: "₱2900",
+                status: "Pending",
+                date: "Apr 21, 2025",
+              },
+              {
+                id: "12346",
+                customer: "Juan Dela Cruz",
+                product: "Fresh Strawberries",
+                total: "₱4640",
+                status: "Pending",
+                date: "Apr 20, 2025",
+              },
+            ],
+            completed: [
+              {
+                id: "12344",
+                customer: "Pedro Reyes",
+                product: "Organic Wheat",
+                total: "₱2080",
+                status: "Delivered",
+                date: "Apr 19, 2025",
+              },
+            ],
+            cancelled: [
+              {
+                id: "12343",
+                customer: "Ana Gomez",
+                product: "Organic Tomatoes",
+                total: "₱1450",
+                status: "Cancelled",
+                date: "Apr 18, 2025",
+              },
+            ],
+          },
+        };
+
+        // Button Functionality
+        // Add Product
+        $("#addProductBtn").addEventListener("click", () => {
+          showToast("Redirecting to add product page...", "info");
+          setTimeout(
+            () => (window.location.href = "/templates/farmer/add-product.html"),
+            1000
+          );
+        });
+
+        // Edit Product
+        $$(".edit-product").forEach((button) => {
+          button.addEventListener("click", () => {
+            const productId = button.getAttribute("data-product-id");
+            const product = dashboardData.products.find(
+              (p) => p.id === productId
+            );
+            showToast(`Editing ${product.name}...`, "info");
+            setTimeout(
+              () =>
+                (window.location.href = `/templates/farmer/edit-product.html?id=${productId}`),
+              1000
+            );
+          });
+        });
+
+        // View Product
+        $$(".view-product").forEach((button) => {
+          button.addEventListener("click", () => {
+            const productId = button.getAttribute("data-product-id");
+            const product = dashboardData.products.find(
+              (p) => p.id === productId
+            );
+            showToast(`Viewing ${product.name} details...`, "info");
+            setTimeout(
+              () =>
+                (window.location.href = `/templates/farmer/product-details.html?id=${productId}`),
+              1000
+            );
+          });
+        });
+
+        // View All Tips
+        $("#viewAllTipsBtn").addEventListener("click", () => {
+          showToast("Redirecting to all growing tips...", "info");
+          setTimeout(
+            () =>
+              (window.location.href = "/templates/farmer/growing-tips.html"),
+            1000
+          );
+        });
+
+        // Price Chart
+        let priceChart;
+        const chartOptions = {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: "bottom",
+              labels: {
+                color: document.body.classList.contains("dark-mode")
+                  ? "#e0e0e0"
+                  : "#424242",
+              },
+            },
+            tooltip: {
+              callbacks: {
+                label: function (context) {
+                  return `₱${context.parsed.y.toFixed(2)}/kg`;
+                },
+              },
+              backgroundColor: "rgba(0, 0, 0, 0.8)",
+              titleColor: "#fff",
+              bodyColor: "#fff",
+            },
+          },
+        };
+
+        const updateChart = () => {
+          const isDark = document.body.classList.contains("dark-mode");
+          const textColor = isDark ? "#e0e0e0" : "#424242";
+          const gridColor = isDark ? "#333333" : "#e0e0e0";
+          const range = $("#timeRangeText").textContent.includes("7")
+            ? "7"
+            : $("#timeRangeText").textContent.includes("30")
+            ? "30"
+            : "90";
+
+          if (priceChart) priceChart.destroy();
+          priceChart = new Chart($("#priceChart"), {
+            type: "line",
+            data: {
+              labels: dashboardData.prices[range].labels,
+              datasets: [
+                {
+                  label: "Tomato Prices (₱/kg)",
+                  data: dashboardData.prices[range].data,
+                  borderColor: "#2e7d32",
+                  backgroundColor: "rgba(46, 125, 50, 0.1)",
+                  fill: true,
+                  tension: 0.4,
+                },
+              ],
+            },
+            options: {
+              ...chartOptions,
+              scales: {
+                y: {
+                  beginAtZero: false,
+                  ticks: {
+                    color: textColor,
+                    callback: function (value) {
+                      return `₱${value}`;
+                    },
+                  },
+                  grid: { color: gridColor },
+                },
+                x: { ticks: { color: textColor }, grid: { color: gridColor } },
+              },
+            },
+          });
+
+          setTimeout(
+            () => ($("#priceChartLoader").style.display = "none"),
+            1000
+          );
+        };
+
+        updateChart();
+
+        // Time Range Filter
+        const timeRangeBtn = $("#timeRangeBtn");
+        const timeRangeMenu = $("#timeRangeMenu");
+        if (timeRangeBtn && timeRangeMenu) {
+          timeRangeBtn.addEventListener("click", () => {
+            toggleClass(timeRangeMenu, "show");
+            timeRangeBtn.setAttribute(
+              "aria-expanded",
+              timeRangeMenu.classList.contains("show")
+            );
+          });
+          timeRangeMenu.querySelectorAll("a").forEach((link) => {
+            link.addEventListener("click", (e) => {
+              e.preventDefault();
+              const range = link.getAttribute("data-range");
+              $("#timeRangeText").textContent =
+                range === "7"
+                  ? "Last 7 Days"
+                  : range === "30"
+                  ? "Last 30 Days"
+                  : "Last 90 Days";
+              timeRangeMenu
+                .querySelectorAll("a")
+                .forEach((a) => a.classList.remove("active"));
+              link.classList.add("active");
+              toggleClass(timeRangeMenu, "show");
+              timeRangeBtn.setAttribute("aria-expanded", "false");
+              updateChart();
+              showToast(
+                `Updated to ${$("#timeRangeText").textContent}`,
+                "success"
+              );
             });
-        </script>
-    </body>
-    </html>
+          });
+        }
+
+        // Export Functionality
+        $("#exportBtn").addEventListener("click", () => {
+          const csv = [
+            "Date,Price (₱/kg)\n" +
+              priceChart.data.labels
+                .map(
+                  (label, i) =>
+                    `${label},${priceChart.data.datasets[0].data[i]}`
+                )
+                .join("\n"),
+          ];
+          const blob = new Blob([csv], { type: "text/csv" });
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "price_data.csv";
+          a.click();
+          window.URL.revokeObjectURL(url);
+          showToast("Data exported successfully!", "success");
+        });
+
+        // Populate Orders
+        const populateOrders = (containerId, orders) => {
+          const container = $(`#${containerId}`);
+          container.innerHTML = "";
+          orders.forEach((order) => {
+            const item = document.createElement("div");
+            item.className = "order-item animate__animated animate__fadeIn";
+            item.innerHTML = `
+                <div class="order-info">
+                    <div class="order-name">${order.product} (#${
+              order.id
+            })</div>
+                    <div class="order-detail">
+                        <span>Customer: ${order.customer}</span>
+                        <span>Total: ${order.total}</span>
+                        <span>Date: ${order.date}</span>
+                    </div>
+                </div>
+                <div class="order-actions">
+                    <span class="badge badge-${
+                      order.status.toLowerCase() === "delivered"
+                        ? "success"
+                        : order.status.toLowerCase() === "pending"
+                        ? "warning"
+                        : "danger"
+                    }">${order.status}</span>
+                    <button class="btn btn-primary view-order" data-order-id="${
+                      order.id
+                    }"><i class="fas fa-eye"></i> View</button>
+                </div>
+            `;
+            container.appendChild(item);
+          });
+
+          // View Order
+          $$(`#${containerId} .view-order`).forEach((button) => {
+            button.addEventListener("click", () => {
+              const orderId = button.getAttribute("data-order-id");
+              showToast(`Viewing order #${orderId} details...`, "info");
+              setTimeout(
+                () =>
+                  (window.location.href = `/templates/farmer/order-details.html?id=${orderId}`),
+                1000
+              );
+            });
+          });
+        };
+
+        populateOrders("pendingOrders", dashboardData.orders.pending);
+        populateOrders("completedOrders", dashboardData.orders.completed);
+        populateOrders("cancelledOrders", dashboardData.orders.cancelled);
+
+        // Tab Switching
+        $$(".tab").forEach((tab) => {
+          tab.addEventListener("click", () => {
+            $$(".tab").forEach((t) => t.classList.remove("active"));
+            $$(".tab-content").forEach((content) =>
+              content.classList.add("hidden")
+            );
+            tab.classList.add("active");
+            const tabId = tab.getAttribute("data-tab");
+            $(`#${tabId}Tab`).classList.remove("hidden");
+            showToast(`Switched to ${tab.textContent} orders`, "info");
+          });
+        });
+
+        // Refresh Orders
+        $("#refreshOrdersBtn").addEventListener("click", () => {
+          // Simulate fetching new orders
+          showToast("Refreshing orders...", "info");
+          setTimeout(() => {
+            populateOrders("pendingOrders", dashboardData.orders.pending);
+            populateOrders("completedOrders", dashboardData.orders.completed);
+            populateOrders("cancelledOrders", dashboardData.orders.cancelled);
+            showToast("Orders refreshed!", "success");
+          }, 1000);
+        });
+
+        // Search Functionality
+        const searchInput = $("#searchInput");
+        if (searchInput) {
+          searchInput.addEventListener("input", () => {
+            const query = searchInput.value.toLowerCase().trim();
+            if (query.length < 2 && query.length !== 0) return; // Minimum query length
+
+            // Filter Products
+            const productGrid = $(".product-grid");
+            productGrid.innerHTML = "";
+            const filteredProducts = query
+              ? dashboardData.products.filter(
+                  (p) =>
+                    p.name.toLowerCase().includes(query) ||
+                    p.category.toLowerCase().includes(query)
+                )
+              : dashboardData.products;
+
+            filteredProducts.forEach((product) => {
+              const card = document.createElement("div");
+              card.className =
+                "product-card animate__animated animate__slideInRight";
+              card.setAttribute("data-product-id", product.id);
+              const stockClass =
+                product.stock === "70%"
+                  ? ""
+                  : product.stock === "40%"
+                  ? "stock-medium"
+                  : "stock-low";
+              card.innerHTML = `
+                    <img src="https://images.pexels.com/photos/${
+                      product.id === "1"
+                        ? "1327838/pexels-photo-1327838"
+                        : product.id === "2"
+                        ? "12280893/pexels-photo-12280893"
+                        : "6054529/pexels-photo-6054529"
+                    }.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="${
+                product.name
+              }" class="product-image"/>
+                    <div class="product-details">
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-category">${product.category}</div>
+                        <div class="product-price">${product.price}</div>
+                        <div class="product-stock">
+                            <div class="stock-indicator">
+                                <div class="stock-level ${stockClass}" style="width: ${
+                product.stock
+              };"></div>
+                            </div>
+                            <span>${product.stock} in stock</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn btn-primary edit-product" data-product-id="${
+                              product.id
+                            }"><i class="fas fa-edit"></i> Edit</button>
+                            <button class="btn btn-outline view-product" data-product-id="${
+                              product.id
+                            }"><i class="fas fa-eye"></i> View</button>
+                        </div>
+                    </div>
+                `;
+              productGrid.appendChild(card);
+            });
+
+            // Reattach event listeners for new product buttons
+            $$(".edit-product").forEach((button) => {
+              button.addEventListener("click", () => {
+                const productId = button.getAttribute("data-product-id");
+                const product = dashboardData.products.find(
+                  (p) => p.id === productId
+                );
+                showToast(`Editing ${product.name}...`, "info");
+                setTimeout(
+                  () =>
+                    (window.location.href = `/templates/farmer/edit-product.html?id=${productId}`),
+                  1000
+                );
+              });
+            });
+            $$(".view-product").forEach((button) => {
+              button.addEventListener("click", () => {
+                const productId = button.getAttribute("data-product-id");
+                const product = dashboardData.products.find(
+                  (p) => p.id === productId
+                );
+                showToast(`Viewing ${product.name} details...`, "info");
+                setTimeout(
+                  () =>
+                    (window.location.href = `/templates/farmer/product-details.html?id=${productId}`),
+                  1000
+                );
+              });
+            });
+
+            // Filter Orders
+            const filterOrders = (status, orders) => {
+              const filtered = query
+                ? orders.filter(
+                    (o) =>
+                      o.product.toLowerCase().includes(query) ||
+                      o.customer.toLowerCase().includes(query) ||
+                      o.id.includes(query)
+                  )
+                : orders;
+              populateOrders(`${status}Orders`, filtered);
+            };
+
+            filterOrders("pending", dashboardData.orders.pending);
+            filterOrders("completed", dashboardData.orders.completed);
+            filterOrders("cancelled", dashboardData.orders.cancelled);
+
+            showToast(
+              query
+                ? `Found ${filteredProducts.length} products and filtered orders`
+                : "Reset search results",
+              "info"
+            );
+          });
+        }
+
+        // Prevent Default Form Submission (if any)
+        $$("form").forEach((form) => {
+          form.addEventListener("submit", (e) => e.preventDefault());
+        });
+      });
+    </script>
+  </body>
+</html>
