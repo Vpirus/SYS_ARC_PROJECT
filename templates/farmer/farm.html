@@ -1,0 +1,2515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Farm | AgriGo</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root {
+            /* Primary Colors */
+            --green-primary: #2e7d32;
+            --green-primary-light: #4caf50;
+            --green-primary-dark: #1b5e20;
+            --earth-brown: #8d6e63;
+            --sky-blue: #4fc3f7;
+
+            /* Secondary Colors */
+            --harvest-yellow: #fbc02d;
+            --leaf-green: #81c784;
+            --soil-tan: #d7ccc8;
+
+            /* Additional Farmer-specific Colors */
+            --crop-green: #66bb6a;
+            --sunrise-orange: #ffb74d;
+            --water-blue: #29b6f6;
+            --wheat-gold: #f9a825;
+
+            /* Neutrals */
+            --dark-gray: #424242;
+            --medium-gray: #757575;
+            --light-gray: #f5f5f5;
+            --white: #ffffff;
+            --black: #212121;
+
+            /* Status Colors */
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
+            --info: #2196f3;
+
+            /* Dark Theme Colors */
+            --dark-bg: #121212;
+            --dark-surface: #1e1e1e;
+            --dark-card: #2d2d2d;
+            --dark-border: #333333;
+            --dark-text: #e0e0e0;
+            --dark-text-secondary: #aaaaaa;
+
+            /* Spacing */
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --spacing-xxl: 48px;
+
+            /* Animation */
+            --transition-fast: 0.2s;
+            --transition-normal: 0.3s;
+            --transition-slow: 0.5s;
+
+            /* Shadows */
+            --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 10px rgba(0, 0, 0, 0.15);
+            --shadow-lg: 0 8px 20px rgba(0, 0, 0, 0.2);
+
+            /* Borders */
+            --border-radius-sm: 4px;
+            --border-radius-md: 8px;
+            --border-radius-lg: 12px;
+            --border-radius-xl: 16px;
+            --border-radius-circle: 50%;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: "Open Sans", sans-serif;
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+        }
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 90;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        .overlay.active {
+            display: block;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background-color: var(--white);
+            box-shadow: var(--shadow-md);
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+            transition: all var(--transition-normal);
+            overflow-y: auto;
+        }
+        .dark-mode .sidebar {
+            background-color: var(--dark-surface);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        .sidebar-collapsed {
+            width: 70px;
+        }
+        .sidebar-header {
+            padding: var(--spacing-md);
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--light-gray);
+            height: 70px;
+        }
+        .dark-mode .sidebar-header {
+            border-bottom-color: var(--dark-border);
+        }
+        .sidebar-header img.logo {
+            height: 40px;
+            width: 40px;
+            object-fit: contain;
+        }
+        .sidebar-header h2 {
+            margin-left: var(--spacing-sm);
+            color: var(--green-primary);
+            font-size: 1.5rem;
+            transition: opacity var(--transition-normal), width var(--transition-normal);
+            white-space: nowrap;
+            margin-bottom: 0;
+        }
+        .sidebar-collapsed .sidebar-header h2 {
+            opacity: 0;
+            width: 0;
+            overflow: hidden;
+        }
+        .sidebar-menu {
+            margin-top: var(--spacing-md);
+        }
+        .nav-list {
+            list-style: none;
+        }
+        .nav-item {
+            margin-bottom: 2px;
+        }
+        .nav-link {
+            padding: var(--spacing-md);
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            color: var(--dark-gray);
+            text-decoration: none;
+            border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+        }
+        .dark-mode .nav-link {
+            color: var(--dark-text);
+        }
+        .nav-link:hover {
+            background-color: rgba(46, 125, 50, 0.1);
+            color: var(--green-primary);
+        }
+        .dark-mode .nav-link:hover {
+            background-color: rgba(76, 175, 80, 0.1);
+        }
+        .nav-link.active {
+            background-color: var(--green-primary);
+            color: var(--white);
+            box-shadow: var(--shadow-sm);
+        }
+        .dark-mode .nav-link.active {
+            background-color: var(--green-primary-dark);
+        }
+        .nav-link i {
+            font-size: 1.2rem;
+            width: 30px;
+            text-align: center;
+        }
+        .nav-link span {
+            margin-left: var(--spacing-md);
+            transition: opacity var(--transition-normal), width var(--transition-normal);
+            white-space: nowrap;
+        }
+        .sidebar-collapsed .nav-link span {
+            opacity: 0;
+            width: 0;
+            overflow: hidden;
+        }
+        .menu-toggle {
+            position: absolute;
+            right: -5px;
+            top: 65px;
+            background-color: var(--green-primary);
+            color: var(--white);
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: var(--border-radius-circle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: background-color var(--transition-fast);
+        }
+        .menu-toggle:hover {
+            background-color: var(--green-primary-dark);
+        }
+        .sidebar-toggle-mobile {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: var(--spacing-md);
+            text-align: center;
+            background-color: var(--green-primary);
+            color: var(--white);
+            position: sticky;
+            bottom: 0;
+            z-index: 101;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            transition: margin-left var(--transition-normal);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--light-gray);
+        }
+        .dark-mode .main-content {
+            background-color: var(--dark-bg);
+        }
+        .main-content-expanded {
+            margin-left: 70px;
+        }
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark-gray);
+            cursor: pointer;
+            padding: var(--spacing-sm);
+        }
+        .dark-mode .mobile-menu-toggle {
+            color: var(--dark-text);
+        }
+
+        /* Header */
+        .header {
+            background-color: var(--white);
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 99;
+            height: 70px;
+        }
+        .dark-mode .header {
+            background-color: var(--dark-surface);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: var(--light-gray);
+            border-radius: 20px;
+            padding: var(--spacing-sm) var(--spacing-md);
+            width: 300px;
+            transition: all var(--transition-fast);
+        }
+        .dark-mode .search-bar {
+            background-color: var(--dark-card);
+        }
+        .search-bar:focus-within {
+            box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.3);
+        }
+        .search-bar input {
+            border: none;
+            background: transparent;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            flex: 1;
+            outline: none;
+            font-family: "Open Sans", sans-serif;
+            color: var(--dark-gray);
+            font-size: 0.95rem;
+        }
+        .dark-mode .search-bar input {
+            color: var(--dark-text);
+        }
+        .search-bar input::placeholder {
+            color: var(--medium-gray);
+            opacity: 0.8;
+        }
+        .dark-mode .search-bar input::placeholder {
+            color: var(--dark-text-secondary);
+        }
+        .search-bar i {
+            color: var(--medium-gray);
+        }
+        .dark-mode .search-bar i {
+            color: var(--dark-text-secondary);
+        }
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-lg);
+        }
+
+        /* Notification */
+        .notification {
+            position: relative;
+            cursor: pointer;
+            padding: var(--spacing-xs);
+            border-radius: var(--border-radius-circle);
+            transition: background-color var(--transition-fast);
+        }
+        .notification:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        .dark-mode .notification:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        .notification-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--harvest-yellow);
+            color: var(--dark-gray);
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: var(--border-radius-circle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .notification-dropdown {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: -10px;
+            width: 320px;
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-md);
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all var(--transition-normal);
+            overflow: hidden;
+            max-height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+        .dark-mode .notification-dropdown {
+            background-color: var(--dark-card);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        .notification-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .notification-dropdown h3 {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--light-gray);
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--green-primary);
+        }
+        .dark-mode .notification-dropdown h3 {
+            border-bottom-color: var(--dark-border);
+            color: var(--green-primary-light);
+        }
+        .notification-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            overflow-y: auto;
+            flex: 1;
+        }
+        .notification-item {
+            display: flex;
+            align-items: center;
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--light-gray);
+            transition: background-color var(--transition-fast);
+        }
+        .dark-mode .notification-item {
+            border-bottom-color: var(--dark-border);
+        }
+        .notification-item:hover {
+            background-color: var(--light-gray);
+        }
+        .dark-mode .notification-item:hover {
+            background-color: var(--dark-surface);
+        }
+        .notification-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: var(--border-radius-circle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: var(--spacing-md);
+            font-size: 1rem;
+        }
+        .notification-icon.warning {
+            background-color: var(--warning);
+            color: var(--white);
+        }
+        .notification-icon.success {
+            background-color: var(--success);
+            color: var(--white);
+        }
+        .notification-icon.info {
+            background-color: var(--sky-blue);
+            color: var(--white);
+        }
+        .notification-content p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+        }
+        .dark-mode .notification-content p {
+            color: var(--dark-text);
+        }
+        .notification-content strong {
+            font-weight: 600;
+            color: var(--black);
+        }
+        .dark-mode .notification-content strong {
+            color: var(--white);
+        }
+        .notification-time {
+            font-size: 0.75rem;
+            color: var(--medium-gray);
+        }
+        .dark-mode .notification-time {
+            color: var(--dark-text-secondary);
+        }
+        .notification-footer {
+            padding: var(--spacing-md);
+            text-align: center;
+            border-top: 1px solid var(--light-gray);
+        }
+        .dark-mode .notification-footer {
+            border-top-color: var(--dark-border);
+        }
+        .notification-footer a {
+            font-size: 0.85rem;
+            color: var(--green-primary);
+        }
+        .notification-footer a:hover {
+            color: var(--green-primary-dark);
+        }
+
+        /* User Profile */
+        .user-profile {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: var(--spacing-sm);
+            border-radius: var(--border-radius-md);
+            transition: background-color var(--transition-fast);
+            position: relative;
+        }
+        .user-profile:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        .dark-mode .user-profile:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            background-color: var(--green-primary);
+            color: var(--white);
+            border-radius: var(--border-radius-circle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-right: var(--spacing-sm);
+        }
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .user-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--black);
+        }
+        .dark-mode .user-name {
+            color: var(--dark-text);
+        }
+        .role-badge {
+            font-size: 0.75rem;
+            color: var(--medium-gray);
+        }
+        .dark-mode .role-badge {
+            color: var(--dark-text-secondary);
+        }
+        .dropdown-icon {
+            margin-left: var(--spacing-sm);
+            color: var(--medium-gray);
+            transition: transform var(--transition-fast);
+        }
+        .user-profile:hover .dropdown-icon {
+            transform: rotate(180deg);
+        }
+        .user-dropdown {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            width: 200px;
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-md);
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all var(--transition-normal);
+        }
+        .dark-mode .user-dropdown {
+            background-color: var(--dark-card);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        .user-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .user-dropdown ul {
+            list-style: none;
+            padding: var(--spacing-sm) 0;
+            margin: 0;
+        }
+        .user-dropdown li {
+            padding: var(--spacing-sm) var(--spacing-md);
+            transition: background-color var(--transition-fast);
+        }
+        .user-dropdown li:hover {
+            background-color: var(--light-gray);
+        }
+        .dark-mode .user-dropdown li:hover {
+            background-color: var(--dark-surface);
+        }
+        .user-dropdown li.divider {
+            height: 1px;
+            background-color: var(--light-gray);
+            padding: 0;
+            margin: var(--spacing-sm) 0;
+        }
+        .dark-mode .user-dropdown li.divider {
+            background-color: var(--dark-border);
+        }
+        .user-dropdown a {
+            display: flex;
+            align-items: center;
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+        .dark-mode .user-dropdown a {
+            color: var(--dark-text);
+        }
+        .user-dropdown a i {
+            margin-right: var(--spacing-md);
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Farm Content */
+        .farm-content {
+            padding: var(--spacing-lg);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-lg);
+        }
+
+        /* Section */
+        .section {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-sm);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+        .dark-mode .section {
+            background-color: var(--dark-card);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-lg);
+        }
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--green-primary);
+        }
+        .dark-mode .section-title {
+            color: var(--green-primary-light);
+        }
+        .section-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+            align-items: center;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: "Roboto", sans-serif;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all var(--transition-fast) ease;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            text-align: center;
+            justify-content: center;
+            width: auto;
+        }
+        .btn-primary {
+            background-color: var(--green-primary);
+            color: var(--white);
+        }
+        .btn-primary:hover {
+            background-color: var(--green-primary-dark);
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background-color: rgba(46, 125, 50, 0.1);
+            color: var(--green-primary);
+        }
+        .btn-secondary:hover {
+            background-color: rgba(46, 125, 50, 0.2);
+            transform: translateY(-2px);
+        }
+        .btn-outline {
+            border: 1px solid var(--green-primary);
+            background-color: transparent;
+            color: var(--green-primary);
+        }
+        .btn-outline:hover {
+            background-color: rgba(46, 125, 50, 0.1);
+            transform: translateY(-2px);
+        }
+        .dark-mode .btn-secondary {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--green-primary-light);
+        }
+        .dark-mode .btn-secondary:hover {
+            background-color: rgba(76, 175, 80, 0.2);
+        }
+        .dark-mode .btn-outline {
+            border-color: var(--green-primary-light);
+            color: var(--green-primary-light);
+        }
+        .dark-mode .btn-outline:hover {
+            background-color: rgba(76, 175, 80, 0.1);
+        }
+        .btn:disabled {
+            background-color: var(--medium-gray);
+            color: var(--light-gray);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Farm Overview */
+        .farm-overview .farm-details {
+            display: flex;
+            gap: var(--spacing-lg);
+            flex-wrap: wrap;
+        }
+        .farm-info-card {
+            flex: 1;
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-md);
+            box-shadow: var(--shadow-sm);
+        }
+        .dark-mode .farm-info-card {
+            background-color: var(--dark-card);
+        }
+        .farm-info-header {
+            margin-bottom: var(--spacing-md);
+        }
+        .farm-status {
+            font-size: 0.85rem;
+            color: var(--medium-gray);
+        }
+        .dark-mode .farm-status {
+            color: var(--dark-text-secondary);
+        }
+        .farm-info-content {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+        .farm-info-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            font-size: 0.9rem;
+        }
+        .farm-info-item i {
+            color: var(--green-primary);
+        }
+        .dark-mode .farm-info-item i {
+            color: var(--green-primary-light);
+        }
+        .farm-imagery {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+        .farm-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: var(--border-radius-md);
+        }
+        .farm-image-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+            justify-content: center;
+        }
+
+        /* Farm Areas */
+        .area-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+        }
+        .area-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-sm);
+            transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+        }
+        .dark-mode .area-card {
+            background-color: var(--dark-card);
+        }
+        .area-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+        .area-header {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .dark-mode .area-header {
+            border-bottom-color: var(--dark-border);
+        }
+        .area-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--green-primary);
+        }
+        .dark-mode .area-name {
+            color: var(--green-primary-light);
+        }
+        .area-size {
+            font-size: 0.85rem;
+            color: var(--medium-gray);
+        }
+        .dark-mode .area-size {
+            color: var(--dark-text-secondary);
+        }
+        .area-content {
+            padding: var(--spacing-md);
+        }
+        .area-stats {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+        }
+        .area-stat {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            font-size: 0.9rem;
+        }
+        .area-stat i {
+            color: var(--green-primary);
+        }
+        .dark-mode .area-stat i {
+            color: var(--green-primary-light);
+        }
+        .area-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+            justify-content: flex-end;
+        }
+
+        /* Crop Management */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--light-gray);
+            padding: var(--spacing-md) var(--spacing-lg) 0;
+        }
+        .dark-mode .tabs {
+            border-bottom-color: var(--dark-border);
+        }
+        .tab {
+            padding: var(--spacing-sm) var(--spacing-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-weight: 500;
+            color: var(--medium-gray);
+            position: relative;
+        }
+        .dark-mode .tab {
+            color: var(--dark-text-secondary);
+        }
+        .tab:hover {
+            color: var(--green-primary);
+        }
+        .dark-mode .tab:hover {
+            color: var(--green-primary-light);
+        }
+        .tab.active {
+            color: var(--green-primary);
+            font-weight: 600;
+        }
+        .dark-mode .tab.active {
+            color: var(--green-primary-light);
+        }
+        .tab.active::after {
+            content: "";
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--green-primary);
+        }
+        .dark-mode .tab.active::after {
+            background-color: var(--green-primary-light);
+        }
+        .tab-content {
+            padding: var(--spacing-md) var(--spacing-lg);
+        }
+        .tab-content.hidden {
+            display: none;
+        }
+        .crop-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+        .crop-item {
+            display: flex;
+            align-items: center;
+            padding: var(--spacing-md);
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius-md);
+            background-color: var(--white);
+            transition: all var(--transition-fast);
+        }
+        .dark-mode .crop-item {
+            border-color: var(--dark-border);
+            background-color: var(--dark-card);
+        }
+        .crop-item:hover {
+            border-color: var(--green-primary);
+            box-shadow: var(--shadow-sm);
+        }
+        .crop-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--border-radius-md);
+            background-color: rgba(46, 125, 50, 0.1);
+            color: var(--green-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: var(--spacing-md);
+        }
+        .crop-details {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+        }
+        .crop-name {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--black);
+        }
+        .dark-mode .crop-name {
+            color: var(--white);
+        }
+        .crop-variety, .crop-location {
+            font-size: 0.85rem;
+            color: var(--medium-gray);
+        }
+        .dark-mode .crop-variety, .dark-mode .crop-location {
+            color: var(--dark-text-secondary);
+        }
+        .crop-timeline {
+            flex: 1;
+            margin: 0 var(--spacing-md);
+        }
+        .timeline-bar {
+            height: 6px;
+            background-color: var(--light-gray);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: var(--spacing-sm);
+        }
+        .dark-mode .timeline-bar {
+            background-color: var(--dark-border);
+        }
+        .timeline-progress {
+            height: 100%;
+            background-color: var(--green-primary);
+            transition: width var(--transition-normal);
+        }
+        .timeline-dates {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--medium-gray);
+        }
+        .dark-mode .timeline-dates {
+            color: var(--dark-text-secondary);
+        }
+        .crop-stats {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+        .crop-stat {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+        }
+        .stat-label {
+            color: var(--medium-gray);
+        }
+        .dark-mode .stat-label {
+            color: var(--dark-text-secondary);
+        }
+        .stat-value.green {
+            color: var(--success);
+        }
+        .stat-value.yellow {
+            color: var(--warning);
+        }
+        .crop-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        /* Farm Tasks */
+        .task-calendar {
+            margin-bottom: var(--spacing-lg);
+        }
+        .calendar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-md);
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: var(--spacing-xs);
+        }
+        .calendar-day {
+            padding: var(--spacing-sm);
+            text-align: center;
+            font-size: 0.9rem;
+            border-radius: var(--border-radius-sm);
+            transition: background-color var(--transition-fast);
+        }
+        .calendar-day.header {
+            font-weight: 600;
+            color: var(--green-primary);
+        }
+        .dark-mode .calendar-day.header {
+            color: var(--green-primary-light);
+        }
+        .calendar-day:not(.header):hover {
+            background-color: rgba(46, 125, 50, 0.1);
+            cursor: pointer;
+        }
+        .calendar-day.task {
+            background-color: rgba(46, 125, 50, 0.2);
+            color: var(--green-primary);
+            font-weight: 600;
+        }
+        .dark-mode .calendar-day.task {
+            background-color: rgba(76, 175, 80, 0.2);
+            color: var(--green-primary-light);
+        }
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+        .task-item {
+            display: flex;
+            align-items: center;
+            padding: var(--spacing-md);
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius-md);
+            background-color: var(--white);
+            transition: all var(--transition-fast);
+        }
+        .dark-mode .task-item {
+            border-color: var(--dark-border);
+            background-color: var(--dark-card);
+        }
+        .task-item:hover {
+            border-color: var(--green-primary);
+            box-shadow: var(--shadow-sm);
+        }
+        .task-status {
+            width: 12px;
+            height: 12px;
+            border-radius: var(--border-radius-circle);
+            margin-right: var(--spacing-md);
+        }
+        .task-status.completed {
+            background-color: var(--success);
+        }
+        .task-status.pending {
+            background-color: var(--warning);
+        }
+        .task-status.overdue {
+            background-color: var(--danger);
+        }
+        .task-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+        }
+        .task-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--black);
+        }
+        .dark-mode .task-title {
+            color: var(--white);
+        }
+        .task-details {
+            font-size: 0.85rem;
+            color: var(--medium-gray);
+        }
+        .dark-mode .task-details {
+            color: var(--dark-text-secondary);
+        }
+        .task-meta {
+            display: flex;
+            gap: var(--spacing-md);
+            font-size: 0.8rem;
+            color: var(--medium-gray);
+        }
+        .dark-mode .task-meta {
+            color: var(--dark-text-secondary);
+        }
+        .task-meta i {
+            margin-right: var(--spacing-xs);
+        }
+        .task-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        /* Farm Resources */
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+        }
+        .resource-card {
+            display: flex;
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-sm);
+            transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+        }
+        .dark-mode .resource-card {
+            background-color: var(--dark-card);
+        }
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+        .resource-icon {
+            width: 60px;
+            background-color: rgba(46, 125, 50, 0.1);
+            color: var(--green-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            border-radius: var(--border-radius-md) 0 0 var(--border-radius-md);
+        }
+        .resource-content {
+            flex: 1;
+            padding: var(--spacing-md);
+        }
+        .resource-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--green-primary);
+            margin-bottom: var(--spacing-sm);
+        }
+        .dark-mode .resource-title {
+            color: var(--green-primary-light);
+        }
+        .resource-details {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+        }
+        .resource-detail {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+        }
+        .detail-label {
+            color: var(--medium-gray);
+        }
+        .dark-mode .detail-label {
+            color: var(--dark-text-secondary);
+        }
+        .detail-value.green {
+            color: var(--success);
+        }
+        .detail-value.yellow {
+            color: var(--warning);
+        }
+        .resource-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+            justify-content: flex-end;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--white);
+            padding: var(--spacing-lg) var(--spacing-xl);
+            border-top: 1px solid var(--light-gray);
+            margin-top: auto;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
+        }
+        .dark-mode .footer {
+            background-color: var(--dark-surface);
+            border-top-color: var(--dark-border);
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+        }
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .footer-content p {
+            font-size: 0.85rem;
+            color: var(--medium-gray);
+            margin: 0;
+        }
+        .dark-mode .footer-content p {
+            color: var(--dark-text-secondary);
+        }
+        .footer-links {
+            display: flex;
+            gap: var(--spacing-lg);
+        }
+        .footer-links a {
+            font-size: 0.85rem;
+            color: var(--green-primary);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+        .dark-mode .footer-links a {
+            color: var(--green-primary-light);
+        }
+        .footer-links a:hover {
+            color: var(--green-primary-dark);
+        }
+        .dark-mode .footer-links a:hover {
+            color: var(--green-primary);
+        }
+
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        .toast {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--spacing-md);
+            margin-top: var(--spacing-sm);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-sm);
+            animation: slideIn 0.3s ease;
+        }
+        .toast-success {
+            background-color: var(--success);
+            color: var(--white);
+        }
+        .toast-info {
+            background-color: var(--info);
+            color: var(--white);
+        }
+        .toast-error {
+            background-color: var(--danger);
+            color: var(--white);
+        }
+        .toast i {
+            cursor: pointer;
+            margin-left: var(--spacing-md);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 250px;
+                transform: translateX(-100%);
+                position: fixed;
+            }
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .mobile-menu-toggle {
+                display: block;
+            }
+            .sidebar-toggle-mobile {
+                display: block;
+            }
+            .header {
+                flex-direction: row;
+                align-items: center;
+                height: auto;
+                padding: var(--spacing-md);
+                gap: var(--spacing-md);
+            }
+            .search-bar {
+                width: 100%;
+                max-width: 200px;
+            }
+            .header-actions {
+                gap: var(--spacing-md);
+            }
+            .farm-details {
+                flex-direction: column;
+            }
+            .area-grid, .resource-grid {
+                grid-template-columns: 1fr;
+            }
+            .section-actions {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            .footer-content {
+                flex-direction: column;
+                gap: var(--spacing-md);
+                align-items: flex-start;
+            }
+            .footer-links {
+                flex-direction: column;
+                gap: var(--spacing-sm);
+            }
+            .crop-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .crop-timeline, .crop-stats, .crop-actions {
+                width: 100%;
+                margin: var(--spacing-sm) 0;
+            }
+            .crop-stats {
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: var(--spacing-md);
+            }
+            .crop-stat {
+                flex: 1;
+                min-width: 120px;
+            }
+        }
+        @media (max-width: 480px) {
+            .notification-dropdown, .user-dropdown {
+                width: 100%;
+                right: 0;
+                left: 0;
+                margin: 0 var(--spacing-md);
+            }
+            .section-actions {
+                flex-direction: column;
+                gap: var(--spacing-sm);
+                width: 100%;
+            }
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .search-bar {
+                max-width: 100%;
+            }
+            .calendar-grid {
+                font-size: 0.8rem;
+            }
+            .calendar-day {
+                padding: var(--spacing-xs);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay" id="overlay"></div>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="/templates/images/logo.png" alt="AgriGo Logo" class="logo">
+                <h2>AgriGo</h2>
+                <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            </div>
+            <div class="sidebar-menu">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="/templates/farmer/farmer-dashboard.html" class="nav-link" data-tab="dashboard">
+                            <i class="fas fa-home"></i> <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active" data-tab="farm">
+                            <i class="fas fa-seedling"></i> <span>My Farm</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/templates/farmer/products.html" class="nav-link" data-tab="products">
+                            <i class="fas fa-box"></i> <span>Products</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/templates/farmer/orders.html" class="nav-link" data-tab="orders">
+                            <i class="fas fa-shopping-cart"></i> <span>Orders</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/templates/farmer/payments.html" class="nav-link" data-tab="payments">
+                            <i class="fas fa-credit-card"></i> <span>Payments</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/templates/farmer/reviews.html" class="nav-link" data-tab="reviews">
+                            <i class="fas fa-comment-alt"></i> <span>Reviews</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/templates/farmer/analytics.html" class="nav-link" data-tab="analytics">
+                            <i class="fas fa-chart-line"></i> <span>Analytics</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="sidebar-toggle-mobile">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content" id="main-content">
+            <!-- Header -->
+            <div class="header">
+                <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Mobile menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search farm areas, crops..." aria-label="Search">
+                </div>
+                <div class="header-actions">
+                    <div class="notification" id="notificationIcon">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">3</span>
+                        <div class="notification-dropdown" id="notificationDropdown">
+                            <h3>Notifications</h3>
+                            <ul class="notification-list">
+                                <li class="notification-item">
+                                    <div class="notification-icon warning">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p>Irrigation system needs maintenance</p>
+                                        <span class="notification-time">1 hour ago</span>
+                                    </div>
+                                </li>
+                                <li class="notification-item">
+                                    <div class="notification-icon success">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p>Crop rotation schedule updated</p>
+                                        <span class="notification-time">3 hours ago</span>
+                                    </div>
+                                </li>
+                                <li class="notification-item">
+                                    <div class="notification-icon info">
+                                        <i class="fas fa-info-circle"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p>Soil test results available</p>
+                                        <span class="notification-time">6 hours ago</span>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="notification-footer">
+                                <a href="#notifications">View all notifications</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user-profile" id="userProfile">
+                        <div class="user-avatar">VF</div>
+                        <div class="user-info">
+                            <div class="user-name">Vicente Fernandez</div>
+                            <span class="role-badge">Verified Farmer</span>
+                        </div>
+                        <i class="fas fa-chevron-down dropdown-icon"></i>
+                        <div class="user-dropdown" id="userDropdown">
+                            <ul>
+                                <li><a href="#profile"><i class="fas fa-user"></i> My Profile</a></li>
+                                <li><a href="#settings"><i class="fas fa-cog"></i> Account Settings</a></li>
+                                <li><a href="#help"><i class="fas fa-question-circle"></i> Help & Support</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#" id="darkModeToggle"><i class="fas fa-moon"></i> <span id="themeText">Dark Mode</span></a></li>
+                                <li class="divider"></li>
+                                <li><a href="#" id="userDropdownLogout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Farm Content -->
+            <div class="farm-content">
+                <!-- Farm Overview Section -->
+                <div class="section farm-overview animate__animated animate__fadeIn">
+                    <div class="section-header">
+                        <div class="section-title">Farm Overview</div>
+                        <div class="section-actions">
+                            <button class="btn btn-primary" id="editFarmBtn">
+                                <i class="fas fa-edit"></i> Edit Farm Info
+                            </button>
+                        </div>
+                    </div>
+                    <div class="farm-details">
+                        <div class="farm-info-card">
+                            <div class="farm-info-header">
+                                <h2>Green Meadows Farm</h2>
+                                <span class="farm-status">Active since 2018</span>
+                            </div>
+                            <div class="farm-info-content">
+                                <div class="farm-info-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>Location: San Pablo, Laguna, Philippines</span>
+                                </div>
+                                <div class="farm-info-item">
+                                    <i class="fas fa-ruler-combined"></i>
+                                    <span>Total Area: 50 Acres</span>
+                                </div>
+                                <div class="farm-info-item">
+                                    <i class="fas fa-seedling"></i>
+                                    <span>Farm Type: Mixed Crop</span>
+                                </div>
+                                <div class="farm-info-item">
+                                    <i class="fas fa-certificate"></i>
+                                    <span>Certifications: Organic Certified, GAP Certified</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="farm-imagery">
+                            <img src="/api/placeholder/300/200" alt="Farm aerial view" class="farm-image">
+                            <div class="farm-image-actions">
+                                <button class="btn btn-outline" id="uploadPhotoBtn">
+                                    <i class="fas fa-camera"></i> Upload New Photo
+                                </button>
+                                <button class="btn btn-outline" id="viewMapBtn">
+                                    <i class="fas fa-map"></i> View Map
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Farm Areas Section -->
+                <div class="section farm-areas">
+                    <div class="section-header">
+                        <div class="section-title">Farm Areas</div>
+                        <div class="section-actions">
+                            <button class="btn btn-primary" id="addAreaBtn">
+                                <i class="fas fa-plus"></i> Add Area
+                            </button>
+                        </div>
+                    </div>
+                    <div class="area-grid" id="areaGrid">
+                        <div class="area-card animate__animated animate__slideInUp" data-area-id="1">
+                            <div class="area-header">
+                                <div class="area-name">Northern Field</div>
+                                <div class="area-size">20 Acres</div>
+                            </div>
+                            <div class="area-content">
+                                <div class="area-stats">
+                                    <div class="area-stat">
+                                        <i class="fas fa-seedling"></i>
+                                        <span>Crops: Tomatoes, Peppers</span>
+                                    </div>
+                                    <div class="area-stat">
+                                        <i class="fas fa-water"></i>
+                                        <span>Irrigation: Drip System</span>
+                                    </div>
+                                    <div class="area-stat">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        <span>Last Planted: March 15, 2025</span>
+                                    </div>
+                                    <div class="area-stat">
+                                        <i class="fas fa-leaf"></i>
+                                        <span>Soil Type: Clay Loam</span>
+                                    </div>
+                                </div>
+                                <div class="area-actions">
+                                    <button class="btn btn-primary edit-area" data-area-id="1">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button class="btn btn-outline view-area" data-area-id="1">
+                                        <i class="fas fa-eye"></i> View Details
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="area-card animate__animated animate__slideInUp" data-area-id="2">
+                            <div class="area-header">
+                                <div class="area-name">Orchard</div>
+                                <div class="area-size">15 Acres</div>
+                            </div>
+                            <div class="area-content">
+                                <div class="area-stats">
+                                    <div class="area-stat">
+                                        <i class="fas fa-apple-alt"></i>
+                                        <span>Crops: Mangoes, Avocados</span>
+                                    </div>
+                                    <div class="area-stat">
+                                        <i class="fas fa-water"></i>
+                                        <span>Irrigation: Sprinkler System</span>
+                                    </div>
+                                    <div class="area-stat">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        <span>Established: June 2019</span>
+                                    </div>
+                                    <div class="area-stat">
+                                        <i class="fas fa-leaf"></i>
+                                        <span>Soil Type: Sandy Loam</span>
+                                    </div>
+                                </div>
+                                <div class="area-actions">
+                                    <button class="btn btn-primary edit-area" data-area-id="2">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button class="btn btn-outline view-area" data-area-id="2">
+                                        <i class="fas fa-eye"></i> View Details
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="area-card animate__animated animate__slideInUp" data-area-id="3">
+                            <div class="area-header">
+                                <div class="area-name">Southern Field</div>
+                                <div class="area-size">15 Acres</div>
+                            </div>
+                            <div class="area-content">
+                                <div class="area-stats">
+                                    <div class="area-stat">
+                                        <i class="fas fa-wheat"></i>
+                                        <span>Crops: Rice, Corn</span>
+                                    </div>
+                                    <div class="area-stat">
+                                        <i class="fas fa-water"></i>
+                                        <span>Irrigation: Flood System</span>
+                                    </div>
+                                    <div class="area-stat">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        <span>Last Planted: January 10, 2025</span>
+                                    </div>
+                                    <div class="area-stat">
+                                        <i class="fas fa-leaf"></i>
+                                        <span>Soil Type: Silty Clay</span>
+                                    </div>
+                                </div>
+                                <div class="area-actions">
+                                    <button class="btn btn-primary edit-area" data-area-id="3">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button class="btn btn-outline view-area" data-area-id="3">
+                                        <i class="fas fa-eye"></i> View Details
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Crop Management Section -->
+                <div class="section crop-management">
+                    <div class="section-header">
+                        <div class="section-title">Crop Management</div>
+                        <div class="section-actions">
+                            <button class="btn btn-primary" id="addCropBtn">
+                                <i class="fas fa-plus"></i> Add Crop
+                            </button>
+                        </div>
+                    </div>
+                    <div class="tabs">
+                        <div class="tab active" data-tab="active-crops">Active Crops</div>
+                        <div class="tab" data-tab="planned-crops">Planned Crops</div>
+                        <div class="tab" data-tab="harvested-crops">Harvested Crops</div>
+                    </div>
+                    <div class="tab-content" id="activeCropsTab">
+                        <div class="crop-list" id="activeCropsList">
+                            <div class="crop-item animate__animated animate__fadeIn" data-crop-id="1">
+                                <div class="crop-icon">
+                                    <i class="fas fa-carrot"></i>
+                                </div>
+                                <div class="crop-details">
+                                    <div class="crop-name">Organic Tomatoes</div>
+                                    <div class="crop-variety">Roma Variety</div>
+                                    <div class="crop-location">Northern Field</div>
+                                </div>
+                                <div class="crop-timeline">
+                                    <div class="timeline-bar">
+                                        <div class="timeline-progress" style="width: 60%"></div>
+                                    </div>
+                                    <div class="timeline-dates">
+                                        <span>Planted: Mar 15</span>
+                                        <span>Expected Harvest: Jun 20</span>
+                                    </div>
+                                </div>
+                                <div class="crop-stats">
+                                    <div class="crop-stat">
+                                        <div class="stat-label">Health</div>
+                                        <div class="stat-value green">Excellent</div>
+                                    </div>
+                                    <div class="crop-stat">
+                                        <div class="stat-label">Area</div>
+                                        <div class="stat-value">8 Acres</div>
+                                    </div>
+                                    <div class="crop-stat">
+                                        <div class="stat-label">Est. Yield</div>
+                                        <div class="stat-value">12 tons</div>
+                                    </div>
+                                </div>
+                                <div class="crop-actions">
+                                    <button class="btn btn-primary manage-crop" data-crop-id="1">
+                                        <i class="fas fa-tasks"></i> Manage
+                                    </button>
+                                    <button class="btn btn-outline view-crop" data-crop-id="1">
+                                        <i class="fas fa-chart-line"></i> Details
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="crop-item animate__animated animate__fadeIn" data-crop-id="2">
+                                <div class="crop-icon">
+                                    <i class="fas fa-pepper-hot"></i>
+                                </div>
+                                <div class="crop-details">
+                                    <div class="crop-name">Bell Peppers</div>
+                                    <div class="crop-variety">Mixed Colors</div>
+                                    <div class="crop-location">Northern Field</div>
+                                </div>
+                                <div class="crop-timeline">
+                                    <div class="timeline-bar">
+                                        <div class="timeline-progress" style="width: 40%"></div>
+                                    </div>
+                                    <div class="timeline-dates">
+                                        <span>Planted: Apr 5</span>
+                                        <span>Expected Harvest: Jul 15</span>
+                                    </div>
+                                </div>
+                                <div class="crop-stats">
+                                    <div class="crop-stat">
+                                        <div class="stat-label">Health</div>
+                                        <div class="stat-value yellow">Good</div>
+                                    </div>
+                                    <div class="crop-stat">
+                                        <div class="stat-label">Area</div>
+                                        <div class="stat-value">5 Acres</div>
+                                    </div>
+                                    <div class="crop-stat">
+                                        <div class="stat-label">Est. Yield</div>
+                                        <div class="stat-value">8 tons</div>
+                                    </div>
+                                </div>
+                                <div class="crop-actions">
+                                    <button class="btn btn-primary manage-crop" data-crop-id="2">
+                                        <i class="fas fa-tasks"></i> Manage
+                                    </button>
+                                    <button class="btn btn-outline view-crop" data-crop-id="2">
+                                        <i class="fas fa-chart-line"></i> Details
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="crop-item animate__animated animate__fadeIn" data-crop-id="3">
+                                <div class="crop-icon">
+                                    <i class="fas fa-seedling"></i>
+                                </div>
+                                <div class="crop-details">
+                                    <div class="crop-name">Rice</div>
+                                    <div class="crop-variety">Jasmine</div>
+                                    <div class="crop-location">Southern Field</div>
+                                </div>
+                                <div class="crop-timeline">
+                                    <div class="timeline-bar">
+                                        <div class="timeline-progress" style="width: 25%"></div>
+                                    </div>
+                                    <div class="timeline-dates">
+                                        <span>Planted: Jan 10</span>
+                                        <span>Expected Harvest: May 30</span>
+                                    </div>
+                                </div>
+                                <div class="crop-stats">
+                                    <div class="crop-stat">
+                                        <div class="stat-label">Health</div>
+                                        <div class="stat-value green">Excellent</div>
+                                    </div>
+                                    <div class="crop-stat">
+                                        <div class="stat-label">Area</div>
+                                        <div class="stat-value">10 Acres</div>
+                                    </div>
+                                    <div class="crop-stat">
+                                        <div class="stat-label">Est. Yield</div>
+                                        <div class="stat-value">18 tons</div>
+                                    </div>
+                                </div>
+                                <div class acquisto="btn btn-primary manage-crop" data-crop-id="3">
+                                    <i class="fas fa-tasks"></i> Manage
+                                </button>
+                                <button class="btn btn-outline view-crop" data-crop-id="3">
+                                    <i class="fas fa-chart-line"></i> Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-content hidden" id="plannedCropsTab">
+                        <div class="crop-list" id="plannedCropsList">
+                            <!-- Planned crops content -->
+                        </div>
+                    </div>
+                    <div class="tab-content hidden" id="harvestedCropsTab">
+                        <div class="crop-list" id="harvestedCropsList">
+                            <!-- Harvested crops content -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Farm Tasks Section -->
+                <div class="section farm-tasks">
+                    <div class="section-header">
+                        <div class="section-title">Farm Tasks</div>
+                        <div class="section-actions">
+                            <button class="btn btn-primary" id="addTaskBtn">
+                                <i class="fas fa-plus"></i> Add Task
+                            </button>
+                        </div>
+                    </div>
+                    <div class="task-calendar">
+                        <div class="calendar-header">
+                            <button class="btn btn-outline" id="prevMonth">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <h3 id="currentMonth">April 2025</h3>
+                            <button class="btn btn-outline" id="nextMonth">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                        <div class="calendar-grid" id="calendarGrid">
+                            <!-- Calendar will be populated dynamically -->
+                        </div>
+                    </div>
+                    <div class="task-list" id="taskList">
+                        <h3>Upcoming Tasks</h3>
+                        <div class="task-item animate__animated animate__fadeIn" data-task-id="1">
+                            <div class="task-status completed"></div>
+                            <div class="task-content">
+                                <div class="task-title">Fertilize tomato crops</div>
+                                <div class="task-details">Apply organic fertilizer to Northern Field</div>
+                                <div class="task-meta">
+                                    <span><i class="fas fa-calendar"></i> April 23, 2025</span>
+                                    <span><i class="fas fa-user"></i> Assigned to: You</span>
+                                </div>
+                            </div>
+                            <div class="task-actions">
+                                <button class="btn btn-outline complete-task" data-task-id="1">
+                                    <i class="fas fa-check"></i> Complete
+                                </button>
+                                <button class="btn btn-outline edit-task" data-task-id="1">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                            </div>
+                        </div>
+                        <div class="task-item animate__animated animate__fadeIn" data-task-id="2">
+                            <div class="task-status pending"></div>
+                            <div class="task-content">
+                                <div class="task-title">Irrigation system maintenance</div>
+                                <div class="task-details">Check and repair irrigation pipes in Orchard</div>
+                                <div class="task-meta">
+                                    <span><i class="fas fa-calendar"></i> April 25, 2025</span>
+                                    <span><i class="fas fa-user"></i> Assigned to: Farm Assistant</span>
+                                </div>
+                            </div>
+                            <div class="task-actions">
+                                <button class="btn btn-outline complete-task" data-task-id="2">
+                                    <i class="fas fa-check"></i> Complete
+                                </button>
+                                <button class="btn btn-outline edit-task" data-task-id="2">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                            </div>
+                        </div>
+                        <div class="task-item animate__animated animate__fadeIn" data-task-id="3">
+                            <div class="task-status overdue"></div>
+                            <div class="task-content">
+                                <div class="task-title">Pest control</div>
+                                <div class="task-details">Apply organic pest control to Bell Peppers</div>
+                                <div class="task-meta">
+                                    <span><i class="fas fa-calendar"></i> April 20, 2025</span>
+                                    <span><i class="fas fa-user"></i> Assigned to: You</span>
+                                </div>
+                            </div>
+                            <div class="task-actions">
+                                <button class="btn btn-outline complete-task" data-task-id="3">
+                                    <i class="fas fa-check"></i> Complete
+                                </button>
+                                <button class="btn btn-outline edit-task" data-task-id="3">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Farm Resources Section -->
+                <div class="section farm-resources">
+                    <div class="section-header">
+                        <div class="section-title">Farm Resources</div>
+                        <div class="section-actions">
+                            <button class="btn btn-primary" id="addResourceBtn">
+                                <i class="fas fa-plus"></i> Add Resource
+                            </button>
+                        </div>
+                    </div>
+                    <div class="resource-grid" id="resourceGrid">
+                        <div class="resource-card animate__animated animate__slideInUp" data-resource-id="1">
+                            <div class="resource-icon">
+                                <i class="fas fa-warehouse"></i>
+                            </div>
+                            <div class="resource-content">
+                                <div class="resource-title">Storage Facility</div>
+                                <div class="resource-details">
+                                    <div class="resource-detail">
+                                        <span class="detail-label">Type:</span>
+                                        <span class="detail-value">Cold Storage</span>
+                                    </div>
+                                    <div class="resource-detail">
+                                        <span class="detail-label">Capacity:</span>
+                                        <span class="detail-value">15 tons</span>
+                                    </div>
+                                    <div class="resource-detail">
+                                        <span class="detail-label">Status:</span>
+                                        <span class="detail-value green">Operational</span>
+                                    </div>
+                                </div>
+                                <div class="resource-actions">
+                                    <button class="btn btn-primary edit-resource" data-resource-id="1">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button class="btn btn-outline view-resource" data-resource-id="1">
+                                        <i class="fas fa-eye"></i> View Details
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="resource-card animate__animated animate__slideInUp" data-resource-id="2">
+                            <div class="resource-icon">
+                                <i class="fas fa-tractor"></i>
+                            </div>
+                            <div class="resource-content">
+                                <div class="resource-title">Farm Equipment</div>
+                                <div class="resource-details">
+                                    <div class="resource-detail">
+                                        <span class="detail-label">Type:</span>
+                                        <span class="detail-value">Tractors, Plows</span>
+                                    </div>
+                                    <div class="resource-detail">
+                                        <span class="detail-label">Count:</span>
+                                        <span class="detail-value">5 units</span>
+                                    </div>
+                                    <div class="resource-detail">
+                                        <span class="detail-label">Status:</span>
+                                        <span class="detail-value yellow">Maintenance Required</span>
+                                    </div>
+                                </div>
+                                <div class="resource-actions">
+                                    <button class="btn btn-primary edit-resource" data-resource-id="2">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button class="btn btn-outline view-resource" data-resource-id="2">
+                                        <i class="fas fa-eye"></i> View Details
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="resource-card animate__animated animate__slideInUp" data-resource-id="3">
+                            <div class="resource-icon">
+                                <i class="fas fa-water"></i>
+                            </div>
+                            <div class="resource-content">
+                                <div class="resource-title">Irrigation Systems</div>
+                                <div class="resource-details">
+                                    <div class="resource-detail">
+                                        <span class="detail-label">Type:</span>
+                                        <span class="detail-value">Drip, Sprinkler</span>
+                                    </div>
+                                    <div class="resource-detail">
+                                        <span class="detail-label">Coverage:</span>
+                                        <span class="detail-value">35 acres</span>
+                                    </div>
+                                    <div class="resource-detail">
+                                        <span class="detail-label">Status:</span>
+                                        <span class="detail-value green">Operational</span>
+                                    </div>
+                                </div>
+                                <div class="resource-actions">
+                                    <button class="btn btn-primary edit-resource" data-resource-id="3">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button class="btn btn-outline view-resource" data-resource-id="3">
+                                        <i class="fas fa-eye"></i> View Details
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="footer-content">
+                    <p>© 2025 AgriGo. All rights reserved.</p>
+                    <div class="footer-links">
+                        <a href="#terms">Terms of Service</a>
+                        <a href="#privacy">Privacy Policy</a>
+                        <a href="#help">Help Center</a>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+    // Utility Functions
+    const $ = (selector) => document.querySelector(selector);
+    const $$ = (selector) => document.querySelectorAll(selector);
+    const toggleClass = (element, className) => element?.classList.toggle(className);
+    
+    // Toast Notification Function
+    const showToast = (message, type = "success", duration = 3000) => {
+        const toastContainer = $("#toastContainer");
+        const toast = document.createElement("div");
+        toast.className = `toast toast-${type}`;
+        toast.innerHTML = `<span>${message}</span><i class="fas fa-times" onclick="this.parentElement.remove()"></i>`;
+        toastContainer.appendChild(toast);
+        setTimeout(() => toast.remove(), duration);
+    };
+
+    // Sidebar Toggle
+    const menuToggle = $("#menu-toggle");
+    const sidebar = $("#sidebar");
+    const mainContent = $("#main-content");
+    const overlay = $("#overlay");
+
+    if (menuToggle && sidebar && mainContent) {
+        menuToggle.addEventListener("click", () => {
+            toggleClass(sidebar, "sidebar-collapsed");
+            toggleClass(mainContent, "main-content-expanded");
+            const icon = menuToggle.querySelector("i");
+            icon.classList.toggle("fa-chevron-left");
+            icon.classList.toggle("fa-chevron-right");
+            showToast("Sidebar toggled", "info");
+        });
+    }
+
+    // Mobile Menu Toggle
+    const mobileMenuToggle = $("#mobile-menu-toggle");
+    const sidebarToggleMobile = $(".sidebar-toggle-mobile");
+
+    const toggleMobileSidebar = () => {
+        toggleClass(sidebar, "active");
+        toggleClass(overlay, "active");
+    };
+
+    if (mobileMenuToggle) mobileMenuToggle.addEventListener("click", toggleMobileSidebar);
+    if (sidebarToggleMobile) sidebarToggleMobile.addEventListener("click", toggleMobileSidebar);
+    if (overlay) overlay.addEventListener("click", toggleMobileSidebar);
+
+    // Dark Mode Toggle
+    const darkModeToggle = $("#darkModeToggle");
+    const themeText = $("#themeText");
+    if (darkModeToggle && themeText) {
+        const toggleDarkMode = () => {
+            const isDark = document.body.classList.toggle("dark-mode");
+            localStorage.setItem("darkMode", isDark);
+            themeText.textContent = isDark ? "Light Mode" : "Dark Mode";
+            showToast(`Switched to ${isDark ? "Dark" : "Light"} Mode`, "info");
+        };
+        darkModeToggle.addEventListener("click", toggleDarkMode);
+        if (localStorage.getItem("darkMode") === "true") toggleDarkMode();
+    }
+
+    // Notification Dropdown
+    const notificationIcon = $("#notificationIcon");
+    const notificationDropdown = $("#notificationDropdown");
+    if (notificationIcon && notificationDropdown) {
+        notificationIcon.addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleClass(notificationDropdown, "show");
+        });
+        document.addEventListener("click", (e) => {
+            if (!notificationIcon.contains(e.target)) {
+                notificationDropdown.classList.remove("show");
+            }
+        });
+    }
+
+    // User Profile Dropdown
+    const userProfile = $("#userProfile");
+    const userDropdown = $("#userDropdown");
+    const userDropdownLogout = $("#userDropdownLogout");
+    if (userProfile && userDropdown) {
+        userProfile.addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleClass(userDropdown, "show");
+        });
+        document.addEventListener("click", (e) => {
+            if (!userProfile.contains(e.target)) {
+                userDropdown.classList.remove("show");
+            }
+        });
+    }
+    if (userDropdownLogout) {
+        userDropdownLogout.addEventListener("click", () => {
+            showToast("Logged out successfully", "success");
+            // Simulate logout (replace with actual logout logic)
+            setTimeout(() => {
+                window.location.href = "#login";
+            }, 1000);
+        });
+    }
+
+    // Search Functionality
+    const searchInput = $("#searchInput");
+    if (searchInput) {
+        searchInput.addEventListener("input", (e) => {
+            const query = e.target.value.toLowerCase();
+            const areaCards = $$(".area-card");
+            const cropItems = $$(".crop-item");
+            const taskItems = $$(".task-item");
+            const resourceCards = $$(".resource-card");
+
+            areaCards.forEach((card) => {
+                const name = card.querySelector(".area-name").textContent.toLowerCase();
+                const crops = card.querySelector(".area-stat span").textContent.toLowerCase();
+                card.style.display = name.includes(query) || crops.includes(query) ? "" : "none";
+            });
+
+            cropItems.forEach((item) => {
+                const name = item.querySelector(".crop-name").textContent.toLowerCase();
+                const location = item.querySelector(".crop-location").textContent.toLowerCase();
+                item.style.display = name.includes(query) || location.includes(query) ? "" : "none";
+            });
+
+            taskItems.forEach((item) => {
+                const title = item.querySelector(".task-title").textContent.toLowerCase();
+                const details = item.querySelector(".task-details").textContent.toLowerCase();
+                item.style.display = title.includes(query) || details.includes(query) ? "" : "none";
+            });
+
+            resourceCards.forEach((card) => {
+                const title = card.querySelector(".resource-title").textContent.toLowerCase();
+                card.style.display = title.includes(query) ? "" : "none";
+            });
+        });
+    }
+
+    // Crop Management Tabs
+    const tabs = $$(".tab");
+    const tabContents = $$(".tab-content");
+    tabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+            const tabId = tab.dataset.tab;
+            tabs.forEach((t) => t.classList.remove("active"));
+            tabContents.forEach((content) => content.classList.add("hidden"));
+            tab.classList.add("active");
+            $(`#${tabId}Tab`).classList.remove("hidden");
+            showToast(`Switched to ${tab.textContent}`, "info");
+        });
+    });
+
+    // Calendar Functionality
+    const prevMonth = $("#prevMonth");
+    const nextMonth = $("#nextMonth");
+    const currentMonth = $("#currentMonth");
+    const calendarGrid = $("#calendarGrid");
+    let currentDate = new Date(2025, 3, 1); // April 2025
+
+    const tasks = [
+        { id: 1, date: "2025-04-23", title: "Fertilize tomato crops" },
+        { id: 2, date: "2025-04-25", title: "Irrigation system maintenance" },
+        { id: 3, date: "2025-04-20", title: "Pest control" },
+    ];
+
+    const renderCalendar = () => {
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth();
+        const firstDay = new Date(year, month, 1).getDay();
+        const lastDate = new Date(year, month + 1, 0).getDate();
+        currentMonth.textContent = currentDate.toLocaleString("default", { month: "long", year: "numeric" });
+
+        let html = `
+            <div class="calendar-day header">Sun</div>
+            <div class="calendar-day header">Mon</div>
+            <div class="calendar-day header">Tue</div>
+            <div class="calendar-day header">Wed</div>
+            <div class="calendar-day header">Thu</div>
+            <div class="calendar-day header">Fri</div>
+            <div class="calendar-day header">Sat</div>
+        `;
+
+        for (let i = 0; i < firstDay; i++) {
+            html += `<div class="calendar-day"></div>`;
+        }
+
+        for (let day = 1; day <= lastDate; day++) {
+            const dateStr = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+            const hasTask = tasks.some((task) => task.date === dateStr);
+            html += `<div class="calendar-day ${hasTask ? "task" : ""}">${day}</div>`;
+        }
+
+        calendarGrid.innerHTML = html;
+    };
+
+    if (prevMonth && nextMonth && calendarGrid) {
+        renderCalendar();
+        prevMonth.addEventListener("click", () => {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            renderCalendar();
+        });
+        nextMonth.addEventListener("click", () => {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            renderCalendar();
+        });
+    }
+
+    // Button Actions
+    const editFarmBtn = $("#editFarmBtn");
+    if (editFarmBtn) {
+        editFarmBtn.addEventListener("click", () => {
+            showToast("Editing farm info...", "info");
+            // Simulate opening edit form
+        });
+    }
+
+    const uploadPhotoBtn = $("#uploadPhotoBtn");
+    if (uploadPhotoBtn) {
+        uploadPhotoBtn.addEventListener("click", () => {
+            showToast("Photo upload initiated", "info");
+            // Simulate file upload
+        });
+    }
+
+    const viewMapBtn = $("#viewMapBtn");
+    if (viewMapBtn) {
+        viewMapBtn.addEventListener("click", () => {
+            showToast("Opening farm map", "info");
+            // Simulate map view
+        });
+    }
+
+    const addAreaBtn = $("#addAreaBtn");
+    const areaGrid = $("#areaGrid");
+    if (addAreaBtn && areaGrid) {
+        addAreaBtn.addEventListener("click", () => {
+            const newAreaId = Date.now();
+            const newArea = document.createElement("div");
+            newArea.className = "area-card animate__animated animate__slideInUp";
+            newArea.dataset.areaId = newAreaId;
+            newArea.innerHTML = `
+                <div class="area-header">
+                    <div class="area-name">New Area</div>
+                    <div class="area-size">0 Acres</div>
+                </div>
+                <div class="area-content">
+                    <div class="area-stats">
+                        <div class="area-stat"><i class="fas fa-seedling"></i><span>Crops: None</span></div>
+                        <div class="area-stat"><i class="fas fa-water"></i><span>Irrigation: None</span></div>
+                        <div class="area-stat"><i class="fas fa-calendar-alt"></i><span>Last Planted: N/A</span></div>
+                        <div class="area-stat"><i class="fas fa-leaf"></i><span>Soil Type: Unknown</span></div>
+                    </div>
+                    <div class="area-actions">
+                        <button class="btn btn-primary edit-area" data-area-id="${newAreaId}"><i class="fas fa-edit"></i> Edit</button>
+                        <button class="btn btn-outline view-area" data-area-id="${newAreaId}"><i class="fas fa-eye"></i> View Details</button>
+                    </div>
+                </div>
+            `;
+            areaGrid.appendChild(newArea);
+            showToast("New area added", "success");
+            attachAreaButtonListeners(newArea);
+        });
+    }
+
+    const addCropBtn = $("#addCropBtn");
+    const activeCropsList = $("#activeCropsList");
+    if (addCropBtn && activeCropsList) {
+        addCropBtn.addEventListener("click", () => {
+            const newCropId = Date.now();
+            const newCrop = document.createElement("div");
+            newCrop.className = "crop-item animate__animated animate__fadeIn";
+            newCrop.dataset.cropId = newCropId;
+            newCrop.innerHTML = `
+                <div class="crop-icon"><i class="fas fa-seedling"></i></div>
+                <div class="crop-details">
+                    <div class="crop-name">New Crop</div>
+                    <div class="crop-variety">Unknown Variety</div>
+                    <div class="crop-location">Unassigned</div>
+                </div>
+                <div class="crop-timeline">
+                    <div class="timeline-bar"><div class="timeline-progress" style="width: 0%"></div></div>
+                    <div class="timeline-dates">
+                        <span>Planted: N/A</span>
+                        <span>Expected Harvest: N/A</span>
+                    </div>
+                </div>
+                <div class="crop-stats">
+                    <div class="crop-stat"><div class="stat-label">Health</div><div class="stat-value green">Unknown</div></div>
+                    <div class="crop-stat"><div class="stat-label">Area</div><div class="stat-value">0 Acres</div></div>
+                    <div class="crop-stat"><div class="stat-label">Est. Yield</div><div class="stat-value">0 tons</div></div>
+                </div>
+                <div class="crop-actions">
+                    <button class="btn btn-primary manage-crop" data-crop-id="${newCropId}"><i class="fas fa-tasks"></i> Manage</button>
+                    <button class="btn btn-outline view-crop" data-crop-id="${newCropId}"><i class="fas fa-chart-line"></i> Details</button>
+                </div>
+            `;
+            activeCropsList.appendChild(newCrop);
+            showToast("New crop added", "success");
+            attachCropButtonListeners(newCrop);
+        });
+    }
+
+    const addTaskBtn = $("#addTaskBtn");
+    const taskList = $("#taskList");
+    if (addTaskBtn && taskList) {
+        addTaskBtn.addEventListener("click", () => {
+            const newTaskId = Date.now();
+            const newTask = document.createElement("div");
+            newTask.className = "task-item animate__animated animate__fadeIn";
+            newTask.dataset.taskId = newTaskId;
+            newTask.innerHTML = `
+                <div class="task-status pending"></div>
+                <div class="task-content">
+                    <div class="task-title">New Task</div>
+                    <div class="task-details">Task description</div>
+                    <div class="task-meta">
+                        <span><i class="fas fa-calendar"></i> April 30, 2025</span>
+                        <span><i class="fas fa-user"></i> Assigned to: You</span>
+                    </div>
+                </div>
+                <div class="task-actions">
+                    <button class="btn btn-outline complete-task" data-task-id="${newTaskId}"><i class="fas fa-check"></i> Complete</button>
+                    <button class="btn btn-outline edit-task" data-task-id="${newTaskId}"><i class="fas fa-edit"></i> Edit</button>
+                </div>
+            `;
+            taskList.appendChild(newTask);
+            showToast("New task added", "success");
+            tasks.push({ id: newTaskId, date: "2025-04-30", title: "New Task" });
+            renderCalendar();
+            attachTaskButtonListeners(newTask);
+        });
+    }
+
+    const addResourceBtn = $("#addResourceBtn");
+    const resourceGrid = $("#resourceGrid");
+    if (addResourceBtn && resourceGrid) {
+        addResourceBtn.addEventListener("click", () => {
+            const newResourceId = Date.now();
+            const newResource = document.createElement("div");
+            newResource.className = "resource-card animate__animated animate__slideInUp";
+            newResource.dataset.resourceId = newResourceId;
+            newResource.innerHTML = `
+                <div class="resource-icon"><i class="fas fa-tools"></i></div>
+                <div class="resource-content">
+                    <div class="resource-title">New Resource</div>
+                    <div class="resource-details">
+                        <div class="resource-detail"><span class="detail-label">Type:</span><span class="detail-value">Unknown</span></div>
+                        <div class="resource-detail"><span class="detail-label">Capacity:</span><span class="detail-value">0</span></div>
+                        <div class="resource-detail"><span class="detail-label">Status:</span><span class="detail-value green">Operational</span></div>
+                    </div>
+                    <div class="resource-actions">
+                        <button class="btn btn-primary edit-resource" data-resource-id="${newResourceId}"><i class="fas fa-edit"></i> Edit</button>
+                        <button class="btn btn-outline view-resource" data-resource-id="${newResourceId}"><i class="fas fa-eye"></i> View Details</button>
+                    </div>
+                </div>
+            `;
+            resourceGrid.appendChild(newResource);
+            showToast("New resource added", "success");
+            attachResourceButtonListeners(newResource);
+        });
+    }
+
+    // Area Button Listeners
+    const attachAreaButtonListeners = (card) => {
+        const editBtn = card.querySelector(".edit-area");
+        const viewBtn = card.querySelector(".view-area");
+        if (editBtn) {
+            editBtn.addEventListener("click", () => {
+                const areaId = editBtn.dataset.areaId;
+                showToast(`Editing area ID: ${areaId}`, "info");
+                // Simulate edit area form
+            });
+        }
+        if (viewBtn) {
+            viewBtn.addEventListener("click", () => {
+                const areaId = viewBtn.dataset.areaId;
+                showToast(`Viewing details for area ID: ${areaId}`, "info");
+                // Simulate view details
+            });
+        }
+    };
+
+    $$(".area-card").forEach(attachAreaButtonListeners);
+
+    // Crop Button Listeners
+    const attachCropButtonListeners = (item) => {
+        const manageBtn = item.querySelector(".manage-crop");
+        const viewBtn = item.querySelector(".view-crop");
+        if (manageBtn) {
+            manageBtn.addEventListener("click", () => {
+                const cropId = manageBtn.dataset.cropId;
+                showToast(`Managing crop ID: ${cropId}`, "info");
+                // Simulate manage crop
+            });
+        }
+        if (viewBtn) {
+            viewBtn.addEventListener("click", () => {
+                const cropId = viewBtn.dataset.cropId;
+                showToast(`Viewing details for crop ID: ${cropId}`, "info");
+                // Simulate view details
+            });
+        }
+    };
+
+    $$(".crop-item").forEach(attachCropButtonListeners);
+
+    // Task Button Listeners
+    const attachTaskButtonListeners = (item) => {
+        const completeBtn = item.querySelector(".complete-task");
+        const editBtn = item.querySelector(".edit-task");
+        if (completeBtn) {
+            completeBtn.addEventListener("click", () => {
+                const taskId = completeBtn.dataset.taskId;
+                const taskItem = $(`[data-task-id="${taskId}"]`);
+                if (taskItem) {
+                    taskItem.querySelector(".task-status").className = "task-status completed";
+                    showToast(`Task ID: ${taskId} marked as complete`, "success");
+                }
+            });
+        }
+        if (editBtn) {
+            editBtn.addEventListener("click", () => {
+                const taskId = editBtn.dataset.taskId;
+                showToast(`Editing task ID: ${taskId}`, "info");
+                // Simulate edit task form
+            });
+        }
+    };
+
+    $$(".task-item").forEach(attachTaskButtonListeners);
+
+    // Resource Button Listeners
+    const attachResourceButtonListeners = (card) => {
+        const editBtn = card.querySelector(".edit-resource");
+        const viewBtn = card.querySelector(".view-resource");
+        if (editBtn) {
+            editBtn.addEventListener("click", () => {
+                const resourceId = editBtn.dataset.resourceId;
+                showToast(`Editing resource ID: ${resourceId}`, "info");
+                // Simulate edit resource form
+            });
+        }
+        if (viewBtn) {
+            viewBtn.addEventListener("click", () => {
+                const resourceId = viewBtn.dataset.resourceId;
+                showToast(`Viewing details for resource ID: ${resourceId}`, "info");
+                // Simulate view details
+            });
+        }
+    };
+
+    $$(".resource-card").forEach(attachResourceButtonListeners);
+});
+</script>
+</body>
+</html>
