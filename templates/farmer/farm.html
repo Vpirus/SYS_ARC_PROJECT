@@ -865,6 +865,7 @@
             font-weight: 500;
             color: var(--medium-gray);
             position: relative;
+            white-space: nowrap; 
         }
         .dark-mode .tab {
             color: var(--dark-text-secondary);
@@ -907,6 +908,7 @@
         }
         .crop-item {
             display: flex;
+            flex-wrap: wrap; 
             align-items: center;
             padding: var(--spacing-md);
             border: 1px solid var(--light-gray);
@@ -935,9 +937,11 @@
         }
         .crop-details {
             flex: 1;
+            min-width: 150px; 
             display: flex;
             flex-direction: column;
             gap: var(--spacing-xs);
+            margin-bottom: var(--spacing-sm); 
         }
         .crop-name {
             font-size: 1rem;
@@ -956,7 +960,9 @@
         }
         .crop-timeline {
             flex: 1;
+            min-width: 200px; 
             margin: 0 var(--spacing-md);
+            margin-bottom: var(--spacing-sm);
         }
         .timeline-bar {
             height: 6px;
@@ -984,9 +990,11 @@
         }
         .crop-stats {
             flex: 1;
+            min-width: 150px; 
             display: flex;
             flex-direction: column;
             gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-sm); 
         }
         .crop-stat {
             display: flex;
@@ -1008,6 +1016,201 @@
         .crop-actions {
             display: flex;
             gap: var(--spacing-sm);
+            margin-left: auto;
+        }
+
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        .modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(2px);
+        }
+
+        .modal-container {
+            position: relative;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            background-color: var(--white);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            z-index: 1001;
+            animation: slideInUp 0.3s ease-out;
+        }
+
+        .dark-mode .modal-container {
+            background-color: var(--dark-card);
+            border: 1px solid var(--dark-border);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .dark-mode .modal-header {
+            border-bottom-color: var(--dark-border);
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: var(--black);
+        }
+
+        .dark-mode .modal-header h3 {
+            color: var(--white);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--medium-gray);
+            transition: color var(--transition-fast);
+        }
+
+        .modal-close:hover {
+            color: var(--red);
+        }
+
+        .modal-body {
+            padding: var(--spacing-lg);
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-top: 1px solid var(--light-gray);
+        }
+
+        .dark-mode .modal-footer {
+            border-top-color: var(--dark-border);
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: var(--spacing-md);
+            width: 100%;
+        }
+
+        .form-row {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+
+        label {
+            display: block;
+            margin-bottom: var(--spacing-xs);
+            font-weight: 500;
+            color: var(--black);
+            font-size: 0.9rem;
+        }
+
+        .dark-mode label {
+            color: var(--white);
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: var(--spacing-sm);
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius-sm);
+            background-color: var(--white);
+            color: var(--black);
+            font-size: 0.9rem;
+            transition: border-color var(--transition-fast);
+        }
+
+        .dark-mode input[type="text"],
+        .dark-mode input[type="number"],
+        .dark-mode input[type="date"],
+        .dark-mode select,
+        .dark-mode textarea {
+            border-color: var(--dark-border);
+            background-color: var(--dark-input);
+            color: var(--white);
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        input[type="date"]:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--green-primary);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.2);
+        }
+
+        .dark-mode input[type="text"]:focus,
+        .dark-mode input[type="number"]:focus,
+        .dark-mode input[type="date"]:focus,
+        .dark-mode select:focus,
+        .dark-mode textarea:focus {
+            border-color: var(--green-primary-light);
+            box-shadow: 0 0 0 2px rgba(119, 190, 120, 0.2);
+        }
+
+        /* Animations */
+        @keyframes slideInUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Media queries for form responsiveness */
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: var(--spacing-sm);
+            }
+            
+            .modal-container {
+                width: 95%;
+                max-height: 80vh;
+            }
         }
 
         /* Farm Tasks */
@@ -1286,12 +1489,36 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+        .tab-content {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Media Queries */
+        @media (max-width: 992px) {
+            .crop-item {
+                flex-wrap: wrap;
+            }
+            
+            .crop-details, .crop-timeline, .crop-stats {
+                margin-bottom: var(--spacing-md);
+            }
+            
+            .crop-actions {
+                width: 100%;
+                justify-content: flex-start;
+                margin-top: var(--spacing-sm);
+            }
+        }
         @media (max-width: 768px) {
             .sidebar {
                 width: 250px;
@@ -1347,22 +1574,41 @@
                 flex-direction: column;
                 gap: var(--spacing-sm);
             }
+            .tabs {
+                padding: var(--spacing-sm) var(--spacing-md) 0;
+            }
+            
+            .tab-content {
+                padding: var(--spacing-sm) var(--spacing-md);
+            }
+            
             .crop-item {
                 flex-direction: column;
                 align-items: flex-start;
             }
-            .crop-timeline, .crop-stats, .crop-actions {
+            
+            .crop-icon {
+                margin-bottom: var(--spacing-sm);
+            }
+            
+            .crop-details, .crop-timeline, .crop-stats {
                 width: 100%;
-                margin: var(--spacing-sm) 0;
+                margin: 0 0 var(--spacing-md) 0;
             }
-            .crop-stats {
-                flex-direction: row;
-                flex-wrap: wrap;
-                gap: var(--spacing-md);
+            
+            .crop-actions {
+                width: 100%;
+                justify-content: space-between;
             }
-            .crop-stat {
+            
+            .crop-actions .btn {
                 flex: 1;
-                min-width: 120px;
+                text-align: center;
+            }
+            
+            .timeline-dates {
+                flex-direction: column;
+                gap: var(--spacing-xs);
             }
         }
         @media (max-width: 480px) {
@@ -1393,6 +1639,21 @@
             }
             .calendar-day {
                 padding: var(--spacing-xs);
+            }
+            .tabs {
+                justify-content: space-between;
+            }
+            .tab {
+                flex: 1;
+                text-align: center;
+                padding: var(--spacing-xs) var(--spacing-sm);
+                font-size: 0.9rem;
+            }
+            .crop-actions {
+                flex-direction: column;
+            }
+            .crop-actions .btn {
+                width: 100%;
             }
         }
     </style>
@@ -1541,13 +1802,13 @@
                     <div class="farm-details">
                         <div class="farm-info-card">
                             <div class="farm-info-header">
-                                <h2>Green Meadows Farm</h2>
+                                <h2>Green Valley Farm</h2>
                                 <span class="farm-status">Active since 2018</span>
                             </div>
                             <div class="farm-info-content">
                                 <div class="farm-info-item">
                                     <i class="fas fa-map-marker-alt"></i>
-                                    <span>Location: San Pablo, Laguna, Philippines</span>
+                                    <span>Location: Liloan, Cebu, Philippines</span>
                                 </div>
                                 <div class="farm-info-item">
                                     <i class="fas fa-ruler-combined"></i>
@@ -1564,7 +1825,7 @@
                             </div>
                         </div>
                         <div class="farm-imagery">
-                            <img src="/api/placeholder/300/200" alt="Farm aerial view" class="farm-image">
+                            <img src="https://images.pexels.com/photos/2131784/pexels-photo-2131784.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Cebu Harvest Farm aerial view" class="farm-image">
                             <div class="farm-image-actions">
                                 <button class="btn btn-outline" id="uploadPhotoBtn">
                                     <i class="fas fa-camera"></i> Upload New Photo
@@ -1590,7 +1851,7 @@
                     <div class="area-grid" id="areaGrid">
                         <div class="area-card animate__animated animate__slideInUp" data-area-id="1">
                             <div class="area-header">
-                                <div class="area-name">Northern Field</div>
+                                <div class="area-name">Liloan Field</div>
                                 <div class="area-size">20 Acres</div>
                             </div>
                             <div class="area-content">
@@ -1625,7 +1886,7 @@
 
                         <div class="area-card animate__animated animate__slideInUp" data-area-id="2">
                             <div class="area-header">
-                                <div class="area-name">Orchard</div>
+                                <div class="area-name">Balamban Orchard</div>
                                 <div class="area-size">15 Acres</div>
                             </div>
                             <div class="area-content">
@@ -1660,7 +1921,7 @@
 
                         <div class="area-card animate__animated animate__slideInUp" data-area-id="3">
                             <div class="area-header">
-                                <div class="area-name">Southern Field</div>
+                                <div class="area-name">Minglanilla Field</div>
                                 <div class="area-size">15 Acres</div>
                             </div>
                             <div class="area-content">
@@ -1828,23 +2089,220 @@
                                         <div class="stat-value">18 tons</div>
                                     </div>
                                 </div>
-                                <div class acquisto="btn btn-primary manage-crop" data-crop-id="3">
-                                    <i class="fas fa-tasks"></i> Manage
-                                </button>
-                                <button class="btn btn-outline view-crop" data-crop-id="3">
-                                    <i class="fas fa-chart-line"></i> Details
-                                </button>
+                                <div class="crop-actions">
+                                    <button class="btn btn-primary manage-crop" data-crop-id="3">
+                                        <i class="fas fa-tasks"></i> Manage
+                                    </button>
+                                    <button class="btn btn-outline view-crop" data-crop-id="3">
+                                        <i class="fas fa-chart-line"></i> Details
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="tab-content hidden" id="plannedCropsTab">
                         <div class="crop-list" id="plannedCropsList">
-                            <!-- Planned crops content -->
+                            <div class="crop-item animate__animated animate__fadeIn" data-crop-id="4">
+                                <div class="crop-icon">
+                                    <i class="fas fa-leaf"></i>
+                                </div>
+                                <div class="crop-details">
+                                    <div class="crop-name">Spinach</div>
+                                    <div class="crop-variety">Baby Spinach</div>
+                                    <div class="crop-location">Eastern Field</div>
+                                </div>
+                                <div class="crop-timeline">
+                                    <div class="timeline-bar">
+                                        <div class="timeline-progress" style="width: 0%"></div>
+                                    </div>
+                                    <div class="timeline-dates">
+                                        <span>Planned: May 15</span>
+                                        <span>Est. Harvest: Jul 30</span>
+                                    </div>
+                                </div>
+                                <div class="crop-stats">
+                                    <div class="crop-stat">
+                                        <div class="stat-label">Status</div>
+                                        <div class="stat-value">Planned</div>
+                                    </div>
+                                    <div class="crop-stat">
+                                        <div class="stat-label">Area</div>
+                                        <div class="stat-value">3 Acres</div>
+                                    </div>
+                                    <div class="crop-stat">
+                                        <div class="stat-label">Est. Yield</div>
+                                        <div class="stat-value">6 tons</div>
+                                    </div>
+                                </div>
+                                <div class="crop-actions">
+                                    <button class="btn btn-primary start-planting" data-crop-id="4">
+                                        <i class="fas fa-play"></i> Start Planting
+                                    </button>
+                                    <button class="btn btn-outline edit-plan" data-crop-id="4">
+                                        <i class="fas fa-edit"></i> Edit Plan
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="tab-content hidden" id="harvestedCropsTab">
                         <div class="crop-list" id="harvestedCropsList">
-                            <!-- Harvested crops content -->
+                            <div class="crop-item animate__animated animate__fadeIn" data-crop-id="5">
+                                <div class="crop-icon">
+                                    <i class="fas fa-wheat"></i>
+                                </div>
+                                <div class="crop-details">
+                                    <div class="crop-name">Wheat</div>
+                                    <div class="crop-variety">Winter Wheat</div>
+                                    <div class="crop-location">Western Field</div>
+                                </div>
+                                <div class="crop-timeline">
+                                    <div class="timeline-bar">
+                                        <div class="timeline-progress" style="width: 100%"></div>
+                                    </div>
+                                    <div class="timeline-dates">
+                                        <span>Planted: Oct 10</span>
+                                        <span>Harvested: Mar 5</span>
+                                    </div>
+                                </div>
+                                <div class="crop-stats">
+                                    <div class="crop-stat">
+                                        <div class="stat-label">Yield</div>
+                                        <div class="stat-value green">15 tons</div>
+                                    </div>
+                                    <div class="crop-stat">
+                                        <div class="stat-label">Area</div>
+                                        <div class="stat-value">7 Acres</div>
+                                    </div>
+                                    <div class="crop-stat">
+                                        <div class="stat-label">Quality</div>
+                                        <div class="stat-value green">Excellent</div>
+                                    </div>
+                                </div>
+                                <div class="crop-actions">
+                                    <button class="btn btn-primary view-report" data-crop-id="5">
+                                        <i class="fas fa-file-alt"></i> View Report
+                                    </button>
+                                    <button class="btn btn-outline plan-next" data-crop-id="5">
+                                        <i class="fas fa-redo"></i> Plan Next
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add this modal HTML code after the crop management section in your HTML -->
+                <div class="modal" id="addCropModal">
+                    <div class="modal-overlay"></div>
+                    <div class="modal-container">
+                        <div class="modal-header">
+                            <h3>Add New Crop</h3>
+                            <button class="modal-close" id="closeAddCropModal">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="addCropForm">
+                                <div class="form-group">
+                                    <label for="cropName">Crop Name*</label>
+                                    <input type="text" id="cropName" name="cropName" required placeholder="Enter crop name">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="cropVariety">Crop Variety*</label>
+                                    <input type="text" id="cropVariety" name="cropVariety" required placeholder="Enter variety">
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="cropLocation">Field Location*</label>
+                                        <select id="cropLocation" name="cropLocation" required>
+                                            <option value="">Select a field</option>
+                                            <option value="Northern Field">Northern Field</option>
+                                            <option value="Southern Field">Southern Field</option>
+                                            <option value="Eastern Field">Eastern Field</option>
+                                            <option value="Western Field">Western Field</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="cropArea">Area (Acres)*</label>
+                                        <input type="number" id="cropArea" name="cropArea" min="0.1" step="0.1" required placeholder="0.0">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="cropStatus">Status*</label>
+                                    <select id="cropStatus" name="cropStatus" required>
+                                        <option value="planned">Planned</option>
+                                        <option value="active">Active (Currently Growing)</option>
+                                        <option value="harvested">Harvested</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-row" id="plannedDatesRow">
+                                    <div class="form-group">
+                                        <label for="plantingDate">Planned Planting Date*</label>
+                                        <input type="date" id="plantingDate" name="plantingDate">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="harvestDate">Expected Harvest Date*</label>
+                                        <input type="date" id="harvestDate" name="harvestDate">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row" id="activeDatesRow" style="display:none;">
+                                    <div class="form-group">
+                                        <label for="activePlantingDate">Planting Date*</label>
+                                        <input type="date" id="activePlantingDate" name="activePlantingDate">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="activeHarvestDate">Expected Harvest Date*</label>
+                                        <input type="date" id="activeHarvestDate" name="activeHarvestDate">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row" id="harvestedDatesRow" style="display:none;">
+                                    <div class="form-group">
+                                        <label for="harvestedPlantingDate">Planting Date*</label>
+                                        <input type="date" id="harvestedPlantingDate" name="harvestedPlantingDate">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="harvestedHarvestDate">Harvest Date*</label>
+                                        <input type="date" id="harvestedHarvestDate" name="harvestedHarvestDate">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="cropHealth">Health Status</label>
+                                        <select id="cropHealth" name="cropHealth">
+                                            <option value="excellent">Excellent</option>
+                                            <option value="good">Good</option>
+                                            <option value="fair">Fair</option>
+                                            <option value="poor">Poor</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="estimatedYield">Estimated Yield (tons)</label>
+                                        <input type="number" id="estimatedYield" name="estimatedYield" min="0.1" step="0.1" placeholder="0.0">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="cropNotes">Notes</label>
+                                    <textarea id="cropNotes" name="cropNotes" rows="3" placeholder="Add any additional notes about this crop"></textarea>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-outline" id="cancelAddCrop">Cancel</button>
+                            <button class="btn btn-primary" id="saveAddCrop">Save Crop</button>
                         </div>
                     </div>
                 </div>
@@ -2059,457 +2517,607 @@
     <!-- Toast Notifications -->
     <div class="toast-container" id="toastContainer"></div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-    // Utility Functions
-    const $ = (selector) => document.querySelector(selector);
-    const $$ = (selector) => document.querySelectorAll(selector);
-    const toggleClass = (element, className) => element?.classList.toggle(className);
-    
-    // Toast Notification Function
-    const showToast = (message, type = "success", duration = 3000) => {
-        const toastContainer = $("#toastContainer");
-        const toast = document.createElement("div");
-        toast.className = `toast toast-${type}`;
-        toast.innerHTML = `<span>${message}</span><i class="fas fa-times" onclick="this.parentElement.remove()"></i>`;
-        toastContainer.appendChild(toast);
-        setTimeout(() => toast.remove(), duration);
-    };
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Utility Functions
+        const $ = (selector) => document.querySelector(selector);
+        const $$ = (selector) => document.querySelectorAll(selector);
+        const toggleClass = (element, className) => element?.classList.toggle(className);
+        const removeClass = (element, className) => element?.classList.remove(className);
+        const addClass = (element, className) => element?.classList.add(className);
 
-    // Sidebar Toggle
-    const menuToggle = $("#menu-toggle");
-    const sidebar = $("#sidebar");
-    const mainContent = $("#main-content");
-    const overlay = $("#overlay");
-
-    if (menuToggle && sidebar && mainContent) {
-        menuToggle.addEventListener("click", () => {
-            toggleClass(sidebar, "sidebar-collapsed");
-            toggleClass(mainContent, "main-content-expanded");
-            const icon = menuToggle.querySelector("i");
-            icon.classList.toggle("fa-chevron-left");
-            icon.classList.toggle("fa-chevron-right");
-            showToast("Sidebar toggled", "info");
-        });
-    }
-
-    // Mobile Menu Toggle
-    const mobileMenuToggle = $("#mobile-menu-toggle");
-    const sidebarToggleMobile = $(".sidebar-toggle-mobile");
-
-    const toggleMobileSidebar = () => {
-        toggleClass(sidebar, "active");
-        toggleClass(overlay, "active");
-    };
-
-    if (mobileMenuToggle) mobileMenuToggle.addEventListener("click", toggleMobileSidebar);
-    if (sidebarToggleMobile) sidebarToggleMobile.addEventListener("click", toggleMobileSidebar);
-    if (overlay) overlay.addEventListener("click", toggleMobileSidebar);
-
-    // Dark Mode Toggle
-    const darkModeToggle = $("#darkModeToggle");
-    const themeText = $("#themeText");
-    if (darkModeToggle && themeText) {
-        const toggleDarkMode = () => {
-            const isDark = document.body.classList.toggle("dark-mode");
-            localStorage.setItem("darkMode", isDark);
-            themeText.textContent = isDark ? "Light Mode" : "Dark Mode";
-            showToast(`Switched to ${isDark ? "Dark" : "Light"} Mode`, "info");
+        // Toast Notification Function
+        const showToast = (message, type = "success", duration = 3000) => {
+            const toastContainer = $("#toastContainer");
+            const toast = document.createElement("div");
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = `<span>${message}</span><i class="fas fa-times" onclick="this.parentElement.remove()"></i>`;
+            toastContainer.appendChild(toast);
+            setTimeout(() => toast.remove(), duration);
         };
-        darkModeToggle.addEventListener("click", toggleDarkMode);
-        if (localStorage.getItem("darkMode") === "true") toggleDarkMode();
-    }
 
-    // Notification Dropdown
-    const notificationIcon = $("#notificationIcon");
-    const notificationDropdown = $("#notificationDropdown");
-    if (notificationIcon && notificationDropdown) {
-        notificationIcon.addEventListener("click", (e) => {
-            e.stopPropagation();
-            toggleClass(notificationDropdown, "show");
-        });
-        document.addEventListener("click", (e) => {
-            if (!notificationIcon.contains(e.target)) {
-                notificationDropdown.classList.remove("show");
-            }
-        });
-    }
+        // Sidebar Toggle
+        const menuToggle = $("#menu-toggle");
+        const sidebar = $("#sidebar");
+        const mainContent = $("#main-content");
+        const overlay = $("#overlay");
 
-    // User Profile Dropdown
-    const userProfile = $("#userProfile");
-    const userDropdown = $("#userDropdown");
-    const userDropdownLogout = $("#userDropdownLogout");
-    if (userProfile && userDropdown) {
-        userProfile.addEventListener("click", (e) => {
-            e.stopPropagation();
-            toggleClass(userDropdown, "show");
-        });
-        document.addEventListener("click", (e) => {
-            if (!userProfile.contains(e.target)) {
-                userDropdown.classList.remove("show");
-            }
-        });
-    }
-    if (userDropdownLogout) {
-        userDropdownLogout.addEventListener("click", () => {
-            showToast("Logged out successfully", "success");
-            // Simulate logout (replace with actual logout logic)
-            setTimeout(() => {
-                window.location.href = "#login";
-            }, 1000);
-        });
-    }
-
-    // Search Functionality
-    const searchInput = $("#searchInput");
-    if (searchInput) {
-        searchInput.addEventListener("input", (e) => {
-            const query = e.target.value.toLowerCase();
-            const areaCards = $$(".area-card");
-            const cropItems = $$(".crop-item");
-            const taskItems = $$(".task-item");
-            const resourceCards = $$(".resource-card");
-
-            areaCards.forEach((card) => {
-                const name = card.querySelector(".area-name").textContent.toLowerCase();
-                const crops = card.querySelector(".area-stat span").textContent.toLowerCase();
-                card.style.display = name.includes(query) || crops.includes(query) ? "" : "none";
-            });
-
-            cropItems.forEach((item) => {
-                const name = item.querySelector(".crop-name").textContent.toLowerCase();
-                const location = item.querySelector(".crop-location").textContent.toLowerCase();
-                item.style.display = name.includes(query) || location.includes(query) ? "" : "none";
-            });
-
-            taskItems.forEach((item) => {
-                const title = item.querySelector(".task-title").textContent.toLowerCase();
-                const details = item.querySelector(".task-details").textContent.toLowerCase();
-                item.style.display = title.includes(query) || details.includes(query) ? "" : "none";
-            });
-
-            resourceCards.forEach((card) => {
-                const title = card.querySelector(".resource-title").textContent.toLowerCase();
-                card.style.display = title.includes(query) ? "" : "none";
-            });
-        });
-    }
-
-    // Crop Management Tabs
-    const tabs = $$(".tab");
-    const tabContents = $$(".tab-content");
-    tabs.forEach((tab) => {
-        tab.addEventListener("click", () => {
-            const tabId = tab.dataset.tab;
-            tabs.forEach((t) => t.classList.remove("active"));
-            tabContents.forEach((content) => content.classList.add("hidden"));
-            tab.classList.add("active");
-            $(`#${tabId}Tab`).classList.remove("hidden");
-            showToast(`Switched to ${tab.textContent}`, "info");
-        });
-    });
-
-    // Calendar Functionality
-    const prevMonth = $("#prevMonth");
-    const nextMonth = $("#nextMonth");
-    const currentMonth = $("#currentMonth");
-    const calendarGrid = $("#calendarGrid");
-    let currentDate = new Date(2025, 3, 1); // April 2025
-
-    const tasks = [
-        { id: 1, date: "2025-04-23", title: "Fertilize tomato crops" },
-        { id: 2, date: "2025-04-25", title: "Irrigation system maintenance" },
-        { id: 3, date: "2025-04-20", title: "Pest control" },
-    ];
-
-    const renderCalendar = () => {
-        const year = currentDate.getFullYear();
-        const month = currentDate.getMonth();
-        const firstDay = new Date(year, month, 1).getDay();
-        const lastDate = new Date(year, month + 1, 0).getDate();
-        currentMonth.textContent = currentDate.toLocaleString("default", { month: "long", year: "numeric" });
-
-        let html = `
-            <div class="calendar-day header">Sun</div>
-            <div class="calendar-day header">Mon</div>
-            <div class="calendar-day header">Tue</div>
-            <div class="calendar-day header">Wed</div>
-            <div class="calendar-day header">Thu</div>
-            <div class="calendar-day header">Fri</div>
-            <div class="calendar-day header">Sat</div>
-        `;
-
-        for (let i = 0; i < firstDay; i++) {
-            html += `<div class="calendar-day"></div>`;
-        }
-
-        for (let day = 1; day <= lastDate; day++) {
-            const dateStr = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-            const hasTask = tasks.some((task) => task.date === dateStr);
-            html += `<div class="calendar-day ${hasTask ? "task" : ""}">${day}</div>`;
-        }
-
-        calendarGrid.innerHTML = html;
-    };
-
-    if (prevMonth && nextMonth && calendarGrid) {
-        renderCalendar();
-        prevMonth.addEventListener("click", () => {
-            currentDate.setMonth(currentDate.getMonth() - 1);
-            renderCalendar();
-        });
-        nextMonth.addEventListener("click", () => {
-            currentDate.setMonth(currentDate.getMonth() + 1);
-            renderCalendar();
-        });
-    }
-
-    // Button Actions
-    const editFarmBtn = $("#editFarmBtn");
-    if (editFarmBtn) {
-        editFarmBtn.addEventListener("click", () => {
-            showToast("Editing farm info...", "info");
-            // Simulate opening edit form
-        });
-    }
-
-    const uploadPhotoBtn = $("#uploadPhotoBtn");
-    if (uploadPhotoBtn) {
-        uploadPhotoBtn.addEventListener("click", () => {
-            showToast("Photo upload initiated", "info");
-            // Simulate file upload
-        });
-    }
-
-    const viewMapBtn = $("#viewMapBtn");
-    if (viewMapBtn) {
-        viewMapBtn.addEventListener("click", () => {
-            showToast("Opening farm map", "info");
-            // Simulate map view
-        });
-    }
-
-    const addAreaBtn = $("#addAreaBtn");
-    const areaGrid = $("#areaGrid");
-    if (addAreaBtn && areaGrid) {
-        addAreaBtn.addEventListener("click", () => {
-            const newAreaId = Date.now();
-            const newArea = document.createElement("div");
-            newArea.className = "area-card animate__animated animate__slideInUp";
-            newArea.dataset.areaId = newAreaId;
-            newArea.innerHTML = `
-                <div class="area-header">
-                    <div class="area-name">New Area</div>
-                    <div class="area-size">0 Acres</div>
-                </div>
-                <div class="area-content">
-                    <div class="area-stats">
-                        <div class="area-stat"><i class="fas fa-seedling"></i><span>Crops: None</span></div>
-                        <div class="area-stat"><i class="fas fa-water"></i><span>Irrigation: None</span></div>
-                        <div class="area-stat"><i class="fas fa-calendar-alt"></i><span>Last Planted: N/A</span></div>
-                        <div class="area-stat"><i class="fas fa-leaf"></i><span>Soil Type: Unknown</span></div>
-                    </div>
-                    <div class="area-actions">
-                        <button class="btn btn-primary edit-area" data-area-id="${newAreaId}"><i class="fas fa-edit"></i> Edit</button>
-                        <button class="btn btn-outline view-area" data-area-id="${newAreaId}"><i class="fas fa-eye"></i> View Details</button>
-                    </div>
-                </div>
-            `;
-            areaGrid.appendChild(newArea);
-            showToast("New area added", "success");
-            attachAreaButtonListeners(newArea);
-        });
-    }
-
-    const addCropBtn = $("#addCropBtn");
-    const activeCropsList = $("#activeCropsList");
-    if (addCropBtn && activeCropsList) {
-        addCropBtn.addEventListener("click", () => {
-            const newCropId = Date.now();
-            const newCrop = document.createElement("div");
-            newCrop.className = "crop-item animate__animated animate__fadeIn";
-            newCrop.dataset.cropId = newCropId;
-            newCrop.innerHTML = `
-                <div class="crop-icon"><i class="fas fa-seedling"></i></div>
-                <div class="crop-details">
-                    <div class="crop-name">New Crop</div>
-                    <div class="crop-variety">Unknown Variety</div>
-                    <div class="crop-location">Unassigned</div>
-                </div>
-                <div class="crop-timeline">
-                    <div class="timeline-bar"><div class="timeline-progress" style="width: 0%"></div></div>
-                    <div class="timeline-dates">
-                        <span>Planted: N/A</span>
-                        <span>Expected Harvest: N/A</span>
-                    </div>
-                </div>
-                <div class="crop-stats">
-                    <div class="crop-stat"><div class="stat-label">Health</div><div class="stat-value green">Unknown</div></div>
-                    <div class="crop-stat"><div class="stat-label">Area</div><div class="stat-value">0 Acres</div></div>
-                    <div class="crop-stat"><div class="stat-label">Est. Yield</div><div class="stat-value">0 tons</div></div>
-                </div>
-                <div class="crop-actions">
-                    <button class="btn btn-primary manage-crop" data-crop-id="${newCropId}"><i class="fas fa-tasks"></i> Manage</button>
-                    <button class="btn btn-outline view-crop" data-crop-id="${newCropId}"><i class="fas fa-chart-line"></i> Details</button>
-                </div>
-            `;
-            activeCropsList.appendChild(newCrop);
-            showToast("New crop added", "success");
-            attachCropButtonListeners(newCrop);
-        });
-    }
-
-    const addTaskBtn = $("#addTaskBtn");
-    const taskList = $("#taskList");
-    if (addTaskBtn && taskList) {
-        addTaskBtn.addEventListener("click", () => {
-            const newTaskId = Date.now();
-            const newTask = document.createElement("div");
-            newTask.className = "task-item animate__animated animate__fadeIn";
-            newTask.dataset.taskId = newTaskId;
-            newTask.innerHTML = `
-                <div class="task-status pending"></div>
-                <div class="task-content">
-                    <div class="task-title">New Task</div>
-                    <div class="task-details">Task description</div>
-                    <div class="task-meta">
-                        <span><i class="fas fa-calendar"></i> April 30, 2025</span>
-                        <span><i class="fas fa-user"></i> Assigned to: You</span>
-                    </div>
-                </div>
-                <div class="task-actions">
-                    <button class="btn btn-outline complete-task" data-task-id="${newTaskId}"><i class="fas fa-check"></i> Complete</button>
-                    <button class="btn btn-outline edit-task" data-task-id="${newTaskId}"><i class="fas fa-edit"></i> Edit</button>
-                </div>
-            `;
-            taskList.appendChild(newTask);
-            showToast("New task added", "success");
-            tasks.push({ id: newTaskId, date: "2025-04-30", title: "New Task" });
-            renderCalendar();
-            attachTaskButtonListeners(newTask);
-        });
-    }
-
-    const addResourceBtn = $("#addResourceBtn");
-    const resourceGrid = $("#resourceGrid");
-    if (addResourceBtn && resourceGrid) {
-        addResourceBtn.addEventListener("click", () => {
-            const newResourceId = Date.now();
-            const newResource = document.createElement("div");
-            newResource.className = "resource-card animate__animated animate__slideInUp";
-            newResource.dataset.resourceId = newResourceId;
-            newResource.innerHTML = `
-                <div class="resource-icon"><i class="fas fa-tools"></i></div>
-                <div class="resource-content">
-                    <div class="resource-title">New Resource</div>
-                    <div class="resource-details">
-                        <div class="resource-detail"><span class="detail-label">Type:</span><span class="detail-value">Unknown</span></div>
-                        <div class="resource-detail"><span class="detail-label">Capacity:</span><span class="detail-value">0</span></div>
-                        <div class="resource-detail"><span class="detail-label">Status:</span><span class="detail-value green">Operational</span></div>
-                    </div>
-                    <div class="resource-actions">
-                        <button class="btn btn-primary edit-resource" data-resource-id="${newResourceId}"><i class="fas fa-edit"></i> Edit</button>
-                        <button class="btn btn-outline view-resource" data-resource-id="${newResourceId}"><i class="fas fa-eye"></i> View Details</button>
-                    </div>
-                </div>
-            `;
-            resourceGrid.appendChild(newResource);
-            showToast("New resource added", "success");
-            attachResourceButtonListeners(newResource);
-        });
-    }
-
-    // Area Button Listeners
-    const attachAreaButtonListeners = (card) => {
-        const editBtn = card.querySelector(".edit-area");
-        const viewBtn = card.querySelector(".view-area");
-        if (editBtn) {
-            editBtn.addEventListener("click", () => {
-                const areaId = editBtn.dataset.areaId;
-                showToast(`Editing area ID: ${areaId}`, "info");
-                // Simulate edit area form
+        if (menuToggle && sidebar && mainContent) {
+            menuToggle.addEventListener("click", () => {
+                toggleClass(sidebar, "sidebar-collapsed");
+                toggleClass(mainContent, "main-content-expanded");
+                const icon = menuToggle.querySelector("i");
+                icon.classList.toggle("fa-chevron-left");
+                icon.classList.toggle("fa-chevron-right");
+                showToast("Sidebar toggled", "info");
             });
         }
-        if (viewBtn) {
-            viewBtn.addEventListener("click", () => {
-                const areaId = viewBtn.dataset.areaId;
-                showToast(`Viewing details for area ID: ${areaId}`, "info");
-                // Simulate view details
-            });
+
+        // Mobile Menu Toggle
+        const mobileMenuToggle = $("#mobile-menu-toggle");
+        const sidebarToggleMobile = $(".sidebar-toggle-mobile");
+
+        const toggleMobileSidebar = () => {
+            toggleClass(sidebar, "active");
+            toggleClass(overlay, "active");
+        };
+
+        if (mobileMenuToggle) mobileMenuToggle.addEventListener("click", toggleMobileSidebar);
+        if (sidebarToggleMobile) sidebarToggleMobile.addEventListener("click", toggleMobileSidebar);
+        if (overlay) overlay.addEventListener("click", toggleMobileSidebar);
+
+        // Dark Mode Toggle
+        const darkModeToggle = $("#darkModeToggle");
+        const themeText = $("#themeText");
+        if (darkModeToggle && themeText) {
+            const toggleDarkMode = () => {
+                const isDark = document.body.classList.toggle("dark-mode");
+                localStorage.setItem("darkMode", isDark);
+                themeText.textContent = isDark ? "Light Mode" : "Dark Mode";
+                showToast(`Switched to ${isDark ? "Dark" : "Light"} Mode`, "info");
+            };
+            darkModeToggle.addEventListener("click", toggleDarkMode);
+            if (localStorage.getItem("darkMode") === "true") toggleDarkMode();
         }
-    };
 
-    $$(".area-card").forEach(attachAreaButtonListeners);
-
-    // Crop Button Listeners
-    const attachCropButtonListeners = (item) => {
-        const manageBtn = item.querySelector(".manage-crop");
-        const viewBtn = item.querySelector(".view-crop");
-        if (manageBtn) {
-            manageBtn.addEventListener("click", () => {
-                const cropId = manageBtn.dataset.cropId;
-                showToast(`Managing crop ID: ${cropId}`, "info");
-                // Simulate manage crop
+        // Notification Dropdown
+        const notificationIcon = $("#notificationIcon");
+        const notificationDropdown = $("#notificationDropdown");
+        if (notificationIcon && notificationDropdown) {
+            notificationIcon.addEventListener("click", (e) => {
+                e.stopPropagation();
+                toggleClass(notificationDropdown, "show");
             });
-        }
-        if (viewBtn) {
-            viewBtn.addEventListener("click", () => {
-                const cropId = viewBtn.dataset.cropId;
-                showToast(`Viewing details for crop ID: ${cropId}`, "info");
-                // Simulate view details
-            });
-        }
-    };
-
-    $$(".crop-item").forEach(attachCropButtonListeners);
-
-    // Task Button Listeners
-    const attachTaskButtonListeners = (item) => {
-        const completeBtn = item.querySelector(".complete-task");
-        const editBtn = item.querySelector(".edit-task");
-        if (completeBtn) {
-            completeBtn.addEventListener("click", () => {
-                const taskId = completeBtn.dataset.taskId;
-                const taskItem = $(`[data-task-id="${taskId}"]`);
-                if (taskItem) {
-                    taskItem.querySelector(".task-status").className = "task-status completed";
-                    showToast(`Task ID: ${taskId} marked as complete`, "success");
+            document.addEventListener("click", (e) => {
+                if (!notificationIcon.contains(e.target)) {
+                    removeClass(notificationDropdown, "show");
                 }
             });
         }
-        if (editBtn) {
-            editBtn.addEventListener("click", () => {
-                const taskId = editBtn.dataset.taskId;
-                showToast(`Editing task ID: ${taskId}`, "info");
-                // Simulate edit task form
+
+        // User Profile Dropdown
+        const userProfile = $("#userProfile");
+        const userDropdown = $("#userDropdown");
+        const userDropdownLogout = $("#userDropdownLogout");
+        if (userProfile && userDropdown) {
+            userProfile.addEventListener("click", (e) => {
+                e.stopPropagation();
+                toggleClass(userDropdown, "show");
+            });
+            document.addEventListener("click", (e) => {
+                if (!userProfile.contains(e.target)) {
+                    removeClass(userDropdown, "show");
+                }
             });
         }
-    };
-
-    $$(".task-item").forEach(attachTaskButtonListeners);
-
-    // Resource Button Listeners
-    const attachResourceButtonListeners = (card) => {
-        const editBtn = card.querySelector(".edit-resource");
-        const viewBtn = card.querySelector(".view-resource");
-        if (editBtn) {
-            editBtn.addEventListener("click", () => {
-                const resourceId = editBtn.dataset.resourceId;
-                showToast(`Editing resource ID: ${resourceId}`, "info");
-                // Simulate edit resource form
+        if (userDropdownLogout) {
+            userDropdownLogout.addEventListener("click", () => {
+                showToast("Logged out successfully", "success");
+                setTimeout(() => {
+                    window.location.href = "/templates/login.html";
+                }, 1000);
             });
         }
-        if (viewBtn) {
-            viewBtn.addEventListener("click", () => {
-                const resourceId = viewBtn.dataset.resourceId;
-                showToast(`Viewing details for resource ID: ${resourceId}`, "info");
-                // Simulate view details
+
+        // Search Functionality
+        const searchInput = $("#searchInput");
+        if (searchInput) {
+            searchInput.addEventListener("input", (e) => {
+                const query = e.target.value.toLowerCase();
+                const areaCards = $$(".area-card");
+                const cropItems = $$(".crop-item");
+                const taskItems = $$(".task-item");
+                const resourceCards = $$(".resource-card");
+
+                areaCards.forEach((card) => {
+                    const name = card.querySelector(".area-name")?.textContent.toLowerCase() || "";
+                    const crops = card.querySelector(".area-stat span")?.textContent.toLowerCase() || "";
+                    card.style.display = name.includes(query) || crops.includes(query) ? "" : "none";
+                });
+
+                cropItems.forEach((item) => {
+                    const name = item.querySelector(".crop-name")?.textContent.toLowerCase() || "";
+                    const location = item.querySelector(".crop-location")?.textContent.toLowerCase() || "";
+                    item.style.display = name.includes(query) || location.includes(query) ? "" : "none";
+                });
+
+                taskItems.forEach((item) => {
+                    const title = item.querySelector(".task-title")?.textContent.toLowerCase() || "";
+                    const details = item.querySelector(".task-details")?.textContent.toLowerCase() || "";
+                    item.style.display = title.includes(query) || details.includes(query) ? "" : "none";
+                });
+
+                resourceCards.forEach((card) => {
+                    const title = card.querySelector(".resource-title")?.textContent.toLowerCase() || "";
+                    card.style.display = title.includes(query) ? "" : "none";
+                });
             });
         }
-    };
 
-    $$(".resource-card").forEach(attachResourceButtonListeners);
-});
+        // Tab Functionality for Crop Management
+        const tabs = $$(".tab");
+        const tabContents = $$(".tab-content");
+
+        tabs.forEach((tab) => {
+            tab.addEventListener("click", () => {
+                tabs.forEach((t) => removeClass(t, "active"));
+                addClass(tab, "active");
+
+                tabContents.forEach((content) => addClass(content, "hidden"));
+                const tabId = tab.getAttribute("data-tab");
+                const targetTabContent = $(`#${tabId}Tab`);
+                if (targetTabContent) {
+                    removeClass(targetTabContent, "hidden");
+                }
+            });
+        });
+
+        // Calendar Functionality
+        const prevMonth = $("#prevMonth");
+        const nextMonth = $("#nextMonth");
+        const currentMonth = $("#currentMonth");
+        const calendarGrid = $("#calendarGrid");
+        let currentDate = new Date(2025, 3, 1); // April 2025
+
+        const tasks = [
+            { id: 1, date: "2025-04-23", title: "Fertilize tomato crops" },
+            { id: 2, date: "2025-04-25", title: "Irrigation system maintenance" },
+            { id: 3, date: "2025-04-20", title: "Pest control" },
+        ];
+
+        const renderCalendar = () => {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            const firstDay = new Date(year, month, 1).getDay();
+            const lastDate = new Date(year, month + 1, 0).getDate();
+            currentMonth.textContent = currentDate.toLocaleString("default", { month: "long", year: "numeric" });
+
+            let html = `
+                <div class="calendar-day header">Sun</div>
+                <div class="calendar-day header">Mon</div>
+                <div class="calendar-day header">Tue</div>
+                <div class="calendar-day header">Wed</div>
+                <div class="calendar-day header">Thu</div>
+                <div class="calendar-day header">Fri</div>
+                <div class="calendar-day header">Sat</div>
+            `;
+
+            for (let i = 0; i < firstDay; i++) {
+                html += `<div class="calendar-day"></div>`;
+            }
+
+            for (let day = 1; day <= lastDate; day++) {
+                const dateStr = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+                const hasTask = tasks.some((task) => task.date === dateStr);
+                html += `<div class="calendar-day ${hasTask ? "task" : ""}">${day}</div>`;
+            }
+
+            calendarGrid.innerHTML = html;
+        };
+
+        if (prevMonth && nextMonth && calendarGrid) {
+            renderCalendar();
+            prevMonth.addEventListener("click", () => {
+                currentDate.setMonth(currentDate.getMonth() - 1);
+                renderCalendar();
+            });
+            nextMonth.addEventListener("click", () => {
+                currentDate.setMonth(currentDate.getMonth() + 1);
+                renderCalendar();
+            });
+        }
+
+        // Add Crop Modal Functionality
+        const addCropModal = $("#addCropModal");
+        const openAddCropBtn = $("#addCropBtn");
+        const closeAddCropModal = $("#closeAddCropModal");
+        const cancelAddCrop = $("#cancelAddCrop");
+        const saveAddCrop = $("#saveAddCrop");
+        const addCropForm = $("#addCropForm");
+        const cropStatus = $("#cropStatus");
+        const plannedDatesRow = $("#plannedDatesRow");
+        const activeDatesRow = $("#activeDatesRow");
+        const harvestedDatesRow = $("#harvestedDatesRow");
+
+        const showModal = () => {
+            addClass(addCropModal, "active");
+            document.body.style.overflow = "hidden";
+        };
+
+        const hideModal = () => {
+            removeClass(addCropModal, "active");
+            document.body.style.overflow = "";
+            addCropForm.reset();
+            plannedDatesRow.style.display = "flex";
+            activeDatesRow.style.display = "none";
+            harvestedDatesRow.style.display = "none";
+        };
+
+        if (openAddCropBtn) openAddCropBtn.addEventListener("click", showModal);
+        if (closeAddCropModal) closeAddCropModal.addEventListener("click", hideModal);
+        if (cancelAddCrop) cancelAddCrop.addEventListener("click", hideModal);
+        if (addCropModal) {
+            addCropModal.addEventListener("click", (e) => {
+                if (e.target === addCropModal || e.target.classList.contains("modal-overlay")) {
+                    hideModal();
+                }
+            });
+        }
+
+        if (cropStatus) {
+            cropStatus.addEventListener("change", () => {
+                const status = cropStatus.value;
+                plannedDatesRow.style.display = status === "planned" ? "flex" : "none";
+                activeDatesRow.style.display = status === "active" ? "flex" : "none";
+                harvestedDatesRow.style.display = status === "harvested" ? "flex" : "none";
+            });
+        }
+
+        const validateForm = () => {
+            const requiredInputs = Array.from(addCropForm.querySelectorAll("[required]"));
+            return requiredInputs.every((input) => {
+                if (!input.value.trim()) {
+                    input.classList.add("error");
+                    input.addEventListener("input", () => input.classList.remove("error"), { once: true });
+                    return false;
+                }
+                return true;
+            });
+        };
+
+        const generateUniqueId = () => `crop_${Date.now()}`;
+
+        const formatDate = (dateString) => {
+            if (!dateString) return "Unknown";
+            const date = new Date(dateString);
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            return `${monthNames[date.getMonth()]} ${date.getDate()}`;
+        };
+
+        const getHealthClass = (health) => {
+            if (health === "excellent" || health === "good") return "green";
+            if (health === "fair") return "yellow";
+            return "";
+        };
+
+        const addCropToList = (cropData) => {
+            const targetListId = {
+                planned: "plannedCropsList",
+                active: "activeCropsList",
+                harvested: "harvestedCropsList",
+            }[cropData.cropStatus];
+            const targetList = $(`#${targetListId}`);
+            if (!targetList) return;
+
+            const cropItem = document.createElement("div");
+            cropItem.className = "crop-item animate__animated animate__fadeIn";
+            cropItem.dataset.cropId = cropData.id;
+
+            let plantedDate = "";
+            let harvestDate = "";
+            let progressPercent = 0;
+
+            if (cropData.cropStatus === "planned") {
+                plantedDate = formatDate(cropData.plantingDate);
+                harvestDate = formatDate(cropData.harvestDate);
+            } else if (cropData.cropStatus === "active") {
+                plantedDate = formatDate(cropData.activePlantingDate);
+                harvestDate = formatDate(cropData.activeHarvestDate);
+                const plantDate = new Date(cropData.activePlantingDate);
+                const harvestDateObj = new Date(cropData.activeHarvestDate);
+                const today = new Date();
+                const totalDuration = harvestDateObj - plantDate;
+                const elapsedDuration = today - plantDate;
+                progressPercent = Math.floor((elapsedDuration / totalDuration) * 100);
+                progressPercent = Math.max(0, Math.min(progressPercent, 100));
+            } else if (cropData.cropStatus === "harvested") {
+                plantedDate = formatDate(cropData.harvestedPlantingDate);
+                harvestDate = formatDate(cropData.harvestedHarvestDate);
+                progressPercent = 100;
+            }
+
+            const cropIcons = {
+                Tomatoes: "fa-apple-alt",
+                Corn: "fa-wheat",
+                Wheat: "fa-wheat",
+                Rice: "fa-seedling",
+                Soybeans: "fa-leaf",
+                Peppers: "fa-pepper-hot",
+                Spinach: "fa-leaf",
+                Lettuce: "fa-leaf",
+            };
+
+            let iconClass = "fa-seedling";
+            for (const [crop, icon] of Object.entries(cropIcons)) {
+                if (cropData.cropName.toLowerCase().includes(crop.toLowerCase())) {
+                    iconClass = icon;
+                    break;
+                }
+            }
+
+            let actionButtons = "";
+            let datesText = "";
+            if (cropData.cropStatus === "planned") {
+                actionButtons = `
+                    <button class="btn btn-primary start-planting" data-crop-id="${cropData.id}">
+                        <i class="fas fa-play"></i> Start Planting
+                    </button>
+                    <button class="btn btn-outline edit-plan" data-crop-id="${cropData.id}">
+                        <i class="fas fa-edit"></i> Edit Plan
+                    </button>
+                `;
+                datesText = `<span>Planned: ${plantedDate}</span><span>Est. Harvest: ${harvestDate}</span>`;
+            } else if (cropData.cropStatus === "active") {
+                actionButtons = `
+                    <button class="btn btn-primary manage-crop" data-crop-id="${cropData.id}">
+                        <i class="fas fa-tasks"></i> Manage
+                    </button>
+                    <button class="btn btn-outline view-crop" data-crop-id="${cropData.id}">
+                        <i class="fas fa-chart-line"></i> Details
+                    </button>
+                `;
+                datesText = `<span>Planted: ${plantedDate}</span><span>Expected Harvest: ${harvestDate}</span>`;
+            } else if (cropData.cropStatus === "harvested") {
+                actionButtons = `
+                    <button class="btn btn-primary view-report" data-crop-id="${cropData.id}">
+                        <i class="fas fa-file-alt"></i> View Report
+                    </button>
+                    <button class="btn btn-outline plan-next" data-crop-id="${cropData.id}">
+                        <i class="fas fa-redo"></i> Plan Next
+                    </button>
+                `;
+                datesText = `<span>Planted: ${plantedDate}</span><span>Harvested: ${harvestDate}</span>`;
+            }
+
+            cropItem.innerHTML = `
+                <div class="crop-icon">
+                    <i class="fas ${iconClass}"></i>
+                </div>
+                <div class="crop-details">
+                    <div class="crop-name">${cropData.cropName}</div>
+                    <div class="crop-variety">${cropData.cropVariety}</div>
+                    <div class="crop-location">${cropData.cropLocation}</div>
+                </div>
+                <div class="crop-timeline">
+                    <div class="timeline-bar">
+                        <div class="timeline-progress" style="width: ${progressPercent}%"></div>
+                    </div>
+                    <div class="timeline-dates">
+                        ${datesText}
+                    </div>
+                </div>
+                <div class="crop-stats">
+                    <div class="crop-stat">
+                        <div class="stat-label">${cropData.cropStatus === "planned" ? "Status" : "Health"}</div>
+                        <div class="stat-value ${getHealthClass(cropData.cropHealth)}">${
+                            cropData.cropStatus === "planned"
+                                ? "Planned"
+                                : cropData.cropHealth.charAt(0).toUpperCase() + cropData.cropHealth.slice(1)
+                        }</div>
+                    </div>
+                    <div class="crop-stat">
+                        <div class="stat-label">Area</div>
+                        <div class="stat-value">${cropData.cropArea} Acres</div>
+                    </div>
+                    <div class="crop-stat">
+                        <div class="stat-label">${cropData.cropStatus === "harvested" ? "Yield" : "Est. Yield"}</div>
+                        <div class="stat-value">${cropData.estimatedYield} tons</div>
+                    </div>
+                </div>
+                <div class="crop-actions">
+                    ${actionButtons}
+                </div>
+            `;
+
+            targetList.prepend(cropItem);
+            showToast("Crop added successfully", "success");
+
+            const tabToShow = $(`.tab[data-tab="${cropData.cropStatus}-crops"]`);
+            if (tabToShow) tabToShow.click();
+
+            const newButtons = cropItem.querySelectorAll(".crop-actions .btn");
+            newButtons.forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    const cropId = btn.dataset.cropId;
+                    const action = btn.classList.contains("manage-crop")
+                        ? "manage"
+                        : btn.classList.contains("view-crop")
+                        ? "view"
+                        : btn.classList.contains("start-planting")
+                        ? "start-planting"
+                        : btn.classList.contains("edit-plan")
+                        ? "edit-plan"
+                        : btn.classList.contains("view-report")
+                        ? "view-report"
+                        : btn.classList.contains("plan-next")
+                        ? "plan-next"
+                        : "";
+                    showToast(`${action.charAt(0).toUpperCase() + action.slice(1)} action for crop ${cropId}`, "info");
+                });
+            });
+        };
+
+        if (saveAddCrop) {
+            saveAddCrop.addEventListener("click", () => {
+                if (!validateForm()) {
+                    showToast("Please fill all required fields", "error");
+                    return;
+                }
+
+                const formData = new FormData(addCropForm);
+                const cropData = { id: generateUniqueId() };
+                formData.forEach((value, key) => {
+                    cropData[key] = value;
+                });
+
+                addCropToList(cropData);
+                hideModal();
+            });
+        }
+
+        // Crop Button Listeners
+        const attachCropButtonListeners = (item) => {
+            const buttons = item.querySelectorAll(".crop-actions .btn");
+            buttons.forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    const cropId = btn.dataset.cropId;
+                    const action = btn.classList.contains("manage-crop")
+                        ? "manage"
+                        : btn.classList.contains("view-crop")
+                        ? "view"
+                        : btn.classList.contains("start-planting")
+                        ? "start-planting"
+                        : btn.classList.contains("edit-plan")
+                        ? "edit-plan"
+                        : btn.classList.contains("view-report")
+                        ? "view-report"
+                        : btn.classList.contains("plan-next")
+                        ? "plan-next"
+                        : "";
+                    showToast(`${action.charAt(0).toUpperCase() + action.slice(1)} action for crop ${cropId}`, "info");
+                });
+            });
+        };
+
+        $$(".crop-item").forEach(attachCropButtonListeners);
+
+        // Task Button Listeners
+        const attachTaskButtonListeners = (item) => {
+            const completeBtn = item.querySelector(".complete-task");
+            const editBtn = item.querySelector(".edit-task");
+            if (completeBtn) {
+                completeBtn.addEventListener("click", () => {
+                    const taskId = completeBtn.dataset.taskId;
+                    const taskItem = $(`[data-task-id="${taskId}"]`);
+                    if (taskItem) {
+                        taskItem.querySelector(".task-status").className = "task-status completed";
+                        showToast(`Task ID: ${taskId} marked as complete`, "success");
+                    }
+                });
+            }
+            if (editBtn) {
+                editBtn.addEventListener("click", () => {
+                    const taskId = editBtn.dataset.taskId;
+                    showToast(`Editing task ID: ${taskId}`, "info");
+                });
+            }
+        };
+
+        $$(".task-item").forEach(attachTaskButtonListeners);
+
+        // Resource Button Listeners
+        const attachResourceButtonListeners = (card) => {
+            const editBtn = card.querySelector(".edit-resource");
+            const viewBtn = card.querySelector(".view-resource");
+            if (editBtn) {
+                editBtn.addEventListener("click", () => {
+                    const resourceId = editBtn.dataset.resourceId;
+                    showToast(`Editing resource ID: ${resourceId}`, "info");
+                });
+            }
+            if (viewBtn) {
+                viewBtn.addEventListener("click", () => {
+                    const resourceId = viewBtn.dataset.resourceId;
+                    showToast(`Viewing details for resource ID: ${resourceId}`, "info");
+                });
+            }
+        };
+
+        $$(".resource-card").forEach(attachResourceButtonListeners);
+
+        // Farm Area Button Listeners
+        const attachAreaButtonListeners = (card) => {
+            const editBtn = card.querySelector(".edit-area");
+            const viewBtn = card.querySelector(".view-area");
+            if (editBtn) {
+                editBtn.addEventListener("click", () => {
+                    const areaId = editBtn.dataset.areaId;
+                    showToast(`Editing area ID: ${areaId}`, "info");
+                });
+            }
+            if (viewBtn) {
+                viewBtn.addEventListener("click", () => {
+                    const areaId = viewBtn.dataset.areaId;
+                    showToast(`Viewing details for area ID: ${areaId}`, "info");
+                });
+            }
+        };
+
+        $$(".area-card").forEach(attachAreaButtonListeners);
+
+        // Other Button Actions
+        const editFarmBtn = $("#editFarmBtn");
+        if (editFarmBtn) {
+            editFarmBtn.addEventListener("click", () => {
+                showToast("Editing farm info...", "info");
+            });
+        }
+
+        const uploadPhotoBtn = $("#uploadPhotoBtn");
+        if (uploadPhotoBtn) {
+            uploadPhotoBtn.addEventListener("click", () => {
+                showToast("Photo upload initiated", "info");
+            });
+        }
+
+        const viewMapBtn = $("#viewMapBtn");
+        if (viewMapBtn) {
+            viewMapBtn.addEventListener("click", () => {
+                showToast("Opening farm map", "info");
+            });
+        }
+
+        const addAreaBtn = $("#addAreaBtn");
+        if (addAreaBtn) {
+            addAreaBtn.addEventListener("click", () => {
+                showToast("Adding new farm area", "info");
+            });
+        }
+
+        const addTaskBtn = $("#addTaskBtn");
+        if (addTaskBtn) {
+            addTaskBtn.addEventListener("click", () => {
+                showToast("Adding new task", "info");
+            });
+        }
+
+        const addResourceBtn = $("#addResourceBtn");
+        if (addResourceBtn) {
+            addResourceBtn.addEventListener("click", () => {
+                showToast("Adding new resource", "info");
+            });
+        }
+
+        // Form Validation Styling
+        const style = document.createElement("style");
+        style.textContent = `
+            .error {
+                border-color: var(--danger) !important;
+                background-color: rgba(244, 67, 54, 0.05) !important;
+            }
+        `;
+        document.head.appendChild(style);
+    });
 </script>
 </body>
 </html>
