@@ -155,6 +155,107 @@
         }
       }
 
+      /* Cart counter styling */
+      #cart {
+        position: relative;
+        cursor: pointer;
+      }
+
+      #cart:after {
+        content: attr(data-totalitems);
+        font-size: 12px;
+        background-color: #ff6b6b;
+        color: white;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+
+      #cart[data-totalitems="0"]:after {
+        opacity: 0;
+      }
+
+      #cart[data-totalitems]:not([data-totalitems="0"]):after {
+        opacity: 1;
+      }
+
+      /* Button animation */
+      .btn-primary {
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary.sendtocart {
+        animation: sendtocart 1s ease forwards;
+      }
+
+      @keyframes sendtocart {
+        0% {
+          transform: translateY(0) scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: translateY(-10px) scale(0.9);
+          opacity: 0.8;
+        }
+        100% {
+          transform: translateY(-20px) scale(0.8);
+          opacity: 0;
+        }
+      }
+
+      /* Cart shake animation */
+      #cart.shake {
+        animation: shakeCart 0.5s ease-in-out;
+      }
+
+      @keyframes shakeCart {
+        0% {
+          transform: scale(1);
+        }
+        25% {
+          transform: scale(1.1);
+        }
+        50% {
+          transform: scale(1);
+        }
+        75% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      /* Toast notification */
+      .toast-notification {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #4CAF50;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 4px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        z-index: 1000;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.3s, transform 0.3s;
+      }
+
+      .toast-notification.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
       /* Page Banner */
       .page-banner {
         width: 100%;
@@ -559,178 +660,6 @@
         margin-top: 30px;
       }
 
-      /* Scroll to top button */
-      .scroll-top {
-        position: fixed;
-        right: 30px;
-        bottom: 30px;
-        width: 50px;
-        height: 50px;
-        background: var(--main-color);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 24px;
-        color: white;
-        cursor: pointer;
-        z-index: 99;
-        opacity: 0;
-        transform: translateY(20px);
-        transition: all 0.3s ease;
-        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
-      }
-
-      .scroll-top.active {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      /* Cart popup */
-      .cart-popup {
-        position: fixed;
-        top: 0;
-        right: -400px;
-        width: 350px;
-        height: 100vh;
-        background: white;
-        z-index: 1001;
-        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-        transition: right 0.4s ease;
-        display: flex;
-        flex-direction: column;
-      }
-
-      .cart-popup.active {
-        right: 0;
-      }
-
-      .cart-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px;
-        border-bottom: 1px solid #eee;
-      }
-
-      .cart-header h3 {
-        font-size: 20px;
-      }
-
-      .close-cart {
-        font-size: 24px;
-        cursor: pointer;
-      }
-
-      .cart-items {
-        flex: 1;
-        overflow-y: auto;
-        padding: 20px;
-      }
-
-      .cart-item {
-        display: flex;
-        margin-bottom: 15px;
-        padding-bottom: 15px;
-        border-bottom: 1px solid #eee;
-      }
-
-      .cart-item-img {
-        width: 80px;
-        height: 80px;
-        object-fit: cover;
-        border-radius: 5px;
-      }
-
-      .cart-item-details {
-        flex: 1;
-        padding: 0 15px;
-      }
-
-      .cart-item-title {
-        font-weight: 500;
-        margin-bottom: 5px;
-      }
-
-      .cart-item-price {
-        color: var(--main-color);
-        font-weight: 600;
-      }
-
-      .cart-item-quantity {
-        display: flex;
-        align-items: center;
-        margin-top: 5px;
-      }
-
-      .quantity-btn {
-        width: 25px;
-        height: 25px;
-        background: #f1f1f1;
-        border: none;
-        border-radius: 3px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-      }
-
-      .quantity-count {
-        margin: 0 10px;
-      }
-
-      .remove-item {
-        font-size: 18px;
-        color: #ff5252;
-        cursor: pointer;
-      }
-
-      .cart-footer {
-        padding: 20px;
-        border-top: 1px solid #eee;
-      }
-
-      .cart-total {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 20px;
-        font-size: 18px;
-      }
-
-      .checkout-btn {
-        width: 100%;
-        padding: 12px;
-        background: var(--main-color);
-        color: white;
-        border: none;
-        border-radius: 5px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-      }
-
-      .checkout-btn:hover {
-        background: #0d6e29;
-      }
-
-      .overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 1000;
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.3s ease;
-      }
-
-      .overlay.active {
-        opacity: 1;
-        visibility: visible;
-      }
-
       /* Media Queries */
       @media (max-width: 1200px) {
         header {
@@ -829,10 +758,6 @@
         .send form input:last-child {
           padding: 9px 20px;
         }
-
-        .cart-popup {
-          width: 300px;
-        }
       }
 
       @media (max-width: 480px) {
@@ -868,6 +793,9 @@
         <li><a href="about.html">About</a></li>
         <li><a href="login.html">Login</a></li>
       </ul>
+      <div id="cart" class="cart" data-totalitems="0">
+        <i class="fas fa-shopping-cart"></i>
+      </div>
     </header>
 
     <!-- Page Banner -->
@@ -917,15 +845,15 @@
               src="https://images.pexels.com/photos/143133/pexels-photo-143133.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
               alt="Organic Carrots"
             />
-            <div class="product-badge">Organic</div>
+            <div class="product-badge cebu-badge">Organic </div>
           </div>
           <div class="product-content">
             <div class="farmer-info">
               <img
-                src="https://images.pexels.com/photos/5607691/pexels-photo-5607691.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                src="https://images.pexels.com/photos/240525/pexels-photo-240525.jpeg?auto=compress&cs=tinysrgb&w=600"
                 alt="Farmer"
               />
-              <span class="farmer-name">Green Valley Farm</span>
+              <span class="farmer-name">Cebu Green Valley Farm</span>
             </div>
             <h3 class="product-title">Carrots</h3>
             <div class="product-meta">
@@ -943,11 +871,11 @@
               ₱80.00 <span class="price-per-unit">/ kg</span>
             </div>
             <p class="product-description">
-              Fresh, organic carrots harvested this week. Perfect for salads,
+              Fresh, organic carrots harvested in Cebu. Perfect for salads,
               juicing, or cooking.
             </p>
             <div class="product-actions">
-              <button class="btn btn-primary">
+              <button class="btn btn-primary" id="addtocart">
                 <i class="fas fa-shopping-cart"></i> Add to Cart
               </button>
               <button class="btn btn-icon"><i class="fas fa-heart"></i></button>
@@ -970,7 +898,7 @@
                 src="https://images.pexels.com/photos/1319384/pexels-photo-1319384.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                 alt="Farmer"
               />
-              <span class="farmer-name">Sunshine Farms</span>
+              <span class="farmer-name">Cebu Sunshine Farms</span>
             </div>
             <h3 class="product-title">Tomatoes</h3>
             <div class="product-meta">
@@ -985,39 +913,39 @@
               <div class="product-category">Vegetables</div>
             </div>
             <div class="product-price">
-              ₱75.65 <span class="price-per-unit">/ kg</span>
+              ₱25.65 <span class="price-per-unit">/ kg</span>
             </div>
             <p class="product-description">
-              Juicy, ripe tomatoes grown locally without pesticides. Great for
+              Juicy, ripe tomatoes grown in Cebu without pesticides. Great for
               salads and sauces.
             </p>
             <div class="product-actions">
               <button class="btn btn-primary">
                 <i class="fas fa-shopping-cart"></i> Add to Cart
               </button>
-              <button class="btn btn-icon"><i class="fas fa-heart"></i></button>
+              <button class="btn btn-icon" id="addtocart"><i class="fas fa-heart"></i></button>
             </div>
           </div>
         </div>
 
-        <!-- Product 3 (Completed from the truncated content) -->
+        <!-- Product 3 -->
         <div class="product-card">
           <div class="product-image">
             <img
               src="https://images.pexels.com/photos/1093038/pexels-photo-1093038.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
               alt="Organic Bananas"
             />
-            <div class="product-badge">Organic</div>
+            <div class="product-badge cebu-badge">Organic</div>
           </div>
           <div class="product-content">
             <div class="farmer-info">
               <img
-                src="https://images.pexels.com/photos/1657004/pexels-photo-1657004.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                src="https://images.pexels.com/photos/50707/cocoa-man-colombia-peasant-50707.jpeg?auto=compress&cs=tinysrgb&w=600"
                 alt="Farmer"
               />
-              <span class="farmer-name">Tropical Harvest</span>
+              <span class="farmer-name">Cebu Tropical Harvest</span>
             </div>
-            <h3 class="product-title"> Bananas</h3>
+            <h3 class="product-title">Bananas</h3>
             <div class="product-meta">
               <div class="product-rating">
                 <i class="fas fa-star"></i>
@@ -1033,11 +961,11 @@
               ₱50.00 <span class="price-per-unit">/ kg</span>
             </div>
             <p class="product-description">
-              Sweet, ripe organic bananas. Perfect for smoothies, baking, or a
+              Sweet, ripe organic bananas from Cebu farms. Perfect for smoothies, baking, or a
               healthy snack.
             </p>
             <div class="product-actions">
-              <button class="btn btn-primary">
+              <button class="btn btn-primary" id="addtocart">
                 <i class="fas fa-shopping-cart"></i> Add to Cart
               </button>
               <button class="btn btn-icon"><i class="fas fa-heart"></i></button>
@@ -1052,15 +980,15 @@
               src="https://images.pexels.com/photos/30805255/pexels-photo-30805255/free-photo-of-assorted-farm-fresh-eggs-close-up.jpeg"
               alt="Farm Fresh Eggs"
             />
-            <div class="product-badge">Free Range</div>
+            <div class="product-badge cebu-badge">Organic</div>
           </div>
           <div class="product-content">
             <div class="farmer-info">
               <img
-                src="https://images.pexels.com/photos/92644/pexels-photo-92644.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                src="https://images.pexels.com/photos/2280574/pexels-photo-2280574.jpeg?auto=compress&cs=tinysrgb&w=600"
                 alt="Farmer"
               />
-              <span class="farmer-name">Happy Hen Farm</span>
+              <span class="farmer-name">Cebu Free Range Farm</span>
             </div>
             <h3 class="product-title">Farm Fresh Eggs</h3>
             <div class="product-meta">
@@ -1078,11 +1006,11 @@
               ₱140.00 <span class="price-per-unit">/ dozen</span>
             </div>
             <p class="product-description">
-              Free-range eggs from pasture-raised chickens. Rich in flavor and
+              Free-range eggs from Cebu pasture-raised chickens. Rich in flavor and
               nutrients.
             </p>
             <div class="product-actions">
-              <button class="btn btn-primary">
+              <button class="btn btn-primary" id="addtocart">
                 <i class="fas fa-shopping-cart"></i> Add to Cart
               </button>
               <button class="btn btn-icon"><i class="fas fa-heart"></i></button>
@@ -1097,15 +1025,15 @@
               src="https://images.pexels.com/photos/533342/pexels-photo-533342.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
               alt="Organic Kale"
             />
-            <div class="product-badge">Organic</div>
+            <div class="product-badge cebu-badge">Orgnic</div>
           </div>
           <div class="product-content">
             <div class="farmer-info">
               <img
-                src="https://images.pexels.com/photos/2382538/pexels-photo-2382538.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                src="https://images.pexels.com/photos/2253815/pexels-photo-2253815.jpeg?auto=compress&cs=tinysrgb&w=600"
                 alt="Farmer"
               />
-              <span class="farmer-name">Fresh Greens Farm</span>
+              <span class="farmer-name">Cebu Fresh Greens Farm</span>
             </div>
             <h3 class="product-title">Organic Kale</h3>
             <div class="product-meta">
@@ -1120,14 +1048,14 @@
               <div class="product-category">Vegetables</div>
             </div>
             <div class="product-price">
-              ₱109.45 <span class="price-per-unit">/ per 40g</span>
+              ₱69.45 <span class="price-per-unit">/ per 40g</span>
             </div>
             <p class="product-description">
-              Fresh, nutrient-rich kale grown without pesticides. Perfect for
+              Fresh, nutrient-rich kale grown in Cebu highlands without pesticides. Perfect for
               salads and smoothies.
             </p>
             <div class="product-actions">
-              <button class="btn btn-primary">
+              <button class="btn btn-primary" id="addtocart">
                 <i class="fas fa-shopping-cart"></i> Add to Cart
               </button>
               <button class="btn btn-icon"><i class="fas fa-heart"></i></button>
@@ -1139,10 +1067,10 @@
         <div class="product-card">
           <div class="product-image">
             <img
-              src="https://images.pexels.com/photos/15201474/pexels-photo-15201474/free-photo-of-honey-dipper-over-honey-jar.png?auto=compress&cs=tinysrgb&w=600&lazy=load"
-              alt="Raw Organic Honey"
+              src="https://images.pexels.com/photos/6060223/pexels-photo-6060223.jpeg?auto=compress&cs=tinysrgb&w=600"
+              alt="Cebu Camote"
             />
-            <div class="product-badge">Organic</div>
+            <div class="product-badge cebu-badge">Organic</div>
           </div>
           <div class="product-content">
             <div class="farmer-info">
@@ -1150,9 +1078,9 @@
                 src="https://images.pexels.com/photos/839633/pexels-photo-839633.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                 alt="Farmer"
               />
-              <span class="farmer-name">Bee Haven Apiary</span>
+              <span class="farmer-name">Cebu Root Crops Farm</span>
             </div>
-            <h3 class="product-title">Raw Organic Honey</h3>
+            <h3 class="product-title">Purple Camote</h3>
             <div class="product-meta">
               <div class="product-rating">
                 <i class="fas fa-star"></i>
@@ -1160,19 +1088,18 @@
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
-                <span class="rating-count">(31)</span>
+                <span class="rating-count">(34)</span>
               </div>
-              <div class="product-category">Sweeteners</div>
+              <div class="product-category">Root Crops</div>
             </div>
             <div class="product-price">
-              $8.99 <span class="price-per-unit">/ jar</span>
+              ₱65.00 <span class="price-per-unit">/ kg</span>
             </div>
             <p class="product-description">
-              Pure, raw honey from local wildflowers. Unprocessed to preserve
-              natural enzymes and nutrients.
+              Nutrient-rich purple Camote grown in Cebu's volcanic soil. Perfect for boiling, baking or making traditional Filipino desserts.
             </p>
             <div class="product-actions">
-              <button class="btn btn-primary">
+              <button class="btn btn-primary" id="addtocart">
                 <i class="fas fa-shopping-cart"></i> Add to Cart
               </button>
               <button class="btn btn-icon"><i class="fas fa-heart"></i></button>
@@ -1184,40 +1111,39 @@
         <div class="product-card">
           <div class="product-image">
             <img
-              src="https://images.pexels.com/photos/1395958/pexels-photo-1395958.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-              alt="Organic Blueberries"
+              src="https://images.pexels.com/photos/15879425/pexels-photo-15879425/free-photo-of-closeup-of-white-rice-grains.jpeg?auto=compress&cs=tinysrgb&w=6000"
+              alt="Cebu Jasmine Rice"
             />
-            <div class="product-badge">Organic</div>
+            <div class="product-badge cebu-badge">Aromatic</div>
           </div>
           <div class="product-content">
             <div class="farmer-info">
               <img
-                src="https://images.pexels.com/photos/3094209/pexels-photo-3094209.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                src="https://images.pexels.com/photos/2804327/pexels-photo-2804327.jpeg?auto=compress&cs=tinysrgb&w=600"
                 alt="Farmer"
               />
-              <span class="farmer-name">Berry Fields Farm</span>
+              <span class="farmer-name">Cebu Fragrant Grains</span>
             </div>
-            <h3 class="product-title">Organic Blueberries</h3>
+            <h3 class="product-title">Jasmine Rice</h3>
             <div class="product-meta">
               <div class="product-rating">
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
-                <i class="fas fa-star-half-alt"></i>
-                <span class="rating-count">(27)</span>
+                <i class="far fa-star"></i>
+                <span class="rating-count">(89)</span>
               </div>
-              <div class="product-category">Fruits</div>
+              <div class="product-category">Grains</div>
             </div>
             <div class="product-price">
-              $6.49 <span class="price-per-unit">/ pint</span>
+              ₱1024.00 <span class="price-per-unit">/ 25kg</span>
             </div>
             <p class="product-description">
-              Sweet, juicy organic blueberries. Freshly picked and packed with
-              antioxidants.
+              Locally cultivated Jasmine rice with the signature floral aroma and soft texture. Ideal for daily meals, fried rice, or pairing with savory dishes.
             </p>
             <div class="product-actions">
-              <button class="btn btn-primary">
+              <button class="btn btn-primary" id="addtocart">
                 <i class="fas fa-shopping-cart"></i> Add to Cart
               </button>
               <button class="btn btn-icon"><i class="fas fa-heart"></i></button>
@@ -1229,10 +1155,10 @@
         <div class="product-card">
           <div class="product-image">
             <img
-              src="https://images.pexels.com/photos/4113835/pexels-photo-4113835.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-              alt="Artisanal Goat Cheese"
+              src="https://images.pexels.com/photos/29488432/pexels-photo-29488432/free-photo-of-fresh-green-coconuts-on-a-thai-palm-tree.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
+              alt="Fresh Cebu Coconut"
             />
-            <div class="product-badge">Artisanal</div>
+            <div class="product-badge cebu-badge">Organic</div>
           </div>
           <div class="product-content">
             <div class="farmer-info">
@@ -1240,9 +1166,9 @@
                 src="https://images.pexels.com/photos/6447217/pexels-photo-6447217.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                 alt="Farmer"
               />
-              <span class="farmer-name">Mountain Goat Dairy</span>
+              <span class="farmer-name">Cebu Coconut Grove</span>
             </div>
-            <h3 class="product-title">Artisanal Goat Cheese</h3>
+            <h3 class="product-title">Fresh Coconut</h3>
             <div class="product-meta">
               <div class="product-rating">
                 <i class="fas fa-star"></i>
@@ -1250,19 +1176,18 @@
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
-                <span class="rating-count">(22)</span>
+                <span class="rating-count">(38)</span>
               </div>
-              <div class="product-category">Dairy</div>
+              <div class="product-category">Fruits</div>
             </div>
             <div class="product-price">
-              $7.99 <span class="price-per-unit">/ 8oz</span>
+              ₱20.00 <span class="price-per-unit">/ piece</span>
             </div>
             <p class="product-description">
-              Handcrafted goat cheese made from pasture-raised goats. Creamy and
-              tangy flavor.
+              Sweet, refreshing young coconuts harvested from Cebu's coastal farms. Enjoy the nutritious water and soft meat right from the shell.
             </p>
             <div class="product-actions">
-              <button class="btn btn-primary">
+              <button class="btn btn-primary" id="addtocart">
                 <i class="fas fa-shopping-cart"></i> Add to Cart
               </button>
               <button class="btn btn-icon"><i class="fas fa-heart"></i></button>
@@ -1333,140 +1258,74 @@
       </div>
     </footer>
 
-    <!-- Cart Popup -->
-    <div class="cart-popup">
-      <div class="cart-header">
-        <h3>Your Cart (3)</h3>
-        <div class="close-cart"><i class="fas fa-times"></i></div>
-      </div>
-      <div class="cart-items">
-        <!-- Cart Item 1 -->
-        <div class="cart-item">
-          <img
-            src="https://images.pexels.com/photos/143133/pexels-photo-143133.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-            class="cart-item-img"
-            alt="Organic Carrots"
-          />
-          <div class="cart-item-details">
-            <h4 class="cart-item-title">Organic Carrots</h4>
-            <div class="cart-item-price">$4.99</div>
-            <div class="cart-item-quantity">
-              <button class="quantity-btn">-</button>
-              <span class="quantity-count">1</span>
-              <button class="quantity-btn">+</button>
-            </div>
-          </div>
-          <div class="remove-item"><i class="fas fa-trash"></i></div>
-        </div>
-
-        <!-- Cart Item 2 -->
-        <div class="cart-item">
-          <img
-            src="https://images.pexels.com/photos/1327838/pexels-photo-1327838.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-            class="cart-item-img"
-            alt="Fresh Tomatoes"
-          />
-          <div class="cart-item-details">
-            <h4 class="cart-item-title">Fresh Tomatoes</h4>
-            <div class="cart-item-price">$3.49</div>
-            <div class="cart-item-quantity">
-              <button class="quantity-btn">-</button>
-              <span class="quantity-count">2</span>
-              <button class="quantity-btn">+</button>
-            </div>
-          </div>
-          <div class="remove-item"><i class="fas fa-trash"></i></div>
-        </div>
-
-        <!-- Cart Item 3 -->
-        <div class="cart-item">
-          <img
-            src="https://images.pexels.com/photos/264537/pexels-photo-264537.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-            class="cart-item-img"
-            alt="Farm Fresh Eggs"
-          />
-          <div class="cart-item-details">
-            <h4 class="cart-item-title">Farm Fresh Eggs</h4>
-            <div class="cart-item-price">$5.99</div>
-            <div class="cart-item-quantity">
-              <button class="quantity-btn">-</button>
-              <span class="quantity-count">1</span>
-              <button class="quantity-btn">+</button>
-            </div>
-          </div>
-          <div class="remove-item"><i class="fas fa-trash"></i></div>
-        </div>
-      </div>
-      <div class="cart-footer">
-        <div class="cart-total">
-          <span>Total:</span>
-          <span>$17.96</span>
-        </div>
-        <button class="checkout-btn">Proceed to Checkout</button>
-      </div>
-    </div>
-    <div class="overlay"></div>
-
-    <!-- Scroll to top button -->
-    <div class="scroll-top">
-      <i class="fas fa-arrow-up"></i>
-    </div>
-
     <!-- JavaScript -->
-    <script>
-      // Header scroll effect
-      window.addEventListener("scroll", function () {
-        const header = document.querySelector("header");
-        const scrollTop = document.querySelector(".scroll-top");
-
-        if (window.scrollY > 100) {
-          header.classList.add("sticky");
-          scrollTop.classList.add("active");
-        } else {
-          header.classList.remove("sticky");
-          scrollTop.classList.remove("active");
-        }
-      });
-
-      // Mobile menu toggle
-      const menuIcon = document.querySelector("#menu-icon");
-      const navbar = document.querySelector(".navbar");
-
-      menuIcon.addEventListener("click", function () {
-        navbar.classList.toggle("open");
-      });
-
-      // Scroll to top
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+    // Header scroll effect
+    window.addEventListener("scroll", () => {
+      const header = document.querySelector("header");
       const scrollTop = document.querySelector(".scroll-top");
-      scrollTop.addEventListener("click", function () {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
-      });
 
-      // Cart popup
-      const cartButtons = document.querySelectorAll(".btn-primary");
-      const cartPopup = document.querySelector(".cart-popup");
-      const overlay = document.querySelector(".overlay");
-      const closeCart = document.querySelector(".close-cart");
+      if (window.scrollY > 100) {
+        header.classList.add("sticky");
+        scrollTop.classList.add("active");
+      } else {
+        header.classList.remove("sticky");
+        scrollTop.classList.remove("active");
+      }
+    });
 
-      cartButtons.forEach((button) => {
-        button.addEventListener("click", function () {
-          cartPopup.classList.add("active");
-          overlay.classList.add("active");
-        });
-      });
+    // Mobile menu toggle
+    const menuIcon = document.querySelector("#menu-icon");
+    const navbar = document.querySelector(".navbar");
 
-      closeCart.addEventListener("click", function () {
-        cartPopup.classList.remove("active");
-        overlay.classList.remove("active");
-      });
+    menuIcon.addEventListener("click", () => {
+      navbar.classList.toggle("open");
+    });
 
-      overlay.addEventListener("click", function () {
-        cartPopup.classList.remove("active");
-        overlay.classList.remove("active");
+    // Cart functionality
+    $(document).ready(() => {
+      // Initialize cart counter
+      const currentItems = localStorage.getItem('agrigoCartItems') || 0;
+      $('#cart').attr('data-totalitems', currentItems);
+      
+      $('.btn-primary').on('click', function() {
+        const button = $(this);
+        const cart = $('#cart');
+        const currentCount = parseInt(cart.attr('data-totalitems')) || 0;
+        const newCount = currentCount + 1;
+        
+        // Get product info
+        const productCard = button.closest('.product-card');
+        const productName = productCard.find('.product-title').text();
+        
+        // Save to storage
+        localStorage.setItem('agrigoCartItems', newCount);
+        
+        // Animation
+        button.addClass('sendtocart');
+        setTimeout(() => {
+          button.removeClass('sendtocart');
+          cart.attr('data-totalitems', newCount).addClass('shake');
+          
+          // Show notification
+          $('body').append('<div class="toast">Added ' + productName + '</div>');
+          setTimeout(() => {
+            $('.toast').fadeOut(400, function() { $(this).remove(); });
+          }, 2000);
+          
+          // Remove shake effect
+          setTimeout(() => {
+            cart.removeClass('shake');
+          }, 500);
+        }, 800);
       });
+      
+      // Cart click handler
+      $('#cart').on('click', () => {
+        window.location.href = 'cart.html';
+      });
+    });
     </script>
   </body>
 </html>
