@@ -1,0 +1,2382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriGo - Products</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root {
+            /* Primary Colors */
+            --green-primary: #2e7d32;
+            --green-primary-light: #4caf50;
+            --green-primary-dark: #1b5e20;
+            --earth-brown: #8d6e63;
+            --sky-blue: #4fc3f7;
+
+            /* Secondary Colors */
+            --harvest-yellow: #fbc02d;
+            --leaf-green: #81c784;
+            --soil-tan: #d7ccc8;
+
+            /* Additional Farmer-specific Colors */
+            --crop-green: #66bb6a;
+            --sunrise-orange: #ffb74d;
+            --water-blue: #29b6f6;
+            --wheat-gold: #f9a825;
+
+            /* Neutrals */
+            --dark-gray: #424242;
+            --medium-gray: #757575;
+            --light-gray: #f5f5f5;
+            --white: #ffffff;
+            --black: #212121;
+
+            /* Status Colors */
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
+            --info: #2196f3;
+
+            /* Dark Theme Colors */
+            --dark-bg: #121212;
+            --dark-surface: #1e1e1e;
+            --dark-card: #2d2d2d;
+            --dark-border: #333333;
+            --dark-text: #e0e0e0;
+            --dark-text-secondary: #aaaaaa;
+
+            /* Spacing */
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --spacing-xxl: 48px;
+
+            /* Animation */
+            --transition-fast: 0.2s;
+            --transition-normal: 0.3s;
+            --transition-slow: 0.5s;
+
+            /* Shadows */
+            --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 10px rgba(0, 0, 0, 0.15);
+            --shadow-lg: 0 8px 20px rgba(0, 0, 0, 0.2);
+
+            /* Borders */
+            --border-radius-sm: 4px;
+            --border-radius-md: 8px;
+            --border-radius-lg: 12px;
+            --border-radius-xl: 16px;
+            --border-radius-circle: 50%;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: "Open Sans", sans-serif;
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+        }
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 90;
+            display: none;
+            animation: fadeIn var(--transition-normal) ease;
+        }
+        .overlay.active {
+            display: block;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background-color: var(--white);
+            box-shadow: var(--shadow-md);
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+            transition: width var(--transition-normal);
+            overflow-y: auto;
+        }
+        .dark-mode .sidebar {
+            background-color: var(--dark-surface);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        .sidebar-collapsed {
+            width: 70px;
+        }
+        .sidebar-header {
+            padding: var(--spacing-md);
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--light-gray);
+            height: 70px;
+        }
+        .dark-mode .sidebar-header {
+            border-bottom-color: var(--dark-border);
+        }
+        .sidebar-header img.logo {
+            height: 40px;
+            width: 40px;
+            object-fit: contain;
+        }
+        .sidebar-header h2 {
+            margin-left: var(--spacing-sm);
+            color: var(--green-primary);
+            font-size: 1.5rem;
+            transition: opacity var(--transition-normal), width var(--transition-normal);
+            white-space: nowrap;
+            margin-bottom: 0;
+        }
+        .sidebar-collapsed .sidebar-header h2 {
+            opacity: 0;
+            width: 0;
+            overflow: hidden;
+        }
+        .sidebar-menu {
+            margin-top: var(--spacing-md);
+        }
+        .nav-list {
+            list-style: none;
+        }
+        .nav-item {
+            margin-bottom: 2px;
+        }
+        .nav-link {
+            padding: var(--spacing-md);
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            color: var(--dark-gray);
+            text-decoration: none;
+            border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+        }
+        .dark-mode .nav-link {
+            color: var(--dark-text);
+        }
+        .nav-link:hover {
+            background-color: rgba(46, 125, 50, 0.1);
+            color: var(--green-primary);
+        }
+        .dark-mode .nav-link:hover {
+            background-color: rgba(76, 175, 80, 0.1);
+        }
+        .nav-link.active {
+            background-color: var(--green-primary);
+            color: var(--white);
+            box-shadow: var(--shadow-sm);
+        }
+        .dark-mode .nav-link.active {
+            background-color: var(--green-primary-dark);
+        }
+        .nav-link i {
+            font-size: 1.2rem;
+            width: 30px;
+            text-align: center;
+        }
+        .nav-link span {
+            margin-left: var(--spacing-md);
+            transition: opacity var(--transition-normal), width var(--transition-normal);
+            white-space: nowrap;
+        }
+        .sidebar-collapsed .nav-link span {
+            opacity: 0;
+            width: 0;
+            overflow: hidden;
+        }
+        .menu-toggle {
+            position: absolute;
+            right: -12px;
+            top: 65px;
+            background-color: var(--green-primary);
+            color: var(--white);
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: var(--border-radius-circle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: background-color var(--transition-fast);
+        }
+        .menu-toggle:hover {
+            background-color: var(--green-primary-dark);
+        }
+        .sidebar-toggle-mobile {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: var(--spacing-md);
+            text-align: center;
+            background-color: var(--green-primary);
+            color: var(--white);
+            position: sticky;
+            bottom: 0;
+            z-index: 101;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            transition: margin-left var(--transition-normal);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--light-gray);
+        }
+        .dark-mode .main-content {
+            background-color: var(--dark-bg);
+        }
+        .main-content-expanded {
+            margin-left: 70px;
+        }
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark-gray);
+            cursor: pointer;
+            padding: var(--spacing-sm);
+        }
+        .dark-mode .mobile-menu-toggle {
+            color: var(--dark-text);
+        }
+
+        /* Header */
+        .header {
+            background-color: var(--white);
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 99;
+            height: 70px;
+        }
+        .dark-mode .header {
+            background-color: var(--dark-surface);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: var(--light-gray);
+            border-radius: 20px;
+            padding: var(--spacing-sm) var(--spacing-md);
+            width: 300px;
+            transition: all var(--transition-fast);
+        }
+        .dark-mode .search-bar {
+            background-color: var(--dark-card);
+        }
+        .search-bar:focus-within {
+            box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.3);
+        }
+        .search-bar input {
+            border: none;
+            background: transparent;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            flex: 1;
+            outline: none;
+            font-family: "Open Sans", sans-serif;
+            color: var(--dark-gray);
+            font-size: 0.95rem;
+        }
+        .dark-mode .search-bar input {
+            color: var(--dark-text);
+        }
+        .search-bar input::placeholder {
+            color: var(--medium-gray);
+            opacity: 0.8;
+        }
+        .dark-mode .search-bar input::placeholder {
+            color: var(--dark-text-secondary);
+        }
+        .search-bar i {
+            color: var(--medium-gray);
+        }
+        .dark-mode .search-bar i {
+            color: var(--dark-text-secondary);
+        }
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-lg);
+        }
+
+        /* Notification */
+        .notification {
+            position: relative;
+            cursor: pointer;
+            padding: var(--spacing-xs);
+            border-radius: var(--border-radius-circle);
+            transition: background-color var(--transition-fast);
+        }
+        .notification:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        .dark-mode .notification:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        .notification-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--harvest-yellow);
+            color: var(--dark-gray);
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: var(--border-radius-circle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .notification-dropdown {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            width: 320px;
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-md);
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all var(--transition-normal);
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .dark-mode .notification-dropdown {
+            background-color: var(--dark-card);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        .notification-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .notification-dropdown h3 {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--light-gray);
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--green-primary);
+        }
+        .dark-mode .notification-dropdown h3 {
+            border-bottom-color: var(--dark-border);
+            color: var(--green-primary-light);
+        }
+        .notification-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .notification-item {
+            display: flex;
+            align-items: center;
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--light-gray);
+            transition: background-color var(--transition-fast);
+        }
+        .dark-mode .notification-item {
+            border-bottom-color: var(--dark-border);
+        }
+        .notification-item:hover {
+            background-color: var(--light-gray);
+        }
+        .dark-mode .notification-item:hover {
+            background-color: var(--dark-surface);
+        }
+        .notification-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: var(--border-radius-circle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: var(--spacing-md);
+            font-size: 1rem;
+        }
+        .notification-icon.warning {
+            background-color: var(--warning);
+            color: var(--white);
+        }
+        .notification-icon.success {
+            background-color: var(--success);
+            color: var(--white);
+        }
+        .notification-icon.info {
+            background-color: var(--sky-blue);
+            color: var(--white);
+        }
+        .notification-content p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+        }
+        .dark-mode .notification-content p {
+            color: var(--dark-text);
+        }
+        .notification-content strong {
+            font-weight: 600;
+            color: var(--black);
+        }
+        .dark-mode .notification-content strong {
+            color: var(--white);
+        }
+        .notification-time {
+            font-size: 0.75rem;
+            color: var(--medium-gray);
+        }
+        .dark-mode .notification-time {
+            color: var(--dark-text-secondary);
+        }
+        .notification-footer {
+            padding: var(--spacing-md);
+            text-align: center;
+            border-top: 1px solid var(--light-gray);
+        }
+        .dark-mode .notification-footer {
+            border-top-color: var(--dark-border);
+        }
+        .notification-footer a {
+            font-size: 0.85rem;
+            color: var(--green-primary);
+        }
+        .notification-footer a:hover {
+            color: var(--green-primary-dark);
+        }
+
+        /* User Profile */
+        .user-profile {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: var(--spacing-sm);
+            border-radius: var(--border-radius-md);
+            transition: background-color var(--transition-fast);
+        }
+        .user-profile:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        .dark-mode .user-profile:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            background-color: var(--green-primary);
+            color: var(--white);
+            border-radius: var(--border-radius-circle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-right: var(--spacing-sm);
+        }
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .user-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--black);
+        }
+        .dark-mode .user-name {
+            color: var(--dark-text);
+        }
+        .role-badge {
+            font-size: 0.75rem;
+            color: var(--medium-gray);
+        }
+        .dark-mode .role-badge {
+            color: var(--dark-text-secondary);
+        }
+        .dropdown-icon {
+            margin-left: var(--spacing-sm);
+            color: var(--medium-gray);
+            transition: transform var(--transition-fast);
+        }
+        .user-profile:hover .dropdown-icon {
+            transform: rotate(180deg);
+        }
+        .user-dropdown {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            width: 200px;
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-md);
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all var(--transition-normal);
+        }
+        .dark-mode .user-dropdown {
+            background-color: var(--dark-card);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        .user-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .user-dropdown ul {
+            list-style: none;
+            padding: var(--spacing-sm) 0;
+            margin: 0;
+        }
+        .user-dropdown li {
+            padding: var(--spacing-sm) var(--spacing-md);
+            transition: background-color var(--transition-fast);
+        }
+        .user-dropdown li:hover {
+            background-color: var(--light-gray);
+        }
+        .dark-mode .user-dropdown li:hover {
+            background-color: var(--dark-surface);
+        }
+        .user-dropdown li.divider {
+            height: 1px;
+            background-color: var(--light-gray);
+            padding: 0;
+            margin: var(--spacing-sm) 0;
+        }
+        .dark-mode .user-dropdown li.divider {
+            background-color: var(--dark-border);
+        }
+        .user-dropdown a {
+            display: flex;
+            align-items: center;
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+        .dark-mode .user-dropdown a {
+            color: var(--dark-text);
+        }
+        .user-dropdown a i {
+            margin-right: var(--spacing-md);
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Products Content */
+        .products-content {
+            padding: var(--spacing-lg);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-lg);
+        }
+
+        /* Section */
+        .section {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-sm);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+        .dark-mode .section {
+            background-color: var(--dark-card);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-lg);
+        }
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--green-primary);
+        }
+        .dark-mode .section-title {
+            color: var(--green-primary-light);
+        }
+        .section-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+            align-items: center;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: "Roboto", sans-serif;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all var(--transition-fast) ease;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            text-align: center;
+            justify-content: center;
+        }
+        .btn-primary {
+            background-color: var(--green-primary);
+            color: var(--white);
+        }
+        .btn-primary:hover {
+            background-color: var(--green-primary-dark);
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background-color: rgba(46, 125, 50, 0.1);
+            color: var(--green-primary);
+        }
+        .btn-secondary:hover {
+            background-color: rgba(46, 125, 50, 0.2);
+            transform: translateY(-2px);
+        }
+        .btn-outline {
+            border: 1px solid var(--green-primary);
+            background-color: transparent;
+            color: var(--green-primary);
+        }
+        .btn-outline:hover {
+            background-color: rgba(46, 125, 50, 0.1);
+            transform: translateY(-2px);
+        }
+        .btn-icon {
+            padding: var(--spacing-sm);
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+        }
+        .btn-icon.active, .btn-icon:hover {
+            background-color: var(--green-primary);
+            color: var(--white);
+        }
+        .dark-mode .btn-secondary {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--green-primary-light);
+        }
+        .dark-mode .btn-secondary:hover {
+            background-color: rgba(76, 175, 80, 0.2);
+        }
+        .dark-mode .btn-outline {
+            border-color: var(--green-primary-light);
+            color: var(--green-primary-light);
+        }
+        .dark-mode .btn-outline:hover {
+            background-color: rgba(76, 175, 80, 0.1);
+        }
+        .dark-mode .btn-icon {
+            background-color: var(--dark-card);
+            color: var(--dark-text);
+        }
+        .dark-mode .btn-icon.active, .dark-mode .btn-icon:hover {
+            background-color: var(--green-primary-light);
+        }
+        .btn:disabled {
+            background-color: var(--medium-gray);
+            color: var(--light-gray);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Products Overview */
+        .overview-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-lg);
+        }
+        .stat-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-md);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            transition: transform var(--transition-normal);
+        }
+        .dark-mode .stat-card {
+            background-color: var(--dark-card);
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(46, 125, 50, 0.1);
+            color: var(--green-primary);
+            border-radius: var(--border-radius-circle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        .dark-mode .stat-icon {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--green-primary-light);
+        }
+        .stat-content {
+            flex: 1;
+        }
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--black);
+        }
+        .dark-mode .stat-value {
+            color: var(--white);
+        }
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--medium-gray);
+        }
+        .dark-mode .stat-label {
+            color: var(--dark-text-secondary);
+        }
+        .stat-trend {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .stat-trend.up {
+            color: var(--success);
+        }
+        .stat-trend.down {
+            color: var(--danger);
+        }
+
+        /* Product Categories Filter */
+        .product-categories {
+            background: none;
+            box-shadow: none;
+        }
+        .filter-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+        }
+        .filter-tab {
+            padding: var(--spacing-sm) var(--spacing-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-weight: 500;
+            color: var(--medium-gray);
+            border-radius: var(--border-radius-md);
+        }
+        .dark-mode .filter-tab {
+            color: var(--dark-text-secondary);
+        }
+        .filter-tab:hover {
+            background-color: rgba(46, 125, 50, 0.1);
+            color: var(--green-primary);
+        }
+        .dark-mode .filter-tab:hover {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--green-primary-light);
+        }
+        .filter-tab.active {
+            background-color: var(--green-primary);
+            color: var(--white);
+            font-weight: 600;
+        }
+        .dark-mode .filter-tab.active {
+            background-color: var(--green-primary-light);
+        }
+        .filter-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+        .sort-by {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        .sort-by label {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+        }
+        .dark-mode .sort-by label {
+            color: var(--dark-text);
+        }
+        .form-select {
+            padding: var(--spacing-sm);
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius-md);
+            background-color: var(--white);
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            cursor: pointer;
+        }
+        .dark-mode .form-select {
+            border-color: var(--dark-border);
+            background-color: var(--dark-card);
+            color: var(--dark-text);
+        }
+        .view-toggle {
+            display: flex;
+            gap: var(--spacing-xs);
+        }
+
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+            transition: all var(--transition-normal);
+        }
+        .products-grid.list-view {
+            grid-template-columns: 1fr;
+        }
+        .product-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-sm);
+            transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .dark-mode .product-card {
+            background-color: var(--dark-card);
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+        .products-grid.list-view .product-card {
+            flex-direction: row;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+        .product-badge {
+            position: absolute;
+            top: var(--spacing-sm);
+            left: var(--spacing-sm);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--border-radius-sm);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--white);
+            z-index: 1;
+        }
+        .product-badge.bestseller {
+            background-color: var(--harvest-yellow);
+            color: var(--black);
+        }
+        .product-badge.new {
+            background-color: var(--sky-blue);
+        }
+        .product-badge.seasonal {
+            background-color: var(--sunrise-orange);
+        }
+        .product-image {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
+        }
+        .products-grid.list-view .product-image {
+            width: 200px;
+            border-radius: var(--border-radius-md) 0 0 var(--border-radius-md);
+        }
+        .product-image img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform var(--transition-normal);
+        }
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+        .products-grid.list-view .product-image img {
+            height: 150px;
+        }
+        .product-inventory {
+            position: absolute;
+            bottom: var(--spacing-sm);
+            right: var(--spacing-sm);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: var(--white);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--border-radius-sm);
+            font-size: 0.85rem;
+        }
+        .inventory-label {
+            font-weight: 600;
+        }
+        .inventory-value {
+            margin-left: var(--spacing-xs);
+        }
+        .product-content {
+            padding: var(--spacing-md);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+        .products-grid.list-view .product-content {
+            flex: 1;
+            padding: var(--spacing-lg);
+        }
+        .product-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .product-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--black);
+            margin: 0;
+        }
+        .dark-mode .product-name {
+            color: var(--white);
+        }
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            font-size: 0.85rem;
+            color: var(--harvest-yellow);
+        }
+        .dark-mode .product-rating {
+            color: var(--harvest-yellow);
+        }
+        .product-rating span {
+            color: var(--medium-gray);
+        }
+        .dark-mode .product-rating span {
+            color: var(--dark-text-secondary);
+        }
+        .product-info {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+        .product-variety {
+            font-size: 0.9rem;
+            color: var(--medium-gray);
+            font-weight: 600;
+        }
+        .dark-mode .product-variety {
+            color: var(--dark-text-secondary);
+        }
+        .product-description {
+            font-size: 0.85rem;
+            color: var(--dark-gray);
+            line-height: 1.4;
+        }
+        .dark-mode .product-description {
+            color: var(--dark-text);
+        }
+        .product-origin {
+            font-size: 0.85rem;
+            color: var(--medium-gray);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        .dark-mode .product-origin {
+            color: var(--dark-text-secondary);
+        }
+        .product-certifications {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+        }
+        .certification {
+            font-size: 0.8rem;
+            color: var(--green-primary);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        .dark-mode .certification {
+            color: var(--green-primary-light);
+        }
+        .product-pricing {
+            margin-top: var(--spacing-sm);
+        }
+        .product-price {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--black);
+        }
+        .dark-mode .product-price {
+            color: var(--white);
+        }
+        .product-wholesale {
+            font-size: 0.85rem;
+            color: var(--medium-gray);
+        }
+        .dark-mode .product-wholesale {
+            color: var(--dark-text-secondary);
+        }
+        .product-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+            justify-content: flex-end;
+        }
+        .products-grid.list-view .product-actions {
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Product Bundles */
+        .bundle-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+        }
+        .bundle-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-sm);
+            transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+            display: flex;
+            flex-direction: column;
+        }
+        .dark-mode .bundle-card {
+            background-color: var(--dark-card);
+        }
+        .bundle-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+        .bundle-badge {
+            position: absolute;
+            top: var(--spacing-sm);
+            left: var(--spacing-sm);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--border-radius-sm);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--white);
+            z-index: 1;
+        }
+        .bundle-badge.popular {
+            background-color: var(--harvest-yellow);
+            color: var(--black);
+        }
+        .bundle-badge.new {
+            background-color: var(--sky-blue);
+        }
+        .bundle-image {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
+        }
+        .bundle-image img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform var(--transition-normal);
+        }
+        .bundle-card:hover .bundle-image img {
+            transform: scale(1.05);
+        }
+        .bundle-content {
+            padding: var(--spacing-md);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+        .bundle-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--black);
+            margin: 0;
+        }
+        .dark-mode .bundle-name {
+            color: var(--white);
+        }
+        .bundle-description {
+            font-size: 0.85rem;
+            color: var(--dark-gray);
+            line-height: 1.4;
+        }
+        .dark-mode .bundle-description {
+            color: var(--dark-text);
+        }
+        .bundle-includes {
+            font-size: 0.85rem;
+            color: var(--dark-gray);
+        }
+        .dark-mode .bundle-includes {
+            color: var(--dark-text);
+        }
+        .bundle-includes p {
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+        }
+        .bundle-items {
+            list-style: none;
+            padding-left: var(--spacing-md);
+        }
+        .bundle-items li {
+            position: relative;
+            margin-bottom: var(--spacing-xs);
+        }
+        .bundle-items li::before {
+            content: "•";
+            position: absolute;
+            left: -15px;
+            color: var(--green-primary);
+        }
+        .dark-mode .bundle-items li::before {
+            color: var(--green-primary-light);
+        }
+        .bundle-pricing {
+            margin-top: var(--spacing-sm);
+        }
+        .bundle-price {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--black);
+        }
+        .dark-mode .bundle-price {
+            color: var(--white);
+        }
+        .bundle-savings {
+            font-size: 0.85rem;
+            color: var(--success);
+        }
+        .bundle-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+            justify-content: flex-end;
+        }
+
+        /* Product Marketing */
+        .product-marketing {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-sm);
+            padding: var(--spacing-lg);
+        }
+        .dark-mode .product-marketing {
+            background-color: var(--dark-card);
+        }
+        .promotion-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+        }
+        .promotion-card {
+            background-color: var(--light-gray);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-md);
+            transition: transform var(--transition-normal);
+        }
+        .dark-mode .promotion-card {
+            background-color: var(--dark-surface);
+        }
+        .promotion-card:hover {
+            transform: translateY(-5px);
+        }
+        .promotion-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--black);
+            margin-bottom: var(--spacing-sm);
+        }
+        .dark-mode .promotion-title {
+            color: var(--white);
+        }
+        .promotion-details {
+            font-size: 0.85rem;
+            color: var(--dark-gray);
+            margin-bottom: var(--spacing-md);
+        }
+        .dark-mode .promotion-details {
+            color: var(--dark-text);
+        }
+        .promotion-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+            justify-content: flex-end;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--white);
+            padding: var(--spacing-lg) var(--spacing-xl);
+            border-top: 1px solid var(--light-gray);
+            margin-top: auto;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
+        }
+        .dark-mode .footer {
+            background-color: var(--dark-surface);
+            border-top-color: var(--dark-border);
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+        }
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .footer-content p {
+            font-size: 0.85rem;
+            color: var(--medium-gray);
+            margin: 0;
+        }
+        .dark-mode .footer-content p {
+            color: var(--dark-text-secondary);
+        }
+        .footer-links {
+            display: flex;
+            gap: var(--spacing-lg);
+        }
+        .footer-links a {
+            font-size: 0.85rem;
+            color: var(--green-primary);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+        .dark-mode .footer-links a {
+            color: var(--green-primary-light);
+        }
+        .footer-links a:hover {
+            color: var(--green-primary-dark);
+        }
+        .dark-mode .footer-links a:hover {
+            color: var(--green-primary);
+        }
+
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        .toast {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--spacing-md);
+            margin-top: var(--spacing-sm);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-sm);
+            animation: slideIn var(--transition-normal) ease;
+        }
+        .toast-success {
+            background-color: var(--success);
+            color: var(--white);
+        }
+        .toast-info {
+            background-color: var(--info);
+            color: var(--white);
+        }
+        .toast-error {
+            background-color: var(--danger);
+            color: var(--white);
+        }
+        .toast i {
+            cursor: pointer;
+            margin-left: var(--spacing-md);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 250px;
+                transform: translateX(-100%);
+                position: fixed;
+            }
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .mobile-menu-toggle {
+                display: block;
+            }
+            .sidebar-toggle-mobile {
+                display: block;
+            }
+            .header {
+                flex-direction: row;
+                align-items: center;
+                height: auto;
+                padding: var(--spacing-md);
+                gap: var(--spacing-md);
+            }
+            .search-bar {
+                width: 100%;
+                max-width: 200px;
+            }
+            .header-actions {
+                gap: var(--spacing-md);
+            }
+            .overview-stats {
+                grid-template-columns: 1fr;
+            }
+            .products-grid, .bundle-grid, .promotion-grid {
+                grid-template-columns: 1fr;
+            }
+            .products-grid.list-view .product-card {
+                flex-direction: column;
+            }
+            .products-grid.list-view .product-image {
+                width: 100%;
+                border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
+            }
+            .products-grid.list-view .product-image img {
+                height: 200px;
+            }
+            .products-grid.list-view .product-actions {
+                flex-direction: row;
+            }
+            .section-actions, .filter-actions {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--spacing-sm);
+            }
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            .sort-by {
+                width: 100%;
+            }
+            .form-select {
+                width: 100%;
+            }
+            .footer-content {
+                flex-direction: column;
+                gap: var(--spacing-md);
+                align-items: flex-start;
+            }
+            .footer-links {
+                flex-direction: column;
+                gap: var(--spacing-sm);
+            }
+        }
+        @media (max-width: 480px) {
+            .notification-dropdown, .user-dropdown {
+                width: 100%;
+                right: 0;
+                left: 0;
+                margin: 0 var(--spacing-md);
+            }
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .search-bar {
+                max-width: 100%;
+            }
+            .filter-tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay" id="overlay"></div>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="/templates/images/logo.png" alt="AgriGo Logo" class="logo">
+                <h2>AgriGo</h2>
+                <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            </div>
+            <div class="sidebar-menu">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="/templates/farmer/farmer-dashboard.html" class="nav-link" data-tab="dashboard">
+                            <i class="fas fa-home"></i> <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/templates/farmer/farm.html" class="nav-link" data-tab="farm">
+                            <i class="fas fa-seedling"></i> <span>My Farm</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/templates/farmer/products.html" class="nav-link active" data-tab="products">
+                            <i class="fas fa-box"></i> <span>Products</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/templates/farmer/orders.html" class="nav-link" data-tab="orders">
+                            <i class="fas fa-shopping-cart"></i> <span>Orders</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/templates/farmer/payments.html" class="nav-link" data-tab="payments">
+                            <i class="fas fa-credit-card"></i> <span>Payments</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/templates/farmer/reviews.html" class="nav-link" data-tab="reviews">
+                            <i class="fas fa-comment-alt"></i> <span>Reviews</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/templates/farmer/analytics.html" class="nav-link" data-tab="analytics">
+                            <i class="fas fa-chart-line"></i> <span>Analytics</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="sidebar-toggle-mobile">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content" id="main-content">
+            <!-- Header -->
+            <div class="header">
+                <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Mobile menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search products, categories..." aria-label="Search">
+                </div>
+                <div class="header-actions">
+                    <div class="notification" id="notificationIcon">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">3</span>
+                        <div class="notification-dropdown" id="notificationDropdown">
+                            <h3>Notifications</h3>
+                            <ul class="notification-list">
+                                <li class="notification-item">
+                                    <div class="notification-icon success">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p>New order placed for Organic Tomatoes</p>
+                                        <span class="notification-time">30 minutes ago</span>
+                                    </div>
+                                </li>
+                                <li class="notification-item">
+                                    <div class="notification-icon info">
+                                        <i class="fas fa-info-circle"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p>Product inventory low: Bell Peppers</p>
+                                        <span class="notification-time">2 hours ago</span>
+                                    </div>
+                                </li>
+                                <li class="notification-item">
+                                    <div class="notification-icon warning">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p>Update your product descriptions</p>
+                                        <span class="notification-time">1 day ago</span>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="notification-footer">
+                                <a href="#notifications">View all notifications</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user-profile" id="userProfile">
+                        <div class="user-avatar">VF</div>
+                        <div class="user-info">
+                            <div class="user-name">Vicente Fernandez</div>
+                            <span class="role-badge">Verified Farmer</span>
+                        </div>
+                        <i class="fas fa-chevron-down dropdown-icon"></i>
+                        <div class="user-dropdown" id="userDropdown">
+                            <ul>
+                                <li><a href="#profile"><i class="fas fa-user"></i> My Profile</a></li>
+                                <li><a href="#settings"><i class="fas fa-cog"></i> Account Settings</a></li>
+                                <li><a href="#help"><i class="fas fa-question-circle"></i> Help & Support</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#" id="darkModeToggle"><i class="fas fa-moon"></i> <span id="themeText">Dark Mode</span></a></li>
+                                <li class="divider"></li>
+                                <li><a href="#" id="userDropdownLogout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Content -->
+            <div class="products-content">
+                <!-- Products Overview Section -->
+                <div class="section products-overview animate__animated animate__fadeIn">
+                    <div class="section-header">
+                        <div class="section-title">Products Overview</div>
+                        <div class="section-actions">
+                            <button class="btn btn-primary" id="addProductBtn">
+                                <i class="fas fa-plus"></i> Add New Product
+                            </button>
+                            <button class="btn btn-outline" id="importProductsBtn">
+                                <i class="fas fa-file-import"></i> Import Products
+                            </button>
+                        </div>
+                    </div>
+                    <div class="overview-stats">
+                        <div class="stat-card animate__animated animate__fadeIn">
+                            <div class="stat-icon">
+                                <i class="fas fa-box"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-value">15</div>
+                                <div class="stat-label">Total Products</div>
+                            </div>
+                            <div class="stat-trend up">
+                                <i class="fas fa-arrow-up"></i> 20%
+                            </div>
+                        </div>
+                        <div class="stat-card animate__animated animate__fadeIn">
+                            <div class="stat-icon">
+                                <i class="fas fa-shopping-basket"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-value">8</div>
+                                <div class="stat-label">Active Listings</div>
+                            </div>
+                            <div class="stat-trend up">
+                                <i class="fas fa-arrow-up"></i> 15%
+                            </div>
+                        </div>
+                        <div class="stat-card animate__animated animate__fadeIn">
+                            <div class="stat-icon">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-value">1,250</div>
+                                <div class="stat-label">Product Views</div>
+                            </div>
+                            <div class="stat-trend up">
+                                <i class="fas fa-arrow-up"></i> 32%
+                            </div>
+                        </div>
+                        <div class="stat-card animate__animated animate__fadeIn">
+                            <div class="stat-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-value">4.8</div>
+                                <div class="stat-label">Average Rating</div>
+                            </div>
+                            <div class="stat-trend up">
+                                <i class="fas fa-arrow-up"></i> 5%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Categories Filter -->
+                <div class="section product-categories">
+                    <div class="filter-tabs">
+                        <div class="filter-tab active" data-filter="all">All Products</div>
+                        <div class="filter-tab" data-filter="vegetables">Vegetables</div>
+                        <div class="filter-tab" data-filter="fruits">Fruits</div>
+                        <div class="filter-tab" data-filter="grains">Grains</div>
+                        <div class="filter-tab" data-filter="value-added">Value-Added</div>
+                    </div>
+                    <div class="filter-actions">
+                        <div class="sort-by">
+                            <label for="sortSelect">Sort by:</label>
+                            <select id="sortSelect" class="form-select">
+                                <option value="newest">Newest</option>
+                                <option value="popularity">Popularity</option>
+                                <option value="price-high">Price: High to Low</option>
+                                <option value="price-low">Price: Low to High</option>
+                                <option value="inventory">Inventory</option>
+                            </select>
+                        </div>
+                        <div class="view-toggle">
+                            <button class="btn btn-icon active" id="gridViewBtn">
+                                <i class="fas fa-th-large"></i>
+                            </button>
+                            <button class="btn btn-icon" id="listViewBtn">
+                                <i class="fas fa-list"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Products Grid -->
+                <div class="section products-grid" id="productsGrid">
+                    <div class="product-card animate__animated animate__fadeIn" data-product-id="1" data-category="vegetables">
+                        <div class="product-badge bestseller">Bestseller</div>
+                        <div class="product-image">
+                            <img src="https://images.pexels.com/photos/533280/pexels-photo-533280.jpeg" alt="Organic Tomatoes">
+                            <div class="product-inventory">
+                                <span class="inventory-label">In Stock:</span>
+                                <span class="inventory-value">120 kg</span>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <div class="product-header">
+                                <h3 class="product-name">Organic Tomatoes</h3>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span>(28)</span>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-variety">Roma Variety</div>
+                                <div class="product-description">
+                                    Freshly harvested organic tomatoes, rich in flavor and nutrients.
+                                </div>
+                                <div class="product-origin">
+                                    <i class="fas fa-map-marker-alt"></i> Northern Field
+                                </div>
+                                <div class="product-certifications">
+                                    <span class="certification">
+                                        <i class="fas fa-certificate"></i> Organic
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="product-pricing">
+                                <div class="product-price">₱75.00 / kg</div>
+                                <div class="product-wholesale">Wholesale: ₱65.00 / kg (50+ kg)</div>
+                            </div>
+                            <div class="product-actions">
+                                <button class="btn btn-primary edit-product" data-product-id="1">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button class="btn btn-outline view-product" data-product-id="1">
+                                    <i class="fas fa-eye"></i> View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card animate__animated animate__fadeIn" data-product-id="2" data-category="vegetables">
+                        <div class="product-badge new">New</div>
+                        <div class="product-image">
+                            <img src="https://images.pexels.com/photos/1268101/pexels-photo-1268101.jpeg" alt="Bell Peppers">
+                            <div class="product-inventory">
+                                <span class="inventory-label">In Stock:</span>
+                                <span class="inventory-value">85 kg</span>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <div class="product-header">
+                                <h3 class="product-name">Bell Peppers</h3>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <span>(12)</span>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-variety">Mixed Colors</div>
+                                <div class="product-description">
+                                    Colorful bell peppers - red, yellow, and green varieties, crisp and sweet.
+                                </div>
+                                <div class="product-origin">
+                                    <i class="fas fa-map-marker-alt"></i> Northern Field
+                                </div>
+                                <div class="product-certifications">
+                                    <span class="certification">
+                                        <i class="fas fa-certificate"></i> GAP Certified
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="product-pricing">
+                                <div class="product-price">₱120.00 / kg</div>
+                                <div class="product-wholesale">Wholesale: ₱100.00 / kg (30+ kg)</div>
+                            </div>
+                            <div class="product-actions">
+                                <button class="btn btn-primary edit-product" data-product-id="2">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button class="btn btn-outline view-product" data-product-id="2">
+                                    <i class="fas fa-eye"></i> View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card animate__animated animate__fadeIn" data-product-id="3" data-category="fruits">
+                        <div class="product-badge seasonal">Seasonal</div>
+                        <div class="product-image">
+                            <img src="https://images.pexels.com/photos/2294477/pexels-photo-2294477.jpeg" alt="Premium Mangoes">
+                            <div class="product-inventory">
+                                <span class="inventory-label">In Stock:</span>
+                                <span class="inventory-value">210 kg</span>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <div class="product-header">
+                                <h3 class="product-name">Premium Mangoes</h3>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span>(36)</span>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-variety">Carabao Variety</div>
+                                <div class="product-description">
+                                    Sweet and juicy premium mangoes, perfect ripeness for immediate consumption.
+                                </div>
+                                <div class="product-origin">
+                                    <i class="fas fa-map-marker-alt"></i> Orchard
+                                </div>
+                                <div class="product-certifications">
+                                    <span class="certification">
+                                        <i class="fas fa-certificate"></i> Organic
+                                    </span>
+                                    <span class="certification">
+                                        <i class="fas fa-certificate"></i> Export Quality
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="product-pricing">
+                                <div class="product-price">₱180.00 / kg</div>
+                                <div class="product-wholesale">Wholesale: ₱150.00 / kg (25+ kg)</div>
+                            </div>
+                            <div class="product-actions">
+                                <button class="btn btn-primary edit-product" data-product-id="3">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button class="btn btn-outline view-product" data-product-id="3">
+                                    <i class="fas fa-eye"></i> View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card animate__animated animate__fadeIn" data-product-id="4" data-category="fruits">
+                        <div class="product-image">
+                            <img src="https://images.pexels.com/photos/2228553/pexels-photo-2228553.jpeg" alt="Organic Avocados">
+                            <div class="product-inventory">
+                                <span class="inventory-label">In Stock:</span>
+                                <span class="inventory-value">95 kg</span>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <div class="product-header">
+                                <h3 class="product-name">Organic Avocados</h3>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <span>(22)</span>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-variety">Hass Variety</div>
+                                <div class="product-description">
+                                    Creamy and nutritious avocados, perfect for salads and guacamole.
+                                </div>
+                                <div class="product-origin">
+                                    <i class="fas fa-map-marker-alt"></i> Orchard
+                                </div>
+                                <div class="product-certifications">
+                                    <span class="certification">
+                                        <i class="fas fa-certificate"></i> Organic
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="product-pricing">
+                                <div class="product-price">₱200.00 / kg</div>
+                                <div class="product-wholesale">Wholesale: ₱180.00 / kg (20+ kg)</div>
+                            </div>
+                            <div class="product-actions">
+                                <button class="btn btn-primary edit-product" data-product-id="4">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button class="btn btn-outline view-product" data-product-id="4">
+                                    <i class="fas fa-eye"></i> View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card animate__animated animate__fadeIn" data-product-id="5" data-category="grains">
+                        <div class="product-badge bestseller">Bestseller</div>
+                        <div class="product-image">
+                            <img src="https://images.pexels.com/photos/4110251/pexels-photo-4110251.jpeg" alt="Premium Rice">
+                            <div class="product-inventory">
+                                <span class="inventory-label">In Stock:</span>
+                                <span class="inventory-value">750 kg</span>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <div class="product-header">
+                                <h3 class="product-name">Premium Rice</h3>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span>(45)</span>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-variety">Jasmine Variety</div>
+                                <div class="product-description">
+                                    Aromatic and fluffy jasmine rice, locally grown and freshly milled.
+                                </div>
+                                <div class="product-origin">
+                                    <i class="fas fa-map-marker-alt"></i> Southern Field
+                                </div>
+                                <div class="product-certifications">
+                                    <span class="certification">
+                                        <i class="fas fa-certificate"></i> GAP Certified
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="product-pricing">
+                                <div class="product-price">₱65.00 / kg</div>
+                                <div class="product-wholesale">Wholesale: ₱55.00 / kg (100+ kg)</div>
+                            </div>
+                            <div class="product-actions">
+                                <button class="btn btn-primary edit-product" data-product-id="5">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button class="btn btn-outline view-product" data-product-id="5">
+                                    <i class="fas fa-eye"></i> View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card animate__animated animate__fadeIn" data-product-id="6" data-category="value-added">
+                        <div class="product-badge new">New</div>
+                        <div class="product-image">
+                            <img src="https://images.pexels.com/photos/13791756/pexels-photo-13791756.jpeg" alt="Tomato Sauce">
+                            <div class="product-inventory">
+                                <span class="inventory-label">In Stock:</span>
+                                <span class="inventory-value">80 bottles</span>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <div class="product-header">
+                                <h3 class="product-name">Homemade Tomato Sauce</h3>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <span>(8)</span>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-variety">500ml Bottle</div>
+                                <div class="product-description">
+                                    Traditional recipe tomato sauce made from our farm-grown Roma tomatoes.
+                                </div>
+                                <div class="product-origin">
+                                    <i class="fas fa-map-marker-alt"></i> On-Farm Kitchen
+                                </div>
+                                <div class="product-certifications">
+                                    <span class="certification">
+                                        <i class="fas fa-certificate"></i> Organic Ingredients
+                                    </span>
+                                    <span class="certification">
+                                        <i class="fas fa-certificate"></i> No Preservatives
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="product-pricing">
+                                <div class="product-price">₱180.00 / bottle</div>
+                                <div class="product-wholesale">Wholesale: ₱150.00 / bottle (24+ bottles)</div>
+                            </div>
+                            <div class="product-actions">
+                                <button class="btn btn-primary edit-product" data-product-id="6">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button class="btn btn-outline view-product" data-product-id="6">
+                                    <i class="fas fa-eye"></i> View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Bundle Section -->
+                <div class="section product-bundles">
+                    <div class="section-header">
+                        <div class="section-title">Product Bundles</div>
+                        <div class="section-actions">
+                            <button class="btn btn-primary" id="createBundleBtn">
+                                <i class="fas fa-plus"></i> Create Bundle
+                            </button>
+                        </div>
+                    </div>
+                    <div class="bundle-grid" id="productBundles">
+                        <div class="bundle-card animate__animated animate__fadeIn" data-bundle-id="1">
+                            <div class="bundle-badge popular">Popular</div>
+                            <div class="bundle-image">
+                                <img src="https://images.pexels.com/photos/533311/pexels-photo-533311.jpeg" alt="Vegetable Basket">
+                            </div>
+                            <div class="bundle-content">
+                                <h3 class="bundle-name">Farm Fresh Vegetable Basket</h3>
+                                <div class="bundle-description">
+                                    A fresh selection of seasonal vegetables from our farm, perfect for weekly family needs.
+                                </div>
+                                <div class="bundle-includes">
+                                    <p><strong>Includes:</strong></p>
+                                    <ul class="bundle-items">
+                                        <li>2kg Organic Tomatoes</li>
+                                        <li>1kg Bell Peppers</li>
+                                        <li>1kg Eggplants</li>
+                                        <li>2kg Leafy Greens</li>
+                                        <li>+ 2 Seasonal Items</li>
+                                    </ul>
+                                </div>
+                                <div class="bundle-pricing">
+                                    <div class="bundle-price">₱650.00</div>
+                                    <div class="bundle-savings">Save ₱150.00 (18% off)</div>
+                                </div>
+                                <div class="bundle-actions">
+                                    <button class="btn btn-primary edit-bundle" data-bundle-id="1">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button class="btn btn-outline view-bundle" data-bundle-id="1">
+                                        <i class="fas fa-eye"></i> View Details
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bundle-card animate__animated animate__fadeIn" data-bundle-id="2">
+                            <div class="bundle-badge new">New</div>
+                            <div class="bundle-image">
+                                <img src="https://images.pexels.com/photos/1132047/pexels-photo-1132047.jpeg" alt="Fruit Basket">
+                            </div>
+                            <div class="bundle-content">
+                                <h3 class="bundle-name">Tropical Fruit Selection</h3>
+                                <div class="bundle-description">
+                                    Premium selection of our orchard fruits, hand-picked at optimal ripeness.
+                                </div>
+                                <div class="bundle-includes">
+                                    <p><strong>Includes:</strong></p>
+                                    <ul class="bundle-items">
+                                        <li>2kg Premium Mangoes</li>
+                                        <li>1kg Organic Avocados</li>
+                                        <li>1kg Seasonal Fruits</li>
+                                        <li>1 Bottle of Fresh Fruit Juice</li>
+                                    </ul>
+                                </div>
+                                <div class="bundle-pricing">
+                                    <div class="bundle-price">₱820.00</div>
+                                    <div class="bundle-savings">Save ₱180.00 (18% off)</div>
+                                </div>
+                                <div class="bundle-actions">
+                                    <button class="btn btn-primary edit-bundle" data-bundle-id="2">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button class="btn btn-outline view-bundle" data-bundle-id="2">
+                                        <i class="fas fa-eye"></i> View Details
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <!-- Product Marketing Section -->
+                    <div class="section product-marketing">
+                        <div class="section-header">
+                            <div class="section-title">Product Marketing</div>
+                            <div class="section-actions">
+                                <button class="btn btn-primary" id="addPromotionBtn">
+                                    <i class="fas fa-plus"></i> Add Promotion
+                                </button>
+                            </div>
+                        </div>
+                        <div class="promotion-grid" id="promotionGrid">
+                            <div class="promotion-card animate__animated animate__fadeIn" data-promotion-id="1">
+                                <div class="promotion-title">Summer Veggie Sale</div>
+                                <div class="promotion-details">
+                                    Offer 20% off on all vegetables until the end of summer. Boost your sales now!
+                                </div>
+                                <div class="promotion-actions">
+                                    <button class="btn btn-primary edit-promotion" data-promotion-id="1">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button class="btn btn-outline view-promotion" data-promotion-id="1">
+                                        <i class="fas fa-eye"></i> View Details
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="promotion-card animate__animated animate__fadeIn" data-promotion-id="2">
+                                <div class="promotion-title">Mango Mania</div>
+                                <div class="promotion-details">
+                                    Buy 5kg of Premium Mangoes, get 1kg free! Limited time offer.
+                                </div>
+                                <div class="promotion-actions">
+                                    <button class="btn btn-primary edit-promotion" data-promotion-id="2">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button class="btn btn-outline view-promotion" data-promotion-id="2">
+                                        <i class="fas fa-eye"></i> View Details
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Footer -->
+                <div class="footer">
+                    <div class="footer-content">
+                        <p>&copy; 2025 AgriGo. All rights reserved.</p>
+                        <div class="footer-links">
+                            <a href="#terms">Terms of Service</a>
+                            <a href="#privacy">Privacy Policy</a>
+                            <a href="#contact">Contact Us</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Toast Container -->
+        <div class="toast-container" id="toastContainer"></div>
+    
+        <script>
+            // Utility Functions
+            const $ = (selector, context = document) => context.querySelector(selector);
+            const $$ = (selector, context = document) => Array.from(context.querySelectorAll(selector));
+            const toggleClass = (element, className) => element.classList.toggle(className);
+            const removeClass = (elements, className) => elements.forEach(el => el.classList.remove(className));
+            const addClass = (element, className) => element.classList.add(className);
+    
+            // Toast Notification
+            function showToast(message, type = 'success', duration = 3000) {
+                const toast = document.createElement('div');
+                toast.className = `toast toast-${type}`;
+                toast.innerHTML = `${message}<i class="fas fa-times"></i>`;
+                $('#toastContainer').appendChild(toast);
+                setTimeout(() => {
+                    toast.style.animation = 'slideOut 0.3s ease';
+                    setTimeout(() => toast.remove(), 300);
+                }, duration);
+                toast.querySelector('i').addEventListener('click', () => {
+                    toast.style.animation = 'slideOut 0.3s ease';
+                    setTimeout(() => toast.remove(), 300);
+                });
+            }
+    
+            // Toggle Sidebar
+            function toggleSidebar() {
+                const sidebar = $('#sidebar');
+                const mainContent = $('#main-content');
+                const overlay = $('#overlay');
+                toggleClass(sidebar, 'sidebar-collapsed');
+                toggleClass(mainContent, 'main-content-expanded');
+                toggleClass(overlay, 'active');
+                $('#menu-toggle i').className = sidebar.classList.contains('sidebar-collapsed') ? 'fas fa-chevron-right' : 'fas fa-chevron-left';
+            }
+    
+            // Mobile Menu Toggle
+            function toggleMobileMenu() {
+                const sidebar = $('#sidebar');
+                const overlay = $('#overlay');
+                toggleClass(sidebar, 'active');
+                toggleClass(overlay, 'active');
+            }
+    
+            // Close Dropdowns
+            function closeDropdowns(exclude = null) {
+                const dropdowns = $$('.notification-dropdown, .user-dropdown');
+                dropdowns.forEach(dropdown => {
+                    if (dropdown !== exclude) {
+                        removeClass([dropdown], 'show');
+                    }
+                });
+            }
+    
+            // Filter Products
+            function filterProducts(category) {
+                const products = $$('.product-card');
+                products.forEach(product => {
+                    const productCategory = product.dataset.category;
+                    product.style.display = (category === 'all' || productCategory === category) ? 'block' : 'none';
+                    if (product.style.display === 'block') {
+                        product.classList.add('animate__animated', 'animate__fadeIn');
+                    }
+                });
+            }
+    
+            // Search Products
+            function searchProducts(query) {
+                const products = $$('.product-card');
+                query = query.toLowerCase();
+                products.forEach(product => {
+                    const name = product.querySelector('.product-name').textContent.toLowerCase();
+                    const variety = product.querySelector('.product-variety').textContent.toLowerCase();
+                    const origin = product.querySelector('.product-origin').textContent.toLowerCase();
+                    const certifications = product.querySelector('.product-certifications').textContent.toLowerCase();
+                    const match = name.includes(query) || variety.includes(query) || origin.includes(query) || certifications.includes(query);
+                    product.style.display = match ? 'block' : 'none';
+                    if (match) {
+                        product.classList.add('animate__animated', 'animate__fadeIn');
+                    }
+                });
+            }
+    
+            // Sort Products
+            function sortProducts(criteria) {
+                const productsGrid = $('#productsGrid');
+                const products = Array.from($$('.product-card'));
+                products.sort((a, b) => {
+                    if (criteria === 'newest') {
+                        return parseInt(b.dataset.productId) - parseInt(a.dataset.productId);
+                    } else if (criteria === 'popularity') {
+                        const ratingA = parseInt(a.querySelector('.product-rating span').textContent.replace(/[()]/g, '')) || 0;
+                        const ratingB = parseInt(b.querySelector('.product-rating span').textContent.replace(/[()]/g, '')) || 0;
+                        return ratingB - ratingA;
+                    } else if (criteria === 'price-high' || criteria === 'price-low') {
+                        const priceA = parseFloat(a.querySelector('.product-price').textContent.replace(/[^\d.]/g, '')) || 0;
+                        const priceB = parseFloat(b.querySelector('.product-price').textContent.replace(/[^\d.]/g, '')) || 0;
+                        return criteria === 'price-high' ? priceB - priceA : priceA - priceB;
+                    } else if (criteria === 'inventory') {
+                        const invA = parseFloat(a.querySelector('.inventory-value').textContent) || 0;
+                        const invB = parseFloat(b.querySelector('.inventory-value').textContent) || 0;
+                        return invB - invA;
+                    }
+                });
+                productsGrid.innerHTML = '';
+                products.forEach(product => productsGrid.appendChild(product));
+            }
+    
+            // Toggle View
+            function toggleView(view) {
+                const productsGrid = $('#productsGrid');
+                const gridBtn = $('#gridViewBtn');
+                const listBtn = $('#listViewBtn');
+                if (view === 'grid') {
+                    removeClass([productsGrid], 'list-view');
+                    addClass(gridBtn, 'active');
+                    removeClass([listBtn], 'active');
+                } else {
+                    addClass(productsGrid, 'list-view');
+                    addClass(listBtn, 'active');
+                    removeClass([gridBtn], 'active');
+                }
+                localStorage.setItem('productView', view);
+            }
+    
+            // Initialize
+            document.addEventListener('DOMContentLoaded', () => {
+                // Sidebar Toggle
+                $('#menu-toggle').addEventListener('click', toggleSidebar);
+                $('#mobile-menu-toggle').addEventListener('click', toggleMobileMenu);
+                $('.sidebar-toggle-mobile').addEventListener('click', toggleMobileMenu);
+                $('#overlay').addEventListener('click', () => {
+                    removeClass([$('#sidebar')], 'active');
+                    removeClass([$('#overlay')], 'active');
+                    if (!$('#sidebar').classList.contains('sidebar-collapsed')) {
+                        toggleSidebar();
+                    }
+                });
+    
+                // Notification Dropdown
+                $('#notificationIcon').addEventListener('click', () => {
+                    toggleClass($('#notificationDropdown'), 'show');
+                    closeDropdowns($('#notificationDropdown'));
+                });
+    
+                // User Dropdown
+                $('#userProfile').addEventListener('click', () => {
+                    toggleClass($('#userDropdown'), 'show');
+                    closeDropdowns($('#userDropdown'));
+                });
+    
+                // Close Dropdowns on Outside Click
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('.notification, .user-profile')) {
+                        closeDropdowns();
+                    }
+                });
+    
+                // Filter Tabs
+                $$('.filter-tab').forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        removeClass($$('.filter-tab'), 'active');
+                        addClass(tab, 'active');
+                        filterProducts(tab.dataset.filter);
+                    });
+                });
+    
+                // Search with Debounce
+                let searchTimeout;
+                $('#searchInput').addEventListener('input', () => {
+                    clearTimeout(searchTimeout);
+                    searchTimeout = setTimeout(() => {
+                        searchProducts($('#searchInput').value);
+                    }, 300);
+                });
+    
+                // Sort
+                $('#sortSelect').addEventListener('change', () => {
+                    sortProducts($('#sortSelect').value);
+                });
+    
+                // View Toggle
+                $('#gridViewBtn').addEventListener('click', () => toggleView('grid'));
+                $('#listViewBtn').addEventListener('click', () => toggleView('list'));
+                const savedView = localStorage.getItem('productView') || 'grid';
+                toggleView(savedView);
+    
+                // Dark Mode Toggle
+                const darkModeToggle = $('#darkModeToggle');
+                const themeText = $('#themeText');
+                if (localStorage.getItem('theme') === 'dark') {
+                    addClass(document.body, 'dark-mode');
+                    themeText.textContent = 'Light Mode';
+                }
+                darkModeToggle.addEventListener('click', () => {
+                    toggleClass(document.body, 'dark-mode');
+                    const isDark = document.body.classList.contains('dark-mode');
+                    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                    themeText.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+                });
+    
+                // Button Actions with Event Delegation
+                $('#productsGrid').addEventListener('click', (e) => {
+                    const target = e.target.closest('.edit-product, .view-product');
+                    if (target) {
+                        const productId = target.dataset.productId;
+                        if (target.classList.contains('edit-product')) {
+                            showToast(`Editing product ID: ${productId}`, 'info');
+                        } else if (target.classList.contains('view-product')) {
+                            showToast(`Viewing product ID: ${productId}`, 'info');
+                        }
+                    }
+                });
+    
+                $('#productBundles').addEventListener('click', (e) => {
+                    const target = e.target.closest('.edit-bundle, .view-bundle');
+                    if (target) {
+                        const bundleId = target.dataset.bundleId;
+                        if (target.classList.contains('edit-bundle')) {
+                            showToast(`Editing bundle ID: ${bundleId}`, 'info');
+                        } else if (target.classList.contains('view-bundle')) {
+                            showToast(`Viewing bundle ID: ${bundleId}`, 'info');
+                        }
+                    }
+                });
+    
+                $('#promotionGrid').addEventListener('click', (e) => {
+                    const target = e.target.closest('.edit-promotion, .view-promotion');
+                    if (target) {
+                        const promotionId = target.dataset.promotionId;
+                        if (target.classList.contains('edit-promotion')) {
+                            showToast(`Editing promotion ID: ${promotionId}`, 'info');
+                        } else if (target.classList.contains('view-promotion')) {
+                            showToast(`Viewing promotion ID: ${promotionId}`, 'info');
+                        }
+                    }
+                });
+    
+                $('#addProductBtn').addEventListener('click', () => {
+                    showToast('Opening product creation form', 'info');
+                });
+    
+                $('#importProductsBtn').addEventListener('click', () => {
+                    showToast('Opening product import wizard', 'info');
+                });
+    
+                $('#createBundleBtn').addEventListener('click', () => {
+                    showToast('Opening bundle creation form', 'info');
+                });
+    
+                $('#addPromotionBtn').addEventListener('click', () => {
+                    showToast('Opening promotion creation form', 'info');
+                });
+    
+                $('#userDropdownLogout').addEventListener('click', () => {
+                    showToast('Logging out...', 'success');
+                });
+            });
+        </script>
+    </body>
+</html>
