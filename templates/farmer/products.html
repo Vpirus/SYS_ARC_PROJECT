@@ -2405,7 +2405,7 @@
                                     </ul>
                                 </div>
                                 <div class="bundle-pricing">
-                                    <div class="bundle-price">₱650.00</div>
+                                    <div class="bundle-price">₱150.00</div>
                                     <div class="bundle-savings">Save ₱150.00 (18% off)</div>
                                 </div>
                                 <div class="bundle-actions">
@@ -2439,7 +2439,7 @@
                                     </ul>
                                 </div>
                                 <div class="bundle-pricing">
-                                    <div class="bundle-price">₱820.00</div>
+                                    <div class="bundle-price">₱220.00</div>
                                     <div class="bundle-savings">Save ₱180.00 (18% off)</div>
                                 </div>
                                 <div class="bundle-actions">
@@ -2934,7 +2934,6 @@
                 if (addProductBtn) {
                     addProductBtn.addEventListener('click', () => {
                         openModal('addProductModal');
-                        showToast('Opening product creation form', 'info');
                     });
                 }
                 
@@ -2957,7 +2956,6 @@
                 if (importProductsBtn) {
                     importProductsBtn.addEventListener('click', () => {
                         openModal('importProductsModal');
-                        showToast('Opening product import wizard', 'info');
                     });
                 }
                 
@@ -2985,7 +2983,6 @@
                 if (downloadTemplateBtn) {
                     downloadTemplateBtn.addEventListener('click', (e) => {
                         e.preventDefault();
-                        showToast('Template download started', 'info');
                         // Here you would typically trigger a file download
                     });
                 }
