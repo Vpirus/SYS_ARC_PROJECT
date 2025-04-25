@@ -765,83 +765,6 @@
         color: var(--danger);
       }
 
-      /* Product Grid */
-      .product-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        gap: var(--spacing-lg);
-      }
-      .product-card {
-        background-color: var(--white);
-        border-radius: var(--border-radius-md);
-        overflow: hidden;
-        box-shadow: var(--shadow-sm);
-        transition: transform var(--transition-normal),
-          box-shadow var(--transition-normal);
-      }
-      .dark-mode .product-card {
-        background-color: var(--dark-card);
-      }
-      .product-card:hover {
-        transform: translateY(-5px);
-        box-shadow: var(--shadow-md);
-      }
-      .product-image {
-        width: 100%;
-        height: 180px;
-        object-fit: cover;
-      }
-      .product-details {
-        padding: var(--spacing-md);
-      }
-      .product-name {
-        font-weight: bold;
-        margin-bottom: var(--spacing-xs);
-      }
-      .product-category {
-        color: var(--dark-gray);
-        opacity: 0.7;
-        font-size: 0.8rem;
-        margin-bottom: var(--spacing-xs);
-      }
-      .dark-mode .product-category {
-        color: var(--dark-text-secondary);
-      }
-      .product-price {
-        font-weight: bold;
-        color: var(--green-primary);
-        margin-bottom: var(--spacing-xs);
-      }
-      .product-stock {
-        font-size: 0.8rem;
-        margin-bottom: var(--spacing-md);
-      }
-      .stock-indicator {
-        display: inline-block;
-        width: 100%;
-        height: 4px;
-        background-color: var(--light-gray);
-        border-radius: 2px;
-        overflow: hidden;
-      }
-      .dark-mode .stock-indicator {
-        background-color: var(--dark-border);
-      }
-      .stock-level {
-        height: 100%;
-        background-color: var(--green-primary);
-      }
-      .stock-low {
-        background-color: var(--danger);
-      }
-      .stock-medium {
-        background-color: var(--harvest-yellow);
-      }
-      .product-actions {
-        display: flex;
-        gap: var(--spacing-sm);
-      }
-
       /* Section */
       .section {
         background-color: var(--white);
@@ -1714,131 +1637,6 @@
             </div>
           </div>
 
-          <!-- Product Grid -->
-          <div class="section">
-            <div class="section-header">
-              <div class="section-title">Your Products</div>
-              <div class="section-actions">
-                <button class="btn btn-primary" id="addProductBtn">
-                  <i class="fas fa-plus"></i> Add Product
-                </button>
-              </div>
-            </div>
-            <div class="product-grid">
-              <div
-                class="product-card animate__animated animate__slideInRight"
-                data-product-id="1"
-              >
-                <img
-                  src="https://images.pexels.com/photos/1327838/pexels-photo-1327838.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                  alt="Organic Tomatoes"
-                  class="product-image"
-                />
-                <div class="product-details">
-                  <div class="product-name">Organic Tomatoes</div>
-                  <div class="product-category">Vegetables</div>
-                  <div class="product-price">₱145/kg</div>
-                  <div class="product-stock">
-                    <div class="stock-indicator">
-                      <div class="stock-level" style="width: 70%"></div>
-                    </div>
-                    <span>70% in stock</span>
-                  </div>
-                  <div class="product-actions">
-                    <button
-                      class="btn btn-primary edit-product"
-                      data-product-id="1"
-                    >
-                      <i class="fas fa-edit"></i> Edit
-                    </button>
-                    <button
-                      class="btn btn-outline view-product"
-                      data-product-id="1"
-                    >
-                      <i class="fas fa-eye"></i> View
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="product-card animate__animated animate__slideInRight"
-                data-product-id="2"
-              >
-                <img
-                  src="https://images.pexels.com/photos/12280893/pexels-photo-12280893.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                  alt="Fresh Strawberries"
-                  class="product-image"
-                />
-                <div class="product-details">
-                  <div class="product-name">Fresh Strawberries</div>
-                  <div class="product-category">Fruits</div>
-                  <div class="product-price">₱232/kg</div>
-                  <div class="product-stock">
-                    <div class="stock-indicator">
-                      <div
-                        class="stock-level stock-medium"
-                        style="width: 40%"
-                      ></div>
-                    </div>
-                    <span>40% in stock</span>
-                  </div>
-                  <div class="product-actions">
-                    <button
-                      class="btn btn-primary edit-product"
-                      data-product-id="2"
-                    >
-                      <i class="fas fa-edit"></i> Edit
-                    </button>
-                    <button
-                      class="btn btn-outline view-product"
-                      data-product-id="2"
-                    >
-                      <i class="fas fa-eye"></i> View
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="product-card animate__animated animate__slideInRight"
-                data-product-id="3"
-              >
-                <img
-                  src="https://images.pexels.com/photos/6054529/pexels-photo-6054529.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                  alt="Organic Wheat"
-                  class="product-image"
-                />
-                <div class="product-details">
-                  <div class="product-name">Organic Wheat</div>
-                  <div class="product-category">Grains</div>
-                  <div class="product-price">₱104/kg</div>
-                  <div class="product-stock">
-                    <div class="stock-indicator">
-                      <div
-                        class="stock-level stock-low"
-                        style="width: 20%"
-                      ></div>
-                    </div>
-                    <span>20% in stock</span>
-                  </div>
-                  <div class="product-actions">
-                    <button
-                      class="btn btn-primary edit-product"
-                      data-product-id="3"
-                    >
-                      <i class="fas fa-edit"></i> Edit
-                    </button>
-                    <button
-                      class="btn btn-outline view-product"
-                      data-product-id="3"
-                    >
-                      <i class="fas fa-eye"></i> View
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
           <!-- Market Prices -->
           <div class="section market-prices">
             <div class="section-header">
@@ -2063,29 +1861,6 @@
 
         // Simulated Data
         const dashboardData = {
-          products: [
-            {
-              id: "1",
-              name: "Organic Tomatoes",
-              category: "Vegetables",
-              price: "₱145/kg",
-              stock: "70%",
-            },
-            {
-              id: "2",
-              name: "Fresh Strawberries",
-              category: "Fruits",
-              price: "₱232/kg",
-              stock: "40%",
-            },
-            {
-              id: "3",
-              name: "Organic Wheat",
-              category: "Grains",
-              price: "₱104/kg",
-              stock: "20%",
-            },
-          ],
           prices: {
             7: {
               labels: [
@@ -2151,31 +1926,6 @@
         };
 
         // Button Functionality
-        // Add Product
-        $("#addProductBtn").addEventListener("click", () => {
-          showToast("Redirecting to add product page...", "info");
-          setTimeout(
-            () => (window.location.href = "/templates/farmer/add-product.html"),
-            1000
-          );
-        });
-
-        // Edit Product
-        $$(".edit-product").forEach((button) => {
-          button.addEventListener("click", () => {
-            const productId = button.getAttribute("data-product-id");
-            const product = dashboardData.products.find(
-              (p) => p.id === productId
-            );
-            showToast(`Editing ${product.name}...`, "info");
-            setTimeout(
-              () =>
-                (window.location.href = `/templates/farmer/edit-product.html?id=${productId}`),
-              1000
-            );
-          });
-        });
-
         // View Product
         $$(".view-product").forEach((button) => {
           button.addEventListener("click", () => {
