@@ -219,7 +219,7 @@
         }
         .menu-toggle {
             position: absolute;
-            right: -12px;
+            right: -5px;
             top: 65px;
             background-color: var(--green-primary);
             color: var(--white);
@@ -615,6 +615,266 @@
             display: flex;
             flex-direction: column;
             gap: var(--spacing-lg);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--transition-normal), visibility var(--transition-normal);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            width: 90%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-20px);
+            transition: transform var(--transition-normal);
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--green-primary);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--medium-gray);
+            cursor: pointer;
+            transition: color var(--transition-fast);
+        }
+
+        .modal-close:hover {
+            color: var(--danger);
+        }
+
+        .modal-body {
+            padding: var(--spacing-lg);
+        }
+
+        .modal-footer {
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-top: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: flex-end;
+            gap: var(--spacing-md);
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: var(--spacing-xs);
+            font-weight: 500;
+            color: var(--dark-gray);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: var(--spacing-sm);
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius-md);
+            font-family: inherit;
+            font-size: 0.95rem;
+            color: var(--black);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--green-primary);
+            box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.2);
+        }
+
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .form-col {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .input-group-text {
+            padding: var(--spacing-sm);
+            background-color: var(--light-gray);
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius-md) 0 0 var(--border-radius-md);
+            border-right: none;
+            font-size: 0.95rem;
+            color: var(--dark-gray);
+        }
+
+        .input-group .form-control {
+            border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+        }
+
+        .form-check {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .form-check-input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .form-check-label {
+            cursor: pointer;
+        }
+
+        /* Product Card Display */
+        .products-overview-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-xl);
+        }
+
+        .product-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-sm);
+            transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-badge {
+            position: absolute;
+            top: var(--spacing-sm);
+            left: var(--spacing-sm);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--border-radius-sm);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--white);
+            z-index: 1;
+        }
+
+        .product-badge.bestseller {
+            background-color: var(--harvest-yellow);
+            color: var(--black);
+        }
+
+        .product-badge.new {
+            background-color: var(--sky-blue);
+        }
+
+        .product-badge.seasonal {
+            background-color: var(--sunrise-orange);
+        }
+
+        .product-image {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform var(--transition-normal);
+        }
+
+        /* File Upload Styles */
+        .file-upload {
+            border: 2px dashed var(--light-gray);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-lg);
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+        }
+
+        .file-upload:hover {
+            border-color: var(--green-primary);
+            background-color: rgba(46, 125, 50, 0.05);
+        }
+
+        .file-upload i {
+            font-size: 2rem;
+            color: var(--green-primary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .file-upload-text {
+            font-size: 1rem;
+            color: var(--dark-gray);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .file-upload-info {
+            font-size: 0.85rem;
+            color: var(--medium-gray);
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .fade-in {
+            animation: fadeIn var(--transition-normal);
         }
 
         /* Section */
@@ -1640,6 +1900,193 @@
                     </div>
                 </div>
 
+                <!-- Add Product Modal -->
+                <div class="modal-overlay" id="addProductModal">
+                    <div class="modal">
+                        <div class="modal-header">
+                            <div class="modal-title">Add New Product</div>
+                            <button class="modal-close" id="closeAddProductModal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="addProductForm">
+                                <div class="form-row">
+                                    <div class="form-col">
+                                        <div class="form-group">
+                                            <label class="form-label" for="productName">Product Name *</label>
+                                            <input type="text" class="form-control" id="productName" name="productName" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-col">
+                                        <div class="form-group">
+                                            <label class="form-label" for="productCategory">Category *</label>
+                                            <select class="form-control" id="productCategory" name="productCategory" required>
+                                                <option value="">Select Category</option>
+                                                <option value="vegetables">Vegetables</option>
+                                                <option value="fruits">Fruits</option>
+                                                <option value="grains">Grains</option>
+                                                <option value="value-added">Value-Added</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-col">
+                                        <div class="form-group">
+                                            <label class="form-label" for="productVariety">Variety</label>
+                                            <input type="text" class="form-control" id="productVariety" name="productVariety">
+                                        </div>
+                                    </div>
+                                    <div class="form-col">
+                                        <div class="form-group">
+                                            <label class="form-label" for="productOrigin">Origin</label>
+                                            <input type="text" class="form-control" id="productOrigin" name="productOrigin">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" for="productDescription">Description</label>
+                                    <textarea class="form-control" id="productDescription" name="productDescription"></textarea>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-col">
+                                        <div class="form-group">
+                                            <label class="form-label" for="productPrice">Price (₱/kg) *</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">₱</span>
+                                                <input type="number" step="0.01" min="0" class="form-control" id="productPrice" name="productPrice" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-col">
+                                        <div class="form-group">
+                                            <label class="form-label" for="productWholesalePrice">Wholesale Price (₱/kg)</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">₱</span>
+                                                <input type="number" step="0.01" min="0" class="form-control" id="productWholesalePrice" name="productWholesalePrice">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-col">
+                                        <div class="form-group">
+                                            <label class="form-label" for="productInventory">Inventory (kg) *</label>
+                                            <input type="number" step="0.01" min="0" class="form-control" id="productInventory" name="productInventory" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-col">
+                                        <div class="form-group">
+                                            <label class="form-label" for="productMinOrder">Minimum Order for Wholesale (kg)</label>
+                                            <input type="number" step="0.01" min="0" class="form-control" id="productMinOrder" name="productMinOrder">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Product Image</label>
+                                    <div class="file-upload" id="productImageUpload">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                        <div class="file-upload-text">Drag & drop image or click to browse</div>
+                                        <div class="file-upload-info">Recommended size: 800x600px, Max size: 2MB</div>
+                                        <input type="file" id="productImage" name="productImage" class="file-input" accept="image/*">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Certifications</label>
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="certOrganic" name="certifications" value="Organic">
+                                        <label class="form-check-label" for="certOrganic">Organic</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="certGAP" name="certifications" value="GAP Certified">
+                                        <label class="form-check-label" for="certGAP">GAP Certified</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="certExport" name="certifications" value="Export Quality">
+                                        <label class="form-check-label" for="certExport">Export Quality</label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Product Badge</label>
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="badgeNone" name="productBadge" value="none" checked>
+                                        <label class="form-check-label" for="badgeNone">None</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="badgeBestseller" name="productBadge" value="bestseller">
+                                        <label class="form-check-label" for="badgeBestseller">Bestseller</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="badgeNew" name="productBadge" value="new">
+                                        <label class="form-check-label" for="badgeNew">New</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="badgeSeasonal" name="productBadge" value="seasonal">
+                                        <label class="form-check-label" for="badgeSeasonal">Seasonal</label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-outline" id="cancelAddProduct">Cancel</button>
+                            <button class="btn btn-primary" id="submitAddProduct">Add Product</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Import Products Modal -->
+                <div class="modal-overlay" id="importProductsModal">
+                    <div class="modal">
+                        <div class="modal-header">
+                            <div class="modal-title">Import Products</div>
+                            <button class="modal-close" id="closeImportModal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="form-label">Upload CSV or Excel File</label>
+                                <div class="file-upload" id="importFileUpload">
+                                    <i class="fas fa-file-import"></i>
+                                    <div class="file-upload-text">Drag & drop file or click to browse</div>
+                                    <div class="file-upload-info">Accepted formats: .csv, .xlsx, .xls</div>
+                                    <input type="file" id="importFile" name="importFile" class="file-input" accept=".csv, .xlsx, .xls">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Template</label>
+                                <p>Please use our template for importing products. The file should contain the following columns:</p>
+                                <ul style="margin-left: 20px; margin-top: 8px;">
+                                    <li>Product Name</li>
+                                    <li>Category</li>
+                                    <li>Variety</li>
+                                    <li>Description</li>
+                                    <li>Price</li>
+                                    <li>Wholesale Price</li>
+                                    <li>Inventory</li>
+                                    <li>Minimum Order</li>
+                                    <li>Origin</li>
+                                    <li>Certifications</li>
+                                    <li>Badge</li>
+                                </ul>
+                                <div style="margin-top: 16px;">
+                                    <a href="#" class="btn btn-outline" id="downloadTemplateBtn">
+                                        <i class="fas fa-download"></i> Download Template
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-outline" id="cancelImport">Cancel</button>
+                            <button class="btn btn-primary" id="submitImport">Import Products</button>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Product Categories Filter -->
                 <div class="section product-categories">
                     <div class="filter-tabs">
@@ -1726,7 +2173,7 @@
                     <div class="product-card animate__animated animate__fadeIn" data-product-id="2" data-category="vegetables">
                         <div class="product-badge new">New</div>
                         <div class="product-image">
-                            <img src="https://images.pexels.com/photos/1268101/pexels-photo-1268101.jpeg" alt="Bell Peppers">
+                            <img src="https://images.pexels.com/photos/594137/pexels-photo-594137.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Bell Peppers">
                             <div class="product-inventory">
                                 <span class="inventory-label">In Stock:</span>
                                 <span class="inventory-value">85 kg</span>
@@ -1776,7 +2223,7 @@
                     <div class="product-card animate__animated animate__fadeIn" data-product-id="3" data-category="fruits">
                         <div class="product-badge seasonal">Seasonal</div>
                         <div class="product-image">
-                            <img src="https://images.pexels.com/photos/2294477/pexels-photo-2294477.jpeg" alt="Premium Mangoes">
+                            <img src="https://images.pexels.com/photos/2294471/pexels-photo-2294471.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Premium Mangoes">
                             <div class="product-inventory">
                                 <span class="inventory-label">In Stock:</span>
                                 <span class="inventory-value">210 kg</span>
@@ -1924,59 +2371,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="product-card animate__animated animate__fadeIn" data-product-id="6" data-category="value-added">
-                        <div class="product-badge new">New</div>
-                        <div class="product-image">
-                            <img src="https://images.pexels.com/photos/13791756/pexels-photo-13791756.jpeg" alt="Tomato Sauce">
-                            <div class="product-inventory">
-                                <span class="inventory-label">In Stock:</span>
-                                <span class="inventory-value">80 bottles</span>
-                            </div>
-                        </div>
-                        <div class="product-content">
-                            <div class="product-header">
-                                <h3 class="product-name">Homemade Tomato Sauce</h3>
-                                <div class="product-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <span>(8)</span>
-                                </div>
-                            </div>
-                            <div class="product-info">
-                                <div class="product-variety">500ml Bottle</div>
-                                <div class="product-description">
-                                    Traditional recipe tomato sauce made from our farm-grown Roma tomatoes.
-                                </div>
-                                <div class="product-origin">
-                                    <i class="fas fa-map-marker-alt"></i> On-Farm Kitchen
-                                </div>
-                                <div class="product-certifications">
-                                    <span class="certification">
-                                        <i class="fas fa-certificate"></i> Organic Ingredients
-                                    </span>
-                                    <span class="certification">
-                                        <i class="fas fa-certificate"></i> No Preservatives
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="product-pricing">
-                                <div class="product-price">₱180.00 / bottle</div>
-                                <div class="product-wholesale">Wholesale: ₱150.00 / bottle (24+ bottles)</div>
-                            </div>
-                            <div class="product-actions">
-                                <button class="btn btn-primary edit-product" data-product-id="6">
-                                    <i class="fas fa-edit"></i> Edit
-                                </button>
-                                <button class="btn btn-outline view-product" data-product-id="6">
-                                    <i class="fas fa-eye"></i> View Details
-                                </button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Product Bundle Section -->
@@ -1993,7 +2387,7 @@
                         <div class="bundle-card animate__animated animate__fadeIn" data-bundle-id="1">
                             <div class="bundle-badge popular">Popular</div>
                             <div class="bundle-image">
-                                <img src="https://images.pexels.com/photos/533311/pexels-photo-533311.jpeg" alt="Vegetable Basket">
+                                <img src="https://images.pexels.com/photos/8541319/pexels-photo-8541319.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Vegetable Basket">
                             </div>
                             <div class="bundle-content">
                                 <h3 class="bundle-name">Farm Fresh Vegetable Basket</h3>
@@ -2127,7 +2521,7 @@
             const toggleClass = (element, className) => element.classList.toggle(className);
             const removeClass = (elements, className) => elements.forEach(el => el.classList.remove(className));
             const addClass = (element, className) => element.classList.add(className);
-    
+
             // Toast Notification
             function showToast(message, type = 'success', duration = 3000) {
                 const toast = document.createElement('div');
@@ -2143,7 +2537,7 @@
                     setTimeout(() => toast.remove(), 300);
                 });
             }
-    
+
             // Toggle Sidebar
             function toggleSidebar() {
                 const sidebar = $('#sidebar');
@@ -2154,7 +2548,7 @@
                 toggleClass(overlay, 'active');
                 $('#menu-toggle i').className = sidebar.classList.contains('sidebar-collapsed') ? 'fas fa-chevron-right' : 'fas fa-chevron-left';
             }
-    
+
             // Mobile Menu Toggle
             function toggleMobileMenu() {
                 const sidebar = $('#sidebar');
@@ -2162,7 +2556,7 @@
                 toggleClass(sidebar, 'active');
                 toggleClass(overlay, 'active');
             }
-    
+
             // Close Dropdowns
             function closeDropdowns(exclude = null) {
                 const dropdowns = $$('.notification-dropdown, .user-dropdown');
@@ -2172,7 +2566,7 @@
                     }
                 });
             }
-    
+
             // Filter Products
             function filterProducts(category) {
                 const products = $$('.product-card');
@@ -2184,7 +2578,7 @@
                     }
                 });
             }
-    
+
             // Search Products
             function searchProducts(query) {
                 const products = $$('.product-card');
@@ -2201,11 +2595,11 @@
                     }
                 });
             }
-    
+
             // Sort Products
             function sortProducts(criteria) {
                 const productsGrid = $('#productsGrid');
-                const products = Array.from($$('.product-card'));
+                const products = Array.from($$('.product-card', productsGrid));
                 products.sort((a, b) => {
                     if (criteria === 'newest') {
                         return parseInt(b.dataset.productId) - parseInt(a.dataset.productId);
@@ -2222,11 +2616,12 @@
                         const invB = parseFloat(b.querySelector('.inventory-value').textContent) || 0;
                         return invB - invA;
                     }
+                    return 0;
                 });
                 productsGrid.innerHTML = '';
                 products.forEach(product => productsGrid.appendChild(product));
             }
-    
+
             // Toggle View
             function toggleView(view) {
                 const productsGrid = $('#productsGrid');
@@ -2243,40 +2638,276 @@
                 }
                 localStorage.setItem('productView', view);
             }
-    
+
+            // Modal Functions
+            function openModal(modalId) {
+                const modal = $(`#${modalId}`);
+                if (!modal) return;
+                
+                addClass(modal, 'active');
+                document.body.style.overflow = 'hidden';
+                
+                // Animation
+                setTimeout(() => {
+                    const modalContent = modal.querySelector('.modal');
+                    addClass(modalContent, 'animate__animated');
+                    addClass(modalContent, 'animate__fadeInUp');
+                }, 10);
+            }
+
+            function closeModal(modalId) {
+                const modal = $(`#${modalId}`);
+                if (!modal) return;
+                
+                const modalContent = modal.querySelector('.modal');
+                removeClass([modalContent], 'animate__fadeInUp');
+                addClass(modalContent, 'animate__fadeOutDown');
+                
+                setTimeout(() => {
+                    removeClass([modal], 'active');
+                    removeClass([modalContent], 'animate__animated');
+                    removeClass([modalContent], 'animate__fadeOutDown');
+                    document.body.style.overflow = '';
+                }, 300);
+            }
+
+            // File Upload Handler
+            function initFileUpload(uploadElementId, fileInputId) {
+                const uploadArea = $(`#${uploadElementId}`);
+                const fileInput = $(`#${fileInputId}`);
+                
+                if (!uploadArea || !fileInput) return;
+                
+                uploadArea.addEventListener('click', () => {
+                    fileInput.click();
+                });
+                
+                uploadArea.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    addClass(uploadArea, 'drag-over');
+                });
+                
+                uploadArea.addEventListener('dragleave', () => {
+                    removeClass([uploadArea], 'drag-over');
+                });
+                
+                uploadArea.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    removeClass([uploadArea], 'drag-over');
+                    
+                    if (e.dataTransfer.files.length) {
+                        fileInput.files = e.dataTransfer.files;
+                        handleFileSelection(fileInput, uploadArea);
+                    }
+                });
+                
+                fileInput.addEventListener('change', () => {
+                    handleFileSelection(fileInput, uploadArea);
+                });
+            }
+
+            function handleFileSelection(fileInput, uploadArea) {
+                if (fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                    
+                    // Image preview for product image upload
+                    if (fileInput.accept && fileInput.accept.includes('image') && file.type.match('image.*')) {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            uploadArea.innerHTML = `
+                                <div class="preview-image" style="background-image: url('${e.target.result}')"></div>
+                                <div class="file-upload-info">${file.name} (${formatFileSize(file.size)})</div>
+                                <div class="remove-file"><i class="fas fa-times"></i> Remove</div>
+                            `;
+                            
+                            uploadArea.querySelector('.remove-file').addEventListener('click', (e) => {
+                                e.stopPropagation();
+                                resetFileUpload(fileInput, uploadArea, 'image');
+                            });
+                        };
+                        reader.readAsDataURL(file);
+                    } 
+                    // For non-image files (CSV, Excel)
+                    else {
+                        uploadArea.innerHTML = `
+                            <i class="fas fa-file-alt"></i>
+                            <div class="file-upload-text">${file.name}</div>
+                            <div class="file-upload-info">${formatFileSize(file.size)}</div>
+                            <div class="remove-file"><i class="fas fa-times"></i> Remove</div>
+                        `;
+                        
+                        uploadArea.querySelector('.remove-file').addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            resetFileUpload(fileInput, uploadArea, 'file');
+                        });
+                    }
+                }
+            }
+
+            function resetFileUpload(fileInput, uploadArea, type) {
+                fileInput.value = '';
+                
+                if (type === 'image') {
+                    uploadArea.innerHTML = `
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <div class="file-upload-text">Drag & drop image or click to browse</div>
+                        <div class="file-upload-info">Recommended size: 800x600px, Max size: 2MB</div>
+                    `;
+                } else {
+                    uploadArea.innerHTML = `
+                        <i class="fas fa-file-import"></i>
+                        <div class="file-upload-text">Drag & drop file or click to browse</div>
+                        <div class="file-upload-info">Accepted formats: .csv, .xlsx, .xls</div>
+                    `;
+                }
+            }
+
+            function formatFileSize(bytes) {
+                if (bytes < 1024) return bytes + ' bytes';
+                else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+                else return (bytes / 1048576).toFixed(1) + ' MB';
+            }
+
+            // Form Validation
+            function validateProductForm() {
+                const requiredFields = ['productName', 'productCategory', 'productPrice', 'productInventory'];
+                let isValid = true;
+                
+                requiredFields.forEach(field => {
+                    const input = $(`#${field}`);
+                    if (!input) return;
+                    
+                    const formGroup = input.closest('.form-group');
+                    
+                    if (!input.value.trim()) {
+                        addClass(formGroup, 'has-error');
+                        if (!formGroup.querySelector('.error-message')) {
+                            const errorMsg = document.createElement('div');
+                            errorMsg.className = 'error-message';
+                            errorMsg.textContent = 'This field is required';
+                            formGroup.appendChild(errorMsg);
+                        }
+                        isValid = false;
+                    } else {
+                        removeClass([formGroup], 'has-error');
+                        const errorMsg = formGroup.querySelector('.error-message');
+                        if (errorMsg) errorMsg.remove();
+                    }
+                });
+                
+                return isValid;
+            }
+
+            // Handle Form Submission
+            function handleProductFormSubmit() {
+                if (!validateProductForm()) {
+                    showToast('Please fill in all required fields', 'error');
+                    return;
+                }
+                
+                // Get form data
+                const formData = {
+                    name: $('#productName').value,
+                    category: $('#productCategory').value,
+                    variety: $('#productVariety').value,
+                    origin: $('#productOrigin').value,
+                    description: $('#productDescription').value,
+                    price: parseFloat($('#productPrice').value),
+                    wholesalePrice: $('#productWholesalePrice').value ? parseFloat($('#productWholesalePrice').value) : null,
+                    inventory: parseFloat($('#productInventory').value),
+                    minOrder: $('#productMinOrder').value ? parseFloat($('#productMinOrder').value) : null,
+                    certifications: Array.from($$('input[name="certifications"]:checked')).map(el => el.value),
+                    badge: $('input[name="productBadge"]:checked')?.value || ''
+                };
+                
+                // Here you would typically send this data to your backend API
+                console.log('Product form data:', formData);
+                
+                // For demonstration, we'll just show a success message
+                showToast('Product added successfully!', 'success');
+                closeModal('addProductModal');
+                resetForm('addProductForm');
+            }
+
+            function handleImportFormSubmit() {
+                const importFile = $('#importFile');
+                if (!importFile || !importFile.files.length) {
+                    showToast('Please select a file to import', 'error');
+                    return;
+                }
+                
+                const file = importFile.files[0];
+                // Here you would typically send this file to your backend API
+                console.log('Import file:', file);
+                
+                // For demonstration, we'll just show a success message
+                showToast(`Importing ${file.name}...`, 'info');
+                setTimeout(() => {
+                    showToast('Products imported successfully!', 'success');
+                    closeModal('importProductsModal');
+                }, 2000);
+            }
+
+            function resetForm(formId) {
+                const form = $(`#${formId}`);
+                if (form) form.reset();
+            }
+
             // Initialize
             document.addEventListener('DOMContentLoaded', () => {
                 // Sidebar Toggle
-                $('#menu-toggle').addEventListener('click', toggleSidebar);
-                $('#mobile-menu-toggle').addEventListener('click', toggleMobileMenu);
-                $('.sidebar-toggle-mobile').addEventListener('click', toggleMobileMenu);
-                $('#overlay').addEventListener('click', () => {
-                    removeClass([$('#sidebar')], 'active');
-                    removeClass([$('#overlay')], 'active');
-                    if (!$('#sidebar').classList.contains('sidebar-collapsed')) {
-                        toggleSidebar();
-                    }
-                });
-    
+                const menuToggle = $('#menu-toggle');
+                if (menuToggle) menuToggle.addEventListener('click', toggleSidebar);
+                
+                const mobileMenuToggle = $('#mobile-menu-toggle');
+                if (mobileMenuToggle) mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+                
+                const sidebarToggleMobile = $('.sidebar-toggle-mobile');
+                if (sidebarToggleMobile) sidebarToggleMobile.addEventListener('click', toggleMobileMenu);
+                
+                const overlay = $('#overlay');
+                if (overlay) {
+                    overlay.addEventListener('click', () => {
+                        const sidebar = $('#sidebar');
+                        if (sidebar) removeClass([sidebar], 'active');
+                        removeClass([overlay], 'active');
+                        if (sidebar && !sidebar.classList.contains('sidebar-collapsed')) {
+                            toggleSidebar();
+                        }
+                    });
+                }
+
                 // Notification Dropdown
-                $('#notificationIcon').addEventListener('click', () => {
-                    toggleClass($('#notificationDropdown'), 'show');
-                    closeDropdowns($('#notificationDropdown'));
-                });
-    
+                const notificationIcon = $('#notificationIcon');
+                if (notificationIcon) {
+                    notificationIcon.addEventListener('click', () => {
+                        const notificationDropdown = $('#notificationDropdown');
+                        if (notificationDropdown) {
+                            toggleClass(notificationDropdown, 'show');
+                            closeDropdowns(notificationDropdown);
+                        }
+                    });
+                }
+
                 // User Dropdown
-                $('#userProfile').addEventListener('click', () => {
-                    toggleClass($('#userDropdown'), 'show');
-                    closeDropdowns($('#userDropdown'));
-                });
-    
+                const userProfile = $('#userProfile');
+                if (userProfile) {
+                    userProfile.addEventListener('click', () => {
+                        const userDropdown = $('#userDropdown');
+                        if (userDropdown) {
+                            toggleClass(userDropdown, 'show');
+                            closeDropdowns(userDropdown);
+                        }
+                    });
+                }
+
                 // Close Dropdowns on Outside Click
                 document.addEventListener('click', (e) => {
                     if (!e.target.closest('.notification, .user-profile')) {
                         closeDropdowns();
                     }
                 });
-    
+
                 // Filter Tabs
                 $$('.filter-tab').forEach(tab => {
                     tab.addEventListener('click', () => {
@@ -2285,97 +2916,203 @@
                         filterProducts(tab.dataset.filter);
                     });
                 });
-    
+
                 // Search with Debounce
                 let searchTimeout;
-                $('#searchInput').addEventListener('input', () => {
-                    clearTimeout(searchTimeout);
-                    searchTimeout = setTimeout(() => {
-                        searchProducts($('#searchInput').value);
-                    }, 300);
+                const searchInput = $('#searchInput');
+                if (searchInput) {
+                    searchInput.addEventListener('input', () => {
+                        clearTimeout(searchTimeout);
+                        searchTimeout = setTimeout(() => {
+                            searchProducts(searchInput.value);
+                        }, 300);
+                    });
+                }
+
+                // Modal event listeners
+                const addProductBtn = $('#addProductBtn');
+                if (addProductBtn) {
+                    addProductBtn.addEventListener('click', () => {
+                        openModal('addProductModal');
+                        showToast('Opening product creation form', 'info');
+                    });
+                }
+                
+                const closeAddProductModal = $('#closeAddProductModal');
+                if (closeAddProductModal) {
+                    closeAddProductModal.addEventListener('click', () => closeModal('addProductModal'));
+                }
+                
+                const cancelAddProduct = $('#cancelAddProduct');
+                if (cancelAddProduct) {
+                    cancelAddProduct.addEventListener('click', () => closeModal('addProductModal'));
+                }
+                
+                const submitAddProduct = $('#submitAddProduct');
+                if (submitAddProduct) {
+                    submitAddProduct.addEventListener('click', handleProductFormSubmit);
+                }
+                
+                const importProductsBtn = $('#importProductsBtn');
+                if (importProductsBtn) {
+                    importProductsBtn.addEventListener('click', () => {
+                        openModal('importProductsModal');
+                        showToast('Opening product import wizard', 'info');
+                    });
+                }
+                
+                const closeImportModal = $('#closeImportModal');
+                if (closeImportModal) {
+                    closeImportModal.addEventListener('click', () => closeModal('importProductsModal'));
+                }
+                
+                const cancelImport = $('#cancelImport');
+                if (cancelImport) {
+                    cancelImport.addEventListener('click', () => closeModal('importProductsModal'));
+                }
+                
+                const submitImport = $('#submitImport');
+                if (submitImport) {
+                    submitImport.addEventListener('click', handleImportFormSubmit);
+                }
+                
+                // Initialize file uploads
+                initFileUpload('productImageUpload', 'productImage');
+                initFileUpload('importFileUpload', 'importFile');
+                
+                // Template download button
+                const downloadTemplateBtn = $('#downloadTemplateBtn');
+                if (downloadTemplateBtn) {
+                    downloadTemplateBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        showToast('Template download started', 'info');
+                        // Here you would typically trigger a file download
+                    });
+                }
+                
+                // Close modal on outside click
+                document.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('modal-overlay')) {
+                        const modalId = e.target.id;
+                        closeModal(modalId);
+                    }
                 });
-    
+                
+                // Add input event listeners to clear errors on input
+                $$('.form-control').forEach(input => {
+                    input.addEventListener('input', () => {
+                        const formGroup = input.closest('.form-group');
+                        removeClass([formGroup], 'has-error');
+                        const errorMsg = formGroup.querySelector('.error-message');
+                        if (errorMsg) errorMsg.remove();
+                    });
+                });
+
                 // Sort
-                $('#sortSelect').addEventListener('change', () => {
-                    sortProducts($('#sortSelect').value);
-                });
-    
+                const sortSelect = $('#sortSelect');
+                if (sortSelect) {
+                    sortSelect.addEventListener('change', () => {
+                        sortProducts(sortSelect.value);
+                    });
+                }
+
                 // View Toggle
-                $('#gridViewBtn').addEventListener('click', () => toggleView('grid'));
-                $('#listViewBtn').addEventListener('click', () => toggleView('list'));
+                const gridViewBtn = $('#gridViewBtn');
+                const listViewBtn = $('#listViewBtn');
+                
+                if (gridViewBtn) {
+                    gridViewBtn.addEventListener('click', () => toggleView('grid'));
+                }
+                
+                if (listViewBtn) {
+                    listViewBtn.addEventListener('click', () => toggleView('list'));
+                }
+                
                 const savedView = localStorage.getItem('productView') || 'grid';
                 toggleView(savedView);
-    
+
                 // Dark Mode Toggle
                 const darkModeToggle = $('#darkModeToggle');
                 const themeText = $('#themeText');
-                if (localStorage.getItem('theme') === 'dark') {
-                    addClass(document.body, 'dark-mode');
-                    themeText.textContent = 'Light Mode';
+                if (darkModeToggle && themeText) {
+                    if (localStorage.getItem('theme') === 'dark') {
+                        addClass(document.body, 'dark-mode');
+                        themeText.textContent = 'Light Mode';
+                    }
+                    darkModeToggle.addEventListener('click', () => {
+                        toggleClass(document.body, 'dark-mode');
+                        const isDark = document.body.classList.contains('dark-mode');
+                        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                        themeText.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+                    });
                 }
-                darkModeToggle.addEventListener('click', () => {
-                    toggleClass(document.body, 'dark-mode');
-                    const isDark = document.body.classList.contains('dark-mode');
-                    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-                    themeText.textContent = isDark ? 'Light Mode' : 'Dark Mode';
-                });
-    
+
                 // Button Actions with Event Delegation
-                $('#productsGrid').addEventListener('click', (e) => {
-                    const target = e.target.closest('.edit-product, .view-product');
-                    if (target) {
-                        const productId = target.dataset.productId;
-                        if (target.classList.contains('edit-product')) {
-                            showToast(`Editing product ID: ${productId}`, 'info');
-                        } else if (target.classList.contains('view-product')) {
-                            showToast(`Viewing product ID: ${productId}`, 'info');
+                const productsGrid = $('#productsGrid');
+                if (productsGrid) {
+                    productsGrid.addEventListener('click', (e) => {
+                        const target = e.target.closest('.edit-product, .view-product');
+                        if (target) {
+                            const productId = target.dataset.productId;
+                            if (target.classList.contains('edit-product')) {
+                                showToast(`Editing product ID: ${productId}`, 'info');
+                            } else if (target.classList.contains('view-product')) {
+                                showToast(`Viewing product ID: ${productId}`, 'info');
+                            }
                         }
-                    }
-                });
-    
-                $('#productBundles').addEventListener('click', (e) => {
-                    const target = e.target.closest('.edit-bundle, .view-bundle');
-                    if (target) {
-                        const bundleId = target.dataset.bundleId;
-                        if (target.classList.contains('edit-bundle')) {
-                            showToast(`Editing bundle ID: ${bundleId}`, 'info');
-                        } else if (target.classList.contains('view-bundle')) {
-                            showToast(`Viewing bundle ID: ${bundleId}`, 'info');
+                    });
+                }
+
+                const productBundles = $('#productBundles');
+                if (productBundles) {
+                    productBundles.addEventListener('click', (e) => {
+                        const target = e.target.closest('.edit-bundle, .view-bundle');
+                        if (target) {
+                            const bundleId = target.dataset.bundleId;
+                            if (target.classList.contains('edit-bundle')) {
+                                showToast(`Editing bundle ID: ${bundleId}`, 'info');
+                            } else if (target.classList.contains('view-bundle')) {
+                                showToast(`Viewing bundle ID: ${bundleId}`, 'info');
+                            }
                         }
-                    }
-                });
-    
-                $('#promotionGrid').addEventListener('click', (e) => {
-                    const target = e.target.closest('.edit-promotion, .view-promotion');
-                    if (target) {
-                        const promotionId = target.dataset.promotionId;
-                        if (target.classList.contains('edit-promotion')) {
-                            showToast(`Editing promotion ID: ${promotionId}`, 'info');
-                        } else if (target.classList.contains('view-promotion')) {
-                            showToast(`Viewing promotion ID: ${promotionId}`, 'info');
+                    });
+                }
+
+                const promotionGrid = $('#promotionGrid');
+                if (promotionGrid) {
+                    promotionGrid.addEventListener('click', (e) => {
+                        const target = e.target.closest('.edit-promotion, .view-promotion');
+                        if (target) {
+                            const promotionId = target.dataset.promotionId;
+                            if (target.classList.contains('edit-promotion')) {
+                                showToast(`Editing promotion ID: ${promotionId}`, 'info');
+                            } else if (target.classList.contains('view-promotion')) {
+                                showToast(`Viewing promotion ID: ${promotionId}`, 'info');
+                            }
                         }
-                    }
-                });
-    
-                $('#addProductBtn').addEventListener('click', () => {
-                    showToast('Opening product creation form', 'info');
-                });
-    
-                $('#importProductsBtn').addEventListener('click', () => {
-                    showToast('Opening product import wizard', 'info');
-                });
-    
-                $('#createBundleBtn').addEventListener('click', () => {
-                    showToast('Opening bundle creation form', 'info');
-                });
-    
-                $('#addPromotionBtn').addEventListener('click', () => {
-                    showToast('Opening promotion creation form', 'info');
-                });
-    
-                $('#userDropdownLogout').addEventListener('click', () => {
-                    showToast('Logging out...', 'success');
-                });
+                    });
+                }
+
+                const createBundleBtn = $('#createBundleBtn');
+                if (createBundleBtn) {
+                    createBundleBtn.addEventListener('click', () => {
+                        showToast('Opening bundle creation form', 'info');
+                    });
+                }
+
+                const addPromotionBtn = $('#addPromotionBtn');
+                if (addPromotionBtn) {
+                    addPromotionBtn.addEventListener('click', () => {
+                        showToast('Opening promotion creation form', 'info');
+                    });
+                }
+
+                const userDropdownLogout = $('#userDropdownLogout');
+                if (userDropdownLogout) {
+                    userDropdownLogout.addEventListener('click', () => {
+                        showToast('Logging out...', 'success');
+                    });
+                }
             });
         </script>
     </body>
