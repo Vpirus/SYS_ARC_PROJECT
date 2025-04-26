@@ -2567,6 +2567,18 @@
                 });
             }
 
+            // Logout Functionality
+            const userDropdownLogout = $("#userDropdownLogout");
+            if (userDropdownLogout)
+            userDropdownLogout.addEventListener("click", (e) => {
+                e.preventDefault();
+                showToast("Logged out successfully!", "success");
+                setTimeout(
+                () => (window.location.href = "/templates/login.html"),
+                2000
+                );
+            });
+
             // Filter Products
             function filterProducts(category) {
                 const products = $$('.product-card');
@@ -3101,13 +3113,6 @@
                 if (addPromotionBtn) {
                     addPromotionBtn.addEventListener('click', () => {
                         showToast('Opening promotion creation form', 'info');
-                    });
-                }
-
-                const userDropdownLogout = $('#userDropdownLogout');
-                if (userDropdownLogout) {
-                    userDropdownLogout.addEventListener('click', () => {
-                        showToast('Logging out...', 'success');
                     });
                 }
             });

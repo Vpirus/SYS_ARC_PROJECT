@@ -2611,12 +2611,14 @@
             });
         }
         if (userDropdownLogout) {
-            userDropdownLogout.addEventListener("click", () => {
-                showToast("Logged out successfully", "success");
-                setTimeout(() => {
-                    window.location.href = "/templates/login.html";
-                }, 1000);
-            });
+          userDropdownLogout.addEventListener("click", (e) => {
+            e.preventDefault();
+            showToast("Logged out successfully!", "success");
+            setTimeout(
+              () => (window.location.href = "/templates/login.html"),
+              2000
+            );
+          });
         }
 
         // Search Functionality
