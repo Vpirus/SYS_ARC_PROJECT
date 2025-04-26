@@ -1,0 +1,1967 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AgriGo Farmer Orders</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&family=Roboto:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <style>
+      :root {
+        /* Primary Colors */
+        --green-primary: #2e7d32;
+        --green-primary-light: #4caf50;
+        --green-primary-dark: #1b5e20;
+        --earth-brown: #8d6e63;
+        --sky-blue: #4fc3f7;
+
+        /* Secondary Colors */
+        --harvest-yellow: #fbc02d;
+        --leaf-green: #81c784;
+        --soil-tan: #d7ccc8;
+
+        /* Additional Farmer-specific Colors */
+        --crop-green: #66bb6a;
+        --sunrise-orange: #ffb74d;
+        --water-blue: #29b6f6;
+        --wheat-gold: #f9a825;
+
+        /* Neutrals */
+        --dark-gray: #424242;
+        --medium-gray: #757575;
+        --light-gray: #f5f5f5;
+        --white: #ffffff;
+        --black: #212121;
+
+        /* Status Colors */
+        --success: #4caf50;
+        --warning: #ff9800;
+        --danger: #f44336;
+        --info: #2196f3;
+
+        /* Dark Theme Colors */
+        --dark-bg: #121212;
+        --dark-surface: #1e1e1e;
+        --dark-card: #2d2d2d;
+        --dark-border: #333333;
+        --dark-text: #e0e0e0;
+        --dark-text-secondary: #aaaaaa;
+
+        /* Spacing */
+        --spacing-xs: 4px;
+        --spacing-sm: 8px;
+        --spacing-md: 16px;
+        --spacing-lg: 24px;
+        --spacing-xl: 32px;
+        --spacing-xxl: 48px;
+
+        /* Animation */
+        --transition-fast: 0.2s;
+        --transition-normal: 0.3s;
+        --transition-slow: 0.5s;
+
+        /* Shadows */
+        --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.1);
+        --shadow-md: 0 4px 10px rgba(0, 0, 0, 0.15);
+        --shadow-lg: 0 8px 20px rgba(0, 0, 0, 0.2);
+
+        /* Borders */
+        --border-radius-sm: 4px;
+        --border-radius-md: 8px;
+        --border-radius-lg: 12px;
+        --border-radius-xl: 16px;
+        --border-radius-circle: 50%;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Open Sans", sans-serif;
+        background-color: var(--light-gray);
+        color: var(--dark-gray);
+        overflow-x: hidden;
+        line-height: 1.5;
+      }
+      body.dark-mode {
+        background-color: var(--dark-bg);
+        color: var(--dark-text);
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: "Montserrat", sans-serif;
+        font-weight: 700;
+        margin-bottom: var(--spacing-md);
+      }
+      .container {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      /* Overlay */
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 90;
+        display: none;
+        animation: fadeIn 0.3s ease;
+      }
+      .overlay.active {
+        display: block;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        width: 250px;
+        background-color: var(--white);
+        box-shadow: var(--shadow-md);
+        position: fixed;
+        height: 100vh;
+        z-index: 100;
+        transition: all var(--transition-normal);
+        overflow-y: auto;
+      }
+      .dark-mode .sidebar {
+        background-color: var(--dark-surface);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      }
+      .sidebar-collapsed {
+        width: 70px;
+      }
+      .sidebar-header {
+        padding: var(--spacing-md);
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid var(--light-gray);
+        height: 70px;
+      }
+      .dark-mode .sidebar-header {
+        border-bottom-color: var(--dark-border);
+      }
+      .sidebar-header img.logo {
+        height: 40px;
+        width: 40px;
+        object-fit: contain;
+      }
+      .sidebar-header h2 {
+        margin-left: var(--spacing-sm);
+        color: var(--green-primary);
+        font-size: 1.5rem;
+        transition: opacity var(--transition-normal),
+          width var(--transition-normal);
+        white-space: nowrap;
+        margin-bottom: 0;
+      }
+      .sidebar-collapsed .sidebar-header h2 {
+        opacity: 0;
+        width: 0;
+        overflow: hidden;
+      }
+      .sidebar-menu {
+        margin-top: var(--spacing-md);
+      }
+      .nav-list {
+        list-style: none;
+      }
+      .nav-item {
+        margin-bottom: 2px;
+      }
+      .nav-link {
+        padding: var(--spacing-md);
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        transition: all var(--transition-fast);
+        color: var(--dark-gray);
+        text-decoration: none;
+        border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+      }
+      .dark-mode .nav-link {
+        color: var(--dark-text);
+      }
+      .nav-link:hover {
+        background-color: rgba(46, 125, 50, 0.1);
+        color: var(--green-primary);
+      }
+      .dark-mode .nav-link:hover {
+        background-color: rgba(76, 175, 80, 0.1);
+      }
+      .nav-link.active {
+        background-color: var(--green-primary);
+        color: var(--white);
+        box-shadow: var(--shadow-sm);
+      }
+      .dark-mode .nav-link.active {
+        background-color: var(--green-primary-dark);
+      }
+      .nav-link i {
+        font-size: 1.2rem;
+        width: 30px;
+        text-align: center;
+      }
+      .nav-link span {
+        margin-left: var(--spacing-md);
+        transition: opacity var(--transition-normal),
+          width var(--transition-normal);
+        white-space: nowrap;
+      }
+      .sidebar-collapsed .nav-link span {
+        opacity: 0;
+        width: 0;
+        overflow: hidden;
+      }
+      .menu-toggle {
+        position: absolute;
+        right: -5px;
+        top: 65px;
+        background-color: var(--green-primary);
+        color: var(--white);
+        border: none;
+        width: 24px;
+        height: 24px;
+        border-radius: var(--border-radius-circle);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: var(--shadow-sm);
+        transition: background-color var(--transition-fast);
+      }
+      .menu-toggle:hover {
+        background-color: var(--green-primary-dark);
+      }
+      .sidebar-toggle-mobile {
+        display: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: var(--spacing-md);
+        text-align: center;
+        background-color: var(--green-primary);
+        color: var(--white);
+        position: sticky;
+        bottom: 0;
+        z-index: 101;
+      }
+
+      /* Main Content */
+      .main-content {
+        flex: 1;
+        margin-left: 250px;
+        transition: margin-left var(--transition-normal);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        background-color: var(--light-gray);
+      }
+      .dark-mode .main-content {
+        background-color: var(--dark-bg);
+      }
+      .main-content-expanded {
+        margin-left: 70px;
+      }
+      .mobile-menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: var(--dark-gray);
+        cursor: pointer;
+        padding: var(--spacing-sm);
+      }
+      .dark-mode .mobile-menu-toggle {
+        color: var(--dark-text);
+      }
+
+      /* Header */
+      .header {
+        background-color: var(--white);
+        padding: var(--spacing-md) var(--spacing-lg);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: var(--shadow-sm);
+        position: sticky;
+        top: 0;
+        z-index: 99;
+        height: 70px;
+      }
+      .dark-mode .header {
+        background-color: var(--dark-surface);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      }
+      .search-bar {
+        display: flex;
+        align-items: center;
+        background-color: var(--light-gray);
+        border-radius: 20px;
+        padding: var(--spacing-sm) var(--spacing-md);
+        width: 300px;
+        transition: all var(--transition-fast);
+      }
+      .dark-mode .search-bar {
+        background-color: var(--dark-card);
+      }
+      .search-bar:focus-within {
+        box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.3);
+      }
+      .search-bar input {
+        border: none;
+        background: transparent;
+        padding: var(--spacing-xs) var(--spacing-sm);
+        flex: 1;
+        outline: none;
+        font-family: "Open Sans", sans-serif;
+        color: var(--dark-gray);
+        font-size: 0.95rem;
+      }
+      .dark-mode .search-bar input {
+        color: var(--dark-text);
+      }
+      .search-bar input::placeholder {
+        color: var(--medium-gray);
+        opacity: 0.8;
+      }
+      .dark-mode .search-bar input::placeholder {
+        color: var(--dark-text-secondary);
+      }
+      .search-bar i {
+        color: var(--medium-gray);
+      }
+      .dark-mode .search-bar i {
+        color: var(--dark-text-secondary);
+      }
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-lg);
+      }
+
+      /* Notification */
+      .notification {
+        position: relative;
+        cursor: pointer;
+        padding: var(--spacing-xs);
+        border-radius: var(--border-radius-circle);
+        transition: background-color var(--transition-fast);
+      }
+      .notification:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+      .dark-mode .notification:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+      .notification-count {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background-color: var(--harvest-yellow);
+        color: var(--dark-gray);
+        font-size: 0.7rem;
+        width: 18px;
+        height: 18px;
+        border-radius: var(--border-radius-circle);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+      }
+      .notification-dropdown {
+        position: absolute;
+        top: calc(100% + 10px);
+        right: -10px;
+        width: 320px;
+        background-color: var(--white);
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-md);
+        z-index: 100;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        transition: all var(--transition-normal);
+        overflow: hidden;
+        max-height: 400px;
+        display: flex;
+        flex-direction: column;
+      }
+      .dark-mode .notification-dropdown {
+        background-color: var(--dark-card);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+      .notification-dropdown.show {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+      .notification-dropdown h3 {
+        padding: var(--spacing-md);
+        border-bottom: 1px solid var(--light-gray);
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--green-primary);
+      }
+      .dark-mode .notification-dropdown h3 {
+        border-bottom-color: var(--dark-border);
+        color: var(--green-primary-light);
+      }
+      .notification-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        overflow-y: auto;
+        flex: 1;
+      }
+      .notification-item {
+        display: flex;
+        align-items: center;
+        padding: var(--spacing-md);
+        border-bottom: 1px solid var(--light-gray);
+        transition: background-color var(--transition-fast);
+      }
+      .dark-mode .notification-item {
+        border-bottom-color: var(--dark-border);
+      }
+      .notification-item:hover {
+        background-color: var(--light-gray);
+      }
+      .dark-mode .notification-item:hover {
+        background-color: var(--dark-surface);
+      }
+      .notification-icon {
+        width: 30px;
+        height: 30px;
+        border-radius: var(--border-radius-circle);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: var(--spacing-md);
+        font-size: 1rem;
+      }
+      .notification-icon.warning {
+        background-color: var(--warning);
+        color: var(--white);
+      }
+      .notification-icon.success {
+        background-color: var(--success);
+        color: var(--white);
+      }
+      .notification-icon.info {
+        background-color: var(--sky-blue);
+        color: var(--white);
+      }
+      .notification-content p {
+        margin: 0;
+        font-size: 0.9rem;
+        color: var(--dark-gray);
+      }
+      .dark-mode .notification-content p {
+        color: var(--dark-text);
+      }
+      .notification-content strong {
+        font-weight: 600;
+        color: var(--black);
+      }
+      .dark-mode .notification-content strong {
+        color: var(--white);
+      }
+      .notification-time {
+        font-size: 0.75rem;
+        color: var(--medium-gray);
+      }
+      .dark-mode .notification-time {
+        color: var(--dark-text-secondary);
+      }
+      .notification-footer {
+        padding: var(--spacing-md);
+        text-align: center;
+        border-top: 1px solid var(--light-gray);
+      }
+      .dark-mode .notification-footer {
+        border-top-color: var(--dark-border);
+      }
+      .notification-footer a {
+        font-size: 0.85rem;
+        color: var(--green-primary);
+      }
+      .notification-footer a:hover {
+        color: var(--green-primary-dark);
+      }
+
+      /* User Profile */
+      .user-profile {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        padding: var(--spacing-sm);
+        border-radius: var(--border-radius-md);
+        transition: background-color var(--transition-fast);
+        position: relative;
+      }
+      .user-profile:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+      .dark-mode .user-profile:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+      .user-avatar {
+        width: 35px;
+        height: 35px;
+        background-color: var(--green-primary);
+        color: var(--white);
+        border-radius: var(--border-radius-circle);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        font-weight: 600;
+        margin-right: var(--spacing-sm);
+      }
+      .user-info {
+        display: flex;
+        flex-direction: column;
+      }
+      .user-name {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--black);
+      }
+      .dark-mode .user-name {
+        color: var(--dark-text);
+      }
+      .role-badge {
+        font-size: 0.75rem;
+        color: var(--medium-gray);
+      }
+      .dark-mode .role-badge {
+        color: var(--dark-text-secondary);
+      }
+      .dropdown-icon {
+        margin-left: var(--spacing-sm);
+        color: var(--medium-gray);
+        transition: transform var(--transition-fast);
+      }
+      .user-profile:hover .dropdown-icon {
+        transform: rotate(180deg);
+      }
+      .user-dropdown {
+        position: absolute;
+        top: calc(100% + 10px);
+        right: 0;
+        width: 200px;
+        background-color: var(--white);
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-md);
+        z-index: 100;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        transition: all var(--transition-normal);
+      }
+      .dark-mode .user-dropdown {
+        background-color: var(--dark-card);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+      .user-dropdown.show {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+      .user-dropdown ul {
+        list-style: none;
+        padding: var(--spacing-sm) 0;
+        margin: 0;
+      }
+      .user-dropdown li {
+        padding: var(--spacing-sm) var(--spacing-md);
+        transition: background-color var(--transition-fast);
+      }
+      .user-dropdown li:hover {
+        background-color: var(--light-gray);
+      }
+      .dark-mode .user-dropdown li:hover {
+        background-color: var(--dark-surface);
+      }
+      .user-dropdown li.divider {
+        height: 1px;
+        background-color: var(--light-gray);
+        padding: 0;
+        margin: var(--spacing-sm) 0;
+      }
+      .dark-mode .user-dropdown li.divider {
+        background-color: var(--dark-border);
+      }
+      .user-dropdown a {
+        display: flex;
+        align-items: center;
+        color: var(--dark-gray);
+        font-size: 0.9rem;
+        text-decoration: none;
+      }
+      .dark-mode .user-dropdown a {
+        color: var(--dark-text);
+      }
+      .user-dropdown a i {
+        margin-right: var(--spacing-md);
+        width: 20px;
+        text-align: center;
+      }
+
+      /* Orders Content */
+      .orders-content {
+        padding: var(--spacing-lg);
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-lg);
+      }
+      .section {
+        background-color: var(--white);
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-sm);
+        padding: var(--spacing-lg);
+        margin-bottom: var(--spacing-xl);
+      }
+      .dark-mode .section {
+        background-color: var(--dark-card);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: var(--spacing-lg);
+      }
+      .section-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--green-primary);
+      }
+      .dark-mode .section-title {
+        color: var(--green-primary-light);
+      }
+      .section-actions {
+        display: flex;
+        gap: var(--spacing-sm);
+        align-items: center;
+      }
+
+      /* Buttons */
+      .btn {
+        padding: var(--spacing-sm) var(--spacing-md);
+        border-radius: 6px;
+        cursor: pointer;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-size: 0.9rem;
+        transition: all var(--transition-fast) ease;
+        border: none;
+        display: inline-flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        text-align: center;
+        justify-content: center;
+      }
+      .btn-primary {
+        background-color: var(--green-primary);
+        color: var(--white);
+      }
+      .btn-primary:hover {
+        background-color: var(--green-primary-dark);
+        transform: translateY(-2px);
+      }
+      .btn-secondary {
+        background-color: rgba(46, 125, 50, 0.1);
+        color: var(--green-primary);
+      }
+      .btn-secondary:hover {
+        background-color: rgba(46, 125, 50, 0.2);
+        transform: translateY(-2px);
+      }
+      .btn-outline {
+        border: 1px solid var(--green-primary);
+        background-color: transparent;
+        color: var(--green-primary);
+      }
+      .btn-outline:hover {
+        background-color: rgba(46, 125, 50, 0.1);
+        transform: translateY(-2px);
+      }
+      .btn-success {
+        background-color: var(--success);
+        color: var(--white);
+      }
+      .btn-success:hover {
+        background-color: #388e3c;
+        transform: translateY(-2px);
+      }
+      .btn-danger {
+        background-color: var(--danger);
+        color: var(--white);
+      }
+      .btn-danger:hover {
+        background-color: #d32f2f;
+        transform: translateY(-2px);
+      }
+      .dark-mode .btn-secondary {
+        background-color: rgba(76, 175, 80, 0.1);
+        color: var(--green-primary-light);
+      }
+      .dark-mode .btn-secondary:hover {
+        background-color: rgba(76, 175, 80, 0.2);
+      }
+      .dark-mode .btn-outline {
+        border-color: var(--green-primary-light);
+        color: var(--green-primary-light);
+      }
+      .dark-mode .btn-outline:hover {
+        background-color: rgba(76, 175, 80, 0.1);
+      }
+      .btn:disabled {
+        background-color: var(--medium-gray);
+        color: var(--light-gray);
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      /* Tabs */
+      .tabs {
+        display: flex;
+        border-bottom: 1px solid var(--light-gray);
+        padding: var(--spacing-md) var(--spacing-lg) 0;
+      }
+      .dark-mode .tabs {
+        border-bottom-color: var(--dark-border);
+      }
+      .tab {
+        padding: var(--spacing-sm) var(--spacing-md);
+        cursor: pointer;
+        transition: all var(--transition-fast);
+        font-weight: 500;
+        color: var(--medium-gray);
+        position: relative;
+      }
+      .dark-mode .tab {
+        color: var(--dark-text-secondary);
+      }
+      .tab:hover {
+        color: var(--green-primary);
+      }
+      .dark-mode .tab:hover {
+        color: var(--green-primary-light);
+      }
+      .tab.active {
+        color: var(--green-primary);
+        font-weight: 600;
+      }
+      .dark-mode .tab.active {
+        color: var(--green-primary-light);
+      }
+      .tab.active::after {
+        content: "";
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: var(--green-primary);
+      }
+      .dark-mode .tab.active::after {
+        background-color: var(--green-primary-light);
+      }
+      .tab-content {
+        padding: var(--spacing-md) var(--spacing-lg);
+      }
+      .tab-content.hidden {
+        display: none;
+      }
+
+      /* Order List */
+      .order-list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-md);
+      }
+      .order-item {
+        display: flex;
+        align-items: center;
+        padding: var(--spacing-md);
+        border: 1px solid var(--light-gray);
+        border-radius: var(--border-radius-md);
+        transition: all var(--transition-fast);
+        background-color: var(--white);
+      }
+      .dark-mode .order-item {
+        border-color: var(--dark-border);
+        background-color: var(--dark-card);
+      }
+      .order-item:hover {
+        border-color: var(--green-primary);
+        box-shadow: var(--shadow-sm);
+      }
+      .order-info {
+        flex: 1;
+      }
+      .order-name {
+        font-weight: 600;
+      }
+      .order-detail {
+        display: flex;
+        gap: var(--spacing-lg);
+        margin-top: var(--spacing-xs);
+        font-size: 0.9rem;
+        color: var(--dark-gray);
+        opacity: 0.7;
+      }
+      .dark-mode .order-detail {
+        color: var(--dark-text-secondary);
+      }
+      .order-actions {
+        display: flex;
+        gap: var(--spacing-sm);
+      }
+      .badge {
+        padding: 4px 8px;
+        border-radius: var(--border-radius-sm);
+        font-size: 0.8rem;
+      }
+      .badge-success {
+        background-color: rgba(46, 125, 50, 0.1);
+        color: var(--green-primary);
+      }
+      .badge-warning {
+        background-color: rgba(251, 192, 45, 0.1);
+        color: var(--harvest-yellow);
+      }
+      .badge-danger {
+        background-color: rgba(244, 67, 54, 0.1);
+        color: var(--danger);
+      }
+
+      /* Modal */
+      .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: fadeIn 0.3s ease;
+      }
+      .modal-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: -1;
+      }
+      .modal-content {
+        background-color: var(--white);
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-lg);
+        max-width: 90%;
+        width: 600px;
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
+        animation: fadeInDown 0.3s ease;
+      }
+      .dark-mode .modal-content {
+        background-color: var(--dark-card);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: var(--spacing-md);
+        border-bottom: 1px solid var(--light-gray);
+      }
+      .dark-mode .modal-header {
+        border-bottom-color: var(--dark-border);
+      }
+      .modal-header h2 {
+        margin: 0;
+        font-size: 1.2rem;
+        color: var(--green-primary);
+      }
+      .dark-mode .modal-header h2 {
+        color: var(--green-primary-light);
+      }
+      .modal-body {
+        padding: var(--spacing-md);
+      }
+      .modal-footer {
+        padding: var(--spacing-md);
+        border-top: 1px solid var(--light-gray);
+        display: flex;
+        justify-content: flex-end;
+        gap: var(--spacing-sm);
+      }
+      .dark-mode .modal-footer {
+        border-top-color: var(--dark-border);
+      }
+      .modal-medium {
+        width: 600px;
+      }
+      .modal-large {
+        width: 800px;
+      }
+      .close-modal {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1.2rem;
+        color: var(--medium-gray);
+      }
+      .dark-mode .close-modal {
+        color: var(--dark-text-secondary);
+      }
+      .close-modal:hover {
+        color: var(--green-primary);
+      }
+      .dark-mode .close-modal:hover {
+        color: var(--green-primary-light);
+      }
+
+      /* Form Controls for Modals */
+      .form-control {
+        width: 100%;
+        padding: var(--spacing-sm);
+        border: 1px solid var(--light-gray);
+        border-radius: var(--border-radius-sm);
+        font-size: 0.9rem;
+        color: var(--dark-gray);
+        background-color: var(--white);
+      }
+      .dark-mode .form-control {
+        border-color: var(--dark-border);
+        background-color: var(--dark-surface);
+        color: var(--dark-text);
+      }
+      .form-control:focus {
+        outline: none;
+        border-color: var(--green-primary);
+        box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.2);
+      }
+      .form-group {
+        margin-bottom: var(--spacing-md);
+      }
+      .form-group label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: var(--spacing-xs);
+        color: var(--dark-gray);
+      }
+      .dark-mode .form-group label {
+        color: var(--dark-text);
+      }
+      .form-actions {
+        display: flex;
+        gap: var(--spacing-sm);
+        justify-content: flex-end;
+      }
+      .form-row {
+        display: flex;
+        gap: var(--spacing-md);
+      }
+      .form-row .form-group {
+        flex: 1;
+      }
+
+      /* Order Detail Modal */
+      .order-detail-modal {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-md);
+      }
+      .order-detail-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: var(--spacing-md);
+      }
+      .order-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--green-primary);
+      }
+      .dark-mode .order-title {
+        color: var(--green-primary-light);
+      }
+      .order-detail-section {
+        margin-bottom: var(--spacing-md);
+      }
+      .order-detail-section h3 {
+        font-size: 1rem;
+        margin-bottom: var(--spacing-sm);
+        color: var(--dark-gray);
+      }
+      .dark-mode .order-detail-section h3 {
+        color: var(--dark-text);
+      }
+      .detail-row {
+        display: flex;
+        gap: var(--spacing-md);
+        margin-bottom: var(--spacing-sm);
+      }
+      .detail-label {
+        font-weight: 600;
+        width: 120px;
+        color: var(--dark-gray);
+      }
+      .dark-mode .detail-label {
+        color: var(--dark-text);
+      }
+      .detail-value {
+        flex: 1;
+        color: var(--dark-gray);
+      }
+      .dark-mode .detail-value {
+        color: var(--dark-text);
+      }
+      .note-text {
+        font-style: italic;
+        color: var(--medium-gray);
+      }
+      .dark-mode .note-text {
+        color: var(--dark-text-secondary);
+      }
+      .order-actions-footer {
+        display: flex;
+        gap: var(--spacing-sm);
+        justify-content: flex-end;
+        margin-top: var(--spacing-md);
+      }
+
+/* Footer */
+.footer {
+        background-color: var(--white);
+        padding: var(--spacing-lg) var(--spacing-xl);
+        border-top: 1px solid var(--light-gray);
+        margin-top: auto;
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
+      }
+      .dark-mode .footer {
+        background-color: var(--dark-surface);
+        border-top-color: var(--dark-border);
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+      }
+      .footer-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .footer-content p {
+        font-size: 0.85rem;
+        color: var(--medium-gray);
+        margin: 0;
+      }
+      .dark-mode .footer-content p {
+        color: var(--dark-text-secondary);
+      }
+      .footer-links {
+        display: flex;
+        gap: var(--spacing-lg);
+      }
+      .footer-links a {
+        font-size: 0.85rem;
+        color: var(--green-primary);
+        text-decoration: none;
+        transition: color var(--transition-fast);
+      }
+      .dark-mode .footer-links a {
+        color: var(--green-primary-light);
+      }
+      .footer-links a:hover {
+        color: var(--green-primary-dark);
+      }
+      .dark-mode .footer-links a:hover {
+        color: var(--green-primary);
+      }
+
+      /* Toast */
+      .toast-container {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+      }
+      .toast {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--spacing-md);
+        margin-top: var(--spacing-sm);
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-sm);
+        animation: slideIn 0.3s ease;
+      }
+      .toast-success {
+        background-color: var(--success);
+        color: var(--white);
+      }
+      .toast-info {
+        background-color: var(--info);
+        color: var(--white);
+      }
+      .toast-error {
+        background-color: var(--danger);
+        color: var(--white);
+      }
+      .toast i {
+        cursor: pointer;
+        margin-left: var(--spacing-md);
+      }
+
+      /* Animations */
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+      @keyframes fadeInDown {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes fadeOutUp {
+        from { opacity: 1; transform: translateY(0); }
+        to { opacity: 0; transform: translateY(-10px); }
+      }
+
+      /* Media Queries */
+      @media (max-width: 768px) {
+        .sidebar {
+          width: 250px;
+          transform: translateX(-100%);
+          position: fixed;
+        }
+        .sidebar.active {
+          transform: translateX(0);
+        }
+        .main-content {
+          margin-left: 0;
+        }
+        .mobile-menu-toggle {
+          display: block;
+        }
+        .sidebar-toggle-mobile {
+          display: block;
+        }
+        .header {
+          flex-direction: row;
+          align-items: center;
+          height: auto;
+          padding: var(--spacing-md);
+          gap: var(--spacing-md);
+        }
+        .search-bar {
+          width: 100%;
+          max-width: 200px;
+        }
+        .header-actions {
+          gap: var(--spacing-md);
+        }
+        .section-actions {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .btn {
+          width: 100%;
+        }
+        .footer-content {
+          flex-direction: column;
+          gap: var(--spacing-md);
+          align-items: flex-start;
+        }
+        .footer-links {
+          flex-direction: column;
+          gap: var(--spacing-sm);
+        }
+      }
+      @media (max-width: 480px) {
+        .notification-dropdown,
+        .user-dropdown {
+          width: 100%;
+          right: 0;
+          left: 0;
+          margin: 0 var(--spacing-md);
+        }
+        .section-actions {
+          flex-direction: column;
+          gap: var(--spacing-sm);
+          width: 100%;
+        }
+        .btn {
+          width: 100%;
+          justify-content: center;
+        }
+        .header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .search-bar {
+          max-width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="overlay" id="overlay"></div>
+    <div class="container">
+      <!-- Sidebar -->
+      <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <img src="/templates/images/logo.png" alt="AgriGo Logo" class="logo" />
+          <h2>AgriGo</h2>
+          <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+        </div>
+        <div class="sidebar-menu">
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a href="/templates/farmer/farmer-dashboard.html" class="nav-link" data-tab="dashboard">
+                <i class="fas fa-home"></i> <span>Dashboard</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/templates/farmer/farm.html" class="nav-link" data-tab="farm">
+                <i class="fas fa-seedling"></i> <span>My Farm</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/templates/farmer/products.html" class="nav-link" data-tab="products">
+                <i class="fas fa-box"></i> <span>Products</span>
+      </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link active" data-tab="orders">
+                <i class="fas fa-shopping-cart"></i> <span>Orders</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/templates/farmer/payments.html" class="nav-link" data-tab="payments">
+                <i class="fas fa-credit-card"></i> <span>Payments</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/templates/farmer/reviews.html" class="nav-link" data-tab="reviews">
+                <i class="fas fa-comment-alt"></i> <span>Reviews</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/templates/farmer/analytics.html" class="nav-link" data-tab="analytics">
+                <i class="fas fa-chart-line"></i> <span>Analytics</span>
+              </a>
+            </li>
+          </ul>
+          <div class="sidebar-toggle-mobile">
+            <i class="fas fa-times"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content" id="main-content">
+        <!-- Header -->
+        <div class="header">
+          <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Mobile menu">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Search orders..." aria-label="Search" />
+          </div>
+          <div class="header-actions">
+            <div class="notification" id="notificationIcon">
+              <i class="fas fa-bell"></i>
+              <span class="notification-count">3</span>
+              <div class="notification-dropdown" id="notificationDropdown">
+                <h3>Notifications</h3>
+                <ul class="notification-list">
+                  <li class="notification-item">
+                    <div class="notification-icon warning">
+                      <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="notification-content">
+                      <p>Low stock alert: <strong>Organic Wheat</strong></p>
+                      <span class="notification-time">1 hour ago</span>
+                    </div>
+                  </li>
+                  <li class="notification-item">
+                    <div class="notification-icon success">
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="notification-content">
+                      <p>Order #12345 successfully delivered</p>
+                      <span class="notification-time">2 hours ago</span>
+                    </div>
+                  </li>
+                  <li class="notification-item">
+                    <div class="notification-icon info">
+                      <i class="fas fa-info-circle"></i>
+                    </div>
+                    <div class="notification-content">
+                      <p>New market price update available</p>
+                      <span class="notification-time">5 hours ago</span>
+                    </div>
+                  </li>
+                </ul>
+                <div class="notification-footer">
+                  <a href="#notifications">View all notifications</a>
+                </div>
+              </div>
+            </div>
+            <div class="user-profile" id="userProfile">
+              <div class="user-avatar">VF</div>
+              <div class="user-info">
+                <div class="user-name">Vicente Fernandez</div>
+                <span class="role-badge">Verified Farmer</span>
+              </div>
+              <i class="fas fa-chevron-down dropdown-icon"></i>
+              <div class="user-dropdown" id="userDropdown">
+                <ul>
+                  <li><a href="#profile"><i class="fas fa-user"></i> My Profile</a></li>
+                  <li><a href="#settings"><i class="fas fa-cog"></i> Account Settings</a></li>
+                  <li><a href="#help"><i class="fas fa-question-circle"></i> Help & Support</a></li>
+                  <li class="divider"></li>
+                  <li><a href="#" id="darkModeToggle"><i class="fas fa-moon"></i> <span id="themeText">Dark Mode</span></a></li>
+                  <li class="divider"></li>
+                  <li><a href="#" id="userDropdownLogout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Orders Content -->
+        <div class="orders-content">
+          <!-- Orders Section -->
+          <div class="section">
+            <div class="section-header">
+              <div class="section-title">Orders</div>
+              <div class="section-actions">
+                <button class="btn btn-primary" id="addOrderBtn">
+                  <i class="fas fa-plus"></i> Add Order
+                </button>
+                <button class="btn btn-secondary" id="refreshOrdersBtn">
+                  <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+              </div>
+            </div>
+            <div class="tabs">
+              <div class="tab active" data-tab="pending">Pending</div>
+              <div class="tab" data-tab="completed">Completed</div>
+              <div class="tab" data-tab="cancelled">Cancelled</div>
+            </div>
+            <div class="tab-content" id="pendingTab">
+              <div class="order-list" id="pendingOrders"></div>
+            </div>
+            <div class="tab-content hidden" id="completedTab">
+              <div class="order-list" id="completedOrders"></div>
+            </div>
+            <div class="tab-content hidden" id="cancelledTab">
+              <div class="order-list" id="cancelledOrders"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+          <div class="footer-content">
+            <p>© 2025 AgriGo. All rights reserved.</p>
+            <div class="footer-links">
+              <a href="#terms">Terms of Service</a>
+              <a href="#privacy">Privacy Policy</a>
+              <a href="#help">Help Center</a>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Utility Functions
+        const $ = (selector, context = document) => context.querySelector(selector);
+        const $$ = (selector, context = document) => Array.from(context.querySelectorAll(selector));
+        const toggleClass = (element, className) => element?.classList.toggle(className);
+
+        // Toast Notification Function
+        function showToast(message, type = "success", duration = 3000) {
+          const toastContainer = $("#toastContainer");
+          if (!toastContainer) {
+            const container = document.createElement("div");
+            container.id = "toastContainer";
+            container.className = "toast-container";
+            document.body.appendChild(container);
+          }
+          const toast = document.createElement("div");
+          toast.className = `toast toast-${type}`;
+          toast.innerHTML = `${message}<i class="fas fa-times"></i>`;
+          $("#toastContainer").appendChild(toast);
+          setTimeout(() => {
+            toast.style.animation = "slideOut 0.3s ease";
+            setTimeout(() => toast.remove(), 300);
+          }, duration);
+          toast.querySelector("i").addEventListener("click", () => {
+            toast.style.animation = "slideOut 0.3s ease";
+            setTimeout(() => toast.remove(), 300);
+          });
+        }
+
+        // Modal Functionality
+        function createModal(title, content, size = 'medium') {
+          const existingModal = $("#customModal");
+          if (existingModal) existingModal.remove();
+          const modal = document.createElement("div");
+          modal.id = "customModal";
+          modal.className = `modal modal-${size}`;
+          modal.innerHTML = `
+            <div class="modal-content animate__animated animate__fadeInDown">
+              <div class="modal-header">
+                <h2>${title}</h2>
+                <button class="close-modal"><i class="fas fa-times"></i></button>
+              </div>
+              <div class="modal-body">
+                ${content}
+              </div>
+            </div>
+            <div class="modal-overlay"></div>
+          `;
+          document.body.appendChild(modal);
+          $$(".close-modal").forEach(btn => {
+            btn.addEventListener("click", () => {
+              modal.querySelector(".modal-content").classList.replace("animate__fadeInDown", "animate__fadeOutUp");
+              setTimeout(() => modal.remove(), 300);
+            });
+          });
+          modal.querySelector(".modal-overlay").addEventListener("click", () => {
+            modal.querySelector(".modal-content").classList.replace("animate__fadeInDown", "animate__fadeOutUp");
+            setTimeout(() => modal.remove(), 300);
+          });
+          document.body.style.overflow = "hidden";
+          const restoreScrolling = () => document.body.style.overflow = "";
+          modal.addEventListener("animationend", function(e) {
+            if (e.animationName === "fadeOutUp") restoreScrolling();
+          });
+          return modal;
+        }
+
+        // Sidebar Toggle
+        const menuToggle = $("#menu-toggle");
+        const sidebar = $("#sidebar");
+        const mainContent = $("#main-content");
+        const overlay = $("#overlay");
+        if (menuToggle && sidebar && mainContent) {
+          menuToggle.addEventListener("click", () => {
+            toggleClass(sidebar, "sidebar-collapsed");
+            toggleClass(mainContent, "main-content-expanded");
+            const icon = menuToggle.querySelector("i");
+            icon.classList.toggle("fa-chevron-left");
+            icon.classList.toggle("fa-chevron-right");
+          });
+        }
+
+        // Mobile Menu Toggle
+        const mobileMenuToggle = $("#mobile-menu-toggle");
+        const sidebarToggleMobile = $(".sidebar-toggle-mobile");
+        const toggleMobileSidebar = () => {
+          toggleClass(sidebar, "active");
+          toggleClass(overlay, "active");
+        };
+        if (mobileMenuToggle) mobileMenuToggle.addEventListener("click", toggleMobileSidebar);
+        if (sidebarToggleMobile) sidebarToggleMobile.addEventListener("click", toggleMobileSidebar);
+        if (overlay) overlay.addEventListener("click", toggleMobileSidebar);
+
+        // Dark Mode Toggle
+        const darkModeToggle = $("#darkModeToggle");
+        const themeText = $("#themeText");
+        if (darkModeToggle) {
+          const toggleDarkMode = () => {
+            const isDark = document.body.classList.toggle("dark-mode");
+            localStorage.setItem("darkMode", isDark);
+            themeText.textContent = isDark ? "Light Mode" : "Dark Mode";
+          };
+          darkModeToggle.addEventListener("click", toggleDarkMode);
+          if (localStorage.getItem("darkMode") === "true") toggleDarkMode();
+        }
+
+        // Notification Dropdown
+        const notificationIcon = $("#notificationIcon");
+        const notificationDropdown = $("#notificationDropdown");
+        if (notificationIcon && notificationDropdown) {
+          notificationIcon.addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleClass(notificationDropdown, "show");
+          });
+          document.addEventListener("click", (e) => {
+            if (!notificationIcon.contains(e.target))
+              notificationDropdown.classList.remove("show");
+          });
+        }
+
+        // User Profile Dropdown
+        const userProfile = $("#userProfile");
+        const userDropdown = $("#userDropdown");
+        if (userProfile && userDropdown) {
+          userProfile.addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleClass(userDropdown, "show");
+          });
+          document.addEventListener("click", (e) => {
+            if (!userProfile.contains(e.target))
+              userDropdown.classList.remove("show");
+          });
+        }
+
+        // Logout Functionality
+        const userDropdownLogout = $("#userDropdownLogout");
+        if (userDropdownLogout) {
+          userDropdownLogout.addEventListener("click", (e) => {
+            e.preventDefault();
+            showToast("Logged out successfully!", "success");
+            setTimeout(() => (window.location.href = "/templates/login.html"), 2000);
+          });
+        }
+
+        // Simulated Data (consistent with dashboard)
+        const dashboardData = {
+          orders: {
+            pending: [
+              {
+                id: "12345",
+                customer: "Maria Santos",
+                product: "Organic Tomatoes",
+                total: "₱2900",
+                status: "Pending",
+                date: "Apr 21, 2025",
+                description: "10kg of freshly harvested organic tomatoes",
+                address: "123 Main St, Manila",
+                paymentMethod: "Bank Transfer",
+                notes: "Please ensure tomatoes are wrapped carefully for shipping"
+              },
+              {
+                id: "12346",
+                customer: "Juan Dela Cruz",
+                product: "Fresh Strawberries",
+                total: "₱4640",
+                status: "Pending",
+                date: "Apr 20, 2025",
+                description: "8kg of premium strawberries",
+                address: "456 Oak Lane, Cebu City",
+                paymentMethod: "Cash on Delivery",
+                notes: "Deliver during morning hours only"
+              }
+            ],
+            completed: [
+              {
+                id: "12344",
+                customer: "Pedro Reyes",
+                product: "Organic Wheat",
+                total: "₱2080",
+                status: "Delivered",
+                date: "Apr 19, 2025",
+                description: "20kg of organic wheat",
+                address: "789 Pine Road, Davao",
+                paymentMethod: "Credit Card",
+                notes: "Delivered successfully"
+              }
+            ],
+            cancelled: [
+              {
+                id: "12343",
+                customer: "Ana Gomez",
+                product: "Organic Tomatoes",
+                total: "₱1450",
+                status: "Cancelled",
+                date: "Apr 18, 2025",
+                description: "5kg of organic tomatoes",
+                address: "101 Maple Ave, Quezon City",
+                paymentMethod: "GCash",
+                notes: "Customer cancelled due to change of plans"
+              }
+            ]
+          }
+        };
+
+        // Function to save order data to localStorage
+        function saveOrderData(orders) {
+          localStorage.setItem('dashboardOrders', JSON.stringify(orders));
+        }
+
+        // Function to get order data from localStorage
+        function getOrderData() {
+          const savedOrders = localStorage.getItem('dashboardOrders');
+          return savedOrders ? JSON.parse(savedOrders) : null;
+        }
+
+        // Save initial orders data to localStorage for persistence if not already saved
+        if (!getOrderData()) {
+          saveOrderData({
+            pending: dashboardData.orders.pending || [],
+            completed: dashboardData.orders.completed || [],
+            cancelled: dashboardData.orders.cancelled || []
+          });
+        } else {
+          dashboardData.orders = getOrderData();
+        }
+
+        // Tab functionality for Orders section
+        function initializeOrderTabs() {
+          $$('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+              $$('.tab').forEach(t => t.classList.remove('active'));
+              tab.classList.add('active');
+              $$('.tab-content').forEach(content => content.classList.add('hidden'));
+              const tabName = tab.getAttribute('data-tab');
+              $(`#${tabName}Tab`).classList.remove('hidden');
+              showToast(`Switched to ${tab.textContent} orders`, "info");
+            });
+          });
+        }
+
+        // Populate Orders
+        function populateOrders(containerId, orders) {
+          const container = $(`#${containerId}`);
+          if (!container) return;
+          container.innerHTML = "";
+          if (!orders || orders.length === 0) {
+            container.innerHTML = `<div class="empty-state">No orders found</div>`;
+            return;
+          }
+          orders.forEach((order) => {
+            const item = document.createElement("div");
+            item.className = "order-item animate__animated animate__fadeIn";
+            item.innerHTML = `
+              <div class="order-info">
+                <div class="order-name">${order.product} (#${order.id})</div>
+                <div class="order-detail">
+                  <span>Customer: ${order.customer}</span>
+                  <span>Total: ${order.total}</span>
+                  <span>Date: ${order.date}</span>
+                </div>
+              </div>
+              <div class="order-actions">
+                <span class="badge badge-${
+                  order.status.toLowerCase() === "delivered" ? "success" :
+                  order.status.toLowerCase() === "pending" ? "warning" : "danger"
+                }">${order.status}</span>
+                <button class="btn btn-primary view-order" data-order-id="${order.id}">
+                  <i class="fas fa-eye"></i> View
+                </button>
+              </div>
+            `;
+            container.appendChild(item);
+          });
+
+          // View Order button event listeners
+          $$(`#${containerId} .view-order`).forEach((button) => {
+            button.addEventListener("click", () => {
+              const orderId = button.getAttribute("data-order-id");
+              const orderType = containerId.replace('Orders', '');
+              const orderData = getOrderData() || dashboardData.orders;
+              const order = orderData[orderType].find(o => o.id === orderId);
+              if (order) {
+                sessionStorage.setItem('selectedOrder', JSON.stringify(order));
+                const modalContent = `
+                  <div class="order-detail-modal">
+                    <div class="order-detail-header">
+                      <div class="order-title">${order.product}</div>
+                      <span class="badge badge-${
+                        order.status.toLowerCase() === "delivered" ? "success" :
+                        order.status.toLowerCase() === "pending" ? "warning" : "danger"
+                      }">${order.status}</span>
+                    </div>
+                    <div class="order-detail-section">
+                      <div class="detail-row">
+                        <div class="detail-label">Order ID:</div>
+                        <div class="detail-value">#${order.id}</div>
+                      </div>
+                      <div class="detail-row">
+                        <div class="detail-label">Customer:</div>
+                        <div class="detail-value">${order.customer}</div>
+                      </div>
+                      <div class="detail-row">
+                        <div class="detail-label">Date:</div>
+                        <div class="detail-value">${order.date}</div>
+                      </div>
+                      <div class="detail-row">
+                        <div class="detail-label">Total:</div>
+                        <div class="detail-value">${order.total}</div>
+                      </div>
+                    </div>
+                    <div class="order-detail-section">
+                      <h3>Product Details</h3>
+                      <div class="detail-row">
+                        <div class="detail-label">Description:</div>
+                        <div class="detail-value">${order.description || 'No description available'}</div>
+                      </div>
+                    </div>
+                    <div class="order-detail-section">
+                      <h3>Shipping Information</h3>
+                      <div class="detail-row">
+                        <div class="detail-label">Address:</div>
+                        <div class="detail-value">${order.address || 'No address provided'}</div>
+                      </div>
+                    </div>
+                    <div class="order-detail-section">
+                      <h3>Payment</h3>
+                      <div class="detail-row">
+                        <div class="detail-label">Method:</div>
+                        <div class="detail-value">${order.paymentMethod || 'Not specified'}</div>
+                      </div>
+                    </div>
+                    <div class="order-detail-section">
+                      <h3>Notes</h3>
+                      <div class="detail-value note-text">${order.notes || 'No additional notes'}</div>
+                    </div>
+                    <div class="order-actions-footer">
+                      <button class="btn btn-primary go-to-details" data-order-id="${order.id}">
+                        <i class="fas fa-external-link-alt"></i> Full Order Details
+                      </button>
+                      ${order.status === 'Pending' ? `
+                        <button class="btn btn-success mark-completed" data-order-id="${order.id}">
+                          <i class="fas fa-check"></i> Mark as Completed
+                        </button>
+                        <button class="btn btn-danger mark-cancelled" data-order-id="${order.id}">
+                          <i class="fas fa-times"></i> Cancel Order
+                        </button>
+                      ` : ''}
+                    </div>
+                  </div>
+                `;
+                const modal = createModal(`Order #${order.id} Details`, modalContent, 'large');
+                const goToDetailsBtn = modal.querySelector(".go-to-details");
+                if (goToDetailsBtn) {
+                  goToDetailsBtn.addEventListener("click", () => {
+                    showToast(`Opening full details for order #${orderId}...`, "info");
+                    setTimeout(() => {
+                      window.location.href = `/templates/farmer/order-details.html?id=${orderId}`;
+                    }, 1000);
+                  });
+                }
+                const markCompletedBtn = modal.querySelector(".mark-completed");
+                if (markCompletedBtn) {
+                  markCompletedBtn.addEventListener("click", () => {
+                    const currentOrders = getOrderData() || dashboardData.orders;
+                    const orderIndex = currentOrders.pending.findIndex(o => o.id === orderId);
+                    if (orderIndex !== -1) {
+                      const orderToMove = currentOrders.pending.splice(orderIndex, 1)[0];
+                      orderToMove.status = "Delivered";
+                      currentOrders.completed.unshift(orderToMove);
+                      saveOrderData(currentOrders);
+                      populateOrders("pendingOrders", currentOrders.pending);
+                      populateOrders("completedOrders", currentOrders.completed);
+                      modal.querySelector(".modal-content").classList.replace("animate__fadeInDown", "animate__fadeOutUp");
+                      setTimeout(() => modal.remove(), 300);
+                      showToast(`Order #${orderId} marked as completed!`, "success");
+                    }
+                  });
+                }
+                const markCancelledBtn = modal.querySelector(".mark-cancelled");
+                if (markCancelledBtn) {
+                  markCancelledBtn.addEventListener("click", () => {
+                    const currentOrders = getOrderData() || dashboardData.orders;
+                    const orderIndex = currentOrders.pending.findIndex(o => o.id === orderId);
+                    if (orderIndex !== -1) {
+                      const orderToMove = currentOrders.pending.splice(orderIndex, 1)[0];
+                      orderToMove.status = "Cancelled";
+                      currentOrders.cancelled.unshift(orderToMove);
+                      saveOrderData(currentOrders);
+                      populateOrders("pendingOrders", currentOrders.pending);
+                      populateOrders("cancelledOrders", currentOrders.cancelled);
+                      modal.querySelector(".modal-content").classList.replace("animate__fadeInDown", "animate__fadeOutUp");
+                      setTimeout(() => modal.remove(), 300);
+                      showToast(`Order #${orderId} has been cancelled.`, "warning");
+                    }
+                  });
+                }
+              } else {
+                showToast(`Error: Order #${orderId} not found`, "error");
+              }
+            });
+          });
+        }
+
+        // Refresh Orders
+        const refreshOrdersBtn = $("#refreshOrdersBtn");
+        if (refreshOrdersBtn) {
+          refreshOrdersBtn.addEventListener("click", () => {
+            showToast("Refreshing orders...", "info");
+            setTimeout(() => {
+              const currentOrders = getOrderData() || dashboardData.orders;
+              populateOrders("pendingOrders", currentOrders.pending);
+              populateOrders("completedOrders", currentOrders.completed);
+              populateOrders("cancelledOrders", currentOrders.cancelled);
+              showToast("Orders refreshed successfully!", "success");
+            }, 1000);
+          });
+        }
+
+        // Initialize order tabs and populate orders
+        initializeOrderTabs();
+        const currentOrders = getOrderData() || dashboardData.orders;
+        populateOrders("pendingOrders", currentOrders.pending);
+        populateOrders("completedOrders", currentOrders.completed);
+        populateOrders("cancelledOrders", currentOrders.cancelled);
+
+        // Search Functionality
+        const searchInput = $("#searchInput");
+        if (searchInput) {
+          searchInput.addEventListener("input", () => {
+            const query = searchInput.value.toLowerCase().trim();
+            if (query.length < 2 && query.length !== 0) return;
+            const currentOrders = getOrderData() || dashboardData.orders;
+            const filterOrders = (status, orders) => {
+              if (!orders) return [];
+              const filtered = query
+                ? orders.filter(
+                    (o) =>
+                      (o.product && o.product.toLowerCase().includes(query)) ||
+                      (o.customer && o.customer.toLowerCase().includes(query)) ||
+                      (o.id && o.id.includes(query))
+                  )
+                : orders;
+              return filtered;
+            };
+            populateOrders("pendingOrders", filterOrders("pending", currentOrders.pending));
+            populateOrders("completedOrders", filterOrders("completed", currentOrders.completed));
+            populateOrders("cancelledOrders", filterOrders("cancelled", currentOrders.cancelled));
+            showToast(
+              query ? `Filtered orders matching "${query}"` : "Reset search results",
+              "info"
+            );
+          });
+        }
+
+        // Add Order Functionality
+        const addOrderBtn = $("#addOrderBtn");
+        if (addOrderBtn) {
+          addOrderBtn.addEventListener("click", () => {
+            const addOrderModal = createModal("Add New Order", `
+              <div class="add-order-form">
+                <div class="form-group">
+                  <label for="orderCustomer">Customer Name</label>
+                  <input type="text" id="orderCustomer" class="form-control" placeholder="Customer name" required>
+                </div>
+                <div class="form-group">
+                  <label for="orderProduct">Product</label>
+                  <input type="text" id="orderProduct" class="form-control" placeholder="Product name" required>
+                </div>
+                <div class="form-group">
+                  <label for="orderDescription">Description</label>
+                  <textarea id="orderDescription" class="form-control" rows="2" placeholder="Product description"></textarea>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="orderTotal">Total Amount (₱)</label>
+                    <input type="number" id="orderTotal" class="form-control" placeholder="Total amount" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="orderPayment">Payment Method</label>
+                    <select id="orderPayment" class="form-control">
+                      <option value="Cash on Delivery">Cash on Delivery</option>
+                      <option value="Bank Transfer">Bank Transfer</option>
+                      <option value="GCash">GCash</option>
+                      <option value="Credit Card">Credit Card</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="orderAddress">Delivery Address</label>
+                  <textarea id="orderAddress" class="form-control" rows="2" placeholder="Delivery address"></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="orderNotes">Additional Notes</label>
+                  <textarea id="orderNotes" class="form-control" rows="2" placeholder="Additional notes"></textarea>
+                </div>
+                <div class="form-actions">
+                  <button class="btn btn-primary" id="saveOrderBtn">Add Order</button>
+                  <button class="btn btn-outline close-modal">Cancel</button>
+                </div>
+              </div>
+            `, 'large');
+            const saveOrderBtn = addOrderModal.querySelector("#saveOrderBtn");
+            if (saveOrderBtn) {
+              saveOrderBtn.addEventListener("click", () => {
+                const customer = addOrderModal.querySelector("#orderCustomer").value.trim();
+                const product = addOrderModal.querySelector("#orderProduct").value.trim();
+                const description = addOrderModal.querySelector("#orderDescription").value.trim();
+                const total = addOrderModal.querySelector("#orderTotal").value.trim();
+                const paymentMethod = addOrderModal.querySelector("#orderPayment").value;
+                const address = addOrderModal.querySelector("#orderAddress").value.trim();
+                const notes = addOrderModal.querySelector("#orderNotes").value.trim();
+                if (!customer || !product || !total) {
+                  showToast("Please fill in all required fields", "error");
+                  return;
+                }
+                const currentOrders = getOrderData() || dashboardData.orders;
+                const allOrderIds = [
+                  ...(currentOrders.pending || []),
+                  ...(currentOrders.completed || []),
+                  ...(currentOrders.cancelled || [])
+                ].map(o => parseInt(o.id));
+                const newId = (Math.max(...allOrderIds, 12346) + 1).toString();
+                const newOrder = {
+                  id: newId,
+                  customer,
+                  product,
+                  description,
+                  total: `₱${parseInt(total).toLocaleString()}`,
+                  status: "Pending",
+                  date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+                  paymentMethod,
+                  address,
+                  notes
+                };
+                currentOrders.pending.unshift(newOrder);
+                saveOrderData(currentOrders);
+                populateOrders("pendingOrders", currentOrders.pending);
+                addOrderModal.querySelector(".modal-content").classList.replace("animate__fadeInDown", "animate__fadeOutUp");
+                setTimeout(() => addOrderModal.remove(), 300);
+                showToast(`New order #${newId} added successfully!`, "success");
+              });
+            }
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
