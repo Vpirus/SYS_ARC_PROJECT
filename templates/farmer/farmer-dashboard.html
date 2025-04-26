@@ -1082,6 +1082,198 @@
         margin-bottom: var(--spacing-xs);
       }
 
+      /* Modal */
+      .modal {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 1000;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          animation: fadeIn 0.3s ease;
+      }
+      .modal-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.5);
+          z-index: -1;
+      }
+      .modal-content {
+          background-color: var(--white);
+          border-radius: var(--border-radius-md);
+          box-shadow: var(--shadow-lg);
+          max-width: 90%;
+          width: 600px;
+          max-height: 90vh;
+          overflow-y: auto;
+          position: relative;
+          animation: fadeInDown 0.3s ease;
+      }
+      .dark-mode .modal-content {
+          background-color: var(--dark-card);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+      .modal-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: var(--spacing-md);
+          border-bottom: 1px solid var(--light-gray);
+      }
+      .dark-mode .modal-header {
+          border-bottom-color: var(--dark-border);
+      }
+      .modal-header h2 {
+          margin: 0;
+          font-size: 1.2rem;
+          color: var(--green-primary);
+      }
+      .dark-mode .modal-header h2 {
+          color: var(--green-primary-light);
+      }
+      .modal-body {
+          padding: var(--spacing-md);
+      }
+      .modal-footer {
+          padding: var(--spacing-md);
+          border-top: 1px solid var(--light-gray);
+          display: flex;
+          justify-content: flex-end;
+          gap: var(--spacing-sm);
+      }
+      .dark-mode .modal-footer {
+          border-top-color: var(--dark-border);
+      }
+      .modal-medium {
+          width: 600px;
+      }
+      .modal-large {
+          width: 800px;
+      }
+      .close-modal {
+          background: none;
+          border: none;
+          cursor: pointer;
+          font-size: 1.2rem;
+          color: var(--medium-gray);
+      }
+      .dark-mode .close-modal {
+          color: var(--dark-text-secondary);
+      }
+      .close-modal:hover {
+          color: var(--green-primary);
+      }
+      .dark-mode .close-modal:hover {
+          color: var(--green-primary-light);
+      }
+      /* Form Controls for Modals */
+      .form-control {
+          width: 100%;
+          padding: var(--spacing-sm);
+          border: 1px solid var(--light-gray);
+          border-radius: var(--border-radius-sm);
+          font-size: 0.9rem;
+          color: var(--dark-gray);
+          background-color: var(--white);
+      }
+      .dark-mode .form-control {
+          border-color: var(--dark-border);
+          background-color: var(--dark-surface);
+          color: var(--dark-text);
+      }
+      .form-control:focus {
+          outline: none;
+          border-color: var(--green-primary);
+          box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.2);
+      }
+      .form-group {
+          margin-bottom: var(--spacing-md);
+      }
+      .form-group label {
+          display: block;
+          font-weight: 600;
+          margin-bottom: var(--spacing-xs);
+          color: var(--dark-gray);
+      }
+      .dark-mode .form-group label {
+          color: var(--dark-text);
+      }
+      .form-actions {
+          display: flex;
+          gap: var(--spacing-sm);
+          justify-content: flex-end;
+      }
+
+      .order-detail-modal {
+          display: flex;
+          flex-direction: column;
+          gap: var(--spacing-md);
+      }
+      .order-detail-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: var(--spacing-md);
+      }
+      .order-title {
+          font-size: 1.2rem;
+          font-weight: 600;
+          color: var(--green-primary);
+      }
+      .dark-mode .order-title {
+          color: var(--green-primary-light);
+      }
+      .order-detail-section {
+          margin-bottom: var(--spacing-md);
+      }
+      .order-detail-section h3 {
+          font-size: 1rem;
+          margin-bottom: var(--spacing-sm);
+          color: var(--dark-gray);
+      }
+      .dark-mode .order-detail-section h3 {
+          color: var(--dark-text);
+      }
+      .detail-row {
+          display: flex;
+          gap: var(--spacing-md);
+          margin-bottom: var(--spacing-sm);
+      }
+      .detail-label {
+          font-weight: 600;
+          width: 120px;
+          color: var(--dark-gray);
+      }
+      .dark-mode .detail-label {
+          color: var(--dark-text);
+      }
+      .detail-value {
+          flex: 1;
+          color: var(--dark-gray);
+      }
+      .dark-mode .detail-value {
+          color: var(--dark-text);
+      }
+      .note-text {
+          font-style: italic;
+          color: var(--medium-gray);
+      }
+      .dark-mode .note-text {
+          color: var(--dark-text-secondary);
+      }
+      .order-actions-footer {
+          display: flex;
+          gap: var(--spacing-sm);
+          justify-content: flex-end;
+          margin-top: var(--spacing-md);
+      }
+
       /* Growing Tips */
       .growing-tips {
         margin-top: var(--spacing-lg);
@@ -1750,18 +1942,94 @@
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         // Utility Functions
-        const $ = (selector) => document.querySelector(selector);
-        const $$ = (selector) => document.querySelectorAll(selector);
-        const toggleClass = (element, className) =>
-          element?.classList.toggle(className);
-        const showToast = (message, type = "success", duration = 3000) => {
+        const $ = (selector, context = document) => context.querySelector(selector);
+        const $$ = (selector, context = document) => Array.from(context.querySelectorAll(selector));
+        const toggleClass = (element, className) => element?.classList.toggle(className);
+        
+        // Toast Notification Function
+        function showToast(message, type = "success", duration = 3000) {
           const toastContainer = $("#toastContainer");
+          
+          // Create toast container if it doesn't exist
+          if (!toastContainer) {
+            const container = document.createElement("div");
+            container.id = "toastContainer";
+            document.body.appendChild(container);
+          }
+          
           const toast = document.createElement("div");
           toast.className = `toast toast-${type}`;
-          toast.innerHTML = `<span>${message}</span><i class="fas fa-times" onclick="this.parentElement.remove()"></i>`;
-          toastContainer.appendChild(toast);
-          setTimeout(() => toast.remove(), duration);
-        };
+          toast.innerHTML = `${message}<i class="fas fa-times"></i>`;
+          $("#toastContainer").appendChild(toast);
+          
+          setTimeout(() => {
+            toast.style.animation = "slideOut 0.3s ease";
+            setTimeout(() => toast.remove(), 300);
+          }, duration);
+          
+          toast.querySelector("i").addEventListener("click", () => {
+            toast.style.animation = "slideOut 0.3s ease";
+            setTimeout(() => toast.remove(), 300);
+          });
+        }
+
+        // Modal Functionality
+        function createModal(title, content, size = 'medium') {
+          // Check if modal already exists and remove it
+          const existingModal = $("#customModal");
+          if (existingModal) existingModal.remove();
+          
+          // Create modal container
+          const modal = document.createElement("div");
+          modal.id = "customModal";
+          modal.className = `modal modal-${size}`;
+          
+          // Create modal content
+          modal.innerHTML = `
+            <div class="modal-content animate__animated animate__fadeInDown">
+              <div class="modal-header">
+                <h2>${title}</h2>
+                <button class="close-modal"><i class="fas fa-times"></i></button>
+              </div>
+              <div class="modal-body">
+                ${content}
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-primary close-modal">Close</button>
+              </div>
+            </div>
+            <div class="modal-overlay"></div>
+          `;
+          
+          // Add modal to body
+          document.body.appendChild(modal);
+          
+          // Add event listeners for closing
+          $$(".close-modal").forEach(btn => {
+            btn.addEventListener("click", () => {
+              modal.querySelector(".modal-content").classList.replace("animate__fadeInDown", "animate__fadeOutUp");
+              setTimeout(() => modal.remove(), 300);
+            });
+          });
+          
+          modal.querySelector(".modal-overlay").addEventListener("click", () => {
+            modal.querySelector(".modal-content").classList.replace("animate__fadeInDown", "animate__fadeOutUp");
+            setTimeout(() => modal.remove(), 300);
+          });
+          
+          // Prevent scrolling when modal is open
+          document.body.style.overflow = "hidden";
+          
+          // When modal is closed, restore scrolling
+          const restoreScrolling = () => document.body.style.overflow = "";
+          modal.addEventListener("animationend", function(e) {
+            if (e.animationName === "fadeOutUp") {
+              restoreScrolling();
+            }
+          });
+          
+          return modal;
+        }
 
         // Sidebar Toggle
         const menuToggle = $("#menu-toggle");
@@ -1892,6 +2160,10 @@
                 total: "₱2900",
                 status: "Pending",
                 date: "Apr 21, 2025",
+                description: "10kg of freshly harvested organic tomatoes",
+                address: "123 Main St, Manila",
+                paymentMethod: "Bank Transfer",
+                notes: "Please ensure tomatoes are wrapped carefully for shipping"
               },
               {
                 id: "12346",
@@ -1900,6 +2172,10 @@
                 total: "₱4640",
                 status: "Pending",
                 date: "Apr 20, 2025",
+                description: "8kg of premium strawberries",
+                address: "456 Oak Lane, Cebu City",
+                paymentMethod: "Cash on Delivery",
+                notes: "Deliver during morning hours only"
               },
             ],
             completed: [
@@ -1910,6 +2186,10 @@
                 total: "₱2080",
                 status: "Delivered",
                 date: "Apr 19, 2025",
+                description: "20kg of organic wheat",
+                address: "789 Pine Road, Davao",
+                paymentMethod: "Credit Card",
+                notes: "Delivered successfully"
               },
             ],
             cancelled: [
@@ -1920,37 +2200,38 @@
                 total: "₱1450",
                 status: "Cancelled",
                 date: "Apr 18, 2025",
+                description: "5kg of organic tomatoes",
+                address: "101 Maple Ave, Quezon City",
+                paymentMethod: "GCash",
+                notes: "Customer cancelled due to change of plans"
               },
             ],
           },
+          products: [] // This will be populated if needed
         };
 
-        // Button Functionality
-        // View Product
-        $$(".view-product").forEach((button) => {
-          button.addEventListener("click", () => {
-            const productId = button.getAttribute("data-product-id");
-            const product = dashboardData.products.find(
-              (p) => p.id === productId
-            );
-            showToast(`Viewing ${product.name} details...`, "info");
-            setTimeout(
-              () =>
-                (window.location.href = `/templates/farmer/product-details.html?id=${productId}`),
-              1000
-            );
-          });
-        });
+        // Function to save order data to localStorage
+        function saveOrderData(orders) {
+          localStorage.setItem('dashboardOrders', JSON.stringify(orders));
+        }
 
-        // View All Tips
-        $("#viewAllTipsBtn").addEventListener("click", () => {
-          showToast("Redirecting to all growing tips...", "info");
-          setTimeout(
-            () =>
-              (window.location.href = "/templates/farmer/growing-tips.html"),
-            1000
-          );
-        });
+        // Function to get order data from localStorage
+        function getOrderData() {
+          const savedOrders = localStorage.getItem('dashboardOrders');
+          return savedOrders ? JSON.parse(savedOrders) : null;
+        }
+
+        // Save initial orders data to localStorage for persistence if not already saved
+        if (!getOrderData()) {
+          saveOrderData({
+            pending: dashboardData.orders.pending || [],
+            completed: dashboardData.orders.completed || [],
+            cancelled: dashboardData.orders.cancelled || []
+          });
+        } else {
+          // Use saved orders instead of default ones
+          dashboardData.orders = getOrderData();
+        }
 
         // Price Chart
         let priceChart;
@@ -1980,14 +2261,16 @@
         };
 
         const updateChart = () => {
+          if (!$("#priceChart")) return;
+          
           const isDark = document.body.classList.contains("dark-mode");
           const textColor = isDark ? "#e0e0e0" : "#424242";
           const gridColor = isDark ? "#333333" : "#e0e0e0";
-          const range = $("#timeRangeText").textContent.includes("7")
+          const range = $("#timeRangeText")?.textContent.includes("7")
             ? "7"
-            : $("#timeRangeText").textContent.includes("30")
-            ? "30"
-            : "90";
+            : $("#timeRangeText")?.textContent.includes("30")
+              ? "30"
+              : "90";
 
           if (priceChart) priceChart.destroy();
           priceChart = new Chart($("#priceChart"), {
@@ -2024,12 +2307,18 @@
           });
 
           setTimeout(
-            () => ($("#priceChartLoader").style.display = "none"),
+            () => {
+              const loader = $("#priceChartLoader");
+              if (loader) loader.style.display = "none";
+            },
             1000
           );
         };
 
-        updateChart();
+        // Initialize chart if element exists
+        if ($("#priceChart")) {
+          updateChart();
+        }
 
         // Time Range Filter
         const timeRangeBtn = $("#timeRangeBtn");
@@ -2050,8 +2339,8 @@
                 range === "7"
                   ? "Last 7 Days"
                   : range === "30"
-                  ? "Last 30 Days"
-                  : "Last 90 Days";
+                    ? "Last 30 Days"
+                    : "Last 90 Days";
               timeRangeMenu
                 .querySelectorAll("a")
                 .forEach((a) => a.classList.remove("active"));
@@ -2068,103 +2357,458 @@
         }
 
         // Export Functionality
-        $("#exportBtn").addEventListener("click", () => {
-          const csv = [
-            "Date,Price (₱/kg)\n" +
-              priceChart.data.labels
-                .map(
-                  (label, i) =>
-                    `${label},${priceChart.data.datasets[0].data[i]}`
-                )
-                .join("\n"),
-          ];
-          const blob = new Blob([csv], { type: "text/csv" });
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = "price_data.csv";
-          a.click();
-          window.URL.revokeObjectURL(url);
-          showToast("Data exported successfully!", "success");
-        });
+        const exportBtn = $("#exportBtn");
+        if (exportBtn) {
+          exportBtn.addEventListener("click", () => {
+            const csv = [
+              "Date,Price (₱/kg)\n" +
+                priceChart.data.labels
+                  .map(
+                    (label, i) =>
+                      `${label},${priceChart.data.datasets[0].data[i]}`
+                  )
+                  .join("\n"),
+            ];
+            const blob = new Blob([csv], { type: "text/csv" });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "price_data.csv";
+            a.click();
+            window.URL.revokeObjectURL(url);
+            showToast("Data exported successfully!", "success");
+          });
+        }
 
-        // Populate Orders
-        const populateOrders = (containerId, orders) => {
+        // Tab functionality for Orders section
+        function initializeOrderTabs() {
+          $$('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+              // Remove active class from all tabs
+              $$('.tab').forEach(t => t.classList.remove('active'));
+              // Add active class to clicked tab
+              tab.classList.add('active');
+              
+              // Hide all tab content
+              $$('.tab-content').forEach(content => content.classList.add('hidden'));
+              // Show selected tab content
+              const tabName = tab.getAttribute('data-tab');
+              $(`#${tabName}Tab`).classList.remove('hidden');
+              
+              showToast(`Switched to ${tab.textContent} orders`, "info");
+            });
+          });
+        }
+
+        // Populate Orders with enhanced functionality and modal
+        function populateOrders(containerId, orders) {
           const container = $(`#${containerId}`);
+          if (!container) return;
+          
           container.innerHTML = "";
+          
+          if (!orders || orders.length === 0) {
+            container.innerHTML = `<div class="empty-state">No orders found</div>`;
+            return;
+          }
+          
           orders.forEach((order) => {
             const item = document.createElement("div");
             item.className = "order-item animate__animated animate__fadeIn";
             item.innerHTML = `
-                <div class="order-info">
-                    <div class="order-name">${order.product} (#${
-              order.id
-            })</div>
-                    <div class="order-detail">
-                        <span>Customer: ${order.customer}</span>
-                        <span>Total: ${order.total}</span>
-                        <span>Date: ${order.date}</span>
-                    </div>
+              <div class="order-info">
+                <div class="order-name">${order.product} (#${order.id})</div>
+                <div class="order-detail">
+                  <span>Customer: ${order.customer}</span>
+                  <span>Total: ${order.total}</span>
+                  <span>Date: ${order.date}</span>
                 </div>
-                <div class="order-actions">
-                    <span class="badge badge-${
-                      order.status.toLowerCase() === "delivered"
-                        ? "success"
-                        : order.status.toLowerCase() === "pending"
-                        ? "warning"
-                        : "danger"
-                    }">${order.status}</span>
-                    <button class="btn btn-primary view-order" data-order-id="${
-                      order.id
-                    }"><i class="fas fa-eye"></i> View</button>
-                </div>
+              </div>
+              <div class="order-actions">
+                <span class="badge badge-${
+                  order.status.toLowerCase() === "delivered" ? "success" :
+                  order.status.toLowerCase() === "pending" ? "warning" : "danger"
+                }">${order.status}</span>
+                <button class="btn btn-primary view-order" data-order-id="${order.id}">
+                  <i class="fas fa-eye"></i> View
+                </button>
+              </div>
             `;
             container.appendChild(item);
           });
 
-          // View Order
+          // View Order button event listeners with modal
           $$(`#${containerId} .view-order`).forEach((button) => {
             button.addEventListener("click", () => {
               const orderId = button.getAttribute("data-order-id");
-              showToast(`Viewing order #${orderId} details...`, "info");
-              setTimeout(
-                () =>
-                  (window.location.href = `/templates/farmer/order-details.html?id=${orderId}`),
-                1000
-              );
+              // Find the order data
+              const orderType = containerId.replace('Orders', '');
+              const orderData = getOrderData() || dashboardData.orders;
+              const order = orderData[orderType].find(o => o.id === orderId);
+              
+              if (order) {
+                // Save the selected order to sessionStorage for potential details page navigation
+                sessionStorage.setItem('selectedOrder', JSON.stringify(order));
+                
+                // Show order details in modal
+                const modalContent = `
+                  <div class="order-detail-modal">
+                    <div class="order-detail-header">
+                      <div class="order-title">${order.product}</div>
+                      <span class="badge badge-${
+                        order.status.toLowerCase() === "delivered" ? "success" :
+                        order.status.toLowerCase() === "pending" ? "warning" : "danger"
+                      }">${order.status}</span>
+                    </div>
+                    
+                    <div class="order-detail-section">
+                      <div class="detail-row">
+                        <div class="detail-label">Order ID:</div>
+                        <div class="detail-value">#${order.id}</div>
+                      </div>
+                      <div class="detail-row">
+                        <div class="detail-label">Customer:</div>
+                        <div class="detail-value">${order.customer}</div>
+                      </div>
+                      <div class="detail-row">
+                        <div class="detail-label">Date:</div>
+                        <div class="detail-value">${order.date}</div>
+                      </div>
+                      <div class="detail-row">
+                        <div class="detail-label">Total:</div>
+                        <div class="detail-value">${order.total}</div>
+                      </div>
+                    </div>
+                    
+                    <div class="order-detail-section">
+                      <h3>Product Details</h3>
+                      <div class="detail-row">
+                        <div class="detail-label">Description:</div>
+                        <div class="detail-value">${order.description || 'No description available'}</div>
+                      </div>
+                    </div>
+                    
+                    <div class="order-detail-section">
+                      <h3>Shipping Information</h3>
+                      <div class="detail-row">
+                        <div class="detail-label">Address:</div>
+                        <div class="detail-value">${order.address || 'No address provided'}</div>
+                      </div>
+                    </div>
+                    
+                    <div class="order-detail-section">
+                      <h3>Payment</h3>
+                      <div class="detail-row">
+                        <div class="detail-label">Method:</div>
+                        <div class="detail-value">${order.paymentMethod || 'Not specified'}</div>
+                      </div>
+                    </div>
+                    
+                    <div class="order-detail-section">
+                      <h3>Notes</h3>
+                      <div class="detail-value note-text">${order.notes || 'No additional notes'}</div>
+                    </div>
+                    
+                    <div class="order-actions-footer">
+                      <button class="btn btn-primary go-to-details" data-order-id="${order.id}">
+                        <i class="fas fa-external-link-alt"></i> Full Order Details
+                      </button>
+                      ${order.status === 'Pending' ? `
+                        <button class="btn btn-success mark-completed" data-order-id="${order.id}">
+                          <i class="fas fa-check"></i> Mark as Completed
+                        </button>
+                      ` : ''}
+                      ${order.status === 'Pending' ? `
+                        <button class="btn btn-danger mark-cancelled" data-order-id="${order.id}">
+                          <i class="fas fa-times"></i> Cancel Order
+                        </button>
+                      ` : ''}
+                    </div>
+                  </div>
+                `;
+                
+                const modal = createModal(`Order #${order.id} Details`, modalContent, 'large');
+                
+                // Add event listeners for action buttons inside modal
+                const goToDetailsBtn = modal.querySelector(".go-to-details");
+                if (goToDetailsBtn) {
+                  goToDetailsBtn.addEventListener("click", () => {
+                    showToast(`Opening full details for order #${orderId}...`, "info");
+                    setTimeout(() => {
+                      window.location.href = `/templates/farmer/order-details.html?id=${orderId}`;
+                    }, 1000);
+                  });
+                }
+                
+                // Mark as completed button functionality
+                const markCompletedBtn = modal.querySelector(".mark-completed");
+                if (markCompletedBtn) {
+                  markCompletedBtn.addEventListener("click", () => {
+                    // Get current order data
+                    const currentOrders = getOrderData() || dashboardData.orders;
+                    
+                    // Find and remove the order from pending
+                    const orderIndex = currentOrders.pending.findIndex(o => o.id === orderId);
+                    if (orderIndex !== -1) {
+                      const orderToMove = currentOrders.pending.splice(orderIndex, 1)[0];
+                      
+                      // Update status and add to completed
+                      orderToMove.status = "Delivered";
+                      currentOrders.completed.unshift(orderToMove);
+                      
+                      // Save updated orders
+                      saveOrderData(currentOrders);
+                      
+                      // Refresh the orders display
+                      populateOrders("pendingOrders", currentOrders.pending);
+                      populateOrders("completedOrders", currentOrders.completed);
+                      
+                      // Close modal and show toast
+                      modal.querySelector(".modal-content").classList.replace("animate__fadeInDown", "animate__fadeOutUp");
+                      setTimeout(() => modal.remove(), 300);
+                      
+                      showToast(`Order #${orderId} marked as completed!`, "success");
+                    }
+                  });
+                }
+                
+                // Cancel order button functionality
+                const markCancelledBtn = modal.querySelector(".mark-cancelled");
+                if (markCancelledBtn) {
+                  markCancelledBtn.addEventListener("click", () => {
+                    // Get current order data
+                    const currentOrders = getOrderData() || dashboardData.orders;
+                    
+                    // Find and remove the order from pending
+                    const orderIndex = currentOrders.pending.findIndex(o => o.id === orderId);
+                    if (orderIndex !== -1) {
+                      const orderToMove = currentOrders.pending.splice(orderIndex, 1)[0];
+                      
+                      // Update status and add to cancelled
+                      orderToMove.status = "Cancelled";
+                      currentOrders.cancelled.unshift(orderToMove);
+                      
+                      // Save updated orders
+                      saveOrderData(currentOrders);
+                      
+                      // Refresh the orders display
+                      populateOrders("pendingOrders", currentOrders.pending);
+                      populateOrders("cancelledOrders", currentOrders.cancelled);
+                      
+                      // Close modal and show toast
+                      modal.querySelector(".modal-content").classList.replace("animate__fadeInDown", "animate__fadeOutUp");
+                      setTimeout(() => modal.remove(), 300);
+                      
+                      showToast(`Order #${orderId} has been cancelled.`, "warning");
+                    }
+                  });
+                }
+              } else {
+                showToast(`Error: Order #${orderId} not found`, "error");
+              }
             });
           });
-        };
+        }
 
-        populateOrders("pendingOrders", dashboardData.orders.pending);
-        populateOrders("completedOrders", dashboardData.orders.completed);
-        populateOrders("cancelledOrders", dashboardData.orders.cancelled);
-
-        // Tab Switching
-        $$(".tab").forEach((tab) => {
-          tab.addEventListener("click", () => {
-            $$(".tab").forEach((t) => t.classList.remove("active"));
-            $$(".tab-content").forEach((content) =>
-              content.classList.add("hidden")
-            );
-            tab.classList.add("active");
-            const tabId = tab.getAttribute("data-tab");
-            $(`#${tabId}Tab`).classList.remove("hidden");
-            showToast(`Switched to ${tab.textContent} orders`, "info");
+        // Initialize Growing Tips Functionality with modal
+        function initializeGrowingTips() {
+          const viewAllTipsBtn = $('#viewAllTipsBtn');
+          
+          if (!viewAllTipsBtn) return;
+          
+          // Get existing tips from the page
+          const existingTips = [];
+          $$('.tip-card').forEach(tipCard => {
+            const title = tipCard.querySelector('.tip-title')?.textContent || '';
+            const content = tipCard.querySelector('.tip-content')?.textContent || '';
+            existingTips.push({ title, content });
           });
-        });
+          
+          // Add some additional tips to the collection
+          const additionalTips = [
+            {
+              title: "Companion Planting",
+              content: "Plant basil near tomatoes to improve flavor and repel pests. Marigolds also help protect various vegetables by deterring nematodes and other garden pests."
+            },
+            {
+              title: "Natural Pest Control",
+              content: "Mix water with a small amount of dish soap and spray on plants to control aphids and other soft-bodied insects without using harsh chemicals."
+            },
+            {
+              title: "Crop Rotation",
+              content: "Don't plant the same crop in the same location for consecutive seasons to prevent soil depletion and reduce pest buildup."
+            },
+            {
+              title: "Mulching Benefits",
+              content: "Apply organic mulch around plants to conserve water, suppress weeds, and gradually add nutrients to the soil as it decomposes."
+            }
+          ];
+          
+          // Combine existing and additional tips
+          const allTips = [...existingTips, ...additionalTips];
+          
+          // Save tips to localStorage
+          localStorage.setItem('growingTips', JSON.stringify(allTips));
+          
+          // View All Tips button event listener with modal
+          viewAllTipsBtn.addEventListener("click", () => {
+            // Get tips from localStorage
+            const tips = JSON.parse(localStorage.getItem('growingTips')) || allTips;
+            
+            // Generate content for modal
+            let tipsContent = `
+              <div class="growing-tips-container">
+                <div class="tips-intro">
+                  <p>Here are all our growing tips to help you maximize your harvest and maintain healthy crops.</p>
+                </div>
+                <div class="tips-search">
+                  <input type="text" id="tipsSearchInput" class="form-control" placeholder="Search tips...">
+                </div>
+                <div class="tips-list">
+            `;
+            
+            tips.forEach((tip, index) => {
+              tipsContent += `
+                <div class="tip-card animate__animated animate__fadeIn" data-tip-index="${index}">
+                  <div class="tip-header">
+                    <i class="fas fa-lightbulb tip-icon"></i>
+                    <div class="tip-title">${tip.title}</div>
+                  </div>
+                  <div class="tip-content">${tip.content}</div>
+                </div>
+              `;
+            });
+            
+            tipsContent += `
+                </div>
+                <div class="add-tip-section">
+                  <button class="btn btn-primary" id="addNewTipBtn">
+                    <i class="fas fa-plus"></i> Add New Tip
+                  </button>
+                </div>
+              </div>
+            `;
+            
+            const modal = createModal("Growing Tips", tipsContent, 'large');
+            
+            // Add search functionality
+            const searchInput = modal.querySelector("#tipsSearchInput");
+            if (searchInput) {
+              searchInput.addEventListener("input", () => {
+                const query = searchInput.value.toLowerCase().trim();
+                const tipCards = modal.querySelectorAll(".tip-card");
+                
+                tipCards.forEach(card => {
+                  const title = card.querySelector(".tip-title").textContent.toLowerCase();
+                  const content = card.querySelector(".tip-content").textContent.toLowerCase();
+                  
+                  if (title.includes(query) || content.includes(query)) {
+                    card.style.display = "";
+                  } else {
+                    card.style.display = "none";
+                  }
+                });
+              });
+            }
+            
+            // Add new tip functionality
+            const addTipBtn = modal.querySelector("#addNewTipBtn");
+            if (addTipBtn) {
+              addTipBtn.addEventListener("click", () => {
+                // Create a form for adding new tip
+                const addTipModal = createModal("Add New Growing Tip", `
+                  <div class="add-tip-form">
+                    <div class="form-group">
+                      <label for="newTipTitle">Tip Title</label>
+                      <input type="text" id="newTipTitle" class="form-control" placeholder="Enter tip title" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="newTipContent">Tip Content</label>
+                      <textarea id="newTipContent" class="form-control" rows="4" placeholder="Enter tip content" required></textarea>
+                    </div>
+                    <div class="form-actions">
+                      <button class="btn btn-primary" id="saveTipBtn">Save Tip</button>
+                      <button class="btn btn-outline close-modal">Cancel</button>
+                    </div>
+                  </div>
+                `, 'medium');
+                
+                // Save new tip functionality
+                const saveTipBtn = addTipModal.querySelector("#saveTipBtn");
+                if (saveTipBtn) {
+                  saveTipBtn.addEventListener("click", () => {
+                    const title = addTipModal.querySelector("#newTipTitle").value.trim();
+                    const content = addTipModal.querySelector("#newTipContent").value.trim();
+                    
+                    if (!title || !content) {
+                      showToast("Please fill in all fields", "error");
+                      return;
+                    }
+                    
+                    // Add new tip to localStorage
+                    const currentTips = JSON.parse(localStorage.getItem('growingTips')) || [];
+                    currentTips.push({ title, content });
+                    localStorage.setItem('growingTips', JSON.stringify(currentTips));
+                    
+                    // Add new tip to modal
+                    const tipsList = modal.querySelector(".tips-list");
+                    const newTipCard = document.createElement("div");
+                    newTipCard.className = "tip-card animate__animated animate__fadeIn";
+                    newTipCard.setAttribute("data-tip-index", currentTips.length - 1);
+                    newTipCard.innerHTML = `
+                      <div class="tip-header">
+                        <i class="fas fa-lightbulb tip-icon"></i>
+                        <div class="tip-title">${title}</div>
+                      </div>
+                      <div class="tip-content">${content}</div>
+                    `;
+                    tipsList.appendChild(newTipCard);
+                    
+                    // Close add tip modal
+                    addTipModal.querySelector(".modal-content").classList.replace("animate__fadeInDown", "animate__fadeOutUp");
+                    setTimeout(() => addTipModal.remove(), 300);
+                    
+                    showToast("New growing tip added successfully!", "success");
+                  });
+                }
+              });
+            }
+          });
+        }
 
-        // Refresh Orders
-        $("#refreshOrdersBtn").addEventListener("click", () => {
-          // Simulate fetching new orders
-          showToast("Refreshing orders...", "info");
-          setTimeout(() => {
-            populateOrders("pendingOrders", dashboardData.orders.pending);
-            populateOrders("completedOrders", dashboardData.orders.completed);
-            populateOrders("cancelledOrders", dashboardData.orders.cancelled);
-            showToast("Orders refreshed!", "success");
-          }, 1000);
-        });
+        // Call the function to initialize growing tips
+        initializeGrowingTips();
+
+        // Refresh Orders button functionality
+        const refreshOrdersBtn = $("#refreshOrdersBtn");
+        if (refreshOrdersBtn) {
+          refreshOrdersBtn.addEventListener("click", () => {
+            // Show loading indicator
+            showToast("Refreshing orders...", "info");
+            
+            // Simulate network delay
+            setTimeout(() => {
+              // Get the latest order data
+              const currentOrders = getOrderData() || dashboardData.orders;
+              
+              // Re-populate order sections
+              populateOrders("pendingOrders", currentOrders.pending);
+              populateOrders("completedOrders", currentOrders.completed);
+              populateOrders("cancelledOrders", currentOrders.cancelled);
+              
+              showToast("Orders refreshed successfully!", "success");
+            }, 1000);
+          });
+        }
+
+        // Initialize order tabs and populate orders on page load
+        initializeOrderTabs();
+        
+        // Get the latest order data to display
+        const currentOrders = getOrderData() || dashboardData.orders;
+        populateOrders("pendingOrders", currentOrders.pending);
+        populateOrders("completedOrders", currentOrders.completed);
+        populateOrders("cancelledOrders", currentOrders.cancelled);
 
         // Search Functionality
         const searchInput = $("#searchInput");
@@ -2173,123 +2817,254 @@
             const query = searchInput.value.toLowerCase().trim();
             if (query.length < 2 && query.length !== 0) return; // Minimum query length
 
-            // Filter Products
-            const productGrid = $(".product-grid");
-            productGrid.innerHTML = "";
-            const filteredProducts = query
-              ? dashboardData.products.filter(
-                  (p) =>
-                    p.name.toLowerCase().includes(query) ||
-                    p.category.toLowerCase().includes(query)
-                )
-              : dashboardData.products;
+            // Get the latest order data
+            const currentOrders = getOrderData() || dashboardData.orders;
 
-            filteredProducts.forEach((product) => {
-              const card = document.createElement("div");
-              card.className =
-                "product-card animate__animated animate__slideInRight";
-              card.setAttribute("data-product-id", product.id);
-              const stockClass =
-                product.stock === "70%"
-                  ? ""
-                  : product.stock === "40%"
-                  ? "stock-medium"
-                  : "stock-low";
-              card.innerHTML = `
-                    <img src="https://images.pexels.com/photos/${
-                      product.id === "1"
-                        ? "1327838/pexels-photo-1327838"
-                        : product.id === "2"
-                        ? "12280893/pexels-photo-12280893"
-                        : "6054529/pexels-photo-6054529"
-                    }.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="${
-                product.name
-              }" class="product-image"/>
-                    <div class="product-details">
-                        <div class="product-name">${product.name}</div>
-                        <div class="product-category">${product.category}</div>
-                        <div class="product-price">${product.price}</div>
-                        <div class="product-stock">
-                            <div class="stock-indicator">
-                                <div class="stock-level ${stockClass}" style="width: ${
-                product.stock
-              };"></div>
-                            </div>
-                            <span>${product.stock} in stock</span>
-                        </div>
-                        <div class="product-actions">
-                            <button class="btn btn-primary edit-product" data-product-id="${
-                              product.id
-                            }"><i class="fas fa-edit"></i> Edit</button>
-                            <button class="btn btn-outline view-product" data-product-id="${
-                              product.id
-                            }"><i class="fas fa-eye"></i> View</button>
-                        </div>
-                    </div>
-                `;
-              productGrid.appendChild(card);
-            });
-
-            // Reattach event listeners for new product buttons
-            $$(".edit-product").forEach((button) => {
-              button.addEventListener("click", () => {
-                const productId = button.getAttribute("data-product-id");
-                const product = dashboardData.products.find(
-                  (p) => p.id === productId
-                );
-                showToast(`Editing ${product.name}...`, "info");
-                setTimeout(
-                  () =>
-                    (window.location.href = `/templates/farmer/edit-product.html?id=${productId}`),
-                  1000
-                );
-              });
-            });
-            $$(".view-product").forEach((button) => {
-              button.addEventListener("click", () => {
-                const productId = button.getAttribute("data-product-id");
-                const product = dashboardData.products.find(
-                  (p) => p.id === productId
-                );
-                showToast(`Viewing ${product.name} details...`, "info");
-                setTimeout(
-                  () =>
-                    (window.location.href = `/templates/farmer/product-details.html?id=${productId}`),
-                  1000
-                );
-              });
-            });
-
-            // Filter Orders
+            // Filter Orders based on search query
             const filterOrders = (status, orders) => {
+              if (!orders) return [];
+              
               const filtered = query
                 ? orders.filter(
                     (o) =>
-                      o.product.toLowerCase().includes(query) ||
-                      o.customer.toLowerCase().includes(query) ||
-                      o.id.includes(query)
+                      (o.product && o.product.toLowerCase().includes(query)) ||
+                      (o.customer && o.customer.toLowerCase().includes(query)) ||
+                      (o.id && o.id.includes(query))
                   )
                 : orders;
-              populateOrders(`${status}Orders`, filtered);
+              return filtered;
             };
 
-            filterOrders("pending", dashboardData.orders.pending);
-            filterOrders("completed", dashboardData.orders.completed);
-            filterOrders("cancelled", dashboardData.orders.cancelled);
+            // Update each order section with filtered results
+            populateOrders("pendingOrders", filterOrders("pending", currentOrders.pending));
+            populateOrders("completedOrders", filterOrders("completed", currentOrders.completed));
+            populateOrders("cancelledOrders", filterOrders("cancelled", currentOrders.cancelled));
 
+            // Show notification about search results
             showToast(
               query
-                ? `Found ${filteredProducts.length} products and filtered orders`
+                ? `Filtered orders matching "${query}"`
                 : "Reset search results",
               "info"
             );
           });
         }
 
+        // Add Order functionality
+        const addOrderBtn = $("#addOrderBtn");
+        if (addOrderBtn) {
+          addOrderBtn.addEventListener("click", () => {
+            // Create a form modal for adding new order
+            const addOrderModal = createModal("Add New Order", `
+              <div class="add-order-form">
+                <div class="form-group">
+                  <label for="orderCustomer">Customer Name</label>
+                  <input type="text" id="orderCustomer" class="form-control" placeholder="Customer name" required>
+                </div>
+                <div class="form-group">
+                  <label for="orderProduct">Product</label>
+                  <input type="text" id="orderProduct" class="form-control" placeholder="Product name" required>
+                </div>
+                <div class="form-group">
+                  <label for="orderDescription">Description</label>
+                  <textarea id="orderDescription" class="form-control" rows="2" placeholder="Product description"></textarea>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="orderTotal">Total Amount (₱)</label>
+                    <input type="number" id="orderTotal" class="form-control" placeholder="Total amount" required>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="orderPayment">Payment Method</label>
+                    <select id="orderPayment" class="form-control">
+                      <option value="Cash on Delivery">Cash on Delivery</option>
+                      <option value="Bank Transfer">Bank Transfer</option>
+                      <option value="GCash">GCash</option>
+                      <option value="Credit Card">Credit Card</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="orderAddress">Delivery Address</label>
+                  <textarea id="orderAddress" class="form-control" rows="2" placeholder="Delivery address"></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="orderNotes">Additional Notes</label>
+                  <textarea id="orderNotes" class="form-control" rows="2" placeholder="Additional notes"></textarea>
+                </div>
+                <div class="form-actions">
+                  <button class="btn btn-primary" id="saveOrderBtn">Add Order</button>
+                  <button class="btn btn-outline close-modal">Cancel</button>
+                </div>
+              </div>
+            `, 'large');
+            
+            // Save new order functionality
+            const saveOrderBtn = addOrderModal.querySelector("#saveOrderBtn");
+            if (saveOrderBtn) {
+              saveOrderBtn.addEventListener("click", () => {
+                // Get form values
+                const customer = addOrderModal.querySelector("#orderCustomer").value.trim();
+                const product = addOrderModal.querySelector("#orderProduct").value.trim();
+                const description = addOrderModal.querySelector("#orderDescription").value.trim();
+                const total = addOrderModal.querySelector("#orderTotal").value.trim();
+                const paymentMethod = addOrderModal.querySelector("#orderPayment").value;
+                const address = addOrderModal.querySelector("#orderAddress").value.trim();
+                const notes = addOrderModal.querySelector("#orderNotes").value.trim();
+                
+                // Validate required fields
+                if (!customer || !product || !total) {
+                  showToast("Please fill in all required fields", "error");
+                  return;
+                }
+                
+                // Generate new order ID
+                const currentOrders = getOrderData() || dashboardData.orders;
+                const allOrderIds = [
+                  ...(currentOrders.pending || []), 
+                  ...(currentOrders.completed || []), 
+                  ...(currentOrders.cancelled || [])
+                ].map(o => parseInt(o.id));
+                
+                const newId = (Math.max(...allOrderIds, 12346) + 1).toString();
+                
+                // Create new order object
+                const newOrder = {
+                  id: newId,
+                  customer: customer,
+                  product: product,
+                  description: description,
+                  total: `₱${parseInt(total).toLocaleString()}`,
+                  status: "Pending",
+                  date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+                  paymentMethod: paymentMethod,
+                  address: address,
+                  notes: notes
+                };
+                
+                // Add new order to pending orders
+                currentOrders.pending.unshift(newOrder);
+                
+                // Save updated orders to localStorage
+                saveOrderData(currentOrders);
+                
+                // Refresh the pending orders display
+                populateOrders("pendingOrders", currentOrders.pending);
+                
+                // Close modal
+                addOrderModal.querySelector(".modal-content").classList.replace("animate__fadeInDown", "animate__fadeOutUp");
+                setTimeout(() => addOrderModal.remove(), 300);
+                
+                showToast(`New order #${newId} added successfully!`, "success");
+              });
+            }
+          });
+        }
+
+        // Weather widget functionality
+        function initializeWeatherWidget() {
+          const weatherWidget = $("#weatherWidget");
+          if (!weatherWidget) return;
+          
+          // Sample weather data (in a real app, this would come from an API)
+          const weatherData = {
+            location: "Manila, Philippines",
+            temperature: 32,
+            condition: "Partly Cloudy",
+            humidity: 78,
+            windSpeed: 12,
+            forecast: [
+              { day: "Today", temp: 32, condition: "Partly Cloudy", icon: "fa-cloud-sun" },
+              { day: "Tomorrow", temp: 31, condition: "Thunderstorms", icon: "fa-cloud-bolt" },
+              { day: "Wednesday", temp: 30, condition: "Rain", icon: "fa-cloud-rain" },
+              { day: "Thursday", temp: 33, condition: "Sunny", icon: "fa-sun" }
+            ]
+          };
+          
+          // Update weather widget with data
+          weatherWidget.innerHTML = `
+            <div class="weather-header">
+              <div class="weather-location">
+                <i class="fas fa-map-marker-alt"></i> ${weatherData.location}
+              </div>
+              <button class="btn btn-sm btn-outline refresh-weather">
+                <i class="fas fa-sync-alt"></i>
+              </button>
+            </div>
+            <div class="weather-main">
+              <div class="weather-icon">
+                <i class="fas fa-cloud-sun"></i>
+              </div>
+              <div class="weather-info">
+                <div class="weather-temp">${weatherData.temperature}°C</div>
+                <div class="weather-condition">${weatherData.condition}</div>
+              </div>
+            </div>
+            <div class="weather-details">
+              <div class="weather-detail">
+                <i class="fas fa-tint"></i> Humidity: ${weatherData.humidity}%
+              </div>
+              <div class="weather-detail">
+                <i class="fas fa-wind"></i> Wind: ${weatherData.windSpeed} km/h
+              </div>
+            </div>
+            <div class="weather-forecast">
+              ${weatherData.forecast.map(day => `
+                <div class="forecast-day">
+                  <div class="forecast-date">${day.day}</div>
+                  <div class="forecast-icon"><i class="fas ${day.icon}"></i></div>
+                  <div class="forecast-temp">${day.temp}°C</div>
+                </div>
+              `).join('')}
+            </div>
+          `;
+          
+          // Refresh weather data
+          const refreshWeatherBtn = weatherWidget.querySelector(".refresh-weather");
+          if (refreshWeatherBtn) {
+            refreshWeatherBtn.addEventListener("click", () => {
+              showToast("Updating weather data...", "info");
+              
+              // Simulate loading
+              weatherWidget.classList.add("loading");
+              
+              setTimeout(() => {
+                // In a real app, this would fetch fresh data from an API
+                weatherWidget.classList.remove("loading");
+                showToast("Weather data updated!", "success");
+              }, 1500);
+            });
+          }
+        }
+        
+        // Initialize weather widget if it exists
+        initializeWeatherWidget();
+
         // Prevent Default Form Submission (if any)
         $$("form").forEach((form) => {
           form.addEventListener("submit", (e) => e.preventDefault());
         });
+
+        // Initialize tooltips if available
+        if (typeof bootstrap !== 'undefined' && bootstrap.Tooltip) {
+          const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+          tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+          });
+        }
+
+        // Initialize any notification badges with counts
+        function updateNotificationBadges() {
+          const notificationBadge = $("#notificationBadge");
+          if (notificationBadge) {
+            // In a real app, this would be based on actual notifications
+            const count = Math.floor(Math.random() * 5) + 1;
+            notificationBadge.textContent = count;
+            notificationBadge.style.display = count > 0 ? "block" : "none";
+          }
+        }
+        
+        updateNotificationBadges();
       });
     </script>
   </body>
