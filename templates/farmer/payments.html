@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AgriGo Farmer Orders</title>
+    <title>AgriGo Farmer Payments</title>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
       rel="stylesheet"
@@ -629,8 +629,8 @@
         text-align: center;
       }
 
-      /* Orders Content */
-      .orders-content {
+      /* Payments Content */
+      .payments-content {
         padding: var(--spacing-lg);
         flex: 1;
         display: flex;
@@ -798,13 +798,13 @@
         display: none;
       }
 
-      /* Order List */
-      .order-list {
+      /* Payment List */
+      .payment-list {
         display: flex;
         flex-direction: column;
         gap: var(--spacing-md);
       }
-      .order-item {
+      .payment-item {
         display: flex;
         align-items: center;
         padding: var(--spacing-md);
@@ -813,21 +813,21 @@
         transition: all var(--transition-fast);
         background-color: var(--white);
       }
-      .dark-mode .order-item {
+      .dark-mode .payment-item {
         border-color: var(--dark-border);
         background-color: var(--dark-card);
       }
-      .order-item:hover {
+      .payment-item:hover {
         border-color: var(--green-primary);
         box-shadow: var(--shadow-sm);
       }
-      .order-info {
+      .payment-info {
         flex: 1;
       }
-      .order-name {
+      .payment-id {
         font-weight: 600;
       }
-      .order-detail {
+      .payment-detail {
         display: flex;
         gap: var(--spacing-lg);
         margin-top: var(--spacing-xs);
@@ -835,10 +835,10 @@
         color: var(--dark-gray);
         opacity: 0.7;
       }
-      .dark-mode .order-detail {
+      .dark-mode .payment-detail {
         color: var(--dark-text-secondary);
       }
-      .order-actions {
+      .payment-actions {
         display: flex;
         gap: var(--spacing-sm);
       }
@@ -996,35 +996,35 @@
         flex: 1;
       }
 
-      /* Order Detail Modal */
-      .order-detail-modal {
+      /* Payment Detail Modal */
+      .payment-detail-modal {
         display: flex;
         flex-direction: column;
         gap: var(--spacing-md);
       }
-      .order-detail-header {
+      .payment-detail-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: var(--spacing-md);
       }
-      .order-title {
+      .payment-title {
         font-size: 1.2rem;
         font-weight: 600;
         color: var(--green-primary);
       }
-      .dark-mode .order-title {
+      .dark-mode .payment-title {
         color: var(--green-primary-light);
       }
-      .order-detail-section {
+      .payment-detail-section {
         margin-bottom: var(--spacing-md);
       }
-      .order-detail-section h3 {
+      .payment-detail-section h3 {
         font-size: 1rem;
         margin-bottom: var(--spacing-sm);
         color: var(--dark-gray);
       }
-      .dark-mode .order-detail-section h3 {
+      .dark-mode .payment-detail-section h3 {
         color: var(--dark-text);
       }
       .detail-row {
@@ -1054,14 +1054,14 @@
       .dark-mode .note-text {
         color: var(--dark-text-secondary);
       }
-      .order-actions-footer {
+      .payment-actions-footer {
         display: flex;
         gap: var(--spacing-sm);
         justify-content: flex-end;
         margin-top: var(--spacing-md);
       }
 
-    /* Footer */
+          /* Footer */
     .footer {
         background-color: var(--white);
         padding: var(--spacing-lg) var(--spacing-xl);
@@ -1265,15 +1265,15 @@
             <li class="nav-item">
               <a href="/templates/farmer/products.html" class="nav-link" data-tab="products">
                 <i class="fas fa-box"></i> <span>Products</span>
-      </a>
+              </a>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link active" data-tab="orders">
+              <a href="/templates/farmer/orders.html" class="nav-link" data-tab="orders">
                 <i class="fas fa-shopping-cart"></i> <span>Orders</span>
               </a>
             </li>
             <li class="nav-item">
-              <a href="/templates/farmer/payments.html" class="nav-link" data-tab="payments">
+              <a href="#" class="nav-link active" data-tab="payments">
                 <i class="fas fa-credit-card"></i> <span>Payments</span>
               </a>
             </li>
@@ -1303,7 +1303,7 @@
           </button>
           <div class="search-bar">
             <i class="fas fa-search"></i>
-            <input type="text" id="searchInput" placeholder="Search orders..." aria-label="Search" />
+            <input type="text" id="searchInput" placeholder="Search payments..." aria-label="Search" />
           </div>
           <div class="header-actions">
             <div class="notification" id="notificationIcon">
@@ -1317,7 +1317,7 @@
                       <i class="fas fa-exclamation-triangle"></i>
                     </div>
                     <div class="notification-content">
-                      <p>Low stock alert: <strong>Organic Wheat</strong></p>
+                      <p>Payment #P12345 pending verification</p>
                       <span class="notification-time">1 hour ago</span>
                     </div>
                   </li>
@@ -1326,7 +1326,7 @@
                       <i class="fas fa-check-circle"></i>
                     </div>
                     <div class="notification-content">
-                      <p>Order #12345 successfully delivered</p>
+                      <p>Payment #P12344 completed</p>
                       <span class="notification-time">2 hours ago</span>
                     </div>
                   </li>
@@ -1335,7 +1335,7 @@
                       <i class="fas fa-info-circle"></i>
                     </div>
                     <div class="notification-content">
-                      <p>New market price update available</p>
+                      <p>New payment method added</p>
                       <span class="notification-time">5 hours ago</span>
                     </div>
                   </li>
@@ -1367,34 +1367,34 @@
           </div>
         </div>
 
-        <!-- Orders Content -->
-        <div class="orders-content">
-          <!-- Orders Section -->
+        <!-- Payments Content -->
+        <div class="payments-content">
+          <!-- Payments Section -->
           <div class="section">
             <div class="section-header">
-              <div class="section-title">Orders</div>
+              <div class="section-title">Payments</div>
               <div class="section-actions">
-                <button class="btn btn-primary" id="addOrderBtn">
-                  <i class="fas fa-plus"></i> Add Order
+                <button class="btn btn-primary" id="addPaymentBtn">
+                  <i class="fas fa-plus"></i> Add Payment
                 </button>
-                <button class="btn btn-secondary" id="refreshOrdersBtn">
+                <button class="btn btn-secondary" id="refreshPaymentsBtn">
                   <i class="fas fa-sync-alt"></i> Refresh
                 </button>
               </div>
             </div>
             <div class="tabs">
-              <div class="tab active" data-tab="pending">Pending</div>
-              <div class="tab" data-tab="completed">Completed</div>
-              <div class="tab" data-tab="cancelled">Cancelled</div>
+              <div class="tab active" data-tab="completed">Completed</div>
+              <div class="tab" data-tab="pending">Pending</div>
+              <div class="tab" data-tab="failed">Failed</div>
             </div>
-            <div class="tab-content" id="pendingTab">
-              <div class="order-list" id="pendingOrders"></div>
+            <div class="tab-content" id="completedTab">
+              <div class="payment-list" id="completedPayments"></div>
             </div>
-            <div class="tab-content hidden" id="completedTab">
-              <div class="order-list" id="completedOrders"></div>
+            <div class="tab-content hidden" id="pendingTab">
+              <div class="payment-list" id="pendingPayments"></div>
             </div>
-            <div class="tab-content hidden" id="cancelledTab">
-              <div class="order-list" id="cancelledOrders"></div>
+            <div class="tab-content hidden" id="failedTab">
+              <div class="payment-list" id="failedPayments"></div>
             </div>
           </div>
         </div>
@@ -1461,6 +1461,9 @@
               </div>
               <div class="modal-body">
                 ${content}
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-primary close-modal">Close</button>
               </div>
             </div>
             <div class="modal-overlay"></div>
@@ -1561,90 +1564,86 @@
           });
         }
 
-        // Simulated Data (consistent with dashboard)
-        const dashboardData = {
-          orders: {
-            pending: [
-              {
-                id: "12345",
-                customer: "Maria Santos",
-                product: "Organic Tomatoes",
-                total: "₱2900",
-                status: "Pending",
-                date: "Apr 21, 2025",
-                description: "10kg of freshly harvested organic tomatoes",
-                address: "123 Main St, Manila",
-                paymentMethod: "Bank Transfer",
-                notes: "Please ensure tomatoes are wrapped carefully for shipping"
-              },
-              {
-                id: "12346",
-                customer: "Juan Dela Cruz",
-                product: "Fresh Strawberries",
-                total: "₱4640",
-                status: "Pending",
-                date: "Apr 20, 2025",
-                description: "8kg of premium strawberries",
-                address: "456 Oak Lane, Cebu City",
-                paymentMethod: "Cash on Delivery",
-                notes: "Deliver during morning hours only"
-              }
-            ],
+        // Simulated Payment Data
+        const paymentData = {
+          payments: {
             completed: [
               {
-                id: "12344",
+                id: "P12344",
+                orderId: "12344",
                 customer: "Pedro Reyes",
-                product: "Organic Wheat",
-                total: "₱2080",
-                status: "Delivered",
+                amount: "₱2080",
+                method: "Credit Card",
+                status: "Completed",
                 date: "Apr 19, 2025",
-                description: "20kg of organic wheat",
-                address: "789 Pine Road, Davao",
-                paymentMethod: "Credit Card",
-                notes: "Delivered successfully"
+                transactionId: "TXN789012",
+                notes: "Payment for organic wheat order"
               }
             ],
-            cancelled: [
+            pending: [
               {
-                id: "12343",
+                id: "P12345",
+                orderId: "12345",
+                customer: "Maria Santos",
+                amount: "₱2900",
+                method: "Bank Transfer",
+                status: "Pending",
+                date: "Apr 21, 2025",
+                transactionId: "TXN789013",
+                notes: "Awaiting bank confirmation"
+              },
+              {
+                id: "P12346",
+                orderId: "12346",
+                customer: "Juan Dela Cruz",
+                amount: "₱4640",
+                method: "Cash on Delivery",
+                status: "Pending",
+                date: "Apr 20, 2025",
+                transactionId: "TXN789014",
+                notes: "To be paid upon delivery"
+              }
+            ],
+            failed: [
+              {
+                id: "P12343",
+                orderId: "12343",
                 customer: "Ana Gomez",
-                product: "Organic Tomatoes",
-                total: "₱1450",
-                status: "Cancelled",
+                amount: "₱1450",
+                method: "GCash",
+                status: "Failed",
                 date: "Apr 18, 2025",
-                description: "5kg of organic tomatoes",
-                address: "101 Maple Ave, Quezon City",
-                paymentMethod: "GCash",
-                notes: "Customer cancelled due to change of plans"
+                transactionId: "TXN789011",
+                notes: "Payment failed due to insufficient balance"
               }
             ]
           }
         };
 
-        // Function to save order data to localStorage
-        function saveOrderData(orders) {
-          localStorage.setItem('dashboardOrders', JSON.stringify(orders));
+        // Function to save payment data to localStorage
+        function savePaymentData(payments) {
+          localStorage.setItem('paymentData', JSON.stringify(payments));
         }
 
-        // Function to get order data from localStorage
-        function getOrderData() {
-          const savedOrders = localStorage.getItem('dashboardOrders');
-          return savedOrders ? JSON.parse(savedOrders) : null;
+        // Function to get payment data from localStorage
+        function getPaymentData() {
+          const savedPayments = localStorage.getItem('paymentData');
+          return savedPayments ? JSON.parse(savedPayments) : null;
         }
 
-        // Save initial orders data to localStorage for persistence if not already saved
-        if (!getOrderData()) {
-          saveOrderData({
-            pending: dashboardData.orders.pending || [],
-            completed: dashboardData.orders.completed || [],
-            cancelled: dashboardData.orders.cancelled || []
+        // Save initial payments data to localStorage for persistence if not already saved
+        if (!getPaymentData()) {
+          savePaymentData({
+            completed: paymentData.payments.completed || [],
+            pending: paymentData.payments.pending || [],
+            failed: paymentData.payments.failed || []
           });
         } else {
-          dashboardData.orders = getOrderData();
+          paymentData.payments = getPaymentData();
         }
 
-        // Tab functionality for Orders section
-        function initializeOrderTabs() {
+        // Tab functionality for Payments section
+        function initializePaymentTabs() {
           $$('.tab').forEach(tab => {
             tab.addEventListener('click', () => {
               $$('.tab').forEach(t => t.classList.remove('active'));
@@ -1652,38 +1651,38 @@
               $$('.tab-content').forEach(content => content.classList.add('hidden'));
               const tabName = tab.getAttribute('data-tab');
               $(`#${tabName}Tab`).classList.remove('hidden');
-              showToast(`Switched to ${tab.textContent} orders`, "info");
+              showToast(`Switched to ${tab.textContent} payments`, "info");
             });
           });
         }
 
-        // Populate Orders
-        function populateOrders(containerId, orders) {
+        // Populate Payments
+        function populatePayments(containerId, payments) {
           const container = $(`#${containerId}`);
           if (!container) return;
           container.innerHTML = "";
-          if (!orders || orders.length === 0) {
-            container.innerHTML = `<div class="empty-state">No orders found</div>`;
+          if (!payments || payments.length === 0) {
+            container.innerHTML = `<div class="empty-state">No payments found</div>`;
             return;
           }
-          orders.forEach((order) => {
+          payments.forEach((payment) => {
             const item = document.createElement("div");
-            item.className = "order-item animate__animated animate__fadeIn";
+            item.className = "payment-item animate__animated animate__fadeIn";
             item.innerHTML = `
-              <div class="order-info">
-                <div class="order-name">${order.product} (#${order.id})</div>
-                <div class="order-detail">
-                  <span>Customer: ${order.customer}</span>
-                  <span>Total: ${order.total}</span>
-                  <span>Date: ${order.date}</span>
+              <div class="payment-info">
+                <div class="payment-id">Payment #${payment.id}</div>
+                <div class="payment-detail">
+                  <span>Customer: ${payment.customer}</span>
+                  <span>Amount: ${payment.amount}</span>
+                  <span>Date: ${payment.date}</span>
                 </div>
               </div>
-              <div class="order-actions">
+              <div class="payment-actions">
                 <span class="badge badge-${
-                  order.status.toLowerCase() === "delivered" ? "success" :
-                  order.status.toLowerCase() === "pending" ? "warning" : "danger"
-                }">${order.status}</span>
-                <button class="btn btn-primary view-order" data-order-id="${order.id}">
+                  payment.status.toLowerCase() === "completed" ? "success" :
+                  payment.status.toLowerCase() === "pending" ? "warning" : "danger"
+                }">${payment.status}</span>
+                <button class="btn btn-primary view-payment" data-payment-id="${payment.id}">
                   <i class="fas fa-eye"></i> View
                 </button>
               </div>
@@ -1691,156 +1690,106 @@
             container.appendChild(item);
           });
 
-          // View Order button event listeners
-          $$(`#${containerId} .view-order`).forEach((button) => {
+          // View Payment button event listeners
+          $$(`#${containerId} .view-payment`).forEach((button) => {
             button.addEventListener("click", () => {
-              const orderId = button.getAttribute("data-order-id");
-              const orderType = containerId.replace('Orders', '');
-              const orderData = getOrderData() || dashboardData.orders;
-              const order = orderData[orderType].find(o => o.id === orderId);
-              if (order) {
-                sessionStorage.setItem('selectedOrder', JSON.stringify(order));
+              const paymentId = button.getAttribute("data-payment-id");
+              const paymentType = containerId.replace('Payments', '');
+              const paymentData = getPaymentData() || paymentData.payments;
+              const payment = paymentData[paymentType].find(p => p.id === paymentId);
+              if (payment) {
+                sessionStorage.setItem('selectedPayment', JSON.stringify(payment));
                 const modalContent = `
-                  <div class="order-detail-modal">
-                    <div class="order-detail-header">
-                      <div class="order-title">${order.product}</div>
+                  <div class="payment-detail-modal">
+                    <div class="payment-detail-header">
+                      <div class="payment-title">Payment #${payment.id}</div>
                       <span class="badge badge-${
-                        order.status.toLowerCase() === "delivered" ? "success" :
-                        order.status.toLowerCase() === "pending" ? "warning" : "danger"
-                      }">${order.status}</span>
+                        payment.status.toLowerCase() === "completed" ? "success" :
+                        payment.status.toLowerCase() === "pending" ? "warning" : "danger"
+                      }">${payment.status}</span>
                     </div>
-                    <div class="order-detail-section">
+                    <div class="payment-detail-section">
+                      <div class="detail-row">
+                        <div class="detail-label">Payment ID:</div>
+                        <div class="detail-value">#${payment.id}</div>
+                      </div>
                       <div class="detail-row">
                         <div class="detail-label">Order ID:</div>
-                        <div class="detail-value">#${order.id}</div>
+                        <div class="detail-value">#${payment.orderId}</div>
                       </div>
                       <div class="detail-row">
                         <div class="detail-label">Customer:</div>
-                        <div class="detail-value">${order.customer}</div>
+                        <div class="detail-value">${payment.customer}</div>
                       </div>
                       <div class="detail-row">
                         <div class="detail-label">Date:</div>
-                        <div class="detail-value">${order.date}</div>
+                        <div class="detail-value">${payment.date}</div>
                       </div>
                       <div class="detail-row">
-                        <div class="detail-label">Total:</div>
-                        <div class="detail-value">${order.total}</div>
+                        <div class="detail-label">Amount:</div>
+                        <div class="detail-value">${payment.amount}</div>
                       </div>
                     </div>
-                    <div class="order-detail-section">
-                      <h3>Product Details</h3>
-                      <div class="detail-row">
-                        <div class="detail-label">Description:</div>
-                        <div class="detail-value">${order.description || 'No description available'}</div>
-                      </div>
-                    </div>
-                    <div class="order-detail-section">
-                      <h3>Shipping Information</h3>
-                      <div class="detail-row">
-                        <div class="detail-label">Address:</div>
-                        <div class="detail-value">${order.address || 'No address provided'}</div>
-                      </div>
-                    </div>
-                    <div class="order-detail-section">
-                      <h3>Payment</h3>
+                    <div class="payment-detail-section">
+                      <h3>Payment Details</h3>
                       <div class="detail-row">
                         <div class="detail-label">Method:</div>
-                        <div class="detail-value">${order.paymentMethod || 'Not specified'}</div>
+                        <div class="detail-value">${payment.method}</div>
+                      </div>
+                      <div class="detail-row">
+                        <div class="detail-label">Transaction ID:</div>
+                        <div class="detail-value">${payment.transactionId}</div>
                       </div>
                     </div>
-                    <div class="order-detail-section">
+                    <div class="payment-detail-section">
                       <h3>Notes</h3>
-                      <div class="detail-value note-text">${order.notes || 'No additional notes'}</div>
+                      <div class="detail-value note-text">${payment.notes || 'No additional notes'}</div>
                     </div>
-                    <div class="order-actions-footer">
-                      <button class="btn btn-primary go-to-details" data-order-id="${order.id}">
-                        <i class="fas fa-external-link-alt"></i> Full Order Details
+                    <div class="payment-actions-footer">
+                      <button class="btn btn-primary go-to-details" data-payment-id="${payment.id}">
+                        <i class="fas fa-external-link-alt"></i> Full Payment Details
                       </button>
-                      ${order.status === 'Pending' ? `
-                        <button class="btn btn-success mark-completed" data-order-id="${order.id}">
-                          <i class="fas fa-check"></i> Mark as Completed
-                        </button>
-                        <button class="btn btn-danger mark-cancelled" data-order-id="${order.id}">
-                          <i class="fas fa-times"></i> Cancel Order
-                        </button>
-                      ` : ''}
                     </div>
                   </div>
                 `;
-                const modal = createModal(`Order #${order.id} Details`, modalContent, 'large');
+                const modal = createModal(`Payment #${payment.id} Details`, modalContent, 'large');
                 const goToDetailsBtn = modal.querySelector(".go-to-details");
                 if (goToDetailsBtn) {
                   goToDetailsBtn.addEventListener("click", () => {
-                    showToast(`Opening full details for order #${orderId}...`, "info");
+                    showToast(`Opening full details for payment #${paymentId}...`, "info");
                     setTimeout(() => {
-                      window.location.href = `/templates/farmer/order-details.html?id=${orderId}`;
+                      window.location.href = `/templates/farmer/payment-details.html?id=${paymentId}`;
                     }, 1000);
                   });
                 }
-                const markCompletedBtn = modal.querySelector(".mark-completed");
-                if (markCompletedBtn) {
-                  markCompletedBtn.addEventListener("click", () => {
-                    const currentOrders = getOrderData() || dashboardData.orders;
-                    const orderIndex = currentOrders.pending.findIndex(o => o.id === orderId);
-                    if (orderIndex !== -1) {
-                      const orderToMove = currentOrders.pending.splice(orderIndex, 1)[0];
-                      orderToMove.status = "Delivered";
-                      currentOrders.completed.unshift(orderToMove);
-                      saveOrderData(currentOrders);
-                      populateOrders("pendingOrders", currentOrders.pending);
-                      populateOrders("completedOrders", currentOrders.completed);
-                      modal.querySelector(".modal-content").classList.replace("animate__fadeInDown", "animate__fadeOutUp");
-                      setTimeout(() => modal.remove(), 300);
-                      showToast(`Order #${orderId} marked as completed!`, "success");
-                    }
-                  });
-                }
-                const markCancelledBtn = modal.querySelector(".mark-cancelled");
-                if (markCancelledBtn) {
-                  markCancelledBtn.addEventListener("click", () => {
-                    const currentOrders = getOrderData() || dashboardData.orders;
-                    const orderIndex = currentOrders.pending.findIndex(o => o.id === orderId);
-                    if (orderIndex !== -1) {
-                      const orderToMove = currentOrders.pending.splice(orderIndex, 1)[0];
-                      orderToMove.status = "Cancelled";
-                      currentOrders.cancelled.unshift(orderToMove);
-                      saveOrderData(currentOrders);
-                      populateOrders("pendingOrders", currentOrders.pending);
-                      populateOrders("cancelledOrders", currentOrders.cancelled);
-                      modal.querySelector(".modal-content").classList.replace("animate__fadeInDown", "animate__fadeOutUp");
-                      setTimeout(() => modal.remove(), 300);
-                      showToast(`Order #${orderId} has been cancelled.`, "warning");
-                    }
-                  });
-                }
               } else {
-                showToast(`Error: Order #${orderId} not found`, "error");
+                showToast(`Error: Payment #${paymentId} not found`, "error");
               }
             });
           });
         }
 
-        // Refresh Orders
-        const refreshOrdersBtn = $("#refreshOrdersBtn");
-        if (refreshOrdersBtn) {
-          refreshOrdersBtn.addEventListener("click", () => {
-            showToast("Refreshing orders...", "info");
+        // Refresh Payments
+        const refreshPaymentsBtn = $("#refreshPaymentsBtn");
+        if (refreshPaymentsBtn) {
+          refreshPaymentsBtn.addEventListener("click", () => {
+            showToast("Refreshing payments...", "info");
             setTimeout(() => {
-              const currentOrders = getOrderData() || dashboardData.orders;
-              populateOrders("pendingOrders", currentOrders.pending);
-              populateOrders("completedOrders", currentOrders.completed);
-              populateOrders("cancelledOrders", currentOrders.cancelled);
-              showToast("Orders refreshed successfully!", "success");
+              const currentPayments = getPaymentData() || paymentData.payments;
+              populatePayments("completedPayments", currentPayments.completed);
+              populatePayments("pendingPayments", currentPayments.pending);
+              populatePayments("failedPayments", currentPayments.failed);
+              showToast("Payments refreshed successfully!", "success");
             }, 1000);
           });
         }
 
-        // Initialize order tabs and populate orders
-        initializeOrderTabs();
-        const currentOrders = getOrderData() || dashboardData.orders;
-        populateOrders("pendingOrders", currentOrders.pending);
-        populateOrders("completedOrders", currentOrders.completed);
-        populateOrders("cancelledOrders", currentOrders.cancelled);
+        // Initialize payment tabs and populate payments
+        initializePaymentTabs();
+        const currentPayments = getPaymentData() || paymentData.payments;
+        populatePayments("completedPayments", currentPayments.completed);
+        populatePayments("pendingPayments", currentPayments.pending);
+        populatePayments("failedPayments", currentPayments.failed);
 
         // Search Functionality
         const searchInput = $("#searchInput");
@@ -1848,55 +1797,52 @@
           searchInput.addEventListener("input", () => {
             const query = searchInput.value.toLowerCase().trim();
             if (query.length < 2 && query.length !== 0) return;
-            const currentOrders = getOrderData() || dashboardData.orders;
-            const filterOrders = (status, orders) => {
-              if (!orders) return [];
+            const currentPayments = getPaymentData() || paymentData.payments;
+            const filterPayments = (status, payments) => {
+              if (!payments) return [];
               const filtered = query
-                ? orders.filter(
-                    (o) =>
-                      (o.product && o.product.toLowerCase().includes(query)) ||
-                      (o.customer && o.customer.toLowerCase().includes(query)) ||
-                      (o.id && o.id.includes(query))
+                ? payments.filter(
+                    (p) =>
+                      (p.customer && p.customer.toLowerCase().includes(query)) ||
+                      (p.id && p.id.toLowerCase().includes(query)) ||
+                      (p.transactionId && p.transactionId.toLowerCase().includes(query)) ||
+                      (p.amount && p.amount.toLowerCase().includes(query))
                   )
-                : orders;
+                : payments;
               return filtered;
             };
-            populateOrders("pendingOrders", filterOrders("pending", currentOrders.pending));
-            populateOrders("completedOrders", filterOrders("completed", currentOrders.completed));
-            populateOrders("cancelledOrders", filterOrders("cancelled", currentOrders.cancelled));
+            populatePayments("completedPayments", filterPayments("completed", currentPayments.completed));
+            populatePayments("pendingPayments", filterPayments("pending", currentPayments.pending));
+            populatePayments("failedPayments", filterPayments("failed", currentPayments.failed));
             showToast(
-              query ? `Filtered orders matching "${query}"` : "Reset search results",
+              query ? `Filtered payments matching "${query}"` : "Reset search results",
               "info"
             );
           });
         }
 
-        // Add Order Functionality
-        const addOrderBtn = $("#addOrderBtn");
-        if (addOrderBtn) {
-          addOrderBtn.addEventListener("click", () => {
-            const addOrderModal = createModal("Add New Order", `
-              <div class="add-order-form">
+        // Add Payment Functionality
+        const addPaymentBtn = $("#addPaymentBtn");
+        if (addPaymentBtn) {
+          addPaymentBtn.addEventListener("click", () => {
+            const addPaymentModal = createModal("Add New Payment", `
+              <div class="add-payment-form">
                 <div class="form-group">
-                  <label for="orderCustomer">Customer Name</label>
-                  <input type="text" id="orderCustomer" class="form-control" placeholder="Customer name" required>
+                  <label for="paymentOrderId">Order ID</label>
+                  <input type="text" id="paymentOrderId" class="form-control" placeholder="Order ID" required>
                 </div>
                 <div class="form-group">
-                  <label for="orderProduct">Product</label>
-                  <input type="text" id="orderProduct" class="form-control" placeholder="Product name" required>
-                </div>
-                <div class="form-group">
-                  <label for="orderDescription">Description</label>
-                  <textarea id="orderDescription" class="form-control" rows="2" placeholder="Product description"></textarea>
+                  <label for="paymentCustomer">Customer Name</label>
+                  <input type="text" id="paymentCustomer" class="form-control" placeholder="Customer name" required>
                 </div>
                 <div class="form-row">
                   <div class="form-group">
-                    <label for="orderTotal">Total Amount (₱)</label>
-                    <input type="number" id="orderTotal" class="form-control" placeholder="Total amount" required>
+                    <label for="paymentAmount">Amount (₱)</label>
+                    <input type="number" id="paymentAmount" class="form-control" placeholder="Amount" required>
                   </div>
                   <div class="form-group">
-                    <label for="orderPayment">Payment Method</label>
-                    <select id="orderPayment" class="form-control">
+                    <label for="paymentMethod">Payment Method</label>
+                    <select id="paymentMethod" class="form-control">
                       <option value="Cash on Delivery">Cash on Delivery</option>
                       <option value="Bank Transfer">Bank Transfer</option>
                       <option value="GCash">GCash</option>
@@ -1905,58 +1851,56 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label for="orderAddress">Delivery Address</label>
-                  <textarea id="orderAddress" class="form-control" rows="2" placeholder="Delivery address"></textarea>
+                  <label for="paymentTransactionId">Transaction ID</label>
+                  <input type="text" id="paymentTransactionId" class="form-control" placeholder="Transaction ID" required>
                 </div>
                 <div class="form-group">
-                  <label for="orderNotes">Additional Notes</label>
-                  <textarea id="orderNotes" class="form-control" rows="2" placeholder="Additional notes"></textarea>
+                  <label for="paymentNotes">Notes</label>
+                  <textarea id="paymentNotes" class="form-control" rows="2" placeholder="Additional notes"></textarea>
                 </div>
                 <div class="form-actions">
-                  <button class="btn btn-primary" id="saveOrderBtn">Add Order</button>
+                  <button class="btn btn-primary" id="savePaymentBtn">Add Payment</button>
                   <button class="btn btn-outline close-modal">Cancel</button>
                 </div>
               </div>
             `, 'large');
-            const saveOrderBtn = addOrderModal.querySelector("#saveOrderBtn");
-            if (saveOrderBtn) {
-              saveOrderBtn.addEventListener("click", () => {
-                const customer = addOrderModal.querySelector("#orderCustomer").value.trim();
-                const product = addOrderModal.querySelector("#orderProduct").value.trim();
-                const description = addOrderModal.querySelector("#orderDescription").value.trim();
-                const total = addOrderModal.querySelector("#orderTotal").value.trim();
-                const paymentMethod = addOrderModal.querySelector("#orderPayment").value;
-                const address = addOrderModal.querySelector("#orderAddress").value.trim();
-                const notes = addOrderModal.querySelector("#orderNotes").value.trim();
-                if (!customer || !product || !total) {
+            const savePaymentBtn = addPaymentModal.querySelector("#savePaymentBtn");
+            if (savePaymentBtn) {
+              savePaymentBtn.addEventListener("click", () => {
+                const orderId = addPaymentModal.querySelector("#paymentOrderId").value.trim();
+                const customer = addPaymentModal.querySelector("#paymentCustomer").value.trim();
+                const amount = addPaymentModal.querySelector("#paymentAmount").value.trim();
+                const method = addPaymentModal.querySelector("#paymentMethod").value;
+                const transactionId = addPaymentModal.querySelector("#paymentTransactionId").value.trim();
+                const notes = addPaymentModal.querySelector("#paymentNotes").value.trim();
+                if (!orderId || !customer || !amount || !transactionId) {
                   showToast("Please fill in all required fields", "error");
                   return;
                 }
-                const currentOrders = getOrderData() || dashboardData.orders;
-                const allOrderIds = [
-                  ...(currentOrders.pending || []),
-                  ...(currentOrders.completed || []),
-                  ...(currentOrders.cancelled || [])
-                ].map(o => parseInt(o.id));
-                const newId = (Math.max(...allOrderIds, 12346) + 1).toString();
-                const newOrder = {
+                const currentPayments = getPaymentData() || paymentData.payments;
+                const allPaymentIds = [
+                  ...(currentPayments.completed || []),
+                  ...(currentPayments.pending || []),
+                  ...(currentPayments.failed || [])
+                ].map(p => p.id.replace('P', ''));
+                const newId = `P${(Math.max(...allPaymentIds.map(id => parseInt(id)), 12346) + 1)}`;
+                const newPayment = {
                   id: newId,
+                  orderId,
                   customer,
-                  product,
-                  description,
-                  total: `₱${parseInt(total).toLocaleString()}`,
+                  amount: `₱${parseInt(amount).toLocaleString()}`,
+                  method,
                   status: "Pending",
                   date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-                  paymentMethod,
-                  address,
+                  transactionId,
                   notes
                 };
-                currentOrders.pending.unshift(newOrder);
-                saveOrderData(currentOrders);
-                populateOrders("pendingOrders", currentOrders.pending);
-                addOrderModal.querySelector(".modal-content").classList.replace("animate__fadeInDown", "animate__fadeOutUp");
-                setTimeout(() => addOrderModal.remove(), 300);
-                showToast(`New order #${newId} added successfully!`, "success");
+                currentPayments.pending.unshift(newPayment);
+                savePaymentData(currentPayments);
+                populatePayments("pendingPayments", currentPayments.pending);
+                addPaymentModal.querySelector(".modal-content").classList.replace("animate__fadeInDown", "animate__fadeOutUp");
+                setTimeout(() => addPaymentModal.remove(), 300);
+                showToast(`New payment #${newId} added successfully!`, "success");
               });
             }
           });
