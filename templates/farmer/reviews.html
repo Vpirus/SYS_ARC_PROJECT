@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AgriGo Farmer Payments</title>
+    <title>AgriGo Farmer Reviews</title>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
       rel="stylesheet"
@@ -629,8 +629,8 @@
         text-align: center;
       }
 
-      /* Payments Content */
-      .payments-content {
+      /* Reviews Content */
+      .reviews-content {
         padding: var(--spacing-lg);
         flex: 1;
         display: flex;
@@ -798,47 +798,75 @@
         display: none;
       }
 
-      /* Payment List */
-      .payment-list {
+      /* Review List */
+      .review-list {
         display: flex;
         flex-direction: column;
         gap: var(--spacing-md);
       }
-      .payment-item {
+      .review-item {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         padding: var(--spacing-md);
         border: 1px solid var(--light-gray);
         border-radius: var(--border-radius-md);
         transition: all var(--transition-fast);
         background-color: var(--white);
       }
-      .dark-mode .payment-item {
+      .dark-mode .review-item {
         border-color: var(--dark-border);
         background-color: var(--dark-card);
       }
-      .payment-item:hover {
+      .review-item:hover {
         border-color: var(--green-primary);
         box-shadow: var(--shadow-sm);
       }
-      .payment-info {
+      .review-info {
         flex: 1;
       }
-      .payment-id {
-        font-weight: 600;
-      }
-      .payment-detail {
+      .review-header {
         display: flex;
-        gap: var(--spacing-lg);
-        margin-top: var(--spacing-xs);
-        font-size: 0.9rem;
-        color: var(--dark-gray);
-        opacity: 0.7;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: var(--spacing-sm);
       }
-      .dark-mode .payment-detail {
+      .review-customer {
+        font-weight: 600;
+        font-size: 1rem;
+      }
+      .review-rating {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-xs);
+      }
+      .review-rating i {
+        color: var(--harvest-yellow);
+        font-size: 0.9rem;
+      }
+      .review-rating i.fa-regular {
+        color: var(--medium-gray);
+      }
+      .dark-mode .review-rating i.fa-regular {
         color: var(--dark-text-secondary);
       }
-      .payment-actions {
+      .review-text {
+        font-size: 0.9rem;
+        color: var(--dark-gray);
+        margin-bottom: var(--spacing-sm);
+      }
+      .dark-mode .review-text {
+        color: var(--dark-text);
+      }
+      .review-detail {
+        display: flex;
+        gap: var(--spacing-lg);
+        font-size: 0.85rem;
+        color: var(--medium-gray);
+      }
+      .dark-mode .review-detail {
+        color: var(--dark-text-secondary);
+      }
+      .review-actions {
         display: flex;
         gap: var(--spacing-sm);
       }
@@ -871,7 +899,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        animation: fadeIn 0.3s ease;
+        background-color: rgba(0, 0, 0, 0.6);
+        animation: fadeIn 0.3s ease-in-out;
       }
       .modal-overlay {
         position: absolute;
@@ -879,76 +908,85 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
         z-index: -1;
+        cursor: pointer;
       }
       .modal-content {
         background-color: var(--white);
-        border-radius: var(--border-radius-md);
+        border-radius: var(--border-radius-lg);
         box-shadow: var(--shadow-lg);
-        max-width: 90%;
-        width: 600px;
-        max-height: 90vh;
+        width: 100%;
+        max-width: 600px;
+        max-height: 80vh;
         overflow-y: auto;
         position: relative;
-        animation: fadeInDown 0.3s ease;
+        animation: slideInFromTop 0.3s ease-in-out;
+        padding: var(--spacing-md);
       }
       .dark-mode .modal-content {
         background-color: var(--dark-card);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      }
+      .modal-content::-webkit-scrollbar {
+        width: 8px;
+      }
+      .modal-content::-webkit-scrollbar-track {
+        background: var(--light-gray);
+        border-radius: 4px;
+      }
+      .dark-mode .modal-content::-webkit-scrollbar-track {
+        background: var(--dark-border);
+      }
+      .modal-content::-webkit-scrollbar-thumb {
+        background: var(--green-primary);
+        border-radius: 4px;
+      }
+      .dark-mode .modal-content::-webkit-scrollbar-thumb {
+        background: var(--green-primary-light);
       }
       .modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: var(--spacing-md);
+        padding: var(--spacing-md) var(--spacing-lg);
         border-bottom: 1px solid var(--light-gray);
+        background-color: var(--white);
+        position: sticky;
+        top: 0;
+        z-index: 10;
       }
       .dark-mode .modal-header {
         border-bottom-color: var(--dark-border);
+        background-color: var(--dark-card);
       }
       .modal-header h2 {
         margin: 0;
-        font-size: 1.2rem;
+        font-size: 1.3rem;
         color: var(--green-primary);
       }
       .dark-mode .modal-header h2 {
         color: var(--green-primary-light);
       }
       .modal-body {
-        padding: var(--spacing-md);
+        padding: var(--spacing-lg);
       }
       .modal-footer {
-        padding: var(--spacing-md);
+        padding: var(--spacing-md) var(--spacing-lg);
         border-top: 1px solid var(--light-gray);
         display: flex;
         justify-content: flex-end;
         gap: var(--spacing-sm);
+        background-color: var(--white);
+        position: sticky;
+        bottom: 0;
+        z-index: 10;
       }
       .dark-mode .modal-footer {
         border-top-color: var(--dark-border);
+        background-color: var(--dark-card);
       }
       .modal-medium {
-        width: 600px;
+        max-width: 600px;
       }
       .modal-large {
-        width: 800px;
-      }
-      .close-modal {
-        background: none;
-        border: none;
-        cursor: pointer;
-        font-size: 1.2rem;
-        color: var(--medium-gray);
-      }
-      .dark-mode .close-modal {
-        color: var(--dark-text-secondary);
-      }
-      .close-modal:hover {
-        color: var(--green-primary);
-      }
-      .dark-mode .close-modal:hover {
-        color: var(--green-primary-light);
+        max-width: 800px;
       }
 
       /* Form Controls for Modals */
@@ -960,6 +998,7 @@
         font-size: 0.9rem;
         color: var(--dark-gray);
         background-color: var(--white);
+        transition: border-color var(--transition-fast);
       }
       .dark-mode .form-control {
         border-color: var(--dark-border);
@@ -996,35 +1035,35 @@
         flex: 1;
       }
 
-      /* Payment Detail Modal */
-      .payment-detail-modal {
+      /* Review Detail Modal */
+      .review-detail-modal {
         display: flex;
         flex-direction: column;
         gap: var(--spacing-md);
       }
-      .payment-detail-header {
+      .review-detail-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: var(--spacing-md);
       }
-      .payment-title {
+      .review-title {
         font-size: 1.2rem;
         font-weight: 600;
         color: var(--green-primary);
       }
-      .dark-mode .payment-title {
+      .dark-mode .review-title {
         color: var(--green-primary-light);
       }
-      .payment-detail-section {
+      .review-detail-section {
         margin-bottom: var(--spacing-md);
       }
-      .payment-detail-section h3 {
+      .review-detail-section h3 {
         font-size: 1rem;
         margin-bottom: var(--spacing-sm);
         color: var(--dark-gray);
       }
-      .dark-mode .payment-detail-section h3 {
+      .dark-mode .review-detail-section h3 {
         color: var(--dark-text);
       }
       .detail-row {
@@ -1047,14 +1086,19 @@
       .dark-mode .detail-value {
         color: var(--dark-text);
       }
-      .note-text {
+      .review-text-content {
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+      .response-text {
         font-style: italic;
         color: var(--medium-gray);
+        margin-top: var(--spacing-sm);
       }
-      .dark-mode .note-text {
+      .dark-mode .response-text {
         color: var(--dark-text-secondary);
       }
-      .payment-actions-footer {
+      .review-actions-footer {
         display: flex;
         gap: var(--spacing-sm);
         justify-content: flex-end;
@@ -1152,13 +1196,13 @@
         from { transform: translateX(100%); opacity: 0; }
         to { transform: translateX(0); opacity: 1; }
       }
-      @keyframes fadeInDown {
-        from { opacity: 0; transform: translateY(-10px); }
+      @keyframes slideInFromTop {
+        from { opacity: 0; transform: translateY(-20px); }
         to { opacity: 1; transform: translateY(0); }
       }
-      @keyframes fadeOutUp {
+      @keyframes slideOutToTop {
         from { opacity: 1; transform: translateY(0); }
-        to { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 0; transform: translateY(-20px); }
       }
 
       /* Media Queries */
@@ -1210,6 +1254,10 @@
           flex-direction: column;
           gap: var(--spacing-sm);
         }
+        .modal-content {
+          max-width: 90%;
+          max-height: 85vh;
+        }
       }
       @media (max-width: 480px) {
         .notification-dropdown,
@@ -1234,6 +1282,10 @@
         }
         .search-bar {
           max-width: 100%;
+        }
+        .modal-content {
+          max-width: 95%;
+          border-radius: var(--border-radius-md);
         }
       }
     </style>
@@ -1273,12 +1325,12 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link active" data-tab="payments">
+              <a href="/templates/farmer/payments.html" class="nav-link" data-tab="payments">
                 <i class="fas fa-credit-card"></i> <span>Payments</span>
               </a>
             </li>
             <li class="nav-item">
-              <a href="/templates/farmer/reviews.html" class="nav-link" data-tab="reviews">
+              <a href="#" class="nav-link active" data-tab="reviews">
                 <i class="fas fa-comment-alt"></i> <span>Reviews</span>
               </a>
             </li>
@@ -1303,7 +1355,7 @@
           </button>
           <div class="search-bar">
             <i class="fas fa-search"></i>
-            <input type="text" id="searchInput" placeholder="Search payments..." aria-label="Search" />
+            <input type="text" id="searchInput" placeholder="Search reviews..." aria-label="Search" />
           </div>
           <div class="header-actions">
             <div class="notification" id="notificationIcon">
@@ -1317,7 +1369,7 @@
                       <i class="fas fa-exclamation-triangle"></i>
                     </div>
                     <div class="notification-content">
-                      <p>Payment #P12345 pending verification</p>
+                      <p>New review #R1003 needs response</p>
                       <span class="notification-time">1 hour ago</span>
                     </div>
                   </li>
@@ -1326,7 +1378,7 @@
                       <i class="fas fa-check-circle"></i>
                     </div>
                     <div class="notification-content">
-                      <p>Payment #P12344 completed</p>
+                      <p>Review #R1002 responded</p>
                       <span class="notification-time">2 hours ago</span>
                     </div>
                   </li>
@@ -1335,7 +1387,7 @@
                       <i class="fas fa-info-circle"></i>
                     </div>
                     <div class="notification-content">
-                      <p>New payment method added</p>
+                      <p>Positive review received</p>
                       <span class="notification-time">5 hours ago</span>
                     </div>
                   </li>
@@ -1367,34 +1419,35 @@
           </div>
         </div>
 
-        <!-- Payments Content -->
-        <div class="payments-content">
-          <!-- Payments Section -->
+        <!-- Reviews Content -->
+        <div class="reviews-content">
+          <!-- Reviews Section -->
           <div class="section">
             <div class="section-header">
-              <div class="section-title">Payments</div>
+              <div class="section-title">Customer Reviews</div>
               <div class="section-actions">
-                <button class="btn btn-primary" id="addPaymentBtn">
-                  <i class="fas fa-plus"></i> Add Payment
-                </button>
-                <button class="btn btn-secondary" id="refreshPaymentsBtn">
+                <button class="btn btn-secondary" id="refreshReviewsBtn">
                   <i class="fas fa-sync-alt"></i> Refresh
                 </button>
               </div>
             </div>
             <div class="tabs">
-              <div class="tab active" data-tab="completed">Completed</div>
+              <div class="tab active" data-tab="all">All</div>
+              <div class="tab" data-tab="positive">Positive</div>
+              <div class="tab" data-tab="negative">Negative</div>
               <div class="tab" data-tab="pending">Pending</div>
-              <div class="tab" data-tab="failed">Failed</div>
             </div>
-            <div class="tab-content" id="completedTab">
-              <div class="payment-list" id="completedPayments"></div>
+            <div class="tab-content" id="allTab">
+              <div class="review-list" id="allReviews"></div>
+            </div>
+            <div class="tab-content hidden" id="positiveTab">
+              <div class="review-list" id="positiveReviews"></div>
+            </div>
+            <div class="tab-content hidden" id="negativeTab">
+              <div class="review-list" id="negativeReviews"></div>
             </div>
             <div class="tab-content hidden" id="pendingTab">
-              <div class="payment-list" id="pendingPayments"></div>
-            </div>
-            <div class="tab-content hidden" id="failedTab">
-              <div class="payment-list" id="failedPayments"></div>
+              <div class="review-list" id="pendingReviews"></div>
             </div>
           </div>
         </div>
@@ -1454,35 +1507,29 @@
           modal.id = "customModal";
           modal.className = `modal modal-${size}`;
           modal.innerHTML = `
-            <div class="modal-content animate__animated animate__fadeInDown">
+            <div class="modal-content animate__animated animate__slideInFromTop">
               <div class="modal-header">
                 <h2>${title}</h2>
-                <button class="close-modal"><i class="fas fa-times"></i></button>
               </div>
               <div class="modal-body">
                 ${content}
               </div>
               <div class="modal-footer">
-                <button class="btn btn-primary close-modal">Close</button>
+                <!-- Actions like Respond/Cancel are added via content -->
               </div>
             </div>
             <div class="modal-overlay"></div>
           `;
           document.body.appendChild(modal);
-          $$(".close-modal").forEach(btn => {
-            btn.addEventListener("click", () => {
-              modal.querySelector(".modal-content").classList.replace("animate__fadeInDown", "animate__fadeOutUp");
-              setTimeout(() => modal.remove(), 300);
-            });
-          });
-          modal.querySelector(".modal-overlay").addEventListener("click", () => {
-            modal.querySelector(".modal-content").classList.replace("animate__fadeInDown", "animate__fadeOutUp");
+          const modalOverlay = modal.querySelector(".modal-overlay");
+          modalOverlay.addEventListener("click", () => {
+            modal.querySelector(".modal-content").classList.replace("animate__slideInFromTop", "animate__slideOutToTop");
             setTimeout(() => modal.remove(), 300);
           });
           document.body.style.overflow = "hidden";
           const restoreScrolling = () => document.body.style.overflow = "";
           modal.addEventListener("animationend", function(e) {
-            if (e.animationName === "fadeOutUp") restoreScrolling();
+            if (e.animationName === "slideOutToTop") restoreScrolling();
           });
           return modal;
         }
@@ -1564,86 +1611,76 @@
           });
         }
 
-        // Simulated Payment Data
-        const paymentData = {
-          payments: {
-            completed: [
-              {
-                id: "P12344",
-                orderId: "12344",
-                customer: "Pedro Reyes",
-                amount: "₱2080",
-                method: "Credit Card",
-                status: "Completed",
-                date: "Apr 19, 2025",
-                transactionId: "TXN789012",
-                notes: "Payment for organic wheat order"
-              }
-            ],
-            pending: [
-              {
-                id: "P12345",
-                orderId: "12345",
-                customer: "Maria Santos",
-                amount: "₱2900",
-                method: "Bank Transfer",
-                status: "Pending",
-                date: "Apr 21, 2025",
-                transactionId: "TXN789013",
-                notes: "Awaiting bank confirmation"
-              },
-              {
-                id: "P12346",
-                orderId: "12346",
-                customer: "Juan Dela Cruz",
-                amount: "₱4640",
-                method: "Cash on Delivery",
-                status: "Pending",
-                date: "Apr 20, 2025",
-                transactionId: "TXN789014",
-                notes: "To be paid upon delivery"
-              }
-            ],
-            failed: [
-              {
-                id: "P12343",
-                orderId: "12343",
-                customer: "Ana Gomez",
-                amount: "₱1450",
-                method: "GCash",
-                status: "Failed",
-                date: "Apr 18, 2025",
-                transactionId: "TXN789011",
-                notes: "Payment failed due to insufficient balance"
-              }
-            ]
-          }
+        // Simulated Review Data
+        const reviewData = {
+          reviews: [
+            {
+              id: "R1001",
+              orderId: "12344",
+              customer: "Pedro Reyes",
+              rating: 5,
+              text: "Excellent quality organic wheat! Fast delivery and great service.",
+              product: "Organic Wheat",
+              status: "Positive",
+              date: "Apr 19, 2025",
+              response: "Thank you for your kind words! We appreciate your support."
+            },
+            {
+              id: "R1002",
+              orderId: "12345",
+              customer: "Maria Santos",
+              rating: 4,
+              text: "Good products, but delivery took a bit longer than expected.",
+              product: "Fresh Tomatoes",
+              status: "Positive",
+              date: "Apr 20, 2025",
+              response: "We apologize for the delay and will improve our delivery process."
+            },
+            {
+              id: "R1003",
+              orderId: "12346",
+              customer: "Juan Dela Cruz",
+              rating: 2,
+              text: "The vegetables were not as fresh as expected.",
+              product: "Mixed Vegetables",
+              status: "Negative",
+              date: "Apr 21, 2025",
+              response: null
+            },
+            {
+              id: "R1004",
+              orderId: "12347",
+              customer: "Ana Gomez",
+              rating: 3,
+              text: "Average quality, but the price is reasonable.",
+              product: "Rice",
+              status: "Pending",
+              date: "Apr 22, 2025",
+              response: null
+            }
+          ]
         };
 
-        // Function to save payment data to localStorage
-        function savePaymentData(payments) {
-          localStorage.setItem('paymentData', JSON.stringify(payments));
+        // Function to save review data to localStorage
+        function saveReviewData(reviews) {
+          localStorage.setItem('reviewData', JSON.stringify(reviews));
         }
 
-        // Function to get payment data from localStorage
-        function getPaymentData() {
-          const savedPayments = localStorage.getItem('paymentData');
-          return savedPayments ? JSON.parse(savedPayments) : null;
+        // Function to get review data from localStorage
+        function getReviewData() {
+          const savedReviews = localStorage.getItem('reviewData');
+          return savedReviews ? JSON.parse(savedReviews) : null;
         }
 
-        // Save initial payments data to localStorage for persistence if not already saved
-        if (!getPaymentData()) {
-          savePaymentData({
-            completed: paymentData.payments.completed || [],
-            pending: paymentData.payments.pending || [],
-            failed: paymentData.payments.failed || []
-          });
+        // Save initial reviews data to localStorage for persistence if not already saved
+        if (!getReviewData()) {
+          saveReviewData(reviewData.reviews);
         } else {
-          paymentData.payments = getPaymentData();
+          reviewData.reviews = getReviewData();
         }
 
-        // Tab functionality for Payments section
-        function initializePaymentTabs() {
+        // Tab functionality for Reviews section
+        function initializeReviewTabs() {
           $$('.tab').forEach(tab => {
             tab.addEventListener('click', () => {
               $$('.tab').forEach(t => t.classList.remove('active'));
@@ -1651,38 +1688,50 @@
               $$('.tab-content').forEach(content => content.classList.add('hidden'));
               const tabName = tab.getAttribute('data-tab');
               $(`#${tabName}Tab`).classList.remove('hidden');
-              showToast(`Switched to ${tab.textContent} payments`, "info");
+              showToast(`Switched to ${tab.textContent} reviews`, "info");
             });
           });
         }
 
-        // Populate Payments
-        function populatePayments(containerId, payments) {
+        // Render Stars
+        function renderStars(rating) {
+          let stars = '';
+          for (let i = 1; i <= 5; i++) {
+            stars += `<i class="fas fa-star ${i <= rating ? '' : 'fa-regular'}"></i>`;
+          }
+          return stars;
+        }
+
+        // Populate Reviews
+        function populateReviews(containerId, reviews) {
           const container = $(`#${containerId}`);
           if (!container) return;
           container.innerHTML = "";
-          if (!payments || payments.length === 0) {
-            container.innerHTML = `<div class="empty-state">No payments found</div>`;
+          if (!reviews || reviews.length === 0) {
+            container.innerHTML = `<div class="empty-state">No reviews found</div>`;
             return;
           }
-          payments.forEach((payment) => {
+          reviews.forEach((review) => {
             const item = document.createElement("div");
-            item.className = "payment-item animate__animated animate__fadeIn";
+            item.className = "review-item animate__animated animate__fadeIn";
             item.innerHTML = `
-              <div class="payment-info">
-                <div class="payment-id">Payment #${payment.id}</div>
-                <div class="payment-detail">
-                  <span>Customer: ${payment.customer}</span>
-                  <span>Amount: ${payment.amount}</span>
-                  <span>Date: ${payment.date}</span>
+              <div class="review-info">
+                <div class="review-header">
+                  <div class="review-customer">${review.customer}</div>
+                  <div class="review-rating">${renderStars(review.rating)}</div>
+                </div>
+                <div class="review-text">${review.text}</div>
+                <div class="review-detail">
+                  <span>Product: ${review.product}</span>
+                  <span>Date: ${review.date}</span>
                 </div>
               </div>
-              <div class="payment-actions">
+              <div class="review-actions">
                 <span class="badge badge-${
-                  payment.status.toLowerCase() === "completed" ? "success" :
-                  payment.status.toLowerCase() === "pending" ? "warning" : "danger"
-                }">${payment.status}</span>
-                <button class="btn btn-primary view-payment" data-payment-id="${payment.id}">
+                  review.status.toLowerCase() === "positive" ? "success" :
+                  review.status.toLowerCase() === "negative" ? "danger" : "warning"
+                }">${review.status}</span>
+                <button class="btn btn-primary view-review" data-review-id="${review.id}">
                   <i class="fas fa-eye"></i> View
                 </button>
               </div>
@@ -1690,106 +1739,129 @@
             container.appendChild(item);
           });
 
-          // View Payment button event listeners
-          $$(`#${containerId} .view-payment`).forEach((button) => {
+          // View Review button event listeners
+          $$(`#${containerId} .view-review`).forEach((button) => {
             button.addEventListener("click", () => {
-              const paymentId = button.getAttribute("data-payment-id");
-              const paymentType = containerId.replace('Payments', '');
-              const paymentData = getPaymentData() || paymentData.payments;
-              const payment = paymentData[paymentType].find(p => p.id === paymentId);
-              if (payment) {
-                sessionStorage.setItem('selectedPayment', JSON.stringify(payment));
+              const reviewId = button.getAttribute("data-review-id");
+              const review = reviewData.reviews.find(r => r.id === reviewId);
+              if (review) {
+                sessionStorage.setItem('selectedReview', JSON.stringify(review));
                 const modalContent = `
-                  <div class="payment-detail-modal">
-                    <div class="payment-detail-header">
-                      <div class="payment-title">Payment #${payment.id}</div>
+                  <div class="review-detail-modal">
+                    <div class="review-detail-header">
+                      <div class="review-title">Review #${review.id}</div>
                       <span class="badge badge-${
-                        payment.status.toLowerCase() === "completed" ? "success" :
-                        payment.status.toLowerCase() === "pending" ? "warning" : "danger"
-                      }">${payment.status}</span>
+                        review.status.toLowerCase() === "positive" ? "success" :
+                        review.status.toLowerCase() === "negative" ? "danger" : "warning"
+                      }">${review.status}</span>
                     </div>
-                    <div class="payment-detail-section">
+                    <div class="review-detail-section">
                       <div class="detail-row">
-                        <div class="detail-label">Payment ID:</div>
-                        <div class="detail-value">#${payment.id}</div>
+                        <div class="detail-label">Review ID:</div>
+                        <div class="detail-value">#${review.id}</div>
                       </div>
                       <div class="detail-row">
                         <div class="detail-label">Order ID:</div>
-                        <div class="detail-value">#${payment.orderId}</div>
+                        <div class="detail-value">#${review.orderId}</div>
                       </div>
                       <div class="detail-row">
                         <div class="detail-label">Customer:</div>
-                        <div class="detail-value">${payment.customer}</div>
+                        <div class="detail-value">${review.customer}</div>
                       </div>
                       <div class="detail-row">
                         <div class="detail-label">Date:</div>
-                        <div class="detail-value">${payment.date}</div>
+                        <div class="detail-value">${review.date}</div>
                       </div>
                       <div class="detail-row">
-                        <div class="detail-label">Amount:</div>
-                        <div class="detail-value">${payment.amount}</div>
-                      </div>
-                    </div>
-                    <div class="payment-detail-section">
-                      <h3>Payment Details</h3>
-                      <div class="detail-row">
-                        <div class="detail-label">Method:</div>
-                        <div class="detail-value">${payment.method}</div>
+                        <div class="detail-label">Product:</div>
+                        <div class="detail-value">${review.product}</div>
                       </div>
                       <div class="detail-row">
-                        <div class="detail-label">Transaction ID:</div>
-                        <div class="detail-value">${payment.transactionId}</div>
+                        <div class="detail-label">Rating:</div>
+                        <div class="detail-value">${renderStars(review.rating)}</div>
                       </div>
                     </div>
-                    <div class="payment-detail-section">
-                      <h3>Notes</h3>
-                      <div class="detail-value note-text">${payment.notes || 'No additional notes'}</div>
+                    <div class="review-detail-section">
+                      <h3>Review</h3>
+                      <div class="detail-value review-text-content">${review.text}</div>
                     </div>
-                    <div class="payment-actions-footer">
-                      <button class="btn btn-primary go-to-details" data-payment-id="${payment.id}">
-                        <i class="fas fa-external-link-alt"></i> Full Payment Details
+                    <div class="review-detail-section">
+                      <h3>Response</h3>
+                      <div class="detail-value response-text">${review.response || 'No response yet'}</div>
+                    </div>
+                    <div class="review-detail-section">
+                      <h3>Respond to Review</h3>
+                      <div class="form-group">
+                        <label for="reviewResponse">Your Response</label>
+                        <textarea id="reviewResponse" class="form-control" rows="4" placeholder="Enter your response...">${review.response || ''}</textarea>
+                      </div>
+                    </div>
+                    <div class="review-actions-footer">
+                      <button class="btn btn-primary save-response" data-review-id="${review.id}">
+                        <i class="fas fa-save"></i> Save Response
                       </button>
+                      <button class="btn btn-outline cancel-modal">Cancel</button>
                     </div>
                   </div>
                 `;
-                const modal = createModal(`Payment #${payment.id} Details`, modalContent, 'large');
-                const goToDetailsBtn = modal.querySelector(".go-to-details");
-                if (goToDetailsBtn) {
-                  goToDetailsBtn.addEventListener("click", () => {
-                    showToast(`Opening full details for payment #${paymentId}...`, "info");
-                    setTimeout(() => {
-                      window.location.href = `/templates/farmer/payment-details.html?id=${paymentId}`;
-                    }, 1000);
+                const modal = createModal(`Review #${review.id} Details`, modalContent, 'large');
+                const saveResponseBtn = modal.querySelector(".save-response");
+                const cancelBtn = modal.querySelector(".cancel-modal");
+                if (saveResponseBtn) {
+                  saveResponseBtn.addEventListener("click", () => {
+                    const response = modal.querySelector("#reviewResponse").value.trim();
+                    if (!response) {
+                      showToast("Please enter a response", "error");
+                      return;
+                    }
+                    review.response = response;
+                    review.status = review.rating >= 3 ? "Positive" : "Negative";
+                    saveReviewData(reviewData.reviews);
+                    populateReviews("allReviews", reviewData.reviews);
+                    populateReviews("positiveReviews", reviewData.reviews.filter(r => r.status === "Positive"));
+                    populateReviews("negativeReviews", reviewData.reviews.filter(r => r.status === "Negative"));
+                    populateReviews("pendingReviews", reviewData.reviews.filter(r => r.status === "Pending"));
+                    modal.querySelector(".modal-content").classList.replace("animate__slideInFromTop", "animate__slideOutToTop");
+                    setTimeout(() => modal.remove(), 300);
+                    showToast(`Response to review #${reviewId} saved!`, "success");
+                  });
+                }
+                if (cancelBtn) {
+                  cancelBtn.addEventListener("click", () => {
+                    modal.querySelector(".modal-content").classList.replace("animate__slideInFromTop", "animate__slideOutToTop");
+                    setTimeout(() => modal.remove(), 300);
                   });
                 }
               } else {
-                showToast(`Error: Payment #${paymentId} not found`, "error");
+                showToast(`Error: Review #${reviewId} not found`, "error");
               }
             });
           });
         }
 
-        // Refresh Payments
-        const refreshPaymentsBtn = $("#refreshPaymentsBtn");
-        if (refreshPaymentsBtn) {
-          refreshPaymentsBtn.addEventListener("click", () => {
-            showToast("Refreshing payments...", "info");
+        // Refresh Reviews
+        const refreshReviewsBtn = $("#refreshReviewsBtn");
+        if (refreshReviewsBtn) {
+          refreshReviewsBtn.addEventListener("click", () => {
+            showToast("Refreshing reviews...", "info");
             setTimeout(() => {
-              const currentPayments = getPaymentData() || paymentData.payments;
-              populatePayments("completedPayments", currentPayments.completed);
-              populatePayments("pendingPayments", currentPayments.pending);
-              populatePayments("failedPayments", currentPayments.failed);
-              showToast("Payments refreshed successfully!", "success");
+              const currentReviews = getReviewData() || reviewData.reviews;
+              populateReviews("allReviews", currentReviews);
+              populateReviews("positiveReviews", currentReviews.filter(r => r.status === "Positive"));
+              populateReviews("negativeReviews", currentReviews.filter(r => r.status === "Negative"));
+              populateReviews("pendingReviews", currentReviews.filter(r => r.status === "Pending"));
+              showToast("Reviews refreshed successfully!", "success");
             }, 1000);
           });
         }
 
-        // Initialize payment tabs and populate payments
-        initializePaymentTabs();
-        const currentPayments = getPaymentData() || paymentData.payments;
-        populatePayments("completedPayments", currentPayments.completed);
-        populatePayments("pendingPayments", currentPayments.pending);
-        populatePayments("failedPayments", currentPayments.failed);
+        // Initialize review tabs and populate reviews
+        initializeReviewTabs();
+        const currentReviews = getReviewData() || reviewData.reviews;
+        populateReviews("allReviews", currentReviews);
+        populateReviews("positiveReviews", currentReviews.filter(r => r.status === "Positive"));
+        populateReviews("negativeReviews", currentReviews.filter(r => r.status === "Negative"));
+        populateReviews("pendingReviews", currentReviews.filter(r => r.status === "Pending"));
 
         // Search Functionality
         const searchInput = $("#searchInput");
@@ -1797,112 +1869,24 @@
           searchInput.addEventListener("input", () => {
             const query = searchInput.value.toLowerCase().trim();
             if (query.length < 2 && query.length !== 0) return;
-            const currentPayments = getPaymentData() || paymentData.payments;
-            const filterPayments = (status, payments) => {
-              if (!payments) return [];
-              const filtered = query
-                ? payments.filter(
-                    (p) =>
-                      (p.customer && p.customer.toLowerCase().includes(query)) ||
-                      (p.id && p.id.toLowerCase().includes(query)) ||
-                      (p.transactionId && p.transactionId.toLowerCase().includes(query)) ||
-                      (p.amount && p.amount.toLowerCase().includes(query))
-                  )
-                : payments;
-              return filtered;
-            };
-            populatePayments("completedPayments", filterPayments("completed", currentPayments.completed));
-            populatePayments("pendingPayments", filterPayments("pending", currentPayments.pending));
-            populatePayments("failedPayments", filterPayments("failed", currentPayments.failed));
+            const currentReviews = getReviewData() || reviewData.reviews;
+            const filteredReviews = query
+              ? currentReviews.filter(
+                  (r) =>
+                    (r.customer && r.customer.toLowerCase().includes(query)) ||
+                    (r.text && r.text.toLowerCase().includes(query)) ||
+                    (r.product && r.product.toLowerCase().includes(query)) ||
+                    (r.rating && r.rating.toString().includes(query))
+                )
+              : currentReviews;
+            populateReviews("allReviews", filteredReviews);
+            populateReviews("positiveReviews", filteredReviews.filter(r => r.status === "Positive"));
+            populateReviews("negativeReviews", filteredReviews.filter(r => r.status === "Negative"));
+            populateReviews("pendingReviews", filteredReviews.filter(r => r.status === "Pending"));
             showToast(
-              query ? `Filtered payments matching "${query}"` : "Reset search results",
+              query ? `Filtered reviews matching "${query}"` : "Reset search results",
               "info"
             );
-          });
-        }
-
-        // Add Payment Functionality
-        const addPaymentBtn = $("#addPaymentBtn");
-        if (addPaymentBtn) {
-          addPaymentBtn.addEventListener("click", () => {
-            const addPaymentModal = createModal("Add New Payment", `
-              <div class="add-payment-form">
-                <div class="form-group">
-                  <label for="paymentOrderId">Order ID</label>
-                  <input type="text" id="paymentOrderId" class="form-control" placeholder="Order ID" required>
-                </div>
-                <div class="form-group">
-                  <label for="paymentCustomer">Customer Name</label>
-                  <input type="text" id="paymentCustomer" class="form-control" placeholder="Customer name" required>
-                </div>
-                <div class="form-row">
-                  <div class="form-group">
-                    <label for="paymentAmount">Amount (₱)</label>
-                    <input type="number" id="paymentAmount" class="form-control" placeholder="Amount" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="paymentMethod">Payment Method</label>
-                    <select id="paymentMethod" class="form-control">
-                      <option value="Cash on Delivery">Cash on Delivery</option>
-                      <option value="Bank Transfer">Bank Transfer</option>
-                      <option value="GCash">GCash</option>
-                      <option value="Credit Card">Credit Card</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="paymentTransactionId">Transaction ID</label>
-                  <input type="text" id="paymentTransactionId" class="form-control" placeholder="Transaction ID" required>
-                </div>
-                <div class="form-group">
-                  <label for="paymentNotes">Notes</label>
-                  <textarea id="paymentNotes" class="form-control" rows="2" placeholder="Additional notes"></textarea>
-                </div>
-                <div class="form-actions">
-                  <button class="btn btn-primary" id="savePaymentBtn">Add Payment</button>
-                  <button class="btn btn-outline close-modal">Cancel</button>
-                </div>
-              </div>
-            `, 'large');
-            const savePaymentBtn = addPaymentModal.querySelector("#savePaymentBtn");
-            if (savePaymentBtn) {
-              savePaymentBtn.addEventListener("click", () => {
-                const orderId = addPaymentModal.querySelector("#paymentOrderId").value.trim();
-                const customer = addPaymentModal.querySelector("#paymentCustomer").value.trim();
-                const amount = addPaymentModal.querySelector("#paymentAmount").value.trim();
-                const method = addPaymentModal.querySelector("#paymentMethod").value;
-                const transactionId = addPaymentModal.querySelector("#paymentTransactionId").value.trim();
-                const notes = addPaymentModal.querySelector("#paymentNotes").value.trim();
-                if (!orderId || !customer || !amount || !transactionId) {
-                  showToast("Please fill in all required fields", "error");
-                  return;
-                }
-                const currentPayments = getPaymentData() || paymentData.payments;
-                const allPaymentIds = [
-                  ...(currentPayments.completed || []),
-                  ...(currentPayments.pending || []),
-                  ...(currentPayments.failed || [])
-                ].map(p => p.id.replace('P', ''));
-                const newId = `P${(Math.max(...allPaymentIds.map(id => parseInt(id)), 12346) + 1)}`;
-                const newPayment = {
-                  id: newId,
-                  orderId,
-                  customer,
-                  amount: `₱${parseInt(amount).toLocaleString()}`,
-                  method,
-                  status: "Pending",
-                  date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-                  transactionId,
-                  notes
-                };
-                currentPayments.pending.unshift(newPayment);
-                savePaymentData(currentPayments);
-                populatePayments("pendingPayments", currentPayments.pending);
-                addPaymentModal.querySelector(".modal-content").classList.replace("animate__fadeInDown", "animate__fadeOutUp");
-                setTimeout(() => addPaymentModal.remove(), 300);
-                showToast(`New payment #${newId} added successfully!`, "success");
-              });
-            }
           });
         }
       });
