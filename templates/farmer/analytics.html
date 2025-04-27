@@ -1,0 +1,1519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriGo - Analytics</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            /* Primary Colors */
+            --green-primary: #2e7d32;
+            --green-primary-light: #4caf50;
+            --green-primary-dark: #1b5e20;
+            --earth-brown: #8d6e63;
+            --sky-blue: #4fc3f7;
+
+            /* Secondary Colors */
+            --harvest-yellow: #fbc02d;
+            --leaf-green: #81c784;
+            --soil-tan: #d7ccc8;
+
+            /* Additional Farmer-specific Colors */
+            --crop-green: #66bb6a;
+            --sunrise-orange: #ffb74d;
+            --water-blue: #29b6f6;
+            --wheat-gold: #f9a825;
+
+            /* Neutrals */
+            --dark-gray: #424242;
+            --medium-gray: #757575;
+            --light-gray: #f5f5f5;
+            --white: #ffffff;
+            --black: #212121;
+
+            /* Status Colors */
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
+            --info: #2196f3;
+
+            /* Dark Theme Colors */
+            --dark-bg: #121212;
+            --dark-surface: #1e1e1e;
+            --dark-card: #2d2d2d;
+            --dark-border: #333333;
+            --dark-text: #e0e0e0;
+            --dark-text-secondary: #aaaaaa;
+
+            /* Spacing */
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --spacing-xxl: 48px;
+
+            /* Animation */
+            --transition-fast: 0.2s;
+            --transition-normal: 0.3s;
+            --transition-slow: 0.5s;
+
+            /* Shadows */
+            --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 10px rgba(0, 0, 0, 0.15);
+            --shadow-lg: 0 8px 20px rgba(0, 0, 0, 0.2);
+
+            /* Borders */
+            --border-radius-sm: 4px;
+            --border-radius-md: 8px;
+            --border-radius-lg: 12px;
+            --border-radius-xl: 16px;
+            --border-radius-circle: 50%;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: "Open Sans", sans-serif;
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+        }
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 90;
+            display: none;
+            animation: fadeIn var(--transition-normal) ease;
+        }
+        .overlay.active {
+            display: block;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background-color: var(--white);
+            box-shadow: var(--shadow-md);
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+            transition: width var(--transition-normal);
+            overflow-y: auto;
+        }
+        .dark-mode .sidebar {
+            background-color: var(--dark-surface);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        .sidebar-collapsed {
+            width: 70px;
+        }
+        .sidebar-header {
+            padding: var(--spacing-md);
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--light-gray);
+            height: 70px;
+        }
+        .dark-mode .sidebar-header {
+            border-bottom-color: var(--dark-border);
+        }
+        .sidebar-header img.logo {
+            height: 40px;
+            width: 40px;
+            object-fit: contain;
+        }
+        .sidebar-header h2 {
+            margin-left: var(--spacing-sm);
+            color: var(--green-primary);
+            font-size: 1.5rem;
+            transition: opacity var(--transition-normal), width var(--transition-normal);
+            white-space: nowrap;
+            margin-bottom: 0;
+        }
+        .sidebar-collapsed .sidebar-header h2 {
+            opacity: 0;
+            width: 0;
+            overflow: hidden;
+        }
+        .sidebar-menu {
+            margin-top: var(--spacing-md);
+        }
+        .nav-list {
+            list-style: none;
+        }
+        .nav-item {
+            margin-bottom: 2px;
+        }
+        .nav-link {
+            padding: var(--spacing-md);
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            color: var(--dark-gray);
+            text-decoration: none;
+            border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+        }
+        .dark-mode .nav-link {
+            color: var(--dark-text);
+        }
+        .nav-link:hover {
+            background-color: rgba(46, 125, 50, 0.1);
+            color: var(--green-primary);
+        }
+        .dark-mode .nav-link:hover {
+            background-color: rgba(76, 175, 80, 0.1);
+        }
+        .nav-link.active {
+            background-color: var(--green-primary);
+            color: var(--white);
+            box-shadow: var(--shadow-sm);
+        }
+        .dark-mode .nav-link.active {
+            background-color: var(--green-primary-dark);
+        }
+        .nav-link i {
+            font-size: 1.2rem;
+            width: 30px;
+            text-align: center;
+        }
+        .nav-link span {
+            margin-left: var(--spacing-md);
+            transition: opacity var(--transition-normal), width var(--transition-normal);
+            white-space: nowrap;
+        }
+        .sidebar-collapsed .nav-link span {
+            opacity: 0;
+            width: 0;
+            overflow: hidden;
+        }
+        .menu-toggle {
+            position: absolute;
+            right: -5px;
+            top: 65px;
+            background-color: var(--green-primary);
+            color: var(--white);
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: var(--border-radius-circle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: background-color var(--transition-fast);
+        }
+        .menu-toggle:hover {
+            background-color: var(--green-primary-dark);
+        }
+        .sidebar-toggle-mobile {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: var(--spacing-md);
+            text-align: center;
+            background-color: var(--green-primary);
+            color: var(--white);
+            position: sticky;
+            bottom: 0;
+            z-index: 101;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            transition: margin-left var(--transition-normal);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--light-gray);
+        }
+        .dark-mode .main-content {
+            background-color: var(--dark-bg);
+        }
+        .main-content-expanded {
+            margin-left: 70px;
+        }
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark-gray);
+            cursor: pointer;
+            padding: var(--spacing-sm);
+        }
+        .dark-mode .mobile-menu-toggle {
+            color: var(--dark-text);
+        }
+
+        /* Header */
+        .header {
+            background-color: var(--white);
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 99;
+            height: 70px;
+        }
+        .dark-mode .header {
+            background-color: var(--dark-surface);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: var(--light-gray);
+            border-radius: 20px;
+            padding: var(--spacing-sm) var(--spacing-md);
+            width: 300px;
+            transition: all var(--transition-fast);
+        }
+        .dark-mode .search-bar {
+            background-color: var(--dark-card);
+        }
+        .search-bar:focus-within {
+            box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.3);
+        }
+        .search-bar input {
+            border: none;
+            background: transparent;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            flex: 1;
+            outline: none;
+            font-family: "Open Sans", sans-serif;
+            color: var(--dark-gray);
+            font-size: 0.95rem;
+        }
+        .dark-mode .search-bar input {
+            color: var(--dark-text);
+        }
+        .search-bar input::placeholder {
+            color: var(--medium-gray);
+            opacity: 0.8;
+        }
+        .dark-mode .search-bar input::placeholder {
+            color: var(--dark-text-secondary);
+        }
+        .search-bar i {
+            color: var(--medium-gray);
+        }
+        .dark-mode .search-bar i {
+            color: var(--dark-text-secondary);
+        }
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-lg);
+        }
+
+        /* Notification */
+        .notification {
+            position: relative;
+            cursor: pointer;
+            padding: var(--spacing-xs);
+            border-radius: var(--border-radius-circle);
+            transition: background-color var(--transition-fast);
+        }
+        .notification:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        .dark-mode .notification:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        .notification-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--harvest-yellow);
+            color: var(--dark-gray);
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: var(--border-radius-circle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .notification-dropdown {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            width: 320px;
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-md);
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all var(--transition-normal);
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .dark-mode .notification-dropdown {
+            background-color: var(--dark-card);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        .notification-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .notification-dropdown h3 {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--light-gray);
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--green-primary);
+        }
+        .dark-mode .notification-dropdown h3 {
+            border-bottom-color: var(--dark-border);
+            color: var(--green-primary-light);
+        }
+        .notification-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .notification-item {
+            display: flex;
+            align-items: center;
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--light-gray);
+            transition: background-color var(--transition-fast);
+        }
+        .dark-mode .notification-item {
+            border-bottom-color: var(--dark-border);
+        }
+        .notification-item:hover {
+            background-color: var(--light-gray);
+        }
+        .dark-mode .notification-item:hover {
+            background-color: var(--dark-surface);
+        }
+        .notification-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: var(--border-radius-circle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: var(--spacing-md);
+            font-size: 1rem;
+        }
+        .notification-icon.warning {
+            background-color: var(--warning);
+            color: var(--white);
+        }
+        .notification-icon.success {
+            background-color: var(--success);
+            color: var(--white);
+        }
+        .notification-icon.info {
+            background-color: var(--sky-blue);
+            color: var(--white);
+        }
+        .notification-content p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+        }
+        .dark-mode .notification-content p {
+            color: var(--dark-text);
+        }
+        .notification-content strong {
+            font-weight: 600;
+            color: var(--black);
+        }
+        .dark-mode .notification-content strong {
+            color: var(--white);
+        }
+        .notification-time {
+            font-size: 0.75rem;
+            color: var(--medium-gray);
+        }
+        .dark-mode .notification-time {
+            color: var(--dark-text-secondary);
+        }
+        .notification-footer {
+            padding: var(--spacing-md);
+            text-align: center;
+            border-top: 1px solid var(--light-gray);
+        }
+        .dark-mode .notification-footer {
+            border-top-color: var(--dark-border);
+        }
+        .notification-footer a {
+            font-size: 0.85rem;
+            color: var(--green-primary);
+        }
+        .notification-footer a:hover {
+            color: var(--green-primary-dark);
+        }
+
+        /* User Profile */
+        .user-profile {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: var(--spacing-sm);
+            border-radius: var(--border-radius-md);
+            transition: background-color var(--transition-fast);
+        }
+        .user-profile:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        .dark-mode .user-profile:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            background-color: var(--green-primary);
+            color: var(--white);
+            border-radius: var(--border-radius-circle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-right: var(--spacing-sm);
+        }
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .user-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--black);
+        }
+        .dark-mode .user-name {
+            color: var(--dark-text);
+        }
+        .role-badge {
+            font-size: 0.75rem;
+            color: var(--medium-gray);
+        }
+        .dark-mode .role-badge {
+            color: var(--dark-text-secondary);
+        }
+        .dropdown-icon {
+            margin-left: var(--spacing-sm);
+            color: var(--medium-gray);
+            transition: transform var(--transition-fast);
+        }
+        .user-profile:hover .dropdown-icon {
+            transform: rotate(180deg);
+        }
+        .user-dropdown {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            width: 200px;
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-md);
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all var(--transition-normal);
+        }
+        .dark-mode .user-dropdown {
+            background-color: var(--dark-card);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        .user-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .user-dropdown ul {
+            list-style: none;
+            padding: var(--spacing-sm) 0;
+            margin: 0;
+        }
+        .user-dropdown li {
+            padding: var(--spacing-sm) var(--spacing-md);
+            transition: background-color var(--transition-fast);
+        }
+        .user-dropdown li:hover {
+            background-color: var(--light-gray);
+        }
+        .dark-mode .user-dropdown li:hover {
+            background-color: var(--dark-surface);
+        }
+        .user-dropdown li.divider {
+            height: 1px;
+            background-color: var(--light-gray);
+            padding: 0;
+            margin: var(--spacing-sm) 0;
+        }
+        .dark-mode .user-dropdown li.divider {
+            background-color: var(--dark-border);
+        }
+        .user-dropdown a {
+            display: flex;
+            align-items: center;
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+        .dark-mode .user-dropdown a {
+            color: var(--dark-text);
+        }
+        .user-dropdown a i {
+            margin-right: var(--spacing-md);
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Analytics Content */
+        .analytics-content {
+            padding: var(--spacing-lg);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-lg);
+        }
+
+        /* Section */
+        .section {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-sm);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+        .dark-mode .section {
+            background-color: var(--dark-card);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-lg);
+        }
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--green-primary);
+        }
+        .dark-mode .section-title {
+            color: var(--green-primary-light);
+        }
+        .section-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+            align-items: center;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: "Roboto", sans-serif;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all var(--transition-fast) ease;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            text-align: center;
+            justify-content: center;
+        }
+        .btn-primary {
+            background-color: var(--green-primary);
+            color: var(--white);
+        }
+        .btn-primary:hover {
+            background-color: var(--green-primary-dark);
+            transform: translateY(-2px);
+        }
+        .btn-outline {
+            border: 1px solid var(--green-primary);
+            background-color: transparent;
+            color: var(--green-primary);
+        }
+        .btn-outline:hover {
+            background-color: rgba(46, 125, 50, 0.1);
+            transform: translateY(-2px);
+        }
+        .btn-sm {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            font-size: 0.85rem;
+        }
+        .dark-mode .btn-outline {
+            border-color: var(--green-primary-light);
+            color: var(--green-primary-light);
+        }
+        .dark-mode .btn-outline:hover {
+            background-color: rgba(76, 175, 80, 0.1);
+        }
+
+        /* Chart Containers */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            margin-bottom: var(--spacing-lg);
+        }
+        .chart-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        /* Table Styles */
+        .analytics-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: var(--spacing-md);
+        }
+        .analytics-table th, .analytics-table td {
+            padding: var(--spacing-sm);
+            text-align: left;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        .dark-mode .analytics-table th, .dark-mode .analytics-table td {
+            border-bottom-color: var(--dark-border);
+        }
+        .analytics-table th {
+            font-weight: 600;
+            color: var(--green-primary);
+        }
+        .dark-mode .analytics-table th {
+            color: var(--green-primary-light);
+        }
+        .analytics-table td {
+            color: var(--dark-gray);
+        }
+        .dark-mode .analytics-table td {
+            color: var(--dark-text);
+        }
+        .analytics-table tr:hover {
+            background-color: var(--light-gray);
+        }
+        .dark-mode .analytics-table tr:hover {
+            background-color: var(--dark-surface);
+        }
+
+        /* Filter Dropdown */
+        .form-group {
+            margin-bottom: var(--spacing-md);
+        }
+        .form-label {
+            display: block;
+            margin-bottom: var(--spacing-xs);
+            font-weight: 500;
+            color: var(--dark-gray);
+        }
+        .dark-mode .form-label {
+            color: var(--dark-text);
+        }
+        .form-control {
+            width: 100%;
+            padding: var(--spacing-sm);
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius-md);
+            font-family: inherit;
+            font-size: 0.95rem;
+            color: var(--black);
+        }
+        .dark-mode .form-control {
+            background-color: var(--dark-surface);
+            border-color: var(--dark-border);
+            color: var(--dark-text);
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--green-primary);
+            box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.2);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--white);
+            padding: var(--spacing-lg) var(--spacing-xl);
+            border-top: 1px solid var(--light-gray);
+            margin-top: auto;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
+        }
+        .dark-mode .footer {
+            background-color: var(--dark-surface);
+            border-top-color: var(--dark-border);
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+        }
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .footer-content p {
+            font-size: 0.85rem;
+            color: var(--medium-gray);
+            margin: 0;
+        }
+        .dark-mode .footer-content p {
+            color: var(--dark-text-secondary);
+        }
+        .footer-links {
+            display: flex;
+            gap: var(--spacing-lg);
+        }
+        .footer-links a {
+            font-size: 0.85rem;
+            color: var(--green-primary);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+        .dark-mode .footer-links a {
+            color: var(--green-primary-light);
+        }
+        .footer-links a:hover {
+            color: var(--green-primary-dark);
+        }
+        .dark-mode .footer-links a:hover {
+            color: var(--green-primary);
+        }
+
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        .toast {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--spacing-md);
+            margin-top: var(--spacing-sm);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-sm);
+            animation: slideIn var(--transition-normal) ease;
+        }
+        .toast-success {
+            background-color: var(--success);
+            color: var(--white);
+        }
+        .toast-info {
+            background-color: var(--info);
+            color: var(--white);
+        }
+        .toast-error {
+            background-color: var(--danger);
+            color: var(--white);
+        }
+        .toast i {
+            cursor: pointer;
+            margin-left: var(--spacing-md);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 250px;
+                transform: translateX(-100%);
+                position: fixed;
+            }
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .mobile-menu-toggle {
+                display: block;
+            }
+            .sidebar-toggle-mobile {
+                display: block;
+            }
+            .header {
+                flex-direction: row;
+                align-items: center;
+                height: auto;
+                padding: var(--spacing-md);
+                gap: var(--spacing-md);
+            }
+            .search-bar {
+                width: 100%;
+                max-width: 200px;
+            }
+            .header-actions {
+                gap: var(--spacing-md);
+            }
+            .chart-row {
+                grid-template-columns: 1fr;
+            }
+            .section-actions {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--spacing-sm);
+            }
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            .footer-content {
+                flex-direction: column;
+                gap: var(--spacing-md);
+                align-items: flex-start;
+            }
+            .footer-links {
+                flex-direction: column;
+                gap: var(--spacing-sm);
+            }
+        }
+        @media (max-width: 480px) {
+            .notification-dropdown, .user-dropdown {
+                width: 100%;
+                right: 0;
+                left: 0;
+                margin: 0 var(--spacing-md);
+            }
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .search-bar {
+                max-width: 100%;
+            }
+            .analytics-table th, .analytics-table td {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay" id="overlay"></div>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="/templates/images/logo.png" alt="AgriGo Logo" class="logo">
+                <h2>AgriGo</h2>
+                <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            </div>
+            <div class="sidebar-menu">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="/templates/farmer/farmer-dashboard.html" class="nav-link" data-tab="dashboard">
+                            <i class="fas fa-home"></i> <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/templates/farmer/farm.html" class="nav-link" data-tab="farm">
+                            <i class="fas fa-seedling"></i> <span>My Farm</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/templates/farmer/products.html" class="nav-link" data-tab="products">
+                            <i class="fas fa-box"></i> <span>Products</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/templates/farmer/orders.html" class="nav-link" data-tab="orders">
+                            <i class="fas fa-shopping-cart"></i> <span>Orders</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/templates/farmer/payments.html" class="nav-link" data-tab="payments">
+                            <i class="fas fa-credit-card"></i> <span>Payments</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/templates/farmer/reviews.html" class="nav-link" data-tab="reviews">
+                            <i class="fas fa-comment-alt"></i> <span>Reviews</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/templates/farmer/analytics.html" class="nav-link active" data-tab="analytics">
+                            <i class="fas fa-chart-line"></i> <span>Analytics</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="sidebar-toggle-mobile">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content" id="main-content">
+            <!-- Header -->
+            <div class="header">
+                <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Mobile menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search analytics..." aria-label="Search">
+                </div>
+                <div class="header-actions">
+                    <div class="notification" id="notificationIcon">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">3</span>
+                        <div class="notification-dropdown" id="notificationDropdown">
+                            <h3>Notifications</h3>
+                            <ul class="notification-list">
+                                <li class="notification-item">
+                                    <div class="notification-icon success">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p>New order placed for Organic Tomatoes</p>
+                                        <span class="notification-time">30 minutes ago</span>
+                                    </div>
+                                </li>
+                                <li class="notification-item">
+                                    <div class="notification-icon info">
+                                        <i class="fas fa-info-circle"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p>Product inventory low: Bell Peppers</p>
+                                        <span class="notification-time">2 hours ago</span>
+                                    </div>
+                                </li>
+                                <li class="notification-item">
+                                    <div class="notification-icon warning">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p>Update your profile information</p>
+                                        <span class="notification-time">1 day ago</span>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="notification-footer">
+                                <a href="#notifications">View all notifications</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user-profile" id="userProfile">
+                        <div class="user-avatar">VF</div>
+                        <div class="user-info">
+                            <div class="user-name">Vicente Fernandez</div>
+                            <span class="role-badge">Verified Farmer</span>
+                        </div>
+                        <i class="fas fa-chevron-down dropdown-icon"></i>
+                        <div class="user-dropdown" id="userDropdown">
+                            <ul>
+                                <li><a href="/templates/farmer/profile.html"><i class="fas fa-user"></i> My Profile</a></li>
+                                <li><a href="#settings"><i class="fas fa-cog"></i> Account Settings</a></li>
+                                <li><a href="#help"><i class="fas fa-question-circle"></i> Help & Support</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#" id="darkModeToggle"><i class="fas fa-moon"></i> <span id="themeText">Dark Mode</span></a></li>
+                                <li class="divider"></li>
+                                <li><a href="#" id="userDropdownLogout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Content -->
+            <div class="analytics-content">
+                <!-- Analytics Overview Section -->
+                <div class="section">
+                    <div class="section-header">
+                        <div class="section-title">Analytics Overview</div>
+                        <div class="section-actions">
+                            <div class="form-group">
+                                <select class="form-control" id="timeFilter">
+                                    <option value="year">Last 12 Months</option>
+                                    <option value="6months">Last 6 Months</option>
+                                    <option value="30days">Last 30 Days</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-outline" id="exportDataBtn">
+                                <i class="fas fa-download"></i> Export Data
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Sales Overview -->
+                    <div class="section">
+                        <h3>Sales Overview</h3>
+                        <div class="chart-container">
+                            <canvas id="salesChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Crop Performance and Order Statistics -->
+                    <div class="chart-row">
+                        <div class="section">
+                            <h3>Crop Performance</h3>
+                            <div class="chart-container">
+                                <canvas id="cropChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="section">
+                            <h3>Order Statistics</h3>
+                            <div class="chart-container">
+                                <canvas id="orderChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Customer Insights -->
+                    <div class="section">
+                        <h3>Customer Insights</h3>
+                        <table class="analytics-table" id="customerTable">
+                            <thead>
+                                <tr>
+                                    <th>Customer Name</th>
+                                    <th>Total Orders</th>
+                                    <th>Total Spent</th>
+                                    <th>Last Purchase</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>John Mercado</td>
+                                    <td>15</td>
+                                    <td>₱45,000</td>
+                                    <td>2025-04-20</td>
+                                </tr>
+                                <tr>
+                                    <td>Maria Santos</td>
+                                    <td>12</td>
+                                    <td>₱38,000</td>
+                                    <td>2025-04-15</td>
+                                </tr>
+                                <tr>
+                                    <td>Pedro Cruz</td>
+                                    <td>8</td>
+                                    <td>₱25,000</td>
+                                    <td>2025-04-10</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Toast Container -->
+            <div class="toast-container" id="toastContainer"></div>
+
+            <!-- Footer -->
+            <div class="footer">
+                <div class="footer-content">
+                    <p>© 2025 AgriGo. All rights reserved.</p>
+                    <div class="footer-links">
+                        <a href="#terms">Terms of Service</a>
+                        <a href="#privacy">Privacy Policy</a>
+                        <a href="#contact">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Utility Functions
+        const $ = (selector, context = document) => context.querySelector(selector);
+        const $$ = (selector, context = document) => Array.from(context.querySelectorAll(selector));
+        const toggleClass = (element, className) => element?.classList.toggle(className);
+        const removeClass = (elements, className) => elements.forEach(el => el?.classList.remove(className));
+        const addClass = (element, className) => element?.classList.add(className);
+
+        // Toast Notification
+        function showToast(message, type = 'success', duration = 3000) {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = `${message}<i class="fas fa-times"></i>`;
+            $('#toastContainer')?.appendChild(toast);
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, duration);
+            toast.querySelector('i').addEventListener('click', () => {
+                toast.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            });
+        }
+
+        // Toggle Sidebar
+        function toggleSidebar() {
+            const sidebar = $('#sidebar');
+            const mainContent = $('#main-content');
+            const overlay = $('#overlay');
+            if (!sidebar || !mainContent || !overlay) return;
+            toggleClass(sidebar, 'sidebar-collapsed');
+            toggleClass(mainContent, 'main-content-expanded');
+            toggleClass(overlay, 'active');
+            const toggleIcon = $('#menu-toggle i');
+            if (toggleIcon) {
+                toggleIcon.className = sidebar.classList.contains('sidebar-collapsed') ? 'fas fa-chevron-right' : 'fas fa-chevron-left';
+            }
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const sidebar = $('#sidebar');
+            const overlay = $('#overlay');
+            if (!sidebar || !overlay) return;
+            toggleClass(sidebar, 'active');
+            toggleClass(overlay, 'active');
+        }
+
+        // Close Dropdowns
+        function closeDropdowns(exclude = null) {
+            const dropdowns = $$('.notification-dropdown, .user-dropdown');
+            dropdowns.forEach(dropdown => {
+                if (dropdown !== exclude) {
+                    removeClass([dropdown], 'show');
+                }
+            });
+        }
+
+        // Chart Data
+        const analyticsData = {
+            year: {
+                sales: {
+                    labels: ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar'],
+                    data: [50000, 60000, 55000, 70000, 80000, 75000, 90000, 85000, 95000, 100000, 110000, 120000]
+                },
+                crops: {
+                    labels: ['Tomatoes', 'Peppers', 'Mangoes', 'Rice'],
+                    data: [30000, 25000, 20000, 15000]
+                },
+                orders: {
+                    labels: ['Pending', 'Completed', 'Canceled'],
+                    data: [20, 150, 10]
+                }
+            },
+            '6months': {
+                sales: {
+                    labels: ['Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar'],
+                    data: [90000, 85000, 95000, 100000, 110000, 120000]
+                },
+                crops: {
+                    labels: ['Tomatoes', 'Peppers', 'Mangoes', 'Rice'],
+                    data: [18000, 15000, 12000, 9000]
+                },
+                orders: {
+                    labels: ['Pending', 'Completed', 'Canceled'],
+                    data: [10, 80, 5]
+                }
+            },
+            '30days': {
+                sales: {
+                    labels: ['Mar 1-10', 'Mar 11-20', 'Mar 21-31'],
+                    data: [40000, 45000, 35000]
+                },
+                crops: {
+                    labels: ['Tomatoes', 'Peppers', 'Mangoes', 'Rice'],
+                    data: [6000, 5000, 4000, 3000]
+                },
+                orders: {
+                    labels: ['Pending', 'Completed', 'Canceled'],
+                    data: [5, 25, 2]
+                }
+            }
+        };
+
+        // Chart Initialization
+        let salesChart, cropChart, orderChart;
+
+        function initCharts(timePeriod = 'year') {
+            const data = analyticsData[timePeriod];
+
+            // Sales Chart (Line)
+            const salesCtx = $('#salesChart')?.getContext('2d');
+            if (salesChart) salesChart.destroy();
+            salesChart = new Chart(salesCtx, {
+                type: 'line',
+                data: {
+                    labels: data.sales.labels,
+                    datasets: [{
+                        label: 'Sales (₱)',
+                        data: data.sales.data,
+                        borderColor: 'var(--green-primary)',
+                        backgroundColor: 'rgba(46, 125, 50, 0.2)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { color: document.body.classList.contains('dark-mode') ? 'var(--dark-text)' : 'var(--dark-gray)' },
+                            grid: { color: document.body.classList.contains('dark-mode') ? 'var(--dark-border)' : 'var(--light-gray)' }
+                        },
+                        x: {
+                            ticks: { color: document.body.classList.contains('dark-mode') ? 'var(--dark-text)' : 'var(--dark-gray)' },
+                            grid: { color: document.body.classList.contains('dark-mode') ? 'var(--dark-border)' : 'var(--light-gray)' }
+                        }
+                    },
+                    plugins: {
+                        legend: { labels: { color: document.body.classList.contains('dark-mode') ? 'var(--dark-text)' : 'var(--dark-gray)' } }
+                    }
+                }
+            });
+
+            // Crop Chart (Bar)
+            const cropCtx = $('#cropChart')?.getContext('2d');
+            if (cropChart) cropChart.destroy();
+            cropChart = new Chart(cropCtx, {
+                type: 'bar',
+                data: {
+                    labels: data.crops.labels,
+                    datasets: [{
+                        label: 'Revenue (₱)',
+                        data: data.crops.data,
+                        backgroundColor: ['var(--crop-green)', 'var(--sunrise-orange)', 'var(--water-blue)', 'var(--wheat-gold)']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { color: document.body.classList.contains('dark-mode') ? 'var(--dark-text)' : 'var(--dark-gray)' },
+                            grid: { color: document.body.classList.contains('dark-mode') ? 'var(--dark-border)' : 'var(--light-gray)' }
+                        },
+                        x: {
+                            ticks: { color: document.body.classList.contains('dark-mode') ? 'var(--dark-text)' : 'var(--dark-gray)' },
+                            grid: { color: document.body.classList.contains('dark-mode') ? 'var(--dark-border)' : 'var(--light-gray)' }
+                        }
+                    },
+                    plugins: {
+                        legend: { labels: { color: document.body.classList.contains('dark-mode') ? 'var(--dark-text)' : 'var(--dark-gray)' } }
+                    }
+                }
+            });
+
+            // Order Chart (Pie)
+            const orderCtx = $('#orderChart')?.getContext('2d');
+            if (orderChart) orderChart.destroy();
+            orderChart = new Chart(orderCtx, {
+                type: 'pie',
+                data: {
+                    labels: data.orders.labels,
+                    datasets: [{
+                        label: 'Orders',
+                        data: data.orders.data,
+                        backgroundColor: ['var(--warning)', 'var(--success)', 'var(--danger)']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { 
+                            position: 'bottom',
+                            labels: { color: document.body.classList.contains('dark-mode') ? 'var(--dark-text)' : 'var(--dark-gray)' }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Update Charts for Dark Mode
+        function updateChartsForTheme() {
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            const textColor = isDarkMode ? 'var(--dark-text)' : 'var(--dark-gray)';
+            const gridColor = isDarkMode ? 'var(--dark-border)' : 'var(--light-gray)';
+
+            [salesChart, cropChart, orderChart].forEach(chart => {
+                if (chart) {
+                    chart.options.scales.y.ticks.color = textColor;
+                    chart.options.scales.y.grid.color = gridColor;
+                    chart.options.scales.x.ticks.color = textColor;
+                    chart.options.scales.x.grid.color = gridColor;
+                    chart.options.plugins.legend.labels.color = textColor;
+                    chart.update();
+                }
+            });
+        }
+
+        // Export Data
+        function exportData() {
+            const timePeriod = $('#timeFilter')?.value || 'year';
+            const data = {
+                timePeriod,
+                sales: analyticsData[timePeriod].sales,
+                crops: analyticsData[timePeriod].crops,
+                orders: analyticsData[timePeriod].orders,
+                customers: Array.from($$('#customerTable tbody tr')).map(row => ({
+                    name: row.cells[0].textContent,
+                    totalOrders: row.cells[1].textContent,
+                    totalSpent: row.cells[2].textContent,
+                    lastPurchase: row.cells[3].textContent
+                }))
+            };
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `analytics-data-${timePeriod}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('Analytics data exported successfully!', 'success');
+        }
+
+        // Search Functionality
+        function handleSearch() {
+            const searchInput = $('#searchInput');
+            searchInput?.addEventListener('input', function() {
+                const query = this.value.toLowerCase().trim();
+                const customerRows = $$('#customerTable tbody tr');
+                const cropLabels = analyticsData.year.crops.labels;
+
+                // Filter customer table
+                customerRows.forEach(row => {
+                    const name = row.cells[0].textContent.toLowerCase();
+                    row.style.display = name.includes(query) || !query ? '' : 'none';
+                });
+
+                // Filter crop chart
+                const filteredCrops = cropLabels.map((label, i) => ({
+                    label,
+                    data: label.toLowerCase().includes(query) || !query ? analyticsData.year.crops.data[i] : 0
+                }));
+                cropChart.data.labels = filteredCrops.map(c => c.label);
+                cropChart.data.datasets[0].data = filteredCrops.map(c => c.data);
+                cropChart.update();
+            });
+        }
+
+        // Initialize Event Listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sidebar and Menu
+            $('#menu-toggle')?.addEventListener('click', toggleSidebar);
+            $('#mobile-menu-toggle')?.addEventListener('click', toggleMobileMenu);
+            $('.sidebar-toggle-mobile')?.addEventListener('click', toggleMobileMenu);
+            $('#overlay')?.addEventListener('click', toggleMobileMenu);
+
+            // Dropdowns
+            $('#notificationIcon')?.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleClass($('#notificationDropdown'), 'show');
+                closeDropdowns($('#notificationDropdown'));
+            });
+
+            $('#userProfile')?.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleClass($('#userDropdown'), 'show');
+                closeDropdowns($('#userDropdown'));
+            });
+
+            document.addEventListener('click', closeDropdowns);
+
+            // Initialize Charts
+            initCharts('year');
+
+            // Time Filter
+            $('#timeFilter')?.addEventListener('change', function() {
+                initCharts(this.value);
+                showToast(`Showing data for ${this.options[this.selectedIndex].text}`, 'info');
+            });
+
+            // Export Data
+            $('#exportDataBtn')?.addEventListener('click', exportData);
+
+            // Dark Mode Toggle
+            $('#darkModeToggle')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                toggleClass(document.body, 'dark-mode');
+                const themeText = $('#themeText');
+                if (themeText) {
+                    themeText.textContent = document.body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode';
+                }
+                localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+                updateChartsForTheme();
+            });
+
+            // Initialize Dark Mode
+            if (localStorage.getItem('darkMode') === 'true') {
+                addClass(document.body, 'dark-mode');
+                $('#themeText').textContent = 'Light Mode';
+                updateChartsForTheme();
+            }
+
+            // Logout Button
+            $('#userDropdownLogout')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (confirm('Are you sure you want to logout?')) {
+                    showToast('Logged out successfully', 'info');
+                    setTimeout(() => {
+                        window.location.href = '/login.html';
+                    }, 1500);
+                }
+            });
+
+            // Initialize Search
+            handleSearch();
+        });
+    </script>
+</body>
+</html>

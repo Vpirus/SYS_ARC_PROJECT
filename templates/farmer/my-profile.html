@@ -1,0 +1,2258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriGo - My Profile</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root {
+            /* Primary Colors */
+            --green-primary: #2e7d32;
+            --green-primary-light: #4caf50;
+            --green-primary-dark: #1b5e20;
+            --earth-brown: #8d6e63;
+            --sky-blue: #4fc3f7;
+
+            /* Secondary Colors */
+            --harvest-yellow: #fbc02d;
+            --leaf-green: #81c784;
+            --soil-tan: #d7ccc8;
+
+            /* Additional Farmer-specific Colors */
+            --crop-green: #66bb6a;
+            --sunrise-orange: #ffb74d;
+            --water-blue: #29b6f6;
+            --wheat-gold: #f9a825;
+
+            /* Neutrals */
+            --dark-gray: #424242;
+            --medium-gray: #757575;
+            --light-gray: #f5f5f5;
+            --white: #ffffff;
+            --black: #212121;
+
+            /* Status Colors */
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
+            --info: #2196f3;
+
+            /* Dark Theme Colors */
+            --dark-bg: #121212;
+            --dark-surface: #1e1e1e;
+            --dark-card: #2d2d2d;
+            --dark-border: #333333;
+            --dark-text: #e0e0e0;
+            --dark-text-secondary: #aaaaaa;
+
+            /* Spacing */
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --spacing-xxl: 48px;
+
+            /* Animation */
+            --transition-fast: 0.2s;
+            --transition-normal: 0.3s;
+            --transition-slow: 0.5s;
+
+            /* Shadows */
+            --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 10px rgba(0, 0, 0, 0.15);
+            --shadow-lg: 0 8px 20px rgba(0, 0, 0, 0.2);
+
+            /* Borders */
+            --border-radius-sm: 4px;
+            --border-radius-md: 8px;
+            --border-radius-lg: 12px;
+            --border-radius-xl: 16px;
+            --border-radius-circle: 50%;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: "Open Sans", sans-serif;
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+        }
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 90;
+            display: none;
+            animation: fadeIn var(--transition-normal) ease;
+        }
+        .overlay.active {
+            display: block;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background-color: var(--white);
+            box-shadow: var(--shadow-md);
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+            transition: width var(--transition-normal);
+            overflow-y: auto;
+        }
+        .dark-mode .sidebar {
+            background-color: var(--dark-surface);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        .sidebar-collapsed {
+            width: 70px;
+        }
+        .sidebar-header {
+            padding: var(--spacing-md);
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--light-gray);
+            height: 70px;
+        }
+        .dark-mode .sidebar-header {
+            border-bottom-color: var(--dark-border);
+        }
+        .sidebar-header img.logo {
+            height: 40px;
+            width: 40px;
+            object-fit: contain;
+        }
+        .sidebar-header h2 {
+            margin-left: var(--spacing-sm);
+            color: var(--green-primary);
+            font-size: 1.5rem;
+            transition: opacity var(--transition-normal), width var(--transition-normal);
+            white-space: nowrap;
+            margin-bottom: 0;
+        }
+        .sidebar-collapsed .sidebar-header h2 {
+            opacity: 0;
+            width: 0;
+            overflow: hidden;
+        }
+        .sidebar-menu {
+            margin-top: var(--spacing-md);
+        }
+        .nav-list {
+            list-style: none;
+        }
+        .nav-item {
+            margin-bottom: 2px;
+        }
+        .nav-link {
+            padding: var(--spacing-md);
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            color: var(--dark-gray);
+            text-decoration: none;
+            border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+        }
+        .dark-mode .nav-link {
+            color: var(--dark-text);
+        }
+        .nav-link:hover {
+            background-color: rgba(46, 125, 50, 0.1);
+            color: var(--green-primary);
+        }
+        .dark-mode .nav-link:hover {
+            background-color: rgba(76, 175, 80, 0.1);
+        }
+        .nav-link.active {
+            background-color: var(--green-primary);
+            color: var(--white);
+            box-shadow: var(--shadow-sm);
+        }
+        .dark-mode .nav-link.active {
+            background-color: var(--green-primary-dark);
+        }
+        .nav-link i {
+            font-size: 1.2rem;
+            width: 30px;
+            text-align: center;
+        }
+        .nav-link span {
+            margin-left: var(--spacing-md);
+            transition: opacity var(--transition-normal), width var(--transition-normal);
+            white-space: nowrap;
+        }
+        .sidebar-collapsed .nav-link span {
+            opacity: 0;
+            width: 0;
+            overflow: hidden;
+        }
+        .menu-toggle {
+            position: absolute;
+            right: -5px;
+            top: 65px;
+            background-color: var(--green-primary);
+            color: var(--white);
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: var(--border-radius-circle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: background-color var(--transition-fast);
+        }
+        .menu-toggle:hover {
+            background-color: var(--green-primary-dark);
+        }
+        .sidebar-toggle-mobile {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: var(--spacing-md);
+            text-align: center;
+            background-color: var(--green-primary);
+            color: var(--white);
+            position: sticky;
+            bottom: 0;
+            z-index: 101;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            transition: margin-left var(--transition-normal);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--light-gray);
+        }
+        .dark-mode .main-content {
+            background-color: var(--dark-bg);
+        }
+        .main-content-expanded {
+            margin-left: 70px;
+        }
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark-gray);
+            cursor: pointer;
+            padding: var(--spacing-sm);
+        }
+        .dark-mode .mobile-menu-toggle {
+            color: var(--dark-text);
+        }
+
+        /* Header */
+        .header {
+            background-color: var(--white);
+            padding: var(--spacing-md) var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 99;
+            height: 70px;
+        }
+        .dark-mode .header {
+            background-color: var(--dark-surface);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: var(--light-gray);
+            border-radius: 20px;
+            padding: var(--spacing-sm) var(--spacing-md);
+            width: 300px;
+            transition: all var(--transition-fast);
+        }
+        .dark-mode .search-bar {
+            background-color: var(--dark-card);
+        }
+        .search-bar:focus-within {
+            box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.3);
+        }
+        .search-bar input {
+            border: none;
+            background: transparent;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            flex: 1;
+            outline: none;
+            font-family: "Open Sans", sans-serif;
+            color: var(--dark-gray);
+            font-size: 0.95rem;
+        }
+        .dark-mode .search-bar input {
+            color: var(--dark-text);
+        }
+        .search-bar input::placeholder {
+            color: var(--medium-gray);
+            opacity: 0.8;
+        }
+        .dark-mode .search-bar input::placeholder {
+            color: var(--dark-text-secondary);
+        }
+        .search-bar i {
+            color: var(--medium-gray);
+        }
+        .dark-mode .search-bar i {
+            color: var(--dark-text-secondary);
+        }
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-lg);
+        }
+
+        /* Notification */
+        .notification {
+            position: relative;
+            cursor: pointer;
+            padding: var(--spacing-xs);
+            border-radius: var(--border-radius-circle);
+            transition: background-color var(--transition-fast);
+        }
+        .notification:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        .dark-mode .notification:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        .notification-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--harvest-yellow);
+            color: var(--dark-gray);
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: var(--border-radius-circle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .notification-dropdown {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            width: 320px;
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-md);
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all var(--transition-normal);
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .dark-mode .notification-dropdown {
+            background-color: var(--dark-card);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        .notification-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .notification-dropdown h3 {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--light-gray);
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--green-primary);
+        }
+        .dark-mode .notification-dropdown h3 {
+            border-bottom-color: var(--dark-border);
+            color: var(--green-primary-light);
+        }
+        .notification-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .notification-item {
+            display: flex;
+            align-items: center;
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--light-gray);
+            transition: background-color var(--transition-fast);
+        }
+        .dark-mode .notification-item {
+            border-bottom-color: var(--dark-border);
+        }
+        .notification-item:hover {
+            background-color: var(--light-gray);
+        }
+        .dark-mode .notification-item:hover {
+            background-color: var(--dark-surface);
+        }
+        .notification-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: var(--border-radius-circle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: var(--spacing-md);
+            font-size: 1rem;
+        }
+        .notification-icon.warning {
+            background-color: var(--warning);
+            color: var(--white);
+        }
+        .notification-icon.success {
+            background-color: var(--success);
+            color: var(--white);
+        }
+        .notification-icon.info {
+            background-color: var(--sky-blue);
+            color: var(--white);
+        }
+        .notification-content p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+        }
+        .dark-mode .notification-content p {
+            color: var(--dark-text);
+        }
+        .notification-content strong {
+            font-weight: 600;
+            color: var(--black);
+        }
+        .dark-mode .notification-content strong {
+            color: var(--white);
+        }
+        .notification-time {
+            font-size: 0.75rem;
+            color: var(--medium-gray);
+        }
+        .dark-mode .notification-time {
+            color: var(--dark-text-secondary);
+        }
+        .notification-footer {
+            padding: var(--spacing-md);
+            text-align: center;
+            border-top: 1px solid var(--light-gray);
+        }
+        .dark-mode .notification-footer {
+            border-top-color: var(--dark-border);
+        }
+        .notification-footer a {
+            font-size: 0.85rem;
+            color: var(--green-primary);
+        }
+        .notification-footer a:hover {
+            color: var(--green-primary-dark);
+        }
+
+        /* User Profile */
+        .user-profile {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: var(--spacing-sm);
+            border-radius: var(--border-radius-md);
+            transition: background-color var(--transition-fast);
+        }
+        .user-profile:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        .dark-mode .user-profile:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            background-color: var(--green-primary);
+            color: var(--white);
+            border-radius: var(--border-radius-circle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-right: var(--spacing-sm);
+        }
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .user-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--black);
+        }
+        .dark-mode .user-name {
+            color: var(--dark-text);
+        }
+        .role-badge {
+            font-size: 0.75rem;
+            color: var(--medium-gray);
+        }
+        .dark-mode .role-badge {
+            color: var(--dark-text-secondary);
+        }
+        .dropdown-icon {
+            margin-left: var(--spacing-sm);
+            color: var(--medium-gray);
+            transition: transform var(--transition-fast);
+        }
+        .user-profile:hover .dropdown-icon {
+            transform: rotate(180deg);
+        }
+        .user-dropdown {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            width: 200px;
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-md);
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all var(--transition-normal);
+        }
+        .dark-mode .user-dropdown {
+            background-color: var(--dark-card);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        .user-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .user-dropdown ul {
+            list-style: none;
+            padding: var(--spacing-sm) 0;
+            margin: 0;
+        }
+        .user-dropdown li {
+            padding: var(--spacing-sm) var(--spacing-md);
+            transition: background-color var(--transition-fast);
+        }
+        .user-dropdown li:hover {
+            background-color: var(--light-gray);
+        }
+        .dark-mode .user-dropdown li:hover {
+            background-color: var(--dark-surface);
+        }
+        .user-dropdown li.divider {
+            height: 1px;
+            background-color: var(--light-gray);
+            padding: 0;
+            margin: var(--spacing-sm) 0;
+        }
+        .dark-mode .user-dropdown li.divider {
+            background-color: var(--dark-border);
+        }
+        .user-dropdown a {
+            display: flex;
+            align-items: center;
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+        .dark-mode .user-dropdown a {
+            color: var(--dark-text);
+        }
+        .user-dropdown a i {
+            margin-right: var(--spacing-md);
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Profile Content */
+        .profile-content {
+            padding: var(--spacing-lg);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-lg);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--transition-normal), visibility var(--transition-normal);
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            width: 90%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-20px);
+            transition: transform var(--transition-normal);
+        }
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+        }
+        .modal-header {
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--green-primary);
+        }
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--medium-gray);
+            cursor: pointer;
+            transition: color var(--transition-fast);
+        }
+        .modal-close:hover {
+            color: var(--danger);
+        }
+        .modal-body {
+            padding: var(--spacing-lg);
+        }
+        .modal-footer {
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-top: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: flex-end;
+            gap: var(--spacing-md);
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: var(--spacing-md);
+        }
+        .form-label {
+            display: block;
+            margin-bottom: var(--spacing-xs);
+            font-weight: 500;
+            color: var(--dark-gray);
+        }
+        .form-control {
+            width: 100%;
+            padding: var(--spacing-sm);
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius-md);
+            font-family: inherit;
+            font-size: 0.95rem;
+            color: var(--black);
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--green-primary);
+            box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.2);
+        }
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+        .form-col {
+            flex: 1;
+            min-width: 200px;
+        }
+        .form-check {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-sm);
+        }
+        .form-check-input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        .form-check-label {
+            cursor: pointer;
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .fade-in {
+            animation: fadeIn var(--transition-normal);
+        }
+
+        /* Section */
+        .section {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-sm);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+        .dark-mode .section {
+            background-color: var(--dark-card);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-lg);
+        }
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--green-primary);
+        }
+        .dark-mode .section-title {
+            color: var(--green-primary-light);
+        }
+        .section-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+            align-items: center;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: "Roboto", sans-serif;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all var(--transition-fast) ease;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            text-align: center;
+            justify-content: center;
+        }
+        .btn-primary {
+            background-color: var(--green-primary);
+            color: var(--white);
+        }
+        .btn-primary:hover {
+            background-color: var(--green-primary-dark);
+            transform: translateY(-2px);
+        }
+        .btn-outline {
+            border: 1px solid var(--green-primary);
+            background-color: transparent;
+            color: var(--green-primary);
+        }
+        .btn-outline:hover {
+            background-color: rgba(46, 125, 50, 0.1);
+            transform: translateY(-2px);
+        }
+        .btn-sm {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            font-size: 0.85rem;
+        }
+        .dark-mode .btn-outline {
+            border-color: var(--green-primary-light);
+            color: var(--green-primary-light);
+        }
+        .dark-mode .btn-outline:hover {
+            background-color: rgba(76, 175, 80, 0.1);
+        }
+        .btn:disabled {
+            background-color: var(--medium-gray);
+            color: var(--light-gray);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Profile Specific Styles */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            background-color: var(--green-primary);
+            color: var(--white);
+            border-radius: var(--border-radius-circle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: 600;
+            position: relative;
+        }
+        .profile-avatar-change {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background-color: var(--white);
+            border-radius: var(--border-radius-circle);
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+            cursor: pointer;
+            color: var(--green-primary);
+        }
+        .dark-mode .profile-avatar-change {
+            background-color: var(--dark-card);
+            color: var(--green-primary-light);
+        }
+        .profile-info {
+            flex: 1;
+        }
+        .profile-name {
+            font-size: 1.8rem;
+            margin: 0;
+            color: var(--black);
+        }
+        .dark-mode .profile-name {
+            color: var(--white);
+        }
+        .profile-role {
+            font-size: 1rem;
+            color: var(--medium-gray);
+            font-weight: 600;
+        }
+        .dark-mode .profile-role {
+            color: var(--dark-text-secondary);
+        }
+        .profile-location, .profile-membership {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            margin-top: var(--spacing-sm);
+        }
+        .dark-mode .profile-location, .dark-mode .profile-membership {
+            color: var(--dark-text);
+        }
+        .profile-tabs {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+            flex-wrap: wrap;
+        }
+        .profile-tab {
+            padding: var(--spacing-sm) var(--spacing-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-weight: 500;
+            color: var(--medium-gray);
+            border-radius: var(--border-radius-md);
+        }
+        .dark-mode .profile-tab {
+            color: var(--dark-text-secondary);
+        }
+        .profile-tab:hover {
+            background-color: rgba(46, 125, 50, 0.1);
+            color: var(--green-primary);
+        }
+        .dark-mode .profile-tab:hover {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--green-primary-light);
+        }
+        .profile-tab.active {
+            background-color: var(--green-primary);
+            color: var(--white);
+            font-weight: 600;
+        }
+        .dark-mode .profile-tab.active {
+            background-color: var(--green-primary-light);
+        }
+        .profile-tab-content {
+            display: none;
+        }
+        .profile-tab-content.active {
+            display: block;
+        }
+        .profile-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+        }
+        .profile-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-sm);
+            padding: var(--spacing-md);
+        }
+        .dark-mode .profile-card {
+            background-color: var(--dark-card);
+        }
+        .profile-card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--green-primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+        .dark-mode .profile-card-title {
+            color: var(--green-primary-light);
+        }
+        .profile-detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--spacing-sm) 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        .dark-mode .profile-detail-item {
+            border-bottom-color: var(--dark-border);
+        }
+        .profile-detail-item:last-child {
+            border-bottom: none;
+        }
+        .detail-label {
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+        .dark-mode .detail-label {
+            color: var(--dark-text);
+        }
+        .detail-value {
+            color: var(--black);
+            text-align: right;
+            flex: 1;
+        }
+        .dark-mode .detail-value {
+            color: var(--white);
+        }
+        .verification-badge {
+            color: var(--success);
+            font-size: 0.8rem;
+            margin-left: var(--spacing-sm);
+        }
+        .account-status {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md);
+            background-color: var(--light-gray);
+            border-radius: var(--border-radius-md);
+        }
+        .dark-mode .account-status {
+            background-color: var(--dark-surface);
+        }
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            background-color: var(--success);
+            border-radius: var(--border-radius-circle);
+        }
+        .certification-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            background-color: rgba(46, 125, 50, 0.1);
+            color: var(--green-primary);
+            border-radius: var(--border-radius-sm);
+            font-size: 0.85rem;
+            margin-right: var(--spacing-sm);
+            margin-bottom: var(--spacing-sm);
+        }
+        .dark-mode .certification-badge {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--green-primary-light);
+        }
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--white);
+            padding: var(--spacing-lg) var(--spacing-xl);
+            border-top: 1px solid var(--light-gray);
+            margin-top: auto;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
+        }
+        .dark-mode .footer {
+            background-color: var(--dark-surface);
+            border-top-color: var(--dark-border);
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+        }
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .footer-content p {
+            font-size: 0.85rem;
+            color: var(--medium-gray);
+            margin: 0;
+        }
+        .dark-mode .footer-content p {
+            color: var(--dark-text-secondary);
+        }
+        .footer-links {
+            display: flex;
+            gap: var(--spacing-lg);
+        }
+        .footer-links a {
+            font-size: 0.85rem;
+            color: var(--green-primary);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+        .dark-mode .footer-links a {
+            color: var(--green-primary-light);
+        }
+        .footer-links a:hover {
+            color: var(--green-primary-dark);
+        }
+        .dark-mode .footer-links a:hover {
+            color: var(--green-primary);
+        }
+
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        .toast {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--spacing-md);
+            margin-top: var(--spacing-sm);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-sm);
+            animation: slideIn var(--transition-normal) ease;
+        }
+        .toast-success {
+            background-color: var(--success);
+            color: var(--white);
+        }
+        .toast-info {
+            background-color: var(--info);
+            color: var(--white);
+        }
+        .toast-error {
+            background-color: var(--danger);
+            color: var(--white);
+        }
+        .toast i {
+            cursor: pointer;
+            margin-left: var(--spacing-md);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 250px;
+                transform: translateX(-100%);
+                position: fixed;
+            }
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .mobile-menu-toggle {
+                display: block;
+            }
+            .sidebar-toggle-mobile {
+                display: block;
+            }
+            .header {
+                flex-direction: row;
+                align-items: center;
+                height: auto;
+                padding: var(--spacing-md);
+                gap: var(--spacing-md);
+            }
+            .search-bar {
+                width: 100%;
+                max-width: 200px;
+            }
+            .header-actions {
+                gap: var(--spacing-md);
+            }
+            .profile-details {
+                grid-template-columns: 1fr;
+            }
+            .profile-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .section-actions {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--spacing-sm);
+            }
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            .footer-content {
+                flex-direction: column;
+                gap: var(--spacing-md);
+                align-items: flex-start;
+            }
+            .footer-links {
+                flex-direction: column;
+                gap: var(--spacing-sm);
+            }
+        }
+        @media (max-width: 480px) {
+            .notification-dropdown, .user-dropdown {
+                width: 100%;
+                right: 0;
+                left: 0;
+                margin: 0 var(--spacing-md);
+            }
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .search-bar {
+                max-width: 100%;
+            }
+            .profile-tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay" id="overlay"></div>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="/templates/images/logo.png" alt="AgriGo Logo" class="logo">
+                <h2>AgriGo</h2>
+                <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            </div>
+            <div class="sidebar-menu">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="/templates/farmer/farmer-dashboard.html" class="nav-link" data-tab="dashboard">
+                            <i class="fas fa-home"></i> <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/templates/farmer/farm.html" class="nav-link" data-tab="farm">
+                            <i class="fas fa-seedling"></i> <span>My Farm</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/templates/farmer/products.html" class="nav-link" data-tab="products">
+                            <i class="fas fa-box"></i> <span>Products</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/templates/farmer/orders.html" class="nav-link" data-tab="orders">
+                            <i class="fas fa-shopping-cart"></i> <span>Orders</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/templates/farmer/payments.html" class="nav-link" data-tab="payments">
+                            <i class="fas fa-credit-card"></i> <span>Payments</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/templates/farmer/reviews.html" class="nav-link" data-tab="reviews">
+                            <i class="fas fa-comment-alt"></i> <span>Reviews</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/templates/farmer/analytics.html" class="nav-link" data-tab="analytics">
+                            <i class="fas fa-chart-line"></i> <span>Analytics</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="sidebar-toggle-mobile">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content" id="main-content">
+            <!-- Header -->
+            <div class="header">
+                <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Mobile menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search profile..." aria-label="Search">
+                </div>
+                <div class="header-actions">
+                    <div class="notification" id="notificationIcon">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">3</span>
+                        <div class="notification-dropdown" id="notificationDropdown">
+                            <h3>Notifications</h3>
+                            <ul class="notification-list">
+                                <li class="notification-item">
+                                    <div class="notification-icon success">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p>New order placed for Organic Tomatoes</p>
+                                        <span class="notification-time">30 minutes ago</span>
+                                    </div>
+                                </li>
+                                <li class="notification-item">
+                                    <div class="notification-icon info">
+                                        <i class="fas fa-info-circle"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p>Product inventory low: Bell Peppers</p>
+                                        <span class="notification-time">2 hours ago</span>
+                                    </div>
+                                </li>
+                                <li class="notification-item">
+                                    <div class="notification-icon warning">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p>Update your profile information</p>
+                                        <span class="notification-time">1 day ago</span>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="notification-footer">
+                                <a href="#notifications">View all notifications</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user-profile" id="userProfile">
+                        <div class="user-avatar">VF</div>
+                        <div class="user-info">
+                            <div class="user-name">Vicente Fernandez</div>
+                            <span class="role-badge">Verified Farmer</span>
+                        </div>
+                        <i class="fas fa-chevron-down dropdown-icon"></i>
+                        <div class="user-dropdown" id="userDropdown">
+                            <ul>
+                                <li><a href="/templates/farmer/my-profile.html" class="active"><i class="fas fa-user"></i> My Profile</a></li>
+                                <li><a href="#settings"><i class="fas fa-cog"></i> Account Settings</a></li>
+                                <li><a href="#help"><i class="fas fa-question-circle"></i> Help & Support</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#" id="darkModeToggle"><i class="fas fa-moon"></i> <span id="themeText">Dark Mode</span></a></li>
+                                <li class="divider"></li>
+                                <li><a href="#" id="userDropdownLogout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Content -->
+            <div class="profile-content">
+                <!-- Personal Information Section -->
+                <div class="section">
+                    <div class="section-header">
+                        <div class="section-title">My Profile</div>
+                        <div class="section-actions">
+                            <button class="btn btn-outline" id="exportDataBtn">
+                                <i class="fas fa-download"></i> Export Data
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Profile Header -->
+                    <div class="profile-header">
+                        <div class="profile-avatar" id="profileAvatar">
+                            VF
+                            <div class="profile-avatar-change" id="avatarChangeBtn">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                        </div>
+                        <div class="profile-info">
+                            <h1 class="profile-name" id="profileName">Vicente Fernandez</h1>
+                            <span class="profile-role">Verified Farmer</span>
+                            <div class="profile-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Liloan, Cebu, Philippines</span>
+                            </div>
+                            <div class="profile-membership">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>Member since June 2018</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Profile Tabs -->
+                    <div class="profile-tabs">
+                        <div class="profile-tab active" data-tab="personal">Personal Information</div>
+                        <div class="profile-tab" data-tab="farm">Farm Details</div>
+                        <div class="profile-tab" data-tab="security">Security</div>
+                        <div class="profile-tab" data-tab="preferences">Preferences</div>
+                    </div>
+
+                    <!-- Personal Information Tab Content -->
+                    <div class="profile-tab-content active" id="personal-tab">
+                        <div class="profile-details">
+                            <!-- Basic Information Card -->
+                            <div class="profile-card">
+                                <div class="profile-card-title">
+                                    Basic Information
+                                    <button class="btn btn-outline btn-sm" id="editBasicInfoBtn">Edit</button>
+                                </div>
+                                <div class="profile-detail-item">
+                                    <div class="detail-label">Full Name</div>
+                                    <div class="detail-value" id="detailFullName">Vicente Fernandez</div>
+                                </div>
+                                <div class="profile-detail-item">
+                                    <div class="detail-label">Email</div>
+                                    <div class="detail-value">
+                                        <span id="detailEmail">vicente@greenvalleyfarm.com</span>
+                                        <span class="verification-badge">
+                                            <i class="fas fa-check"></i> Verified
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="profile-detail-item">
+                                    <div class="detail-label">Phone Number</div>
+                                    <div class="detail-value">
+                                        <span id="detailPhone">+63 912 345 6789</span>
+                                        <span class="verification-badge">
+                                            <i class="fas fa-check"></i> Verified
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="profile-detail-item">
+                                    <div class="detail-label">Date of Birth</div>
+                                    <div class="detail-value" id="detailDob">June 15, 1980</div>
+                                </div>
+                            </div>
+
+                            <!-- Address Information Card -->
+                            <div class="profile-card">
+                                <div class="profile-card-title">
+                                    Address Information
+                                    <button class="btn btn-outline btn-sm" id="editAddressBtn">Edit</button>
+                                </div>
+                                <div class="profile-detail-item">
+                                    <div class="detail-label">Primary Address</div>
+                                    <div class="detail-value" id="detailAddress">123 Farm Road, Liloan, Cebu 6002</div>
+                                </div>
+                                <div class="profile-detail-item">
+                                    <div class="detail-label">Province</div>
+                                    <div class="detail-value" id="detailProvince">Cebu</div>
+                                </div>
+                                <div class="profile-detail-item">
+                                    <div class="detail-label">Region</div>
+                                    <div class="detail-value" id="detailRegion">Central Visayas (Region VII)</div>
+                                </div>
+                                <div class="profile-detail-item">
+                                    <div class="detail-label">Postal Code</div>
+                                    <div class="detail-value" id="detailPostal">6002</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Account Status -->
+                        <div class="account-status">
+                            <div class="status-indicator"></div>
+                            <div>
+                                <div class="detail-label">Account Status</div>
+                                <div class="detail-value">Active - All features available</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Farm Details Tab Content -->
+                    <div class="profile-tab-content" id="farm-tab">
+                        <form id="farmDetailsForm">
+                            <div class="form-group">
+                                <label class="form-label">Farm Name</label>
+                                <input type="text" class="form-control" name="farmName" value="Green Valley Farm" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Farm Type</label>
+                                    <select class="form-control" name="farmType" required>
+                                        <option selected>Mixed Crop</option>
+                                        <option>Vegetable Farm</option>
+                                        <option>Fruit Orchard</option>
+                                        <option>Livestock Farm</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Total Area (acres)</label>
+                                    <input type="number" class="form-control" name="farmArea" value="50" required min="0">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Primary Crops/Livestock</label>
+                                <input type="text" class="form-control" name="primaryCrops" value="Tomatoes, Peppers, Mangoes, Rice" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Certifications</label>
+                                <div id="certificationsList">
+                                    <span class="certification-badge">
+                                        <i class="fas fa-certificate"></i> Organic Certified
+                                    </span>
+                                    <span class="certification-badge">
+                                        <i class="fas fa-certificate"></i> GAP Certified
+                                    </span>
+                                    <button type="button" class="btn btn-outline btn-sk" id="addCertificationBtn">
+                                        <i class="fas fa-plus"></i> Add Certification
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Security Tab Content -->
+                    <div class="profile-tab-content" id="security-tab">
+                        <div class="profile-card">
+                            <div class="profile-card-title">Password</div>
+                            <p>Last changed 3 months ago</p>
+                            <button class="btn btn-outline" id="changePasswordBtn">Change Password</button>
+                        </div>
+                        <div class="profile-card">
+                            <div class="profile-card-title">Two-Factor Authentication</div>
+                            <p>Add an extra layer of security to your account</p>
+                            <button class="btn btn-outline" id="enable2FABtn">Enable 2FA</button>
+                        </div>
+                        <div class="profile-card">
+                            <div class="profile-card-title">Active Sessions</div>
+                            <p>Currently logged in on this device</p>
+                            <button class="btn btn-outline" id="viewSessionsBtn">View All Sessions</button>
+                        </div>
+                    </div>
+
+                    <!-- Preferences Tab Content -->
+                    <div class="profile-tab-content" id="preferences-tab">
+                        <form id="preferencesForm">
+                            <div class="form-group">
+                                <label class="form-label">Language</label>
+                                <select class="form-control" name="language" required>
+                                    <option selected>English</option>
+                                    <option>Filipino</option>
+                                    <option>Cebuano</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Measurement Units</label>
+                                <select class="form-control" name="units" required>
+                                    <option selected>Metric (kg, ha)</option>
+                                    <option>Imperial (lb, acre)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Notification Preferences</label>
+                                <div>
+                                    <label class="checkbox-container">
+                                        <input type="checkbox" name="notifications" value="email" checked> Email Notifications
+                                    </label>
+                                    <label class="checkbox-container">
+                                        <input type="checkbox" name="notifications" value="sms" checked> SMS Notifications
+                                    </label>
+                                    <label class="checkbox-container">
+                                        <input type="checkbox" name="notifications" value="in-app" checked> In-App Notifications
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Save Preferences</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Modals -->
+                <!-- Avatar Change Modal -->
+                <div class="modal-overlay" id="avatarModal">
+                    <div class="modal">
+                        <div class="modal-header">
+                            <h2 class="modal-title">Change Profile Picture</h2>
+                            <button class="modal-close" data-modal="avatarModal"><i class="fas fa-times"></i></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="avatar-preview" id="avatarPreview">
+                                <span>VF</span>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Select Image</label>
+                                <input type="file" class="form-control" id="avatarInput" accept="image/*">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-outline" data-modal="avatarModal">Cancel</button>
+                            <button class="btn btn-primary" id="saveAvatarBtn">Save</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Basic Information Modal -->
+                <div class="modal-overlay" id="basicInfoModal">
+                    <div class="modal">
+                        <div class="modal-header">
+                            <h2 class="modal-title">Edit Basic Information</h2>
+                            <button class="modal-close" data-modal="basicInfoModal"><i class="fas fa-times"></i></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="basicInfoForm">
+                                <div class="form-group">
+                                    <label class="form-label">Full Name</label>
+                                    <input type="text" class="form-control" name="fullName" value="Vicente Fernandez" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control" name="email" value="vicente@greenvalleyfarm.com" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Phone Number</label>
+                                    <input type="tel" class="form-control" name="phone" value="+63 912 345 6789" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Date of Birth</label>
+                                    <input type="date" class="form-control" name="dob" value="1980-06-15" required>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-outline" data-modal="basicInfoModal">Cancel</button>
+                            <button class="btn btn-primary" id="saveBasicInfoBtn">Save</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Address Modal -->
+                <div class="modal-overlay" id="addressModal">
+                    <div class="modal">
+                        <div class="modal-header">
+                            <h2 class="modal-title">Edit Address Information</h2>
+                            <button class="modal-close" data-modal="addressModal"><i class="fas fa-times"></i></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="addressForm">
+                                <div class="form-group">
+                                    <label class="form-label">Primary Address</label>
+                                    <input type="text" class="form-control" name="address" value="123 Farm Road, Liloan, Cebu 6002" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Province</label>
+                                    <input type="text" class="form-control" name="province" value="Cebu" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Region</label>
+                                    <input type="text" class="form-control" name="region" value="Central Visayas (Region VII)" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Postal Code</label>
+                                    <input type="text" class="form-control" name="postal" value="6002" required>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-outline" data-modal="addressModal">Cancel</button>
+                            <button class="btn btn-primary" id="saveAddressBtn">Save</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add Certification Modal -->
+                <div class="modal-overlay" id="certificationModal">
+                    <div class="modal">
+                        <div class="modal-header">
+                            <h2 class="modal-title">Add Certification</h2>
+                            <button class="modal-close" data-modal="certificationModal"><i class="fas fa-times"></i></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="certificationForm">
+                                <div class="form-group">
+                                    <label class="form-label">Certification Name</label>
+                                    <input type="text" class="form-control" name="certification" required>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-outline" data-modal="certificationModal">Cancel</button>
+                            <button class="btn btn-primary" id="saveCertificationBtn">Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Change Password Modal -->
+                <div class="modal-overlay" id="passwordModal">
+                    <div class="modal">
+                        <div class="modal-header">
+                            <h2 class="modal-title">Change Password</h2>
+                            <button class="modal-close" data-modal="passwordModal"><i class="fas fa-times"></i></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="passwordForm">
+                                <div class="form-group">
+                                    <label class="form-label">Current Password</label>
+                                    <input type="password" class="form-control" name="currentPassword" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">New Password</label>
+                                    <input type="password" class="form-control" name="newPassword" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Confirm New Password</label>
+                                    <input type="password" class="form-control" name="confirmPassword" required>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-outline" data-modal="passwordModal">Cancel</button>
+                            <button class="btn btn-primary" id="savePasswordBtn">Save</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Enable 2FA Modal -->
+                <div class="modal-overlay" id="twoFAModal">
+                    <div class="modal">
+                        <div class="modal-header">
+                            <h2 class="modal-title">Enable Two-Factor Authentication</h2>
+                            <button class="modal-close" data-modal="twoFAModal"><i class="fas fa-times"></i></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Scan the QR code with your authenticator app or enter the code manually.</p>
+                            <form id="twoFAForm">
+                                <div class="form-group">
+                                    <label class="form-label">Verification Code</label>
+                                    <input type="text" class="form-control" name="twoFACode" required>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-outline" data-modal="twoFAModal">Cancel</button>
+                            <button class="btn btn-primary" id="saveTwoFABtn">Enable</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Sessions Modal -->
+                <div class="modal-overlay" id="sessionsModal">
+                    <div class="modal">
+                        <div class="modal-header">
+                            <h2 class="modal-title">Active Sessions</h2>
+                            <button class="modal-close" data-modal="sessionsModal"><i class="fas fa-times"></i></button>
+                        </div>
+                        <div class="modal-body">
+                            <ul class="session-list" id="sessionList">
+                                <li class="session-item">
+                                    <div class="session-details">
+                                        <p>Current Device (Chrome, Windows)</p>
+                                        <p>Last active: Just now</p>
+                                    </div>
+                                    <span class="session-action" data-session="1">Terminate</span>
+                                </li>
+                                <li class="session-item">
+                                    <div class="session-details">
+                                        <p>Mobile (Safari, iOS)</p>
+                                        <p>Last active: 2 hours ago</p>
+                                    </div>
+                                    <span class="session-action" data-session="2">Terminate</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-outline" data-modal="sessionsModal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hidden File Input for Avatar -->
+            <input type="file" id="avatarFileInput" accept="image/*" style="display: none;">
+            <!-- Toast Container -->
+            <div class="toast-container" id="toastContainer"></div>
+
+            <!-- Footer -->
+            <div class="footer">
+                <div class="footer-content">
+                    <p>© 2025 AgriGo. All rights reserved.</p>
+                    <div class="footer-links">
+                        <a href="#terms">Terms of Service</a>
+                        <a href="#privacy">Privacy Policy</a>
+                        <a href="#contact">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Utility Functions
+        const $ = (selector, context = document) => context.querySelector(selector);
+        const $$ = (selector, context = document) => Array.from(context.querySelectorAll(selector));
+        const toggleClass = (element, className) => element?.classList.toggle(className);
+        const removeClass = (elements, className) => elements.forEach(el => el?.classList.remove(className));
+        const addClass = (element, className) => element?.classList.add(className);
+
+        // Toast Notification
+        function showToast(message, type = 'success', duration = 3000) {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = `${message}<i class="fas fa-times"></i>`;
+            $('#toastContainer')?.appendChild(toast);
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, duration);
+            toast.querySelector('i').addEventListener('click', () => {
+                toast.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            });
+        }
+
+        // Modal Handling
+        function openModal(modalId) {
+            const modal = $(`#${modalId}`);
+            if (modal) addClass(modal, 'active');
+        }
+
+        function closeModal(modalId) {
+            const modal = $(`#${modalId}`);
+            if (!modal) return;
+            removeClass([modal], 'active');
+            const form = modal.querySelector('form');
+            if (form) form.reset();
+            $$('.has-error', modal).forEach(group => removeClass([group], 'has-error'));
+            $$('.error-message', modal).forEach(msg => msg.remove());
+        }
+
+        // Form Validation
+        function validateForm(formId) {
+            const form = $(`#${formId}`);
+            if (!form) return false;
+            const requiredFields = $$('.form-control[required]', form);
+            let isValid = true;
+
+            requiredFields.forEach(input => {
+                const formGroup = input.closest('.form-group');
+                let errorMessage = 'This field is required';
+
+                // Custom validations
+                if (input.type === 'email' && input.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value)) {
+                    errorMessage = 'Please enter a valid email';
+                    isValid = false;
+                } else if (input.type === 'tel' && input.value && !/^\+?\d{10,15}$/.test(input.value.replace(/\s/g, ''))) {
+                    errorMessage = 'Please enter a valid phone number';
+                    isValid = false;
+                } else if (input.type === 'number' && input.value && input.value < 0) {
+                    errorMessage = 'Value cannot be negative';
+                    isValid = false;
+                } else if (!input.value.trim()) {
+                    isValid = false;
+                }
+
+                if (!isValid) {
+                    addClass(formGroup, 'has-error');
+                    if (!formGroup.querySelector('.error-message')) {
+                        const errorMsg = document.createElement('div');
+                        errorMsg.className = 'error-message';
+                        errorMsg.textContent = errorMessage;
+                        formGroup.appendChild(errorMsg);
+                    }
+                } else {
+                    removeClass([formGroup], 'has-error');
+                    const errorMsg = formGroup.querySelector('.error-message');
+                    if (errorMsg) errorMsg.remove();
+                }
+            });
+
+            return isValid;
+        }
+
+        // Toggle Sidebar
+        function toggleSidebar() {
+            const sidebar = $('#sidebar');
+            const mainContent = $('#main-content');
+            const overlay = $('#overlay');
+            if (!sidebar || !mainContent || !overlay) return;
+            toggleClass(sidebar, 'sidebar-collapsed');
+            toggleClass(mainContent, 'main-content-expanded');
+            toggleClass(overlay, 'active');
+            const toggleIcon = $('#menu-toggle i');
+            if (toggleIcon) {
+                toggleIcon.className = sidebar.classList.contains('sidebar-collapsed') ? 'fas fa-chevron-right' : 'fas fa-chevron-left';
+            }
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const sidebar = $('#sidebar');
+            const overlay = $('#overlay');
+            if (!sidebar || !overlay) return;
+            toggleClass(sidebar, 'active');
+            toggleClass(overlay, 'active');
+        }
+
+        // Close Dropdowns
+        function closeDropdowns(exclude = null) {
+            const dropdowns = $$('.notification-dropdown, .user-dropdown');
+            dropdowns.forEach(dropdown => {
+                if (dropdown !== exclude) {
+                    removeClass([dropdown], 'show');
+                }
+            });
+        }
+
+        // Export Data
+        function exportData() {
+            const profileData = {
+                fullName: $('#detailFullName')?.textContent || '',
+                email: $('#detailEmail')?.textContent || '',
+                phone: $('#detailPhone')?.textContent || '',
+                dob: $('#detailDob')?.textContent || '',
+                address: $('#detailAddress')?.textContent || '',
+                province: $('#detailProvince')?.textContent || '',
+                region: $('#detailRegion')?.textContent || '',
+                postal: $('#detailPostal')?.textContent || '',
+                farmName: $('input[name="farmName"]')?.value || '',
+                farmType: $('select[name="farmType"]')?.value || '',
+                farmArea: $('input[name="farmArea"]')?.value || '',
+                primaryCrops: $('input[name="primaryCrops"]')?.value || '',
+                certifications: Array.from($$('.certification-badge')).map(badge => badge.textContent.trim()),
+                language: $('select[name="language"]')?.value || '',
+                units: $('select[name="units"]')?.value || '',
+                notifications: Array.from($$('input[name="notifications"]:checked')).map(el => el.value)
+            };
+            const blob = new Blob([JSON.stringify(profileData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'profile-data.json';
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('Profile data exported successfully!', 'success');
+        }
+
+        // Handle Avatar Change
+        let selectedAvatar = null;
+        function handleAvatarChange(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            // Validate file size (e.g., max 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                showToast('Image size must be less than 5MB', 'error');
+                return;
+            }
+
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    selectedAvatar = reader.result;
+                    const preview = $('#avatarPreview');
+                    if (preview) {
+                        preview.innerHTML = `<img src="${selectedAvatar}" alt="Avatar Preview">`;
+                        openModal('avatarModal');
+                    }
+                };
+                reader.readAsDataURL(file);
+            } else {
+                showToast('Please select a valid image file', 'error');
+            }
+        }
+
+        function saveAvatar() {
+            if (selectedAvatar) {
+                const avatarContainer = $('#profileAvatar');
+                if (avatarContainer) {
+                    avatarContainer.innerHTML = `<img src="${selectedAvatar}" alt="Profile Avatar"><div class="profile-avatar-change" id="avatarChangeBtn"><i class="fas fa-camera"></i></div>`;
+                    $('#avatarChangeBtn')?.addEventListener('click', () => $('#avatarFileInput')?.click());
+                    showToast('Profile picture updated successfully!', 'success');
+                    closeModal('avatarModal');
+                    selectedAvatar = null;
+                    $('#avatarInput').value = '';
+                    $('#avatarPreview').innerHTML = '<span>VF</span>';
+                }
+            } else {
+                showToast('No image selected', 'error');
+            }
+        }
+
+        // Handle Basic Information Submission
+        function handleBasicInfoSubmit(e) {
+            e.preventDefault();
+            if (!validateForm('basicInfoForm')) {
+                showToast('Please correct the errors in the form', 'error');
+                return;
+            }
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            $('#detailFullName').textContent = data.fullName;
+            $('#detailEmail').textContent = data.email;
+            $('#detailPhone').textContent = data.phone;
+            $('#detailDob').textContent = new Date(data.dob).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            $('#profileName').textContent = data.fullName;
+            $('.user-name').textContent = data.fullName;
+            $('.user-avatar').textContent = data.fullName.split(' ').map(n => n[0]).join('');
+            showToast('Basic information updated successfully!', 'success');
+            closeModal('basicInfoModal');
+        }
+
+        // Handle Address Submission
+        function handleAddressSubmit(e) {
+            e.preventDefault();
+            if (!validateForm('addressForm')) {
+                showToast('Please correct the errors in the form', 'error');
+                return;
+            }
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            $('#detailAddress').textContent = data.address;
+            $('#detailProvince').textContent = data.province;
+            $('#detailRegion').textContent = data.region;
+            $('#detailPostal').textContent = data.postal;
+            showToast('Address updated successfully!', 'success');
+            closeModal('addressModal');
+        }
+
+        // Handle Certification Submission
+        function handleCertificationSubmit(e) {
+            e.preventDefault();
+            if (!validateForm('certificationForm')) {
+                showToast('Please enter a certification name', 'error');
+                return;
+            }
+            const formData = new FormData(e.target);
+            const certification = formData.get('certification').trim();
+            if (Array.from($$('.certification-badge')).some(badge => badge.textContent.includes(certification))) {
+                showToast('Certification already exists', 'error');
+                return;
+            }
+            const badge = document.createElement('span');
+            badge.className = 'certification-badge';
+            badge.innerHTML = `<i class="fas fa-certificate"></i> ${certification}`;
+            const addButton = $('#addCertificationBtn');
+            $('#certificationsList')?.insertBefore(badge, addButton);
+            showToast('Certification added successfully!', 'success');
+            closeModal('certificationModal');
+        }
+
+        // Handle Farm Details Submission
+        function handleFarmDetailsSubmit(e) {
+            e.preventDefault();
+            if (!validateForm('farmDetailsForm')) {
+                showToast('Please correct the errors in the form', 'error');
+                return;
+            }
+            showToast('Farm details updated successfully!', 'success');
+        }
+
+        // Handle Password Change
+        function handlePasswordSubmit(e) {
+            e.preventDefault();
+            if (!validateForm('passwordForm')) {
+                showToast('Please fill in all required fields', 'error');
+                return;
+            }
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            if (data.newPassword !== data.confirmPassword) {
+                const confirmGroup = $('input[name="confirmPassword"]').closest('.form-group');
+                addClass(confirmGroup, 'has-error');
+                if (!confirmGroup.querySelector('.error-message')) {
+                    const errorMsg = document.createElement('div');
+                    errorMsg.className = 'error-message';
+                    errorMsg.textContent = 'Passwords do not match';
+                    confirmGroup.appendChild(errorMsg);
+                }
+                return;
+            }
+            // Password strength check
+            if (data.newPassword.length < 8) {
+                const newPassGroup = $('input[name="newPassword"]').closest('.form-group');
+                addClass(newPassGroup, 'has-error');
+                if (!newPassGroup.querySelector('.error-message')) {
+                    const errorMsg = document.createElement('div');
+                    errorMsg.className = 'error-message';
+                    errorMsg.textContent = 'Password must be at least 8 characters';
+                    newPassGroup.appendChild(errorMsg);
+                }
+                return;
+            }
+            showToast('Password changed successfully!', 'success');
+            closeModal('passwordModal');
+        }
+
+        // Handle 2FA Submission
+        function handleTwoFASubmit(e) {
+            e.preventDefault();
+            if (!validateForm('twoFAForm')) {
+                showToast('Please enter the verification code', 'error');
+                return;
+            }
+            const formData = new FormData(e.target);
+            const twoFACode = formData.get('twoFACode').trim();
+            // Simulate 2FA code validation (in a real app, this would be server-side)
+            if (!/^\d{6}$/.test(twoFACode)) {
+                const codeGroup = $('input[name="twoFACode"]').closest('.form-group');
+                addClass(codeGroup, 'has-error');
+                if (!codeGroup.querySelector('.error-message')) {
+                    const errorMsg = document.createElement('div');
+                    errorMsg.className = 'error-message';
+                    errorMsg.textContent = 'Verification code must be 6 digits';
+                    codeGroup.appendChild(errorMsg);
+                }
+                return;
+            }
+            showToast('Two-factor authentication enabled successfully!', 'success');
+            closeModal('twoFAModal');
+            const twoFABtn = $('#enable2FABtn');
+            twoFABtn.textContent = 'Disable 2FA';
+            twoFABtn.onclick = () => {
+                showToast('Two-factor authentication disabled', 'info');
+                twoFABtn.textContent = 'Enable 2FA';
+                twoFABtn.onclick = () => openModal('twoFAModal');
+            };
+        }
+
+        // Handle Preferences Submission
+        function handlePreferencesSubmit(e) {
+            e.preventDefault();
+            if (!validateForm('preferencesForm')) {
+                showToast('Please select all required options', 'error');
+                return;
+            }
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            // Update UI to reflect preferences (e.g., language, units)
+            showToast('Preferences saved successfully!', 'success');
+        }
+
+        // Search Functionality
+        function handleSearch() {
+            const searchInput = $('#searchInput');
+            searchInput?.addEventListener('input', function() {
+                const query = this.value.toLowerCase().trim();
+                const certifications = $$('.certification-badge');
+                const profileDetails = $$('.profile-detail-item');
+
+                certifications.forEach(badge => {
+                    const text = badge.textContent.toLowerCase();
+                    badge.style.display = text.includes(query) || !query ? '' : 'none';
+                });
+
+                profileDetails.forEach(item => {
+                    const label = item.querySelector('.detail-label')?.textContent.toLowerCase();
+                    const value = item.querySelector('.detail-value')?.textContent.toLowerCase();
+                    item.style.display = (label?.includes(query) || value?.includes(query) || !query) ? '' : 'none';
+                });
+            });
+        }
+
+        // Initialize Event Listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sidebar and Menu
+            $('#menu-toggle')?.addEventListener('click', toggleSidebar);
+            $('#mobile-menu-toggle')?.addEventListener('click', toggleMobileMenu);
+            $('.sidebar-toggle-mobile')?.addEventListener('click', toggleMobileMenu);
+            $('#overlay')?.addEventListener('click', toggleMobileMenu);
+
+            // Dropdowns
+            $('#notificationIcon')?.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleClass($('#notificationDropdown'), 'show');
+                closeDropdowns($('#notificationDropdown'));
+            });
+
+            $('#userProfile')?.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleClass($('#userDropdown'), 'show');
+                closeDropdowns($('#userDropdown'));
+            });
+
+            document.addEventListener('click', closeDropdowns);
+
+            // Tab Switching
+            $$('.profile-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    removeClass($$('.profile-tab'), 'active');
+                    removeClass($$('.profile-tab-content'), 'active');
+                    addClass(this, 'active');
+                    addClass($(`#${tabId}-tab`), 'active');
+                });
+            });
+
+            // Export Data
+            $('#exportDataBtn')?.addEventListener('click', exportData);
+
+            // Avatar Change
+            $('#avatarChangeBtn')?.addEventListener('click', () => $('#avatarFileInput')?.click());
+            $('#avatarFileInput')?.addEventListener('change', handleAvatarChange);
+            $('#saveAvatarBtn')?.addEventListener('click', saveAvatar);
+
+            // Edit Buttons
+            $('#editBasicInfoBtn')?.addEventListener('click', () => openModal('basicInfoModal'));
+            $('#editAddressBtn')?.addEventListener('click', () => openModal('addressModal'));
+            $('#addCertificationBtn')?.addEventListener('click', () => openModal('certificationModal'));
+            $('#changePasswordBtn')?.addEventListener('click', () => openModal('passwordModal'));
+            $('#enable2FABtn')?.addEventListener('click', () => openModal('twoFAModal'));
+            $('#viewSessionsBtn')?.addEventListener('click', () => openModal('sessionsModal'));
+
+            // Form Submissions
+            $('#basicInfoForm')?.addEventListener('submit', handleBasicInfoSubmit);
+            $('#addressForm')?.addEventListener('submit', handleAddressSubmit);
+            $('#certificationForm')?.addEventListener('submit', handleCertificationSubmit);
+            $('#farmDetailsForm')?.addEventListener('submit', handleFarmDetailsSubmit);
+            $('#passwordForm')?.addEventListener('submit', handlePasswordSubmit);
+            $('#twoFAForm')?.addEventListener('submit', handleTwoFASubmit);
+            $('#preferencesForm')?.addEventListener('submit', handlePreferencesSubmit);
+
+            // Modal Close Buttons
+            $$('.modal-close').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const modalId = this.getAttribute('data-modal');
+                    closeModal(modalId);
+                });
+            });
+
+            // Modal Cancel Buttons
+            $$('.modal-footer .btn-outline').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const modalId = this.getAttribute('data-modal');
+                    closeModal(modalId);
+                });
+            });
+
+            // Session Termination (Event Delegation)
+            $('#sessionList')?.addEventListener('click', function(e) {
+                const action = e.target.closest('.session-action');
+                if (action) {
+                    const sessionId = action.getAttribute('data-session');
+                    action.closest('.session-item')?.remove();
+                    showToast('Session terminated successfully', 'success');
+                }
+            });
+
+            // Dark Mode Toggle
+            $('#darkModeToggle')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                toggleClass(document.body, 'dark-mode');
+                const themeText = $('#themeText');
+                if (themeText) {
+                    themeText.textContent = document.body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode';
+                }
+                localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+            });
+
+            // Initialize Dark Mode
+            if (localStorage.getItem('darkMode') === 'true') {
+                addClass(document.body, 'dark-mode');
+                $('#themeText').textContent = 'Light Mode';
+            }
+
+            // Logout Button
+            $('#userDropdownLogout')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (confirm('Are you sure you want to logout?')) {
+                    showToast('Logged out successfully', 'info');
+                    setTimeout(() => {
+                        window.location.href = '/login.html';
+                    }, 1500);
+                }
+            });
+
+            // Initialize Search
+            handleSearch();
+        });
+    </script>
+</body>
+</html>
