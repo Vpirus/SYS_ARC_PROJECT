@@ -275,16 +275,6 @@
         background-color: var(--green-primary-dark);
       }
 
-      .nav-item.logout {
-        margin-top: 20px;
-        border-top: 1px solid var(--light-gray);
-        padding-top: 10px;
-      }
-
-      .dark-mode .nav-item.logout {
-        border-top-color: var(--dark-border);
-      }
-
       .sidebar-toggle-mobile {
         display: none;
         font-size: 1.5rem;
@@ -746,6 +736,15 @@
         flex: 1;
       }
 
+      .page-title {
+        font-size: 1.8rem;
+        color: var(--green-primary);
+      }
+
+      .dark-mode .page-title {
+        color: var(--green-primary-light);
+      }
+
       .section {
         background-color: var(--white);
         border-radius: var(--border-radius-md);
@@ -844,6 +843,7 @@
       .data-table {
         width: 100%;
         border-collapse: collapse;
+        min-width: 800px;
       }
 
       .data-table th,
@@ -975,6 +975,137 @@
         color: var(--dark-text-secondary);
       }
 
+      /* Modal Styles */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        overflow-y: auto;
+      }
+
+      .modal-content {
+        background-color: var(--white);
+        margin: 50px auto;
+        width: 90%;
+        max-width: 600px;
+        border-radius: var(--border-radius-md);
+        box-shadow: var(--shadow-lg);
+        position: relative;
+      }
+
+      .dark-mode .modal-content {
+        background-color: var(--dark-card);
+      }
+
+      .modal-header {
+        padding: var(--spacing-lg);
+        border-bottom: 1px solid var(--light-gray);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .dark-mode .modal-header {
+        border-bottom-color: var(--dark-border);
+      }
+
+      .modal-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: var(--green-primary);
+      }
+
+      .dark-mode .modal-title {
+        color: var(--green-primary-light);
+      }
+
+      .modal-close {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--dark-gray);
+      }
+
+      .dark-mode .modal-close {
+        color: var(--dark-text);
+      }
+
+      .modal-body {
+        padding: var(--spacing-lg);
+      }
+
+      .modal-footer {
+        padding: var(--spacing-lg);
+        border-top: 1px solid var(--light-gray);
+        display: flex;
+        justify-content: flex-end;
+        gap: var(--spacing-md);
+      }
+
+      .dark-mode .modal-footer {
+        border-top-color: var(--dark-border);
+      }
+
+      /* Form Styles */
+      .form-group {
+        margin-bottom: var(--spacing-md);
+      }
+
+      .form-label {
+        display: block;
+        margin-bottom: var(--spacing-xs);
+        font-weight: 600;
+        color: var(--dark-gray);
+      }
+
+      .dark-mode .form-label {
+        color: var(--dark-text);
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid var(--light-gray);
+        border-radius: var(--border-radius-sm);
+        font-family: "Open Sans", sans-serif;
+        background-color: var(--white);
+        color: var(--dark-gray);
+      }
+
+      .dark-mode .form-control {
+        border-color: var(--dark-border);
+        background-color: var(--dark-surface);
+        color: var(--dark-text);
+      }
+
+      .form-control:focus {
+        outline: none;
+        border-color: var(--green-primary);
+        box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.2);
+      }
+
+      .form-select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid var(--light-gray);
+        border-radius: var(--border-radius-sm);
+        font-family: "Open Sans", sans-serif;
+        background-color: var(--white);
+        color: var(--dark-gray);
+      }
+
+      .dark-mode .form-select {
+        border-color: var(--dark-border);
+        background-color: var(--dark-surface);
+        color: var(--dark-text);
+      }
+
       /* Footer Styles */
       .footer {
         background-color: var(--white);
@@ -1036,6 +1167,11 @@
 
       .toast-success {
         background-color: var(--success);
+        color: var(--white);
+      }
+
+      .toast-info {
+        background-color: var(--info);
         color: var(--white);
       }
 
@@ -1121,6 +1257,11 @@
         .product-thumbnail {
           width: 40px;
           height: 40px;
+        }
+
+        .modal-content {
+          max-width: 100%;
+          margin: 20px;
         }
       }
 
@@ -1266,6 +1407,8 @@
 
         <!-- Products Content -->
         <div class="dashboard-content">
+          <h1 class="page-title">Products</h1>
+
           <!-- Stats Cards -->
           <div class="stats-container">
             <div class="stat-card">
@@ -1326,82 +1469,82 @@
               </div>
             </div>
             <div class="table-responsive">
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>Product</th>
-                  <th>Category</th>
-                  <th>Price</th>
-                  <th>Stock</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="productsTable">
-                <tr>
-                  <td>
-                    <div class="product-info">
-                      <img src="https://images.pexels.com/photos/1327838/pexels-photo-1327838.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Organic Tomatoes" class="product-thumbnail" />
-                      Organic Tomatoes
-                    </div>
-                  </td>
-                  <td>Vegetables</td>
-                  <td>₱2.50/kg</td>
-                  <td>50</td>
-                  <td><span class="status-dot status-in-stock"></span> In Stock</td>
-                  <td>
-                    <button class="btn btn-secondary edit-product" data-id="P001">
-                      <i class="fas fa-edit"></i> Edit
-                    </button>
-                    <button class="btn btn-danger delete-product" data-id="P001">
-                      <i class="fas fa-trash"></i> Delete
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="product-info">
-                      <img src="https://images.pexels.com/photos/12280893/pexels-photo-12280893.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Fresh Strawberries" class="product-thumbnail" />
-                      Fresh Strawberries
-                    </div>
-                  </td>
-                  <td>Fruits</td>
-                  <td>₱3.00/kg</td>
-                  <td>10</td>
-                  <td><span class="status-dot status-low-stock"></span> Low Stock</td>
-                  <td>
-                    <button class="btn btn-secondary edit-product" data-id="P002">
-                      <i class="fas fa-edit"></i> Edit
-                    </button>
-                    <button class="btn btn-danger delete-product" data-id="P002">
-                      <i class="fas fa-trash"></i> Delete
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="product-info">
-                      <img src="https://images.pexels.com/photos/30805255/pexels-photo-30805255/free-photo-of-assorted-farm-fresh-eggs-close-up.jpeg" alt="Free-Range Eggs" class="product-thumbnail" />
-                      Free-Range Eggs
-                    </div>
-                  </td>
-                  <td>Dairy</td>
-                  <td>₱4.00/dozen</td>
-                  <td>100</td>
-                  <td><span class="status-dot status-in-stock"></span> In Stock</td>
-                  <td>
-                    <button class="btn btn-secondary edit-product" data-id="P003">
-                      <i class="fas fa-edit"></i> Edit
-                    </button>
-                    <button class="btn btn-danger delete-product" data-id="P003">
-                      <i class="fas fa-trash"></i> Delete
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="productsTable">
+                  <tr data-product-id="P001">
+                    <td>
+                      <div class="product-info">
+                        <img src="https://images.pexels.com/photos/1327838/pexels-photo-1327838.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Organic Tomatoes" class="product-thumbnail" />
+                        Organic Tomatoes
+                      </div>
+                    </td>
+                    <td>Vegetables</td>
+                    <td>₱2.50/kg</td>
+                    <td>50</td>
+                    <td><span class="status-dot status-in-stock"></span> In Stock</td>
+                    <td>
+                      <button class="btn btn-secondary edit-product" data-id="P001">
+                        <i class="fas fa-edit"></i> Edit
+                      </button>
+                      <button class="btn btn-danger delete-product" data-id="P001">
+                        <i class="fas fa-trash"></i> Delete
+                      </button>
+                    </td>
+                  </tr>
+                  <tr data-product-id="P002">
+                    <td>
+                      <div class="product-info">
+                        <img src="https://images.pexels.com/photos/12280893/pexels-photo-12280893.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Fresh Strawberries" class="product-thumbnail" />
+                        Fresh Strawberries
+                      </div>
+                    </td>
+                    <td>Fruits</td>
+                    <td>₱3.00/kg</td>
+                    <td>10</td>
+                    <td><span class="status-dot status-low-stock"></span> Low Stock</td>
+                    <td>
+                      <button class="btn btn-secondary edit-product" data-id="P002">
+                        <i class="fas fa-edit"></i> Edit
+                      </button>
+                      <button class="btn btn-danger delete-product" data-id="P002">
+                        <i class="fas fa-trash"></i> Delete
+                      </button>
+                    </td>
+                  </tr>
+                  <tr data-product-id="P003">
+                    <td>
+                      <div class="product-info">
+                        <img src="https://images.pexels.com/photos/30805255/pexels-photo-30805255/free-photo-of-assorted-farm-fresh-eggs-close-up.jpeg" alt="Free-Range Eggs" class="product-thumbnail" />
+                        Free-Range Eggs
+                      </div>
+                    </td>
+                    <td>Dairy</td>
+                    <td>₱4.00/dozen</td>
+                    <td>100</td>
+                    <td><span class="status-dot status-in-stock"></span> In Stock</td>
+                    <td>
+                      <button class="btn btn-secondary edit-product" data-id="P003">
+                        <i class="fas fa-edit"></i> Edit
+                      </button>
+                      <button class="btn btn-danger delete-product" data-id="P003">
+                        <i class="fas fa-trash"></i> Delete
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-         </div>
         </div>
 
         <!-- Footer -->
@@ -1415,6 +1558,65 @@
             </div>
           </div>
         </footer>
+      </div>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal" id="editProductModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="editProductModalTitle">Add New Product</h3>
+          <button class="modal-close" id="closeEditProductModal">×</button>
+        </div>
+        <div class="modal-body">
+          <form id="productForm">
+            <div class="form-group">
+              <label for="productName" class="form-label">Product Name</label>
+              <input type="text" id="productName" class="form-control" placeholder="Enter product name" required>
+            </div>
+            <div class="form-group">
+              <label for="productCategory" class="form-label">Category</label>
+              <select id="productCategory" class="form-select" required>
+                <option value="vegetables">Vegetables</option>
+                <option value="fruits">Fruits</option>
+                <option value="dairy">Dairy</option>
+                <option value="grains">Grains</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="productPrice" class="form-label">Price</label>
+              <input type="text" id="productPrice" class="form-control" placeholder="Enter price (e.g., ₱2.50/kg)" required>
+            </div>
+            <div class="form-group">
+              <label for="productStock" class="form-label">Stock</label>
+              <input type="number" id="productStock" class="form-control" placeholder="Enter stock quantity" required>
+            </div>
+            <div class="form-group">
+              <label for="productImage" class="form-label">Image URL</label>
+              <input type="url" id="productImage" class="form-control" placeholder="Enter image URL">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" id="cancelEditProductBtn">Cancel</button>
+          <button class="btn btn-primary" id="saveProductBtn">Save Product</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="deleteConfirmModal">
+      <div class="modal-content" style="max-width: 400px;">
+        <div class="modal-header">
+          <h3 class="modal-title">Confirm Delete</h3>
+          <button class="modal-close" id="closeDeleteConfirmModal">×</button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to delete this product? This action cannot be undone.</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" id="cancelDeleteBtn">Cancel</button>
+          <button class="btn btn-danger" id="confirmDeleteBtn">Delete Product</button>
+        </div>
       </div>
     </div>
 
@@ -1435,6 +1637,34 @@
           toast.innerHTML = `<span>${message}</span><i class="fas fa-times" onclick="this.parentElement.remove()"></i>`;
           toastContainer.appendChild(toast);
           setTimeout(() => toast.remove(), duration);
+        };
+
+        // Product Data
+        const productsData = {
+          "P001": {
+            name: "Organic Tomatoes",
+            category: "Vegetables",
+            price: "₱2.50/kg",
+            stock: 50,
+            status: "In Stock",
+            image: "https://images.pexels.com/photos/1327838/pexels-photo-1327838.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          },
+          "P002": {
+            name: "Fresh Strawberries",
+            category: "Fruits",
+            price: "₱3.00/kg",
+            stock: 10,
+            status: "Low Stock",
+            image: "https://images.pexels.com/photos/12280893/pexels-photo-12280893.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          },
+          "P003": {
+            name: "Free-Range Eggs",
+            category: "Dairy",
+            price: "₱4.00/dozen",
+            stock: 100,
+            status: "In Stock",
+            image: "https://images.pexels.com/photos/30805255/pexels-photo-30805255/free-photo-of-assorted-farm-fresh-eggs-close-up.jpeg"
+          }
         };
 
         // Sidebar Toggle
@@ -1476,8 +1706,6 @@
             themeText.textContent = isDark ? "Light Mode" : "Dark Mode";
           };
           darkModeToggle.addEventListener("click", toggleDarkMode);
-
-          // Check saved preference
           if (localStorage.getItem("darkMode") === "true") toggleDarkMode();
         }
 
@@ -1512,16 +1740,14 @@
         }
 
         // Logout Functionality
-        const logoutBtn = $("#logoutBtn");
         const userDropdownLogout = $("#userDropdownLogout");
         const handleLogout = (e) => {
           e.preventDefault();
           showToast("Logged out successfully!", "success");
           setTimeout(() => {
-            window.location.href = "/templates/admin/admin-login.html"; // Adjust path as needed
+            window.location.href = "/templates/admin/admin-login.html";
           }, 2000);
         };
-        if (logoutBtn) logoutBtn.addEventListener("click", handleLogout);
         if (userDropdownLogout) userDropdownLogout.addEventListener("click", handleLogout);
 
         // Nav Links Active State
@@ -1535,57 +1761,181 @@
           });
         });
 
-        // Add Product Button
-        const addProductBtn = $("#addProductBtn");
-        if (addProductBtn) {
-          addProductBtn.addEventListener("click", () => {
-            showToast("Add Product functionality coming soon!", "info");
-            // Future: Open modal or redirect to add product page
-          });
-        }
+        // Modal Functionality
+        const editProductModal = $("#editProductModal");
+        const deleteConfirmModal = $("#deleteConfirmModal");
 
-        // Edit Product Functionality
-        $$(".edit-product").forEach((button) => {
-          button.addEventListener("click", (e) => {
-            const productId = button.dataset.id;
-            showToast(`Edit product #${productId} functionality coming soon!`, "info");
-            // Future: Open edit modal or redirect
-          });
+        // Add Product
+        $("#addProductBtn").addEventListener("click", () => {
+          $("#editProductModalTitle").textContent = "Add New Product";
+          $("#productForm").reset();
+          editProductModal.style.display = "block";
         });
 
-        // Delete Product Functionality
-        $$(".delete-product").forEach((button) => {
-          button.addEventListener("click", (e) => {
-            const productId = button.dataset.id;
-            if (confirm(`Are you sure you want to delete product #${productId}?`)) {
-              const row = button.closest("tr");
-              row.remove();
-              showToast(`Product #${productId} deleted successfully!`, "success");
+        // Edit Product
+        $$(".edit-product").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const productId = btn.dataset.id;
+            const product = productsData[productId];
+            if (product) {
+              $("#editProductModalTitle").textContent = "Edit Product";
+              $("#productName").value = product.name;
+              $("#productCategory").value = product.category.toLowerCase();
+              $("#productPrice").value = product.price;
+              $("#productStock").value = product.stock;
+              $("#productImage").value = product.image;
+              editProductModal.dataset.productId = productId;
+              editProductModal.style.display = "block";
             }
           });
         });
 
-        // Refresh Products
-        const refreshProductsBtn = $("#refreshProductsBtn");
-        if (refreshProductsBtn) {
-          refreshProductsBtn.addEventListener("click", () => {
-            showToast("Products refreshed!", "success");
-            // Simulate refresh (replace with actual API call if needed)
-            console.log("Refreshing products...");
-          });
-        }
+        // Close Edit Product Modal
+        $("#closeEditProductModal").addEventListener("click", () => editProductModal.style.display = "none");
+        $("#cancelEditProductBtn").addEventListener("click", () => editProductModal.style.display = "none");
 
-        // Search Functionality
-        const searchInput = $("#search-input");
-        if (searchInput) {
-          searchInput.addEventListener("input", (e) => {
-            const query = e.target.value.toLowerCase();
-            $$("#productsTable tr").forEach((row) => {
-              const text = row.textContent.toLowerCase();
-              row.style.display = text.includes(query) ? "" : "none";
+        // Save Product
+        $("#saveProductBtn").addEventListener("click", () => {
+          const productId = editProductModal.dataset.productId;
+          const name = $("#productName").value;
+          const category = $("#productCategory").value;
+          const price = $("#productPrice").value;
+          const stock = parseInt($("#productStock").value);
+          const image = $("#productImage").value || "https://via.placeholder.com/60";
+          const status = stock <= 0 ? "Out of Stock" : stock <= 20 ? "Low Stock" : "In Stock";
+
+          if (!name || !category || !price || !stock) {
+            showToast("Please fill in all required fields!", "info");
+            return;
+          }
+
+          if (productId) {
+            // Update existing product
+            productsData[productId] = { name, category, price, stock, status, image };
+            const row = $(`tr[data-product-id="${productId}"]`);
+            row.innerHTML = `
+              <td>
+                <div class="product-info">
+                  <img src="${image}" alt="${name}" class="product-thumbnail" />
+                  ${name}
+                </div>
+              </td>
+              <td>${category.charAt(0).toUpperCase() + category.slice(1)}</td>
+              <td>${price}</td>
+              <td>${stock}</td>
+              <td><span class="status-dot status-${status.toLowerCase().replace(" ", "-")}"></span> ${status}</td>
+              <td>
+                <button class="btn btn-secondary edit-product" data-id="${productId}">
+                  <i class="fas fa-edit"></i> Edit
+                </button>
+                <button class="btn btn-danger delete-product" data-id="${productId}">
+                  <i class="fas fa-trash"></i> Delete
+                </button>
+              </td>
+            `;
+            showToast("Product updated successfully!", "success");
+          } else {
+            // Add new product
+            const newId = `P${Object.keys(productsData).length + 1}`.padStart(4, "0");
+            productsData[newId] = { name, category, price, stock, status, image };
+            const tbody = $("#productsTable");
+            const newRow = document.createElement("tr");
+            newRow.dataset.productId = newId;
+            newRow.innerHTML = `
+              <td>
+                <div class="product-info">
+                  <img src="${image}" alt="${name}" class="product-thumbnail" />
+                  ${name}
+                </div>
+              </td>
+              <td>${category.charAt(0).toUpperCase() + category.slice(1)}</td>
+              <td>${price}</td>
+              <td>${stock}</td>
+              <td><span class="status-dot status-${status.toLowerCase().replace(" ", "-")}"></span> ${status}</td>
+              <td>
+                <button class="btn btn-secondary edit-product" data-id="${newId}">
+                  <i class="fas fa-edit"></i> Edit
+                </button>
+                <button class="btn btn-danger delete-product" data-id="${newId}">
+                  <i class="fas fa-trash"></i> Delete
+                </button>
+              </td>
+            `;
+            tbody.appendChild(newRow);
+            showToast("Product added successfully!", "success");
+          }
+
+          // Re-attach event listeners for new buttons
+          $$(".edit-product").forEach((btn) => {
+            btn.addEventListener("click", () => {
+              const productId = btn.dataset.id;
+              const product = productsData[productId];
+              if (product) {
+                $("#editProductModalTitle").textContent = "Edit Product";
+                $("#productName").value = product.name;
+                $("#productCategory").value = product.category.toLowerCase();
+                $("#productPrice").value = product.price;
+                $("#productStock").value = product.stock;
+                $("#productImage").value = product.image;
+                editProductModal.dataset.productId = productId;
+                editProductModal.style.display = "block";
+              }
             });
           });
-        }
+
+          $$(".delete-product").forEach((btn) => {
+            btn.addEventListener("click", () => {
+              const productId = btn.dataset.id;
+              $("#confirmDeleteBtn").dataset.productId = productId;
+              deleteConfirmModal.style.display = "block";
+            });
+          });
+
+          editProductModal.style.display = "none";
+        });
+
+        // Delete Product
+        $$(".delete-product").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const productId = btn.dataset.id;
+            $("#confirmDeleteBtn").dataset.productId = productId;
+            deleteConfirmModal.style.display = "block";
+          });
+        });
+
+        $("#closeDeleteConfirmModal").addEventListener("click", () => deleteConfirmModal.style.display = "none");
+        $("#cancelDeleteBtn").addEventListener("click", () => deleteConfirmModal.style.display = "none");
+
+        $("#confirmDeleteBtn").addEventListener("click", () => {
+          const productId = $("#confirmDeleteBtn").dataset.productId;
+          const row = $(`tr[data-product-id="${productId}"]`);
+          if (row) {
+            row.remove();
+            delete productsData[productId];
+            showToast("Product deleted successfully!", "success");
+          }
+          deleteConfirmModal.style.display = "none";
+        });
+
+        // Refresh Products
+        $("#refreshProductsBtn").addEventListener("click", () => {
+          showToast("Products refreshed!", "success");
+        });
+
+        // Search Functionality
+        $("#search-input").addEventListener("input", (e) => {
+          const query = e.target.value.toLowerCase();
+          $$("#productsTable tr").forEach((row) => {
+            const text = row.textContent.toLowerCase();
+            row.style.display = text.includes(query) ? "" : "none";
+          });
+        });
+
+        // Close modals on outside click
+        window.addEventListener("click", (event) => {
+          if (event.target === editProductModal) editProductModal.style.display = "none";
+          if (event.target === deleteConfirmModal) deleteConfirmModal.style.display = "none";
+        });
       });
     </script>
   </body>
