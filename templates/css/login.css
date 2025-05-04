@@ -23,7 +23,7 @@ body {
 
 /* Header */
 .login-header {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 .login-header .logo {
@@ -34,12 +34,20 @@ body {
 .login-header h2 {
   font-size: 24px;
   color: #333;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  color: #666;
+  font-size: 14px;
+  margin-top: 0;
 }
 
 /* Input Fields */
 .input-group {
   margin-bottom: 20px;
   text-align: left;
+  position: relative;
 }
 
 .input-group label {
@@ -56,12 +64,62 @@ body {
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
+  transition: border-color 0.3s;
 }
 
 .input-group input:focus,
 .input-group select:focus {
   outline: none;
   border-color: #4b8d2f;
+  box-shadow: 0 0 0 2px rgba(75, 141, 47, 0.1);
+}
+
+.input-group input.invalid {
+  border-color: #e74c3c;
+}
+
+/* Password Toggle */
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  top: 38px;
+  cursor: pointer;
+  color: #777;
+}
+
+.password-toggle:hover {
+  color: #4b8d2f;
+}
+
+/* Error Message */
+.error-message {
+  color: #e74c3c;
+  font-size: 12px;
+  margin-top: 5px;
+  display: block;
+  min-height: 18px;
+}
+
+/* Form Options */
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+}
+
+.remember-me input {
+  margin-right: 8px;
+}
+
+.remember-me label {
+  font-size: 14px;
+  color: #555;
 }
 
 /* Login Button */
@@ -74,11 +132,65 @@ body {
   border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .login-btn:hover {
   background-color: #3a6b24;
+}
+
+.login-btn .btn-text {
+  position: relative;
+  z-index: 2;
+  transition: opacity 0.3s;
+}
+
+.login-btn .loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+  position: absolute;
+  top: calc(50% - 10px);
+  left: calc(50% - 10px);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.login-btn.is-loading .btn-text {
+  opacity: 0;
+}
+
+.login-btn.is-loading .loading {
+  opacity: 1;
+}
+
+/* Ripple Effect */
+.login-btn span.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.7);
+  transform: scale(0);
+  animation: ripple 0.6s linear;
+  z-index: 1;
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
 }
 
 /* Sign Up Link */
@@ -100,7 +212,7 @@ body {
 
 /* Forgot Password */
 .forgot-password {
-  margin-top: 10px;
+  margin: 0;
 }
 
 .forgot-password a {
@@ -113,14 +225,73 @@ body {
   text-decoration: underline;
 }
 
+/* Social Login */
+.social-login {
+  margin-top: 25px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.social-login p {
+  position: relative;
+  display: inline-block;
+  padding: 0 10px;
+  margin: 0 0 15px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #777;
+  font-size: 14px;
+  top: -10px;
+}
+
+.social-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.social-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 18px;
+  transition: all 0.3s;
+  text-decoration: none;
+}
+
+.social-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.facebook {
+  background: #3b5998;
+}
+
+.google {
+  background: #db4437;
+}
+
+.twitter {
+  background: #1da1f2;
+}
+
 /* Responsive Design */
 @media (max-width: 480px) {
   .login-container {
     padding: 20px;
+    margin: 0 15px;
   }
 
   .login-header h2 {
     font-size: 20px;
+  }
+
+  .subtitle {
+    font-size: 13px;
   }
 
   .input-group input,
@@ -130,5 +301,15 @@ body {
 
   .login-btn {
     font-size: 14px;
+  }
+  
+  .form-options {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .forgot-password {
+    align-self: flex-end;
   }
 }

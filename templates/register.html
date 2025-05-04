@@ -13,10 +13,11 @@
   <body>
     <div class="registration-container">
       <div class="registration-header">
+        <!-- You can add a placeholder image here -->
         <img src="images/logo.png" alt="AgriGo Logo" class="logo" />
         <h2>Create an Account</h2>
       </div>
-      <form id="registrationForm">
+      <form id="registrationForm" novalidate>
         <!-- Role Selection -->
         <div class="input-group">
           <label for="role"><i class="fas fa-user-tag"></i> Role</label>
@@ -25,6 +26,7 @@
             <option value="farmer">Farmer</option>
             <option value="buyer">Buyer</option>
           </select>
+          <span id="roleError" class="error"></span>
         </div>
 
         <!-- Name -->
@@ -36,7 +38,10 @@
             name="name"
             placeholder="Enter your full name"
             required
+            minlength="3"
+            maxlength="50"
           />
+          <span id="nameError" class="error"></span>
         </div>
 
         <!-- Email -->
@@ -49,6 +54,7 @@
             placeholder="Enter your email"
             required
           />
+          <span id="emailError" class="error"></span>
         </div>
 
         <!-- Password -->
@@ -60,14 +66,36 @@
             name="password"
             placeholder="Enter your password"
             required
+            minlength="8"
           />
+          <span class="password-toggle" id="togglePassword">
+            <i class="fas fa-eye"></i>
+          </span>
+          <span id="passwordError" class="error"></span>
+          <div class="password-requirements">
+            <div class="requirement" id="length">
+              <i class="fas fa-circle"></i> At least 8 characters
+            </div>
+            <div class="requirement" id="uppercase">
+              <i class="fas fa-circle"></i> At least one uppercase letter
+            </div>
+            <div class="requirement" id="lowercase">
+              <i class="fas fa-circle"></i> At least one lowercase letter
+            </div>
+            <div class="requirement" id="number">
+              <i class="fas fa-circle"></i> At least one number
+            </div>
+            <div class="requirement" id="special">
+              <i class="fas fa-circle"></i> At least one special character
+            </div>
+          </div>
         </div>
 
         <!-- Confirm Password -->
         <div class="input-group">
-          <label for="confirmPassword"
-            ><i class="fas fa-lock"></i> Confirm Password</label
-          >
+          <label for="confirmPassword">
+            <i class="fas fa-lock"></i> Confirm Password
+          </label>
           <input
             type="password"
             id="confirmPassword"
@@ -75,38 +103,266 @@
             placeholder="Confirm your password"
             required
           />
+          <span class="password-toggle" id="toggleConfirmPassword">
+            <i class="fas fa-eye"></i>
+          </span>
+          <span id="confirmPasswordError" class="error"></span>
+        </div>
+
+        <!-- Terms and Conditions -->
+        <div class="input-group">
+          <label class="checkbox-container">
+            <input type="checkbox" id="terms" name="terms" required />
+            I agree to the <a href="#">Terms and Conditions</a> and <a href="#">Privacy Policy</a>
+          </label>
+          <span id="termsError" class="error"></span>
         </div>
 
         <!-- Submit Button -->
-        <button type="submit" class="register-btn">Register</button>
+        <button type="submit" class="register-btn" id="registerBtn" disabled>Register</button>
 
         <!-- Login Link -->
         <p class="login-link">
           Already have an account? <a href="login.html">Login here</a>
         </p>
       </form>
+      
+      <div class="form-footer">
+        <p>By registering, you agree to AgriGo's Terms of Service and Privacy Policy.</p>
+      </div>
     </div>
 
     <script>
-      document
-        .getElementById("registrationForm")
-        .addEventListener("submit", function (event) {
-          event.preventDefault(); // Prevent form submission
-
-          // Validate passwords
-          const password = document.getElementById("password").value;
-          const confirmPassword =
-            document.getElementById("confirmPassword").value;
-
-          if (password !== confirmPassword) {
-            alert("Passwords do not match. Please try again.");
-            return;
-          }
-
-          // Simulate successful registration
-          alert("Registration successful!");
-          window.location.href = "login.html"; // Redirect to login page
+      document.addEventListener('DOMContentLoaded', function() {
+        // Form and input elements
+        const form = document.getElementById('registrationForm');
+        const roleInput = document.getElementById('role');
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        const termsCheckbox = document.getElementById('terms');
+        const registerBtn = document.getElementById('registerBtn');
+        
+        // Error spans
+        const roleError = document.getElementById('roleError');
+        const nameError = document.getElementById('nameError');
+        const emailError = document.getElementById('emailError');
+        const passwordError = document.getElementById('passwordError');
+        const confirmPasswordError = document.getElementById('confirmPasswordError');
+        const termsError = document.getElementById('termsError');
+        
+        // Password requirement elements
+        const lengthReq = document.getElementById('length');
+        const uppercaseReq = document.getElementById('uppercase');
+        const lowercaseReq = document.getElementById('lowercase');
+        const numberReq = document.getElementById('number');
+        const specialReq = document.getElementById('special');
+        
+        // Password toggle buttons
+        const togglePassword = document.getElementById('togglePassword');
+        const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+        
+        // Toggle password visibility
+        togglePassword.addEventListener('click', function() {
+          togglePasswordVisibility(passwordInput, this);
         });
+        
+        toggleConfirmPassword.addEventListener('click', function() {
+          togglePasswordVisibility(confirmPasswordInput, this);
+        });
+        
+        // Function to toggle password visibility
+        function togglePasswordVisibility(input, icon) {
+          const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+          input.setAttribute('type', type);
+          
+          // Toggle icon
+          if (type === 'text') {
+            icon.innerHTML = '<i class="fas fa-eye-slash"></i>';
+          } else {
+            icon.innerHTML = '<i class="fas fa-eye"></i>';
+          }
+        }
+        
+        // Validate form on input
+        form.addEventListener('input', validateForm);
+        
+        // Handle form submission
+        form.addEventListener('submit', function(event) {
+          event.preventDefault();
+          
+          // Final validation before submission
+          if (validateForm()) {
+            // Simulate successful registration (replace with actual API call)
+            alert('Registration successful! You will be redirected to the login page.');
+            window.location.href = 'login.html';
+          }
+        });
+        
+        // Validate all form fields
+        function validateForm() {
+          let isValid = true;
+          
+          // Reset all errors
+          resetErrors();
+          
+          // Validate role
+          if (!roleInput.value) {
+            showError(roleInput, roleError, 'Please select a role');
+            isValid = false;
+          }
+          
+          // Validate name
+          if (!nameInput.value) {
+            showError(nameInput, nameError, 'Name is required');
+            isValid = false;
+          } else if (nameInput.value.length < 3) {
+            showError(nameInput, nameError, 'Name must be at least 3 characters');
+            isValid = false;
+          } else if (!/^[a-zA-Z\s'-]+$/.test(nameInput.value)) {
+            showError(nameInput, nameError, 'Name should contain only letters, spaces, hyphens and apostrophes');
+            isValid = false;
+          }
+          
+          // Validate email
+          if (!emailInput.value) {
+            showError(emailInput, emailError, 'Email is required');
+            isValid = false;
+          } else if (!isValidEmail(emailInput.value)) {
+            showError(emailInput, emailError, 'Please enter a valid email address');
+            isValid = false;
+          }
+          
+          // Validate password
+          const passwordValidation = validatePassword(passwordInput.value);
+          if (!passwordValidation.isValid) {
+            showError(passwordInput, passwordError, passwordValidation.message);
+            isValid = false;
+          }
+          
+          // Update password requirement indicators
+          updatePasswordRequirements(passwordInput.value);
+          
+          // Validate confirm password
+          if (!confirmPasswordInput.value) {
+            showError(confirmPasswordInput, confirmPasswordError, 'Please confirm your password');
+            isValid = false;
+          } else if (passwordInput.value !== confirmPasswordInput.value) {
+            showError(confirmPasswordInput, confirmPasswordError, 'Passwords do not match');
+            isValid = false;
+          }
+          
+          // Validate terms
+          if (!termsCheckbox.checked) {
+            showError(null, termsError, 'You must agree to the Terms and Conditions');
+            isValid = false;
+          }
+          
+          // Enable or disable register button
+          registerBtn.disabled = !isValid;
+          
+          return isValid;
+        }
+        
+        // Email validation function
+        function isValidEmail(email) {
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          return emailRegex.test(email);
+        }
+        
+        // Password validation function
+        function validatePassword(password) {
+          if (!password) {
+            return { isValid: false, message: 'Password is required' };
+          }
+          
+          if (password.length < 8) {
+            return { isValid: false, message: 'Password must be at least 8 characters long' };
+          }
+          
+          const hasUpperCase = /[A-Z]/.test(password);
+          const hasLowerCase = /[a-z]/.test(password);
+          const hasNumbers = /\d/.test(password);
+          const hasSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
+          
+          if (!hasUpperCase || !hasLowerCase || !hasNumbers || !hasSpecialChar) {
+            return { 
+              isValid: false, 
+              message: 'Password must include uppercase, lowercase, number, and special character' 
+            };
+          }
+          
+          return { isValid: true, message: '' };
+        }
+        
+        // Update password requirement indicators
+        function updatePasswordRequirements(password) {
+          // Check length
+          updateRequirement(lengthReq, password.length >= 8);
+          
+          // Check uppercase
+          updateRequirement(uppercaseReq, /[A-Z]/.test(password));
+          
+          // Check lowercase
+          updateRequirement(lowercaseReq, /[a-z]/.test(password));
+          
+          // Check number
+          updateRequirement(numberReq, /\d/.test(password));
+          
+          // Check special character
+          updateRequirement(specialReq, /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password));
+        }
+        
+        // Update requirement indicator
+        function updateRequirement(element, isValid) {
+          if (isValid) {
+            element.classList.add('valid');
+            element.classList.remove('invalid');
+            element.querySelector('i').className = 'fas fa-check-circle';
+          } else {
+            element.classList.add('invalid');
+            element.classList.remove('valid');
+            element.querySelector('i').className = 'fas fa-circle';
+          }
+        }
+        
+        // Show error message
+        function showError(input, errorElement, message) {
+          if (input) {
+            input.classList.add('invalid');
+          }
+          errorElement.textContent = message;
+        }
+        
+        // Reset all errors
+        function resetErrors() {
+          // Remove all error classes
+          const inputs = form.querySelectorAll('input, select');
+          inputs.forEach(input => input.classList.remove('invalid'));
+          
+          // Clear all error messages
+          const errors = form.querySelectorAll('.error');
+          errors.forEach(error => error.textContent = '');
+        }
+        
+        // Add input delay validation for email to check if it's already registered
+        let emailTimeout;
+        emailInput.addEventListener('input', function() {
+          clearTimeout(emailTimeout);
+          emailTimeout = setTimeout(function() {
+            // This would be an API call to check if email exists
+            const email = emailInput.value;
+            if (email && isValidEmail(email)) {
+              // For demonstration, let's pretend "test@example.com" is already registered
+              if (email.toLowerCase() === 'test@example.com') {
+                showError(emailInput, emailError, 'This email is already registered');
+                validateForm(); // Revalidate the form
+              }
+            }
+          }, 500);
+        });
+      });
     </script>
   </body>
 </html>
