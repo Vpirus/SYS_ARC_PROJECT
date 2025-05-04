@@ -49,7 +49,7 @@
         </div>
         <div class="form-options">
           <div class="remember-me">
-            <input type="checkbox" id="remember" name="remember">
+            <input type="checkbox" id="remember" name="remember" />
             <label for="remember">Remember me</label>
           </div>
           <p class="forgot-password"><a href="#">Forgot Password?</a></p>
@@ -63,7 +63,7 @@
           <a href="register.html">Sign up as a Farmer or Buyer</a>
         </p>
       </form>
-      
+
       <div class="social-login">
         <p>Or login with</p>
         <div class="social-buttons">
@@ -81,7 +81,7 @@
     </div>
 
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
+      document.addEventListener("DOMContentLoaded", function () {
         // Form elements
         const loginForm = document.getElementById("loginForm");
         const emailInput = document.getElementById("email");
@@ -90,119 +90,130 @@
         const passwordError = document.getElementById("passwordError");
         const loginButton = document.getElementById("loginButton");
         const togglePassword = document.getElementById("togglePassword");
-        
+
         // Add password visibility toggle
-        togglePassword.addEventListener('click', function() {
-          const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-          passwordInput.setAttribute('type', type);
-          
+        togglePassword.addEventListener("click", function () {
+          const type =
+            passwordInput.getAttribute("type") === "password"
+              ? "text"
+              : "password";
+          passwordInput.setAttribute("type", type);
+
           // Toggle icon
-          this.innerHTML = type === 'password' ? 
-            '<i class="fas fa-eye"></i>' : 
-            '<i class="fas fa-eye-slash"></i>';
+          this.innerHTML =
+            type === "password"
+              ? '<i class="fas fa-eye"></i>'
+              : '<i class="fas fa-eye-slash"></i>';
         });
-        
+
         // Add button ripple effect
-        loginButton.addEventListener('click', function(e) {
+        loginButton.addEventListener("click", function (e) {
           const x = e.clientX - e.target.getBoundingClientRect().left;
           const y = e.clientY - e.target.getBoundingClientRect().top;
-          
-          const ripple = document.createElement('span');
-          ripple.classList.add('ripple');
+
+          const ripple = document.createElement("span");
+          ripple.classList.add("ripple");
           ripple.style.left = `${x}px`;
           ripple.style.top = `${y}px`;
-          
+
           this.appendChild(ripple);
-          
-          setTimeout(function() {
+
+          setTimeout(function () {
             ripple.remove();
           }, 600);
         });
-        
+
         // Form validation and submission
-        loginForm.addEventListener("submit", function(event) {
+        loginForm.addEventListener("submit", function (event) {
           event.preventDefault(); // Prevent form submission
-          
+
           // Reset error messages
           emailError.textContent = "";
           passwordError.textContent = "";
-          
+
           // Get user input
           const email = emailInput.value.trim();
           const password = passwordInput.value.trim();
-          
+
           // Validation
           let isValid = true;
-          
+
           if (!email) {
             emailError.textContent = "Email is required.";
-            emailInput.classList.add('invalid');
+            emailInput.classList.add("invalid");
             isValid = false;
           } else if (!/\S+@\S+\.\S+/.test(email)) {
             emailError.textContent = "Invalid email format.";
-            emailInput.classList.add('invalid');
+            emailInput.classList.add("invalid");
             isValid = false;
           } else {
-            emailInput.classList.remove('invalid');
+            emailInput.classList.remove("invalid");
           }
-          
+
           if (!password) {
             passwordError.textContent = "Password is required.";
-            passwordInput.classList.add('invalid');
+            passwordInput.classList.add("invalid");
             isValid = false;
           } else {
-            passwordInput.classList.remove('invalid');
+            passwordInput.classList.remove("invalid");
           }
-          
+
           if (!isValid) return;
-          
+
           // Show loading state
-          loginButton.classList.add('is-loading');
-          
+          loginButton.classList.add("is-loading");
+
           // Simulate API call with timeout
-          setTimeout(function() {
+          setTimeout(function () {
             authenticateUser(email, password);
           }, 1000);
         });
-        
+
         // Auto-fill saved credentials if available (for demo)
-        const savedEmail = localStorage.getItem('agrigo_email');
+        const savedEmail = localStorage.getItem("agrigo_email");
         if (savedEmail) {
           emailInput.value = savedEmail;
-          document.getElementById('remember').checked = true;
+          document.getElementById("remember").checked = true;
         }
-        
+
         // Function to authenticate user
         function authenticateUser(email, password) {
           // Hardcoded credentials (for demo purposes only)
           const users = [
-            { email: "farmer@agrigo.com", password: "farmer123", role: "farmer" },
-            { email: "buyer@agrigo.com", password: "buyer123", role: "buyer" }
+            {
+              email: "farmer@agrigo.com",
+              password: "farmer123",
+              role: "farmer",
+            },
+            { email: "buyer@agrigo.com", password: "buyer123", role: "buyer" },
           ];
-          
+
           // Find matching user by email and password
-          const user = users.find(u => u.email === email && u.password === password);
-          
+          const user = users.find(
+            (u) => u.email === email && u.password === password
+          );
+
           // Reset loading state
-          loginButton.classList.remove('is-loading');
-          
+          loginButton.classList.remove("is-loading");
+
           if (user) {
             // Save email if remember me is checked
-            if (document.getElementById('remember').checked) {
-              localStorage.setItem('agrigo_email', email);
+            if (document.getElementById("remember").checked) {
+              localStorage.setItem("agrigo_email", email);
             } else {
-              localStorage.removeItem('agrigo_email');
+              localStorage.removeItem("agrigo_email");
             }
-            
+
             // Success login animation
             loginButton.innerHTML = '<i class="fas fa-check"></i> Success';
-            loginButton.style.backgroundColor = '#4CAF50';
-            
+            loginButton.style.backgroundColor = "#4CAF50";
+
             // Redirect based on role after short delay
-            setTimeout(function() {
+            setTimeout(function () {
               switch (user.role) {
                 case "farmer":
-                  window.location.href = "/templates/farmer/farmer-dashboard.html";
+                  window.location.href =
+                    "/templates/farmer/farmer-dashboard.html";
                   break;
                 case "buyer":
                   window.location.href = "/templates/buyer.html";
@@ -211,28 +222,29 @@
             }, 800);
           } else {
             // Error feedback
-            passwordError.textContent = "Invalid email or password. Please try again.";
-            passwordInput.classList.add('invalid');
-            
+            passwordError.textContent =
+              "Invalid email or password. Please try again.";
+            passwordInput.classList.add("invalid");
+
             // Shake animation for error
-            const container = document.querySelector('.login-container');
-            container.classList.add('animate__animated', 'animate__shakeX');
-            
-            setTimeout(function() {
-              container.classList.remove('animate__shakeX');
+            const container = document.querySelector(".login-container");
+            container.classList.add("animate__animated", "animate__shakeX");
+
+            setTimeout(function () {
+              container.classList.remove("animate__shakeX");
             }, 1000);
           }
         }
-        
+
         // Clear error on input focus
-        emailInput.addEventListener('focus', function() {
+        emailInput.addEventListener("focus", function () {
           emailError.textContent = "";
-          this.classList.remove('invalid');
+          this.classList.remove("invalid");
         });
-        
-        passwordInput.addEventListener('focus', function() {
+
+        passwordInput.addEventListener("focus", function () {
           passwordError.textContent = "";
-          this.classList.remove('invalid');
+          this.classList.remove("invalid");
         });
       });
     </script>

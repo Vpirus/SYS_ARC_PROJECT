@@ -508,6 +508,11 @@
         background: #e1e1e1;
       }
 
+      .btn-icon.active {
+        color: #ff5252;
+        background: #ffe6e6;
+      }
+
       /* Sidebar */
       .sidebar {
         display: flex;
@@ -682,6 +687,90 @@
       .toast-notification.show {
         opacity: 1;
         transform: translateY(0);
+      }
+
+      /* Modal Styles */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        overflow-y: auto;
+      }
+
+      .modal-content {
+        background-color: var(--bg-color);
+        margin: 50px auto;
+        width: 90%;
+        max-width: 600px;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        position: relative;
+      }
+
+      .modal-header {
+        padding: 20px;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .modal-title {
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: var(--text-color);
+      }
+
+      .modal-close {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--second-color);
+      }
+
+      .modal-body {
+        padding: 20px;
+      }
+
+      .modal-footer {
+        padding: 20px;
+        border-top: 1px solid #eee;
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      .form-label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 500;
+        color: var(--text-color);
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #eee;
+        border-radius: 5px;
+        font-family: "Poppins", sans-serif;
+        background-color: #f9f9f9;
+        color: var(--text-color);
+      }
+
+      .form-control:focus {
+        outline: none;
+        border-color: var(--main-color);
+        box-shadow: 0 0 0 2px rgba(17, 140, 50, 0.2);
       }
 
       /* Footer */
@@ -922,11 +1011,11 @@
       <ul class="navbar">
         <li><a href="index.html">Home</a></li>
         <li><a href="shop.html">Shop</a></li>
-        <li><a href="farmers.html">Farmers</a></li>
-        <li><a href="about.html">About</a></li>
+        <li><a href="orders.html"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
+        <a href="wishlist.html"><i class="fas fa-heart"></i> My Wishlist</a>
       </ul>
       <div class="user-menu">
-        <div id="cart" class="cart" data-totalitems="3">
+        <div id="cart" class="cart" data-totalitems="0">
           <i class="fas fa-shopping-cart"></i>
         </div>
         <div class="profile-dropdown">
@@ -939,21 +1028,19 @@
           <div class="dropdown-menu" id="profile-menu">
             <ul>
               <li>
-                <a href="#"><i class="fas fa-user"></i> My Profile</a>
+                <a href="#" id="myProfileLink"><i class="fas fa-user"></i> My Profile</a>
               </li>
               <li>
-                <a href="#"><i class="fas fa-shopping-bag"></i> My Orders</a>
+                <a href="orders.html"><i class="fas fa-shopping-bag"></i> My Orders</a>
               </li>
               <li>
-                <a href="#"><i class="fas fa-heart"></i> Wishlist</a>
+                <a href="wishlist.html"><i class="fas fa-heart"></i> My Wishlist</a>
               </li>
               <li>
-                <a href="#"><i class="fas fa-cog"></i> Settings</a>
+                <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
               </li>
               <li>
-                <a href="#" class="logout"
-                  ><i class="fas fa-sign-out-alt"></i> Logout</a
-                >
+                <a href="#" class="logout" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
               </li>
             </ul>
           </div>
@@ -970,12 +1057,8 @@
           products and support local farmers in your community.
         </p>
         <div class="cta-buttons">
-          <a href="shop.html" class="btn btn-primary"
-            ><i class="fas fa-shopping-basket"></i> Shop Now</a
-          >
-          <a href="#" class="btn btn-outline"
-            ><i class="fas fa-map-marker-alt"></i> Find Nearby Farms</a
-          >
+          <a href="shop.html" class="btn btn-primary"><i class="fas fa-shopping-basket"></i> Shop Now</a>
+          <a href="farmers.html" class="btn btn-outline"><i class="fas fa-map-marker-alt"></i> Find Nearby Farms</a>
         </div>
       </div>
       <div class="welcome-image">
@@ -994,9 +1077,7 @@
         <div class="recent-orders">
           <div class="section-header">
             <h2>Recent Orders</h2>
-            <a href="#" class="view-all"
-              >View All <i class="fas fa-chevron-right"></i
-            ></a>
+            <a href="orders.html" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
           </div>
           <div class="orders-list">
             <!-- Order 1 -->
@@ -1011,9 +1092,7 @@
                 <div class="order-details">
                   <h3>Organic Vegetable Bundle</h3>
                   <div class="order-meta">
-                    <span
-                      ><i class="fas fa-calendar-alt"></i> May 2, 2025</span
-                    >
+                    <span><i class="fas fa-calendar-alt"></i> May 2, 2025</span>
                     <span><i class="fas fa-tag"></i> ₱450.00</span>
                   </div>
                 </div>
@@ -1033,9 +1112,7 @@
                 <div class="order-details">
                   <h3>Tropical Fruit Basket</h3>
                   <div class="order-meta">
-                    <span
-                      ><i class="fas fa-calendar-alt"></i> May 1, 2025</span
-                    >
+                    <span><i class="fas fa-calendar-alt"></i> May 1, 2025</span>
                     <span><i class="fas fa-tag"></i> ₱320.00</span>
                   </div>
                 </div>
@@ -1055,9 +1132,7 @@
                 <div class="order-details">
                   <h3>Farm Fresh Eggs</h3>
                   <div class="order-meta">
-                    <span
-                      ><i class="fas fa-calendar-alt"></i> April 28, 2025</span
-                    >
+                    <span><i class="fas fa-calendar-alt"></i> April 28, 2025</span>
                     <span><i class="fas fa-tag"></i> ₱150.00</span>
                   </div>
                 </div>
@@ -1071,11 +1146,11 @@
         <div class="recommended-products">
           <div class="section-header">
             <h2>Recommended For You</h2>
-            <a href="#" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
+            <a href="shop.html" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
           </div>
           <div class="products-grid">
             <!-- Product 1 -->
-            <div class="product-card">
+            <div class="product-card" data-product-id="1">
               <div class="product-image">
                 <img src="https://images.pexels.com/photos/2252584/pexels-photo-2252584.jpeg" alt="Fresh Tomatoes">
               </div>
@@ -1085,14 +1160,14 @@
                   ₱85.00 <span class="price-per-unit">per kg</span>
                 </div>
                 <div class="product-actions">
-                  <button class="btn btn-primary btn-sm">Add to Cart</button>
-                  <a href="#" class="btn-icon"><i class="fas fa-heart"></i></a>
+                  <button class="btn btn-primary btn-sm add-to-cart" data-product-id="1">Add to Cart</button>
+                  <a href="#" class="btn-icon wishlist-btn" data-product-id="1"><i class="fas fa-heart"></i></a>
                 </div>
               </div>
             </div>
 
             <!-- Product 2 -->
-            <div class="product-card">
+            <div class="product-card" data-product-id="2">
               <div class="product-image">
                 <img src="https://images.pexels.com/photos/39341/spinach-vegetables-leaves-green-39341.jpeg" alt="Organic Spinach">
               </div>
@@ -1102,14 +1177,14 @@
                   ₱60.00 <span class="price-per-unit">per bunch</span>
                 </div>
                 <div class="product-actions">
-                  <button class="btn btn-primary btn-sm">Add to Cart</button>
-                  <a href="#" class="btn-icon"><i class="fas fa-heart"></i></a>
+                  <button class="btn btn-primary btn-sm add-to-cart" data-product-id="2">Add to Cart</button>
+                  <a href="#" class="btn-icon wishlist-btn" data-product-id="2"><i class="fas fa-heart"></i></a>
                 </div>
               </div>
             </div>
 
             <!-- Product 3 -->
-            <div class="product-card">
+            <div class="product-card" data-product-id="3">
               <div class="product-image">
                 <img src="https://images.pexels.com/photos/264537/pexels-photo-264537.jpeg" alt="Organic Brown Rice">
               </div>
@@ -1119,14 +1194,14 @@
                   ₱120.00 <span class="price-per-unit">per kg</span>
                 </div>
                 <div class="product-actions">
-                  <button class="btn btn-primary btn-sm">Add to Cart</button>
-                  <a href="#" class="btn-icon"><i class="fas fa-heart"></i></a>
+                  <button class="btn btn-primary btn-sm add-to-cart" data-product-id="3">Add to Cart</button>
+                  <a href="#" class="btn-icon wishlist-btn" data-product-id="3"><i class="fas fa-heart"></i></a>
                 </div>
               </div>
             </div>
 
             <!-- Product 4 -->
-            <div class="product-card">
+            <div class="product-card" data-product-id="4">
               <div class="product-image">
                 <img src="https://images.pexels.com/photos/89778/strawberries-frisch-ripe-sweet-89778.jpeg" alt="Fresh Strawberries">
               </div>
@@ -1136,8 +1211,8 @@
                   ₱180.00 <span class="price-per-unit">per box</span>
                 </div>
                 <div class="product-actions">
-                  <button class="btn btn-primary btn-sm">Add to Cart</button>
-                  <a href="#" class="btn-icon"><i class="fas fa-heart"></i></a>
+                  <button class="btn btn-primary btn-sm add-to-cart" data-product-id="4">Add to Cart</button>
+                  <a href="#" class="btn-icon wishlist-btn" data-product-id="4"><i class="fas fa-heart"></i></a>
                 </div>
               </div>
             </div>
@@ -1156,19 +1231,19 @@
           <p class="profile-type">Premium Member</p>
           <div class="profile-stats">
             <div class="stat-item">
-              <div class="stat-value">15</div>
+              <div class="stat-value" id="orderCount">15</div>
               <div class="stat-label">Orders</div>
             </div>
             <div class="stat-item">
-              <div class="stat-value">4</div>
+              <div class="stat-value" id="reviewCount">4</div>
               <div class="stat-label">Reviews</div>
             </div>
             <div class="stat-item">
-              <div class="stat-value">8</div>
+              <div class="stat-value" id="wishlistCount">0</div>
               <div class="stat-label">Wishlist</div>
             </div>
           </div>
-          <button class="btn btn-outline profile-action">Edit Profile</button>
+          <button class="btn btn-outline profile-action" id="editProfileBtn">Edit Profile</button>
         </div>
 
         <!-- Quick Links -->
@@ -1177,11 +1252,11 @@
             <h2>Quick Links</h2>
           </div>
           <ul>
-            <li><a href="#"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
-            <li><a href="#"><i class="fas fa-heart"></i> My Wishlist</a></li>
-            <li><a href="#"><i class="fas fa-star"></i> My Reviews</a></li>
-            <li><a href="#"><i class="fas fa-map-marker-alt"></i> Delivery Addresses</a></li>
-            <li><a href="#"><i class="fas fa-cog"></i> Account Settings</a></li>
+            <li><a href="orders.html"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
+            <li><a href="wishlist.html"><i class="fas fa-heart"></i> My Wishlist</a></li>
+            <li><a href="reviews.html"><i class="fas fa-star"></i> My Reviews</a></li>
+            <li><a href="addresses.html"><i class="fas fa-map-marker-alt"></i> Delivery Addresses</a></li>
+            <li><a href="settings.html"><i class="fas fa-cog"></i> Account Settings</a></li>
           </ul>
         </div>
 
@@ -1195,20 +1270,48 @@
             <p class="offer-description">Use this code at checkout to get 15% off on your next purchase of ₱500 or more.</p>
             <div class="offer-code">
               <span>FRESH15</span>
-              <i class="fas fa-copy"></i>
+              <i class="fas fa-copy copy-code"></i>
             </div>
             <div class="offer-action">
-              <button class="btn btn-light btn-sm">Shop Now</button>
+              <button class="btn btn-light btn-sm shop-offer">Shop Now</button>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Toast Notification -->
-    <div class="toast-notification" id="toast">
-      Item added to your cart!
+    <!-- Edit Profile Modal -->
+    <div class="modal" id="editProfileModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title">Edit Profile</h3>
+          <button class="modal-close" id="closeEditProfileModal">×</button>
+        </div>
+        <div class="modal-body">
+          <form id="profileForm">
+            <div class="form-group">
+              <label for="profileName" class="form-label">Full Name</label>
+              <input type="text" id="profileName" class="form-control" value="John Doe" required>
+            </div>
+            <div class="form-group">
+              <label for="profileEmail" class="form-label">Email</label>
+              <input type="email" id="profileEmail" class="form-control" value="john.doe@example.com" required>
+            </div>
+            <div class="form-group">
+              <label for="profilePhone" class="form-label">Phone Number</label>
+              <input type="tel" id="profilePhone" class="form-control" value="+63 912 345 6789">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline" id="cancelEditProfileBtn">Cancel</button>
+          <button class="btn btn-primary" id="saveProfileBtn">Save Changes</button>
+        </div>
+      </div>
     </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-notification" id="toast"></div>
 
     <!-- Footer -->
     <footer>
@@ -1217,7 +1320,7 @@
           <div class="list">
             <h4>Quick Links</h4>
             <ul>
-              <li><a href="#">About Us</a></li>
+              <li><a href="about.html">About Us</a></li>
               <li><a href="#">Terms & Conditions</a></li>
               <li><a href="#">Privacy Policy</a></li>
               <li><a href="#">Help</a></li>
@@ -1265,153 +1368,174 @@
 
     <!-- JavaScript -->
     <script>
-      // Menu Toggle
-      let menu = document.querySelector('#menu-icon');
-      let navbar = document.querySelector('.navbar');
+      document.addEventListener("DOMContentLoaded", () => {
+        // Utility Functions
+        const $ = (selector) => document.querySelector(selector);
+        const $$ = (selector) => document.querySelectorAll(selector);
+        const toggleClass = (element, className) => element?.classList.toggle(className);
 
-      menu.onclick = () => {
-        menu.classList.toggle('bx-x');
-        navbar.classList.toggle('open');
-      };
-
-      window.onscroll = () => {
-        menu.classList.remove('bx-x');
-        navbar.classList.remove('open');
-      };
-
-      // Profile Dropdown Toggle
-      const profileToggle = document.getElementById('profile-toggle');
-      const profileMenu = document.getElementById('profile-menu');
-
-      profileToggle.addEventListener('click', () => {
-        profileMenu.classList.toggle('active');
-      });
-
-      // Close the dropdown when clicking outside
-      window.addEventListener('click', (e) => {
-        if (!profileToggle.contains(e.target) && !profileMenu.contains(e.target)) {
-          profileMenu.classList.remove('active');
-        }
-      });
-
-      // Add to Cart Animation
-      const addToCartButtons = document.querySelectorAll('.btn-primary');
-      const cart = document.getElementById('cart');
-      const toast = document.getElementById('toast');
-
-      addToCartButtons.forEach(button => {
-        button.addEventListener('click', () => {
-          // Update cart count
-          let currentItems = parseInt(cart.getAttribute('data-totalitems') || 0);
-          cart.setAttribute('data-totalitems', currentItems + 1);
-          
-          // Show toast notification
-          toast.classList.add('show');
-          setTimeout(() => {
-            toast.classList.remove('show');
-          }, 3000);
-        });
-      });
-
-      // Copy offer code
-      const copyIcon = document.querySelector('.offer-code i');
-      copyIcon.addEventListener('click', () => {
-        const offerCode = document.querySelector('.offer-code span').textContent;
-        navigator.clipboard.writeText(offerCode);
-        
-        // Show feedback
-        toast.textContent = 'Promo code copied to clipboard!';
-        toast.classList.add('show');
-        setTimeout(() => {
-          toast.classList.remove('show');
-          toast.textContent = 'Item added to your cart!';
-        }, 3000);
-      });
-
-      // Sidebar Toggle
-        const menuToggle = $("#menu-toggle");
-        const sidebar = $("#sidebar");
-        const mainContent = $("#main-content");
-        const overlay = $("#overlay");
-
-        if (menuToggle && sidebar && mainContent) {
-          menuToggle.addEventListener("click", () => {
-            toggleClass(sidebar, "sidebar-collapsed");
-            toggleClass(mainContent, "main-content-expanded");
-            const icon = menuToggle.querySelector("i");
-            icon.classList.toggle("fa-chevron-left");
-            icon.classList.toggle("fa-chevron-right");
-          });
-        }
-
-        // Mobile Menu Toggle
-        const mobileMenuToggle = $("#mobile-menu-toggle");
-        const sidebarToggleMobile = $(".sidebar-toggle-mobile");
-
-        const toggleMobileSidebar = () => {
-          toggleClass(sidebar, "active");
-          toggleClass(overlay, "active");
+        // Toast Notification
+        const showToast = (message, duration = 3000) => {
+          const toast = $("#toast");
+          toast.textContent = message;
+          toast.classList.add("show");
+          setTimeout(() => toast.classList.remove("show"), duration);
         };
 
-        if (mobileMenuToggle)
-          mobileMenuToggle.addEventListener("click", toggleMobileSidebar);
-        if (sidebarToggleMobile)
-          sidebarToggleMobile.addEventListener("click", toggleMobileSidebar);
-        if (overlay) overlay.addEventListener("click", toggleMobileSidebar);
+        // Cart Management
+        const loadCart = () => {
+          const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+          $("#cart").setAttribute("data-totalitems", cartItems.length);
+        };
 
-        // Dark Mode Toggle
-        const darkModeToggle = $("#darkModeToggle");
-        const themeText = $("#themeText");
-        if (darkModeToggle) {
-          const toggleDarkMode = () => {
-            const isDark = document.body.classList.toggle("dark-mode");
-            localStorage.setItem("darkMode", isDark);
-            themeText.textContent = isDark ? "Light Mode" : "Dark Mode";
-            updateChart();
+        const addToCart = (productId) => {
+          const productCard = $(`.product-card[data-product-id="${productId}"]`);
+          const title = productCard.querySelector(".product-title").textContent;
+          const price = productCard.querySelector(".product-price").textContent.split(" ")[0];
+          const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+          cartItems.push({ id: productId, title, price });
+          localStorage.setItem("cartItems", JSON.stringify(cartItems));
+          loadCart();
+          showToast(`${title} added to your cart!`);
+        };
+
+        // Wishlist Management
+        const loadWishlist = () => {
+          const wishlistItems = JSON.parse(localStorage.getItem("wishlistItems") || "[]");
+          $("#wishlistCount").textContent = wishlistItems.length;
+          $$(".wishlist-btn").forEach((btn) => {
+            const productId = btn.dataset.productId;
+            btn.classList.toggle("active", wishlistItems.some((item) => item.id === productId));
+          });
+        };
+
+        const toggleWishlist = (productId) => {
+          const productCard = $(`.product-card[data-product-id="${productId}"]`);
+          const title = productCard.querySelector(".product-title").textContent;
+          let wishlistItems = JSON.parse(localStorage.getItem("wishlistItems") || "[]");
+          const exists = wishlistItems.some((item) => item.id === productId);
+          if (exists) {
+            wishlistItems = wishlistItems.filter((item) => item.id !== productId);
+            showToast(`${title} removed from wishlist`);
+          } else {
+            wishlistItems.push({ id: productId, title });
+            showToast(`${title} added to wishlist`);
+          }
+          localStorage.setItem("wishlistItems", JSON.stringify(wishlistItems));
+          loadWishlist();
+        };
+
+        // Menu Toggle
+        const menu = $("#menu-icon");
+        const navbar = $(".navbar");
+        if (menu && navbar) {
+          menu.onclick = () => {
+            menu.classList.toggle("bx-x");
+            navbar.classList.toggle("open");
           };
-          darkModeToggle.addEventListener("click", toggleDarkMode);
-          if (localStorage.getItem("darkMode") === "true") toggleDarkMode();
+          window.onscroll = () => {
+            menu.classList.remove("bx-x");
+            navbar.classList.remove("open");
+          };
         }
 
-        // Notification Dropdown
-        const notificationIcon = $("#notificationIcon");
-        const notificationDropdown = $("#notificationDropdown");
-        if (notificationIcon && notificationDropdown) {
-          notificationIcon.addEventListener("click", (e) => {
-            e.stopPropagation();
-            toggleClass(notificationDropdown, "show");
-          });
-          document.addEventListener("click", (e) => {
-            if (!notificationIcon.contains(e.target))
-              notificationDropdown.classList.remove("show");
-          });
-        }
-
-        // User Profile Dropdown
-        const userProfile = $("#userProfile");
-        const userDropdown = $("#userDropdown");
-        if (userProfile && userDropdown) {
-          userProfile.addEventListener("click", (e) => {
-            e.stopPropagation();
-            toggleClass(userDropdown, "show");
-          });
-          document.addEventListener("click", (e) => {
-            if (!userProfile.contains(e.target))
-              userDropdown.classList.remove("show");
+        // Profile Dropdown Toggle
+        const profileToggle = $("#profile-toggle");
+        const profileMenu = $("#profile-menu");
+        if (profileToggle && profileMenu) {
+          profileToggle.addEventListener("click", () => toggleClass(profileMenu, "active"));
+          window.addEventListener("click", (e) => {
+            if (!profileToggle.contains(e.target) && !profileMenu.contains(e.target)) {
+              profileMenu.classList.remove("active");
+            }
           });
         }
 
-        // Logout Functionality
-        const userDropdownLogout = $("#userDropdownLogout");
-        if (userDropdownLogout)
-          userDropdownLogout.addEventListener("click", (e) => {
+        // Add to Cart Buttons
+        $$(".add-to-cart").forEach((button) => {
+          button.addEventListener("click", () => {
+            const productId = button.dataset.productId;
+            addToCart(productId);
+          });
+        });
+
+        // Wishlist Buttons
+        $$(".wishlist-btn").forEach((button) => {
+          button.addEventListener("click", (e) => {
             e.preventDefault();
-            showToast("Logged out successfully!", "success");
-            setTimeout(
-              () => (window.location.href = "/templates/login.html"),
-              2000
-            );
+            const productId = button.dataset.productId;
+            toggleWishlist(productId);
           });
+        });
+
+        // Copy Offer Code
+        const copyIcon = $(".copy-code");
+        if (copyIcon) {
+          copyIcon.addEventListener("click", () => {
+            const offerCode = $(".offer-code span").textContent;
+            navigator.clipboard.writeText(offerCode);
+            showToast("Promo code copied to clipboard!");
+          });
+        }
+
+        // Shop Now (Special Offer)
+        $(".shop-offer").addEventListener("click", () => {
+          localStorage.setItem("appliedPromo", "FRESH15");
+          window.location.href = "shop.html";
+        });
+
+        // Edit Profile
+        const editProfileModal = $("#editProfileModal");
+        $("#editProfileBtn").addEventListener("click", () => {
+          editProfileModal.style.display = "block";
+        });
+
+        $("#closeEditProfileModal").addEventListener("click", () => {
+          editProfileModal.style.display = "none";
+        });
+
+        $("#cancelEditProfileBtn").addEventListener("click", () => {
+          editProfileModal.style.display = "none";
+        });
+
+        $("#saveProfileBtn").addEventListener("click", () => {
+          const name = $("#profileName").value;
+          const email = $("#profileEmail").value;
+          const phone = $("#profilePhone").value;
+          if (!name || !email) {
+            showToast("Name and email are required!", 4000);
+            return;
+          }
+          localStorage.setItem("userProfile", JSON.stringify({ name, email, phone }));
+          $(".profile-name").textContent = name;
+          showToast("Profile updated successfully!");
+          editProfileModal.style.display = "none";
+        });
+
+        // Logout
+        $("#logoutBtn").addEventListener("click", (e) => {
+          e.preventDefault();
+          localStorage.removeItem("cartItems");
+          localStorage.removeItem("wishlistItems");
+          localStorage.removeItem("userProfile");
+          localStorage.removeItem("appliedPromo");
+          showToast("Logged out successfully!");
+          setTimeout(() => {
+            window.location.href = "login.html";
+          }, 2000);
+        });
+
+        // Close Modal on Outside Click
+        window.addEventListener("click", (event) => {
+          if (event.target === editProfileModal) {
+            editProfileModal.style.display = "none";
+          }
+        });
+
+        // Initialize Cart and Wishlist
+        loadCart();
+        loadWishlist();
+      });
     </script>
   </body>
 </html>
