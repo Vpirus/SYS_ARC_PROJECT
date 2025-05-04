@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AgriGo - Welcome Back</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/boxicons@latest/css/boxicons.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Paytone+One&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        scroll-behavior: smooth;
+        font-family: "Poppins", sans-serif;
+        list-style: none;
+        text-decoration: none;
+      }
+
+      :root {
+        --main-color: #118c32;
+        --text-color: #1a1a1a;
+        --bg-color: #fff;
+        --second-color: #5a5959;
+        --big-font: 4.5rem;
+        --h2-font: 2.6rem;
+        --p-font: 1.1rem;
+      }
+
+      body {
+        background: #f8f8f8;
+        color: var(--text-color);
+      }
+
+      /* HEADER AREA */
+      header {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 100%;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: var(--bg-color);
+        padding: 14px 8%;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--text-color);
+      }
+
+      .logo img {
+        height: 40px;
+        margin-right: 10px;
+      }
+
+      .navbar {
+        display: flex;
+        gap: 30px;
+      }
+
+      .navbar a {
+        color: var(--text-color);
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        transition: all 0.5s ease;
+      }
+
+      .navbar a::after {
+        content: "";
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--main-color);
+        transition: all 0.5s ease;
+      }
+
+      .navbar a:hover::after {
+        width: 100%;
+      }
+
+      .navbar a:hover {
+        color: var(--main-color);
+      }
+
+      .user-menu {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .profile-dropdown {
+        position: relative;
+        cursor: pointer;
+      }
+
+      .profile-pic {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid var(--main-color);
+      }
+
+      .dropdown-menu {
+        position: absolute;
+        top: 55px;
+        right: 0;
+        background: var(--bg-color);
+        min-width: 200px;
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+        display: none;
+        z-index: 1001;
+      }
+
+      .dropdown-menu.active {
+        display: block;
+      }
+
+      .dropdown-menu li {
+        margin-bottom: 10px;
+      }
+
+      .dropdown-menu li:last-child {
+        margin-bottom: 0;
+      }
+
+      .dropdown-menu a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--text-color);
+        font-size: 14px;
+        padding: 8px 0;
+        transition: all 0.3s ease;
+      }
+
+      .dropdown-menu a:hover {
+        color: var(--main-color);
+      }
+
+      .dropdown-menu .logout {
+        border-top: 1px solid #eee;
+        margin-top: 10px;
+        padding-top: 10px;
+        color: #ff5252;
+      }
+
+      #menu-icon {
+        font-size: 35px;
+        cursor: pointer;
+        z-index: 10001;
+        display: none;
+      }
+
+      /* Cart counter styling */
+      #cart {
+        position: relative;
+        cursor: pointer;
+      }
+
+      #cart:after {
+        content: attr(data-totalitems);
+        font-size: 12px;
+        background-color: #ff6b6b;
+        color: white;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+
+      #cart[data-totalitems="0"]:after {
+        opacity: 0;
+      }
+
+      #cart[data-totalitems]:not([data-totalitems="0"]):after {
+        opacity: 1;
+      }
+
+      /* Welcome Section */
+      .welcome-section {
+        padding: 120px 8% 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: var(--bg-color);
+        border-radius: 0 0 20px 20px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        margin-bottom: 30px;
+      }
+
+      .welcome-content {
+        flex: 1;
+      }
+
+      .welcome-content h1 {
+        font-size: 2.2rem;
+        margin-bottom: 10px;
+        color: var(--text-color);
+      }
+
+      .welcome-content h1 span {
+        color: var(--main-color);
+      }
+
+      .welcome-content p {
+        color: var(--second-color);
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 20px;
+      }
+
+      .cta-buttons {
+        display: flex;
+        gap: 15px;
+      }
+
+      .btn {
+        padding: 12px 25px;
+        border-radius: 5px;
+        font-weight: 500;
+        font-size: 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: none;
+        outline: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .btn-primary {
+        background: var(--main-color);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: #0d6e29;
+      }
+
+      .btn-outline {
+        background: transparent;
+        color: var(--main-color);
+        border: 1px solid var(--main-color);
+      }
+
+      .btn-outline:hover {
+        background: rgba(17, 140, 50, 0.1);
+      }
+
+      .welcome-image {
+        flex: 1;
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .welcome-image img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 12px;
+      }
+
+      /* Dashboard Grid */
+      .dashboard-grid {
+        padding: 0 8% 50px;
+        display: grid;
+        grid-template-columns: 7fr 3fr;
+        gap: 30px;
+      }
+
+      /* Main Content */
+      .main-content {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+      }
+
+      /* Recent Orders */
+      .recent-orders {
+        background: var(--bg-color);
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        padding: 25px;
+      }
+
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .section-header h2 {
+        font-size: 1.4rem;
+        color: var(--text-color);
+      }
+
+      .view-all {
+        color: var(--main-color);
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .view-all:hover {
+        text-decoration: underline;
+      }
+
+      .order-card {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+        background: #f9f9f9;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        transition: all 0.3s ease;
+      }
+
+      .order-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      }
+
+      .order-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .order-image {
+        width: 60px;
+        height: 60px;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .order-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .order-details h3 {
+        font-size: 1rem;
+        margin-bottom: 5px;
+      }
+
+      .order-meta {
+        display: flex;
+        gap: 15px;
+      }
+
+      .order-meta span {
+        font-size: 13px;
+        color: var(--second-color);
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .order-status {
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      .status-delivered {
+        background: rgba(17, 140, 50, 0.1);
+        color: var(--main-color);
+      }
+
+      .status-processing {
+        background: rgba(255, 193, 7, 0.1);
+        color: #ffc107;
+      }
+
+      .status-transit {
+        background: rgba(33, 150, 243, 0.1);
+        color: #2196f3;
+      }
+
+      /* Recommended Products */
+      .recommended-products {
+        background: var(--bg-color);
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        padding: 25px;
+      }
+
+      .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+      }
+
+      .product-card {
+        background: #f9f9f9;
+        border-radius: 10px;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .product-image {
+        height: 150px;
+        overflow: hidden;
+      }
+
+      .product-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+
+      .product-card:hover .product-image img {
+        transform: scale(1.1);
+      }
+
+      .product-content {
+        padding: 15px;
+      }
+
+      .product-title {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 5px;
+        color: var(--text-color);
+      }
+
+      .product-price {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--main-color);
+        margin-bottom: 10px;
+      }
+
+      .price-per-unit {
+        font-size: 12px;
+        color: var(--second-color);
+        font-weight: 400;
+      }
+
+      .product-actions {
+        display: flex;
+        gap: 10px;
+      }
+
+      .btn-sm {
+        padding: 8px 12px;
+        font-size: 13px;
+      }
+
+      .btn-icon {
+        background: #f1f1f1;
+        color: var(--text-color);
+        width: 35px;
+        height: 35px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+      }
+
+      .btn-icon:hover {
+        background: #e1e1e1;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+      }
+
+      /* Profile Card */
+      .profile-card {
+        background: var(--bg-color);
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        padding: 25px;
+        text-align: center;
+      }
+
+      .profile-image {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin: 0 auto 15px;
+        border: 3px solid var(--main-color);
+      }
+
+      .profile-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .profile-name {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+
+      .profile-type {
+        color: var(--second-color);
+        font-size: 14px;
+        margin-bottom: 15px;
+      }
+
+      .profile-stats {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 20px;
+      }
+
+      .stat-item {
+        text-align: center;
+      }
+
+      .stat-value {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--main-color);
+      }
+
+      .stat-label {
+        font-size: 12px;
+        color: var(--second-color);
+      }
+
+      .profile-action {
+        width: 100%;
+      }
+
+      /* Quick Links */
+      .quick-links {
+        background: var(--bg-color);
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        padding: 25px;
+      }
+
+      .quick-links ul {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .quick-links li a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 15px;
+        border-radius: 8px;
+        color: var(--text-color);
+        transition: all 0.3s ease;
+      }
+
+      .quick-links li a:hover {
+        background: rgba(17, 140, 50, 0.1);
+        color: var(--main-color);
+      }
+
+      .quick-links li a i {
+        font-size: 18px;
+        color: var(--main-color);
+      }
+
+      /* Special Offers */
+      .special-offers {
+        background: var(--bg-color);
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        padding: 25px;
+      }
+
+      .offer-card {
+        background: linear-gradient(135deg, #118c32, #2fad54);
+        border-radius: 10px;
+        padding: 20px;
+        color: white;
+        margin-top: 15px;
+      }
+
+      .offer-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+      }
+
+      .offer-description {
+        font-size: 14px;
+        margin-bottom: 15px;
+        opacity: 0.9;
+      }
+
+      .offer-code {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 8px 12px;
+        border-radius: 5px;
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .offer-action {
+        text-align: center;
+      }
+
+      .btn-light {
+        background: white;
+        color: var(--main-color);
+      }
+
+      .btn-light:hover {
+        background: rgba(255, 255, 255, 0.9);
+      }
+
+      /* Toast notification */
+      .toast-notification {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #4CAF50;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 4px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        z-index: 1000;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.3s, transform 0.3s;
+      }
+
+      .toast-notification.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Footer */
+      footer {
+        background: #f8f8f8;
+        padding-top: 50px;
+        position: relative;
+        margin-top: 50px;
+      }
+
+      .footer {
+        padding: 0 5%;
+      }
+
+      .main {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+
+      .list {
+        width: 20%;
+        min-width: 200px;
+        margin-bottom: 30px;
+      }
+
+      .list h4 {
+        font-size: 20px;
+        margin-bottom: 20px;
+        position: relative;
+        color: var(--text-color);
+      }
+
+      .list h4::before {
+        content: "";
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 40px;
+        height: 2px;
+        background: var(--main-color);
+      }
+
+      .list ul li a {
+        display: block;
+        color: var(--second-color);
+        font-size: 15px;
+        margin-bottom: 12px;
+        transition: all 0.3s ease;
+      }
+
+      .list ul li a:hover {
+        color: var(--main-color);
+        transform: translateX(5px);
+      }
+
+      .social {
+        display: flex;
+        gap: 10px;
+      }
+
+      .social a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background: var(--main-color);
+        color: var(--bg-color);
+        border-radius: 50%;
+        font-size: 20px;
+        transition: all 0.3s ease;
+      }
+
+      .social a:hover {
+        transform: scale(1.1);
+        background: #0d6e29;
+      }
+
+      .end-text {
+        text-align: center;
+        padding: 20px 0;
+        color: var(--second-color);
+        border-top: 1px solid #e7e7e7;
+        margin-top: 30px;
+      }
+
+      /* Media Queries */
+      @media (max-width: 1200px) {
+        .dashboard-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .welcome-section {
+          padding: 100px 5% 30px;
+        }
+
+        .dashboard-grid {
+          padding: 0 5% 50px;
+        }
+      }
+
+      @media (max-width: 991px) {
+        .welcome-section {
+          flex-direction: column;
+          text-align: center;
+          gap: 30px;
+        }
+
+        .welcome-content {
+          order: 2;
+        }
+
+        .welcome-image {
+          order: 1;
+          justify-content: center;
+        }
+
+        .cta-buttons {
+          justify-content: center;
+        }
+
+        .welcome-image img {
+          max-width: 80%;
+        }
+      }
+
+      @media (max-width: 1040px) {
+        #menu-icon {
+          display: block;
+        }
+        .navbar {
+          position: absolute;
+          top: 0;
+          right: -100%;
+          width: 270px;
+          height: 120vh;
+          background: var(--main-color);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 150px 30px;
+          transition: 0.5s all;
+        }
+        .navbar a {
+          display: block;
+          margin: 1.2rem 0;
+          color: var(--bg-color);
+        }
+        .navbar a:hover {
+          color: var(--text-color);
+        }
+        .navbar.open {
+          right: 0;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .products-grid {
+          grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        }
+
+        .profile-stats {
+          flex-wrap: wrap;
+          gap: 15px;
+        }
+
+        .stat-item {
+          width: 45%;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .section-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 10px;
+        }
+
+        .order-card {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 15px;
+        }
+
+        .order-status {
+          align-self: flex-start;
+        }
+
+        .welcome-section {
+          padding: 90px 5% 30px;
+        }
+
+        .welcome-content h1 {
+          font-size: 1.8rem;
+        }
+
+        .products-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .products-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .cta-buttons {
+          flex-direction: column;
+        }
+
+        .order-meta {
+          flex-direction: column;
+          gap: 5px;
+        }
+
+        .product-actions {
+          flex-direction: column;
+        }
+
+        .list {
+          width: 100%;
+        }
+
+        .social {
+          justify-content: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <a href="index.html" class="logo">
+        <img src="images/logo.png" alt="AgriGo Logo" />AgriGo
+      </a>
+      <div class="bx bx-menu" id="menu-icon"></div>
+      <ul class="navbar">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="farmers.html">Farmers</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+      <div class="user-menu">
+        <div id="cart" class="cart" data-totalitems="3">
+          <i class="fas fa-shopping-cart"></i>
+        </div>
+        <div class="profile-dropdown">
+          <img
+            src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+            alt="User"
+            class="profile-pic"
+            id="profile-toggle"
+          />
+          <div class="dropdown-menu" id="profile-menu">
+            <ul>
+              <li>
+                <a href="#"><i class="fas fa-user"></i> My Profile</a>
+              </li>
+              <li>
+                <a href="#"><i class="fas fa-shopping-bag"></i> My Orders</a>
+              </li>
+              <li>
+                <a href="#"><i class="fas fa-heart"></i> Wishlist</a>
+              </li>
+              <li>
+                <a href="#"><i class="fas fa-cog"></i> Settings</a>
+              </li>
+              <li>
+                <a href="#" class="logout"
+                  ><i class="fas fa-sign-out-alt"></i> Logout</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Welcome Section -->
+    <section class="welcome-section">
+      <div class="welcome-content">
+        <h1>Welcome back, <span>John!</span></h1>
+        <p>
+          Explore fresh local produce from farms near you. Find the best organic
+          products and support local farmers in your community.
+        </p>
+        <div class="cta-buttons">
+          <a href="shop.html" class="btn btn-primary"
+            ><i class="fas fa-shopping-basket"></i> Shop Now</a
+          >
+          <a href="#" class="btn btn-outline"
+            ><i class="fas fa-map-marker-alt"></i> Find Nearby Farms</a
+          >
+        </div>
+      </div>
+      <div class="welcome-image">
+        <img
+          src="https://images.pexels.com/photos/2255935/pexels-photo-2255935.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          alt="Fresh Produce"
+        />
+      </div>
+    </section>
+
+    <!-- Dashboard Grid -->
+    <div class="dashboard-grid">
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Recent Orders -->
+        <div class="recent-orders">
+          <div class="section-header">
+            <h2>Recent Orders</h2>
+            <a href="#" class="view-all"
+              >View All <i class="fas fa-chevron-right"></i
+            ></a>
+          </div>
+          <div class="orders-list">
+            <!-- Order 1 -->
+            <div class="order-card">
+              <div class="order-info">
+                <div class="order-image">
+                  <img
+                    src="https://images.pexels.com/photos/143133/pexels-photo-143133.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                    alt="Order"
+                  />
+                </div>
+                <div class="order-details">
+                  <h3>Organic Vegetable Bundle</h3>
+                  <div class="order-meta">
+                    <span
+                      ><i class="fas fa-calendar-alt"></i> May 2, 2025</span
+                    >
+                    <span><i class="fas fa-tag"></i> ₱450.00</span>
+                  </div>
+                </div>
+              </div>
+              <div class="order-status status-delivered">Delivered</div>
+            </div>
+
+            <!-- Order 2 -->
+            <div class="order-card">
+              <div class="order-info">
+                <div class="order-image">
+                  <img
+                    src="https://images.pexels.com/photos/1093038/pexels-photo-1093038.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                    alt="Order"
+                  />
+                </div>
+                <div class="order-details">
+                  <h3>Tropical Fruit Basket</h3>
+                  <div class="order-meta">
+                    <span
+                      ><i class="fas fa-calendar-alt"></i> May 1, 2025</span
+                    >
+                    <span><i class="fas fa-tag"></i> ₱320.00</span>
+                  </div>
+                </div>
+              </div>
+              <div class="order-status status-transit">In Transit</div>
+            </div>
+
+            <!-- Order 3 -->
+            <div class="order-card">
+              <div class="order-info">
+                <div class="order-image">
+                  <img
+                    src="https://images.pexels.com/photos/30805255/pexels-photo-30805255/free-photo-of-assorted-farm-fresh-eggs-close-up.jpeg"
+                    alt="Order"
+                  />
+                </div>
+                <div class="order-details">
+                  <h3>Farm Fresh Eggs</h3>
+                  <div class="order-meta">
+                    <span
+                      ><i class="fas fa-calendar-alt"></i> April 28, 2025</span
+                    >
+                    <span><i class="fas fa-tag"></i> ₱150.00</span>
+                  </div>
+                </div>
+              </div>
+              <div class="order-status status-processing">Processing</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recommended Products -->
+        <div class="recommended-products">
+          <div class="section-header">
+            <h2>Recommended For You</h2>
+            <a href="#" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
+          </div>
+          <div class="products-grid">
+            <!-- Product 1 -->
+            <div class="product-card">
+              <div class="product-image">
+                <img src="https://images.pexels.com/photos/2252584/pexels-photo-2252584.jpeg" alt="Fresh Tomatoes">
+              </div>
+              <div class="product-content">
+                <h3 class="product-title">Fresh Tomatoes</h3>
+                <div class="product-price">
+                  ₱85.00 <span class="price-per-unit">per kg</span>
+                </div>
+                <div class="product-actions">
+                  <button class="btn btn-primary btn-sm">Add to Cart</button>
+                  <a href="#" class="btn-icon"><i class="fas fa-heart"></i></a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="product-card">
+              <div class="product-image">
+                <img src="https://images.pexels.com/photos/39341/spinach-vegetables-leaves-green-39341.jpeg" alt="Organic Spinach">
+              </div>
+              <div class="product-content">
+                <h3 class="product-title">Organic Spinach</h3>
+                <div class="product-price">
+                  ₱60.00 <span class="price-per-unit">per bunch</span>
+                </div>
+                <div class="product-actions">
+                  <button class="btn btn-primary btn-sm">Add to Cart</button>
+                  <a href="#" class="btn-icon"><i class="fas fa-heart"></i></a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="product-card">
+              <div class="product-image">
+                <img src="https://images.pexels.com/photos/264537/pexels-photo-264537.jpeg" alt="Organic Brown Rice">
+              </div>
+              <div class="product-content">
+                <h3 class="product-title">Organic Brown Rice</h3>
+                <div class="product-price">
+                  ₱120.00 <span class="price-per-unit">per kg</span>
+                </div>
+                <div class="product-actions">
+                  <button class="btn btn-primary btn-sm">Add to Cart</button>
+                  <a href="#" class="btn-icon"><i class="fas fa-heart"></i></a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="product-card">
+              <div class="product-image">
+                <img src="https://images.pexels.com/photos/89778/strawberries-frisch-ripe-sweet-89778.jpeg" alt="Fresh Strawberries">
+              </div>
+              <div class="product-content">
+                <h3 class="product-title">Fresh Strawberries</h3>
+                <div class="product-price">
+                  ₱180.00 <span class="price-per-unit">per box</span>
+                </div>
+                <div class="product-actions">
+                  <button class="btn btn-primary btn-sm">Add to Cart</button>
+                  <a href="#" class="btn-icon"><i class="fas fa-heart"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <!-- Profile Card -->
+        <div class="profile-card">
+          <div class="profile-image">
+            <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg" alt="John Doe">
+          </div>
+          <h3 class="profile-name">John Doe</h3>
+          <p class="profile-type">Premium Member</p>
+          <div class="profile-stats">
+            <div class="stat-item">
+              <div class="stat-value">15</div>
+              <div class="stat-label">Orders</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">4</div>
+              <div class="stat-label">Reviews</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">8</div>
+              <div class="stat-label">Wishlist</div>
+            </div>
+          </div>
+          <button class="btn btn-outline profile-action">Edit Profile</button>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="quick-links">
+          <div class="section-header">
+            <h2>Quick Links</h2>
+          </div>
+          <ul>
+            <li><a href="#"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
+            <li><a href="#"><i class="fas fa-heart"></i> My Wishlist</a></li>
+            <li><a href="#"><i class="fas fa-star"></i> My Reviews</a></li>
+            <li><a href="#"><i class="fas fa-map-marker-alt"></i> Delivery Addresses</a></li>
+            <li><a href="#"><i class="fas fa-cog"></i> Account Settings</a></li>
+          </ul>
+        </div>
+
+        <!-- Special Offers -->
+        <div class="special-offers">
+          <div class="section-header">
+            <h2>Special Offers</h2>
+          </div>
+          <div class="offer-card">
+            <h3 class="offer-title">15% OFF Your Next Order</h3>
+            <p class="offer-description">Use this code at checkout to get 15% off on your next purchase of ₱500 or more.</p>
+            <div class="offer-code">
+              <span>FRESH15</span>
+              <i class="fas fa-copy"></i>
+            </div>
+            <div class="offer-action">
+              <button class="btn btn-light btn-sm">Shop Now</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-notification" id="toast">
+      Item added to your cart!
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer">
+        <div class="main">
+          <div class="list">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Terms & Conditions</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Help</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </div>
+
+          <div class="list">
+            <h4>Support</h4>
+            <ul>
+              <li><a href="#">FAQ</a></li>
+              <li><a href="#">How it Works</a></li>
+              <li><a href="#">Features</a></li>
+              <li><a href="#">Sitemap</a></li>
+              <li><a href="#">Community</a></li>
+            </ul>
+          </div>
+
+          <div class="list">
+            <h4>Contact Info</h4>
+            <ul>
+              <li><a href="#">123 Farming Street, Manila</a></li>
+              <li><a href="#">+63 912 345 6789</a></li>
+              <li><a href="#">info@agrigo.com</a></li>
+              <li><a href="#">www.agrigo.com</a></li>
+            </ul>
+          </div>
+
+          <div class="list">
+            <h4>Connect</h4>
+            <div class="social">
+              <a href="#"><i class="fab fa-facebook-f"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="end-text">
+        <p>© 2025 AgriGo. All Rights Reserved.</p>
+      </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+      // Menu Toggle
+      let menu = document.querySelector('#menu-icon');
+      let navbar = document.querySelector('.navbar');
+
+      menu.onclick = () => {
+        menu.classList.toggle('bx-x');
+        navbar.classList.toggle('open');
+      };
+
+      window.onscroll = () => {
+        menu.classList.remove('bx-x');
+        navbar.classList.remove('open');
+      };
+
+      // Profile Dropdown Toggle
+      const profileToggle = document.getElementById('profile-toggle');
+      const profileMenu = document.getElementById('profile-menu');
+
+      profileToggle.addEventListener('click', () => {
+        profileMenu.classList.toggle('active');
+      });
+
+      // Close the dropdown when clicking outside
+      window.addEventListener('click', (e) => {
+        if (!profileToggle.contains(e.target) && !profileMenu.contains(e.target)) {
+          profileMenu.classList.remove('active');
+        }
+      });
+
+      // Add to Cart Animation
+      const addToCartButtons = document.querySelectorAll('.btn-primary');
+      const cart = document.getElementById('cart');
+      const toast = document.getElementById('toast');
+
+      addToCartButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          // Update cart count
+          let currentItems = parseInt(cart.getAttribute('data-totalitems') || 0);
+          cart.setAttribute('data-totalitems', currentItems + 1);
+          
+          // Show toast notification
+          toast.classList.add('show');
+          setTimeout(() => {
+            toast.classList.remove('show');
+          }, 3000);
+        });
+      });
+
+      // Copy offer code
+      const copyIcon = document.querySelector('.offer-code i');
+      copyIcon.addEventListener('click', () => {
+        const offerCode = document.querySelector('.offer-code span').textContent;
+        navigator.clipboard.writeText(offerCode);
+        
+        // Show feedback
+        toast.textContent = 'Promo code copied to clipboard!';
+        toast.classList.add('show');
+        setTimeout(() => {
+          toast.classList.remove('show');
+          toast.textContent = 'Item added to your cart!';
+        }, 3000);
+      });
+
+      // Sidebar Toggle
+        const menuToggle = $("#menu-toggle");
+        const sidebar = $("#sidebar");
+        const mainContent = $("#main-content");
+        const overlay = $("#overlay");
+
+        if (menuToggle && sidebar && mainContent) {
+          menuToggle.addEventListener("click", () => {
+            toggleClass(sidebar, "sidebar-collapsed");
+            toggleClass(mainContent, "main-content-expanded");
+            const icon = menuToggle.querySelector("i");
+            icon.classList.toggle("fa-chevron-left");
+            icon.classList.toggle("fa-chevron-right");
+          });
+        }
+
+        // Mobile Menu Toggle
+        const mobileMenuToggle = $("#mobile-menu-toggle");
+        const sidebarToggleMobile = $(".sidebar-toggle-mobile");
+
+        const toggleMobileSidebar = () => {
+          toggleClass(sidebar, "active");
+          toggleClass(overlay, "active");
+        };
+
+        if (mobileMenuToggle)
+          mobileMenuToggle.addEventListener("click", toggleMobileSidebar);
+        if (sidebarToggleMobile)
+          sidebarToggleMobile.addEventListener("click", toggleMobileSidebar);
+        if (overlay) overlay.addEventListener("click", toggleMobileSidebar);
+
+        // Dark Mode Toggle
+        const darkModeToggle = $("#darkModeToggle");
+        const themeText = $("#themeText");
+        if (darkModeToggle) {
+          const toggleDarkMode = () => {
+            const isDark = document.body.classList.toggle("dark-mode");
+            localStorage.setItem("darkMode", isDark);
+            themeText.textContent = isDark ? "Light Mode" : "Dark Mode";
+            updateChart();
+          };
+          darkModeToggle.addEventListener("click", toggleDarkMode);
+          if (localStorage.getItem("darkMode") === "true") toggleDarkMode();
+        }
+
+        // Notification Dropdown
+        const notificationIcon = $("#notificationIcon");
+        const notificationDropdown = $("#notificationDropdown");
+        if (notificationIcon && notificationDropdown) {
+          notificationIcon.addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleClass(notificationDropdown, "show");
+          });
+          document.addEventListener("click", (e) => {
+            if (!notificationIcon.contains(e.target))
+              notificationDropdown.classList.remove("show");
+          });
+        }
+
+        // User Profile Dropdown
+        const userProfile = $("#userProfile");
+        const userDropdown = $("#userDropdown");
+        if (userProfile && userDropdown) {
+          userProfile.addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleClass(userDropdown, "show");
+          });
+          document.addEventListener("click", (e) => {
+            if (!userProfile.contains(e.target))
+              userDropdown.classList.remove("show");
+          });
+        }
+
+        // Logout Functionality
+        const userDropdownLogout = $("#userDropdownLogout");
+        if (userDropdownLogout)
+          userDropdownLogout.addEventListener("click", (e) => {
+            e.preventDefault();
+            showToast("Logged out successfully!", "success");
+            setTimeout(
+              () => (window.location.href = "/templates/login.html"),
+              2000
+            );
+          });
+    </script>
+  </body>
+</html>

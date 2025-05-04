@@ -176,7 +176,6 @@
         function authenticateUser(email, password) {
           // Hardcoded credentials (for demo purposes only)
           const users = [
-            { email: "admin@agrigo.com", password: "admin123", role: "admin" },
             { email: "farmer@agrigo.com", password: "farmer123", role: "farmer" },
             { email: "buyer@agrigo.com", password: "buyer123", role: "buyer" }
           ];
@@ -202,14 +201,11 @@
             // Redirect based on role after short delay
             setTimeout(function() {
               switch (user.role) {
-                case "admin":
-                  window.location.href = "/templates/admin/admin-dashboard.html";
-                  break;
                 case "farmer":
                   window.location.href = "/templates/farmer/farmer-dashboard.html";
                   break;
                 case "buyer":
-                  window.location.href = "/templates/buyer/buyer-dashboard.html";
+                  window.location.href = "/templates/buyer.html";
                   break;
               }
             }, 800);
