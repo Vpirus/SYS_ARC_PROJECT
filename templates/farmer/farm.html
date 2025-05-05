@@ -1339,78 +1339,6 @@
             gap: var(--spacing-sm);
         }
 
-        /* Farm Resources */
-        .resource-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: var(--spacing-lg);
-        }
-        .resource-card {
-            display: flex;
-            background-color: var(--white);
-            border-radius: var(--border-radius-md);
-            box-shadow: var(--shadow-sm);
-            transition: transform var(--transition-normal), box-shadow var(--transition-normal);
-        }
-        .dark-mode .resource-card {
-            background-color: var(--dark-card);
-        }
-        .resource-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-md);
-        }
-        .resource-icon {
-            width: 60px;
-            background-color: rgba(46, 125, 50, 0.1);
-            color: var(--green-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            border-radius: var(--border-radius-md) 0 0 var(--border-radius-md);
-        }
-        .resource-content {
-            flex: 1;
-            padding: var(--spacing-md);
-        }
-        .resource-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--green-primary);
-            margin-bottom: var(--spacing-sm);
-        }
-        .dark-mode .resource-title {
-            color: var(--green-primary-light);
-        }
-        .resource-details {
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-sm);
-            margin-bottom: var(--spacing-md);
-        }
-        .resource-detail {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.9rem;
-        }
-        .detail-label {
-            color: var(--medium-gray);
-        }
-        .dark-mode .detail-label {
-            color: var(--dark-text-secondary);
-        }
-        .detail-value.green {
-            color: var(--success);
-        }
-        .detail-value.yellow {
-            color: var(--warning);
-        }
-        .resource-actions {
-            display: flex;
-            gap: var(--spacing-sm);
-            justify-content: flex-end;
-        }
-
         /* Footer */
         .footer {
             background-color: var(--white);
@@ -2093,51 +2021,7 @@
                     </div>
                 </div>
 
-                <!-- Farm Resources Section -->
-                <div class="section farm-resources">
-                    <div class="section-header">
-                        <div class="section-title">Farm Resources</div>
-                        <div class="section-actions">
-                            <button class="btn btn-primary" id="addResourceBtn">
-                                <i class="fas fa-plus"></i> Add Resource
-                            </button>
-                        </div>
-                    </div>
-                    <div class="resource-grid" id="resourceGrid">
-                        <div class="resource-card animate__animated animate__fadeIn" data-resource-id="1">
-                            <div class="resource-icon">
-                                <i class="fas fa-tractor"></i>
-                            </div>
-                            <div class="resource-content">
-                                <div class="resource-title">John Deere Tractor</div>
-                                <div class="resource-details">
-                                    <div class="resource-detail">
-                                        <div class="detail-label">Status</div>
-                                        <div class="detail-value green">Operational</div>
-                                    </div>
-                                    <div class="resource-detail">
-                                        <div class="detail-label">Last Maintenance</div>
-                                        <div class="detail-value">Apr 20, 2025</div>
-                                    </div>
-                                    <div class="resource-detail">
-                                        <div class="detail-label">Location</div>
-                                        <div class="detail-value">Liloan Field</div>
-                                    </div>
-                                </div>
-                                <div class="resource-actions">
-                                    <button class="btn btn-primary edit-resource" data-resource-id="1">
-                                        <i class="fas fa-edit"></i> Edit
-                                    </button>
-                                    <button class="btn btn-outline view-resource" data-resource-id="1">
-                                        <i class="fas fa-eye"></i> Details
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Additional resource cards remain unchanged for brevity -->
-                    </div>
-                </div>
-            </div>
+                
 
             <!-- Footer -->
             <div class="footer">
@@ -2175,7 +2059,7 @@
                 </div>
                 <div class="form-group">
                     <label for="farmArea">Total Area (Acres) *</label>
-                    <input type="number" id="farmArea" min="0" step="0.1" required>
+                    <input type="number" id="farmArea" min="1" step="0.1" required>
                     <span class="error-message">Please enter a valid area (non-negative)</span>
                 </div>
                 <div class="form-group">
@@ -2216,7 +2100,7 @@
                 </div>
                 <div class="form-group">
                     <label for="areaSize">Size (Acres) *</label>
-                    <input type="number" id="areaSize" min="0" step="0.1" required>
+                    <input type="number" id="areaSize" min="1" step="0.1" required>
                     <span class="error-message">Please enter a valid size (non-negative)</span>
                 </div>
                 <div class="form-group">
@@ -2307,14 +2191,8 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="cropLocation">Location *</label>
-                        <select id="cropLocation" required>
-                            <option value="">Select Location</option>
-                            <option value="Northern Field">Northern Field</option>
-                            <option value="Southern Field">Southern Field</option>
-                            <option value="Eastern Field">Eastern Field</option>
-                            <option value="Western Field">Western Field</option>
-                        </select>
-                        <span class="error-message">Please select a location</span>
+                        <input type="text" id="cropLocation" required>
+                        <span class="error-message">Please input the location</span>
                     </div>
                     <div class="form-group">
                         <label for="cropArea">Area (Acres) *</label>
@@ -2475,13 +2353,8 @@
                 </div>
                 <div class="form-group">
                     <label for="taskLocation">Location</label>
-                    <select id="taskLocation">
-                        <option value="">Select Location</option>
-                        <option value="Northern Field">Northern Field</option>
-                        <option value="Southern Field">Southern Field</option>
-                        <option value="Eastern Field">Eastern Field</option>
-                        <option value="Western Field">Western Field</option>
-                    </select>
+                    <input type="text" id="taskLocation" required>
+                    <span class="error-message">Please input the location</span>
                 </div>
             </div>
             <div class="modal-footer">
@@ -2562,12 +2435,8 @@
                 </div>
                 <div class="form-group">
                     <label for="resourceLocation">Location</label>
-                    <select id="resourceLocation">
-                        <option value="">Select Location</option>
-                        <option value="Liloan Field">Liloan Field</option>
-                        <option value="Balamban Orchard">Balamban Orchard</option>
-                        <option value="Minglanilla Field">Minglanilla Field</option>
-                    </select>
+                    <input type="text" id="resourceLocation" required>
+                    <span? class="error-message">Please input the location</span>
                 </div>
             </div>
             <div class="modal-footer">

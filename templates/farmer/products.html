@@ -1335,132 +1335,6 @@
             justify-content: center;
         }
 
-        /* Product Bundles */
-        .bundle-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: var(--spacing-lg);
-        }
-        .bundle-card {
-            background-color: var(--white);
-            border-radius: var(--border-radius-md);
-            box-shadow: var(--shadow-sm);
-            transition: transform var(--transition-normal), box-shadow var(--transition-normal);
-            display: flex;
-            flex-direction: column;
-        }
-        .dark-mode .bundle-card {
-            background-color: var(--dark-card);
-        }
-        .bundle-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-md);
-        }
-        .bundle-badge {
-            position: absolute;
-            top: var(--spacing-sm);
-            left: var(--spacing-sm);
-            padding: var(--spacing-xs) var(--spacing-sm);
-            border-radius: var(--border-radius-sm);
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--white);
-            z-index: 1;
-        }
-        .bundle-badge.popular {
-            background-color: var(--harvest-yellow);
-            color: var(--black);
-        }
-        .bundle-badge.new {
-            background-color: var(--sky-blue);
-        }
-        .bundle-image {
-            position: relative;
-            overflow: hidden;
-            border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
-        }
-        .bundle-image img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            transition: transform var(--transition-normal);
-        }
-        .bundle-card:hover .bundle-image img {
-            transform: scale(1.05);
-        }
-        .bundle-content {
-            padding: var(--spacing-md);
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-sm);
-        }
-        .bundle-name {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--black);
-            margin: 0;
-        }
-        .dark-mode .bundle-name {
-            color: var(--white);
-        }
-        .bundle-description {
-            font-size: 0.85rem;
-            color: var(--dark-gray);
-            line-height: 1.4;
-        }
-        .dark-mode .bundle-description {
-            color: var(--dark-text);
-        }
-        .bundle-includes {
-            font-size: 0.85rem;
-            color: var(--dark-gray);
-        }
-        .dark-mode .bundle-includes {
-            color: var(--dark-text);
-        }
-        .bundle-includes p {
-            font-weight: 600;
-            margin-bottom: var(--spacing-xs);
-        }
-        .bundle-items {
-            list-style: none;
-            padding-left: var(--spacing-md);
-        }
-        .bundle-items li {
-            position: relative;
-            margin-bottom: var(--spacing-xs);
-        }
-        .bundle-items li::before {
-            content: "•";
-            position: absolute;
-            left: -15px;
-            color: var(--green-primary);
-        }
-        .dark-mode .bundle-items li::before {
-            color: var(--green-primary-light);
-        }
-        .bundle-pricing {
-            margin-top: var(--spacing-sm);
-        }
-        .bundle-price {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--black);
-        }
-        .dark-mode .bundle-price {
-            color: var(--white);
-        }
-        .bundle-savings {
-            font-size: 0.85rem;
-            color: var(--success);
-        }
-        .bundle-actions {
-            display: flex;
-            gap: var(--spacing-sm);
-            justify-content: flex-end;
-        }
-
         /* Product Marketing */
         .product-marketing {
             background-color: var(--white);
@@ -1923,6 +1797,7 @@
                                                 <option value="">Select Category</option>
                                                 <option value="vegetables">Vegetables</option>
                                                 <option value="fruits">Fruits</option>
+                                                <option value="fruits">Dairy</option>
                                                 <option value="grains">Grains</option>
                                                 <option value="value-added">Value-Added</option>
                                             </select>
@@ -1953,10 +1828,10 @@
                                 <div class="form-row">
                                     <div class="form-col">
                                         <div class="form-group">
-                                            <label class="form-label" for="productPrice">Price (₱/kg) *</label>
+                                            <label class="form-label" for="productPrice">Retail Price (₱/kg) *</label>
                                             <div class="input-group">
                                                 <span class="input-group-text">₱</span>
-                                                <input type="number" step="0.01" min="0" class="form-control" id="productPrice" name="productPrice" required>
+                                                <input type="number" step="0.01" min="1" class="form-control" id="productPrice" name="productPrice" required>
                                             </div>
                                         </div>
                                     </div>
@@ -1965,7 +1840,7 @@
                                             <label class="form-label" for="productWholesalePrice">Wholesale Price (₱/kg)</label>
                                             <div class="input-group">
                                                 <span class="input-group-text">₱</span>
-                                                <input type="number" step="0.01" min="0" class="form-control" id="productWholesalePrice" name="productWholesalePrice">
+                                                <input type="number" step="0.01" min="1" class="form-control" id="productWholesalePrice" name="productWholesalePrice">
                                             </div>
                                         </div>
                                     </div>
@@ -1975,13 +1850,13 @@
                                     <div class="form-col">
                                         <div class="form-group">
                                             <label class="form-label" for="productInventory">Inventory (kg) *</label>
-                                            <input type="number" step="0.01" min="0" class="form-control" id="productInventory" name="productInventory" required>
+                                            <input type="number" step="0.01" min="1" class="form-control" id="productInventory" name="productInventory" required>
                                         </div>
                                     </div>
                                     <div class="form-col">
                                         <div class="form-group">
                                             <label class="form-label" for="productMinOrder">Minimum Order for Wholesale (kg)</label>
-                                            <input type="number" step="0.01" min="0" class="form-control" id="productMinOrder" name="productMinOrder">
+                                            <input type="number" step="0.01" min="1" class="form-control" id="productMinOrder" name="productMinOrder">
                                         </div>
                                     </div>
                                 </div>
@@ -2373,87 +2248,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Product Bundle Section -->
-                <div class="section product-bundles">
-                    <div class="section-header">
-                        <div class="section-title">Product Bundles</div>
-                        <div class="section-actions">
-                            <button class="btn btn-primary" id="createBundleBtn">
-                                <i class="fas fa-plus"></i> Create Bundle
-                            </button>
-                        </div>
-                    </div>
-                    <div class="bundle-grid" id="productBundles">
-                        <div class="bundle-card animate__animated animate__fadeIn" data-bundle-id="1">
-                            <div class="bundle-badge popular">Popular</div>
-                            <div class="bundle-image">
-                                <img src="https://images.pexels.com/photos/8541319/pexels-photo-8541319.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Vegetable Basket">
-                            </div>
-                            <div class="bundle-content">
-                                <h3 class="bundle-name">Farm Fresh Vegetable Basket</h3>
-                                <div class="bundle-description">
-                                    A fresh selection of seasonal vegetables from our farm, perfect for weekly family needs.
-                                </div>
-                                <div class="bundle-includes">
-                                    <p><strong>Includes:</strong></p>
-                                    <ul class="bundle-items">
-                                        <li>2kg Organic Tomatoes</li>
-                                        <li>1kg Bell Peppers</li>
-                                        <li>1kg Eggplants</li>
-                                        <li>2kg Leafy Greens</li>
-                                        <li>+ 2 Seasonal Items</li>
-                                    </ul>
-                                </div>
-                                <div class="bundle-pricing">
-                                    <div class="bundle-price">₱150.00</div>
-                                    <div class="bundle-savings">Save ₱150.00 (18% off)</div>
-                                </div>
-                                <div class="bundle-actions">
-                                    <button class="btn btn-primary edit-bundle" data-bundle-id="1">
-                                        <i class="fas fa-edit"></i> Edit
-                                    </button>
-                                    <button class="btn btn-outline view-bundle" data-bundle-id="1">
-                                        <i class="fas fa-eye"></i> View Details
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bundle-card animate__animated animate__fadeIn" data-bundle-id="2">
-                            <div class="bundle-badge new">New</div>
-                            <div class="bundle-image">
-                                <img src="https://images.pexels.com/photos/1132047/pexels-photo-1132047.jpeg" alt="Fruit Basket">
-                            </div>
-                            <div class="bundle-content">
-                                <h3 class="bundle-name">Tropical Fruit Selection</h3>
-                                <div class="bundle-description">
-                                    Premium selection of our orchard fruits, hand-picked at optimal ripeness.
-                                </div>
-                                <div class="bundle-includes">
-                                    <p><strong>Includes:</strong></p>
-                                    <ul class="bundle-items">
-                                        <li>2kg Premium Mangoes</li>
-                                        <li>1kg Organic Avocados</li>
-                                        <li>1kg Seasonal Fruits</li>
-                                        <li>1 Bottle of Fresh Fruit Juice</li>
-                                    </ul>
-                                </div>
-                                <div class="bundle-pricing">
-                                    <div class="bundle-price">₱220.00</div>
-                                    <div class="bundle-savings">Save ₱180.00 (18% off)</div>
-                                </div>
-                                <div class="bundle-actions">
-                                    <button class="btn btn-primary edit-bundle" data-bundle-id="2">
-                                        <i class="fas fa-edit"></i> Edit
-                                    </button>
-                                    <button class="btn btn-outline view-bundle" data-bundle-id="2">
-                                        <i class="fas fa-eye"></i> View Details
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
     
                     <!-- Product Marketing Section -->
                     <div class="section product-marketing">
