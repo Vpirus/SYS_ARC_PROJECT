@@ -182,7 +182,7 @@
             transition: all var(--transition-fast);
             color: var(--dark-gray);
             text-decoration: none;
-            border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+            border-radius:  nuov var(--border-radius-md) var(--border-radius-md) 0;
         }
         .dark-mode .nav-link {
             color: var(--dark-text);
@@ -667,6 +667,10 @@
             font-size: 1.4rem;
             font-weight: 600;
             color: var(--green-primary);
+        }
+
+        .modal-close hint {
+            display: none;
         }
 
         .modal-close {
@@ -1266,14 +1270,6 @@
             flex-direction: column;
             gap: var(--spacing-sm);
         }
-        .product-variety {
-            font-size: 0.9rem;
-            color: var(--medium-gray);
-            font-weight: 600;
-        }
-        .dark-mode .product-variety {
-            color: var(--dark-text-secondary);
-        }
         .product-description {
             font-size: 0.85rem;
             color: var(--dark-gray);
@@ -1281,16 +1277,6 @@
         }
         .dark-mode .product-description {
             color: var(--dark-text);
-        }
-        .product-origin {
-            font-size: 0.85rem;
-            color: var(--medium-gray);
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-xs);
-        }
-        .dark-mode .product-origin {
-            color: var(--dark-text-secondary);
         }
         .product-certifications {
             display: flex;
@@ -1779,7 +1765,7 @@
                     <div class="modal">
                         <div class="modal-header">
                             <div class="modal-title">Add New Product</div>
-                            <button class="modal-close" id="closeAddProductModal">&times;</button>
+                            <button class="modal-close" id="closeAddProductModal">×</button>
                         </div>
                         <div class="modal-body">
                             <form id="addProductForm">
@@ -1797,25 +1783,10 @@
                                                 <option value="">Select Category</option>
                                                 <option value="vegetables">Vegetables</option>
                                                 <option value="fruits">Fruits</option>
-                                                <option value="fruits">Dairy</option>
+                                                <option value="dairy">Dairy</option>
                                                 <option value="grains">Grains</option>
                                                 <option value="value-added">Value-Added</option>
                                             </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-row">
-                                    <div class="form-col">
-                                        <div class="form-group">
-                                            <label class="form-label" for="productVariety">Variety</label>
-                                            <input type="text" class="form-control" id="productVariety" name="productVariety">
-                                        </div>
-                                    </div>
-                                    <div class="form-col">
-                                        <div class="form-group">
-                                            <label class="form-label" for="productOrigin">Origin</label>
-                                            <input type="text" class="form-control" id="productOrigin" name="productOrigin">
                                         </div>
                                     </div>
                                 </div>
@@ -1831,7 +1802,7 @@
                                             <label class="form-label" for="productPrice">Retail Price (₱/kg) *</label>
                                             <div class="input-group">
                                                 <span class="input-group-text">₱</span>
-                                                <input type="number" step="0.01" min="1" class="form-control" id="productPrice" name="productPrice" required>
+                                                <input type="number" step="0.01" min="0.01" class="form-control" id="productPrice" name="productPrice" required>
                                             </div>
                                         </div>
                                     </div>
@@ -1840,7 +1811,7 @@
                                             <label class="form-label" for="productWholesalePrice">Wholesale Price (₱/kg)</label>
                                             <div class="input-group">
                                                 <span class="input-group-text">₱</span>
-                                                <input type="number" step="0.01" min="1" class="form-control" id="productWholesalePrice" name="productWholesalePrice">
+                                                <input type="number" step="0.01" min="0.01" class="form-control" id="productWholesalePrice" name="productWholesalePrice">
                                             </div>
                                         </div>
                                     </div>
@@ -1850,13 +1821,13 @@
                                     <div class="form-col">
                                         <div class="form-group">
                                             <label class="form-label" for="productInventory">Inventory (kg) *</label>
-                                            <input type="number" step="0.01" min="1" class="form-control" id="productInventory" name="productInventory" required>
+                                            <input type="number" step="0.01" min="0.01" class="form-control" id="productInventory" name="productInventory" required>
                                         </div>
                                     </div>
                                     <div class="form-col">
                                         <div class="form-group">
                                             <label class="form-label" for="productMinOrder">Minimum Order for Wholesale (kg)</label>
-                                            <input type="number" step="0.01" min="1" class="form-control" id="productMinOrder" name="productMinOrder">
+                                            <input type="number" step="0.01" min="0.01" class="form-control" id="productMinOrder" name="productMinOrder">
                                         </div>
                                     </div>
                                 </div>
@@ -1915,12 +1886,193 @@
                     </div>
                 </div>
 
+                <!-- Edit Product Modal -->
+                <div class="modal-overlay" id="editProductModal">
+                    <div class="modal">
+                        <div class="modal-header">
+                            <div class="modal-title">Edit Product</div>
+                            <button class="modal-close" id="closeEditProductModal">×</button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="editProductForm">
+                                <input type="hidden" id="editProductId" name="productId">
+                                <div class="form-row">
+                                    <div class="form-col">
+                                        <div class="form-group">
+                                            <label class="form-label" for="editProductName">Product Name *</label>
+                                            <input type="text" class="form-control" id="editProductName" name="productName" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-col">
+                                        <div class="form-group">
+                                            <label class="form-label" for="editProductCategory">Category *</label>
+                                            <select class="form-control" id="editProductCategory" name="productCategory" required>
+                                                <option value="">Select Category</option>
+                                                <option value="vegetables">Vegetables</option>
+                                                <option value="fruits">Fruits</option>
+                                                <option value="dairy">Dairy</option>
+                                                <option value="grains">Grains</option>
+                                                <option value="value-added">Value-Added</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" for="editProductDescription">Description</label>
+                                    <textarea class="form-control" id="editProductDescription" name="productDescription"></textarea>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-col">
+                                        <div class="form-group">
+                                            <label class="form-label" for="editProductPrice">Retail Price (₱/kg) *</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">₱</span>
+                                                <input type="number" step="0.01" min="0.01" class="form-control" id="editProductPrice" name="productPrice" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-col">
+                                        <div class="form-group">
+                                            <label class="form-label" for="editProductWholesalePrice">Wholesale Price (₱/kg)</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">₱</span>
+                                                <input type="number" step="0.01" min="0.01" class="form-control" id="editProductWholesalePrice" name="productWholesalePrice">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-col">
+                                        <div class="form-group">
+                                            <label class="form-label" for="editProductInventory">Inventory (kg) *</label>
+                                            <input type="number" step="0.01" min="0.01" class="form-control" id="editProductInventory" name="productInventory" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-col">
+                                        <div class="form-group">
+                                            <label class="form-label" for="editProductMinOrder">Minimum Order for Wholesale (kg)</label>
+                                            <input type="number" step="0.01" min="0.01" class="form-control" id="editProductMinOrder" name="productMinOrder">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Product Image</label>
+                                    <div class="file-upload" id="editProductImageUpload">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                        <div class="file-upload-text">Drag & drop image or click to browse</div>
+                                        <div class="file-upload-info">Recommended size: 800x600px, Max size: 2MB</div>
+                                        <input type="file" id="editProductImage" name="productImage" class="file-input" accept="image/*">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Certifications</label>
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="editCertOrganic" name="certifications" value="Organic">
+                                        <label class="form-check-label" for="editCertOrganic">Organic</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="editCertGAP" name="certifications" value="GAP Certified">
+                                        <label class="form-check-label" for="editCertGAP">GAP Certified</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="editCertExport" name="certifications" value="Export Quality">
+                                        <label class="form-check-label" for="editCertExport">Export Quality</label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Product Badge</label>
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="editBadgeNone" name="productBadge" value="none" checked>
+                                        <label class="form-check-label" for="editBadgeNone">None</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="editBadgeBestseller" name="productBadge" value="bestseller">
+                                        <label class="form-check-label" for="editBadgeBestseller">Bestseller</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="editBadgeNew" name="productBadge" value="new">
+                                        <label class="form-check-label" for="editBadgeNew">New</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="editBadgeSeasonal" name="productBadge" value="seasonal">
+                                        <label class="form-check-label" for="editBadgeSeasonal">Seasonal</label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-outline" id="cancelEditProduct">Cancel</button>
+                            <button class="btn btn-primary" id="submitEditProduct">Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- View Product Modal -->
+                <div class="modal-overlay" id="viewProductModal">
+                    <div class="modal">
+                        <div class="modal-header">
+                            <div class="modal-title">Product Details</div>
+                            <button class="modal-close" id="closeViewProductModal">×</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="product-image">
+                                <img id="viewProductImage" src="" alt="Product Image" style="width: 100%; height: auto; border-radius: var(--border-radius-md);">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Product Name</label>
+                                <p id="viewProductName"></p>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Category</label>
+                                <p id="viewProductCategory"></p>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Description</label>
+                                <p id="viewProductDescription"></p>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Retail Price</label>
+                                <p id="viewProductPrice"></p>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Wholesale Price</label>
+                                <p id="viewProductWholesalePrice"></p>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Inventory</label>
+                                <p id="viewProductInventory"></p>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Minimum Order for Wholesale</label>
+                                <p id="viewProductMinOrder"></p>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Certifications</label>
+                                <p id="viewProductCertifications"></p>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Product Badge</label>
+                                <p id="viewProductBadge"></p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-outline" id="closeViewProduct">Close</button>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Import Products Modal -->
                 <div class="modal-overlay" id="importProductsModal">
                     <div class="modal">
                         <div class="modal-header">
                             <div class="modal-title">Import Products</div>
-                            <button class="modal-close" id="closeImportModal">&times;</button>
+                            <button class="modal-close" id="closeImportModal">×</button>
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
@@ -1938,13 +2090,11 @@
                                 <ul style="margin-left: 20px; margin-top: 8px;">
                                     <li>Product Name</li>
                                     <li>Category</li>
-                                    <li>Variety</li>
                                     <li>Description</li>
                                     <li>Price</li>
                                     <li>Wholesale Price</li>
                                     <li>Inventory</li>
                                     <li>Minimum Order</li>
-                                    <li>Origin</li>
                                     <li>Certifications</li>
                                     <li>Badge</li>
                                 </ul>
@@ -1962,955 +2112,849 @@
                     </div>
                 </div>
 
-                <!-- Product Categories Filter -->
-                <div class="section product-categories">
+                <!-- Add Promotion Modal -->
+                <div class="modal-overlay" id="addPromotionModal">
+                    <div class="modal">
+                        <div class="modal-header">
+                            <div class="modal-title">Add New Promotion</div>
+                            <button class="modal-close" id="closeAddPromotionModal">×</button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="addPromotionForm">
+                                <div class="form-group">
+                                    <label class="form-label" for="promotionTitle">Promotion Title *</label>
+                                    <input type="text" class="form-control" id="promotionTitle" name="promotionTitle" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="promotionDescription">Description</label>
+                                    <textarea class="form-control" id="promotionDescription" name="promotionDescription"></textarea>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-col">
+                                        <div class="form-group">
+                                            <label class="form-label" for="promotionDiscount">Discount (%)</label>
+                                            <input type="number" step="0.01" min="0" max="100" class="form-control" id="promotionDiscount" name="promotionDiscount">
+                                        </div>
+                                    </div>
+                                    <div class="form-col">
+                                        <div class="form-group">
+                                            <label class="form-label" for="promotionProduct">Product *</label>
+                                            <select class="form-control" id="promotionProduct" name="promotionProduct" required>
+                                                <option value="">Select Product</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-col">
+                                        <div class="form-group">
+                                            <label class="form-label" for="promotionStartDate">Start Date *</label>
+                                            <input type="date" class="form-control" id="promotionStartDate" name="promotionStartDate" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-col">
+                                        <div class="form-group">
+                                            <label class="form-label" for="promotionEndDate">End Date *</label>
+                                            <input type="date" class="form-control" id="promotionEndDate" name="promotionEndDate" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-outline" id="cancelAddPromotion">Cancel</button>
+                            <button class="btn btn-primary" id="submitAddPromotion">Add Promotion</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Edit Promotion Modal -->
+                <div class="modal-overlay" id="editPromotionModal">
+                    <div class="modal">
+                        <div class="modal-header">
+                            <div class="modal-title">Edit Promotion</div>
+                            <button class="modal-close" id="closeEditPromotionModal">×</button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="editPromotionForm">
+                                <input type="hidden" id="editPromotionId" name="promotionId">
+                                <div class="form-group">
+                                    <label class="form-label" for="editPromotionTitle">Promotion Title *</label>
+                                    <input type="text" class="form-control" id="editPromotionTitle" name="promotionTitle" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="editPromotionDescription">Description</label>
+                                    <textarea class="form-control" id="editPromotionDescription" name="promotionDescription"></textarea>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-col">
+                                        <div class="form-group">
+                                            <label class="form-label" for="editPromotionDiscount">Discount (%)</label>
+                                            <input type="number" step="0.01" min="0" max="100" class="form-control" id="editPromotionDiscount" name="promotionDiscount">
+                                        </div>
+                                    </div>
+                                    <div class="form-col">
+                                        <div class="form-group">
+                                            <label class="form-label" for="editPromotionProduct">Product *</label>
+                                            <select class="form-control" id="editPromotionProduct" name="promotionProduct" required>
+                                                <option value="">Select Product</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-col">
+                                        <div class="form-group">
+                                            <label class="form-label" for="editPromotionStartDate">Start Date *</label>
+                                            <input type="date" class="form-control" id="editPromotionStartDate" name="promotionStartDate" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-col">
+                                        <div class="form-group">
+                                            <label class="form-label" for="editPromotionEndDate">End Date *</label>
+                                            <input type="date" class="form-control" id="editPromotionEndDate" name="promotionEndDate" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-outline" id="cancelEditPromotion">Cancel</button>
+                            <button class="btn btn-primary" id="submitEditPromotion">Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- View Promotion Modal -->
+                <div class="modal-overlay" id="viewPromotionModal">
+                    <div class="modal">
+                        <div class="modal-header">
+                            <div class="modal-title">Promotion Details</div>
+                            <button class="modal-close" id="closeViewPromotionModal">×</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="form-label">Promotion Title</label>
+                                <p id="viewPromotionTitle"></p>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Description</label>
+                                <p id="viewPromotionDescription"></p>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Discount</label>
+                                <p id="viewPromotionDiscount"></p>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Product</label>
+                                <p id="viewPromotionProduct"></p>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Start Date</label>
+                                <p id="viewPromotionStartDate"></p>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">End Date</label>
+                                <p id="viewPromotionEndDate"></p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-outline" id="closeViewPromotion">Close</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Categories Section -->
+                <div class="section product-categories animate__animated animate__fadeIn">
+                    <div class="section-header">
+                        <div class="section-title">Product Categories</div>
+                        <div class="section-actions">
+                            <div class="sort-by">
+                                <label for="sortBy">Sort by:</label>
+                                <select class="form-select" id="sortBy">
+                                    <option value="name-asc">Name (A-Z)</option>
+                                    <option value="name-desc">Name (Z-A)</option>
+                                    <option value="price-asc">Price (Low to High)</option>
+                                    <option value="price-desc">Price (High to Low)</option>
+                                    <option value="inventory-asc">Inventory (Low to High)</option>
+                                    <option value="inventory-desc">Inventory (High to Low)</option>
+                                </select>
+                            </div>
+                            <div class="view-toggle">
+                                <button class="btn btn-icon grid-view active" id="gridViewBtn" aria-label="Grid view">
+                                    <i class="fas fa-th"></i>
+                                </button>
+                                <button class="btn btn-icon list-view" id="listViewBtn" aria-label="List view">
+                                    <i class="fas fa-list"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                     <div class="filter-tabs">
-                        <div class="filter-tab active" data-filter="all">All Products</div>
-                        <div class="filter-tab" data-filter="vegetables">Vegetables</div>
-                        <div class="filter-tab" data-filter="fruits">Fruits</div>
-                        <div class="filter-tab" data-filter="grains">Dairy</div>
-                        <div class="filter-tab" data-filter="grains">Grains</div>
-                        <div class="filter-tab" data-filter="value-added">Value Added</div>
+                        <div class="filter-tab active" data-category="all">All</div>
+                        <div class="filter-tab" data-category="vegetables">Vegetables</div>
+                        <div class="filter-tab" data-category="fruits">Fruits</div>
+                        <div class="filter-tab" data-category="dairy">Dairy</div>
+                        <div class="filter-tab" data-category="grains">Grains</div>
+                        <div class="filter-tab" data-category="value-added">Value-Added</div>
                     </div>
-                    <div class="filter-actions">
-                        <div class="sort-by">
-                            <label for="sortSelect">Sort by:</label>
-                            <select id="sortSelect" class="form-select">
-                                <option value="newest">Newest</option>
-                                <option value="popularity">Popularity</option>
-                                <option value="price-high">Price: High to Low</option>
-                                <option value="price-low">Price: Low to High</option>
-                                <option value="inventory">Inventory</option>
-                            </select>
-                        </div>
-                        <div class="view-toggle">
-                            <button class="btn btn-icon active" id="gridViewBtn">
-                                <i class="fas fa-th-large"></i>
-                            </button>
-                            <button class="btn btn-icon" id="listViewBtn">
-                                <i class="fas fa-list"></i>
+                    <div class="products-grid" id="productsGrid">
+                        <!-- Product cards will be dynamically added here -->
+                    </div>
+                </div>
+
+                <!-- Product Marketing Section -->
+                <div class="section product-marketing animate__animated animate__fadeIn">
+                    <div class="section-header">
+                        <div class="section-title">Product Marketing</div>
+                        <div class="section-actions">
+                            <button class="btn btn-primary" id="addPromotionBtn">
+                                <i class="fas fa-plus"></i> Add New Promotion
                             </button>
                         </div>
                     </div>
-                </div>
-
-                <!-- Products Grid -->
-                <div class="section products-grid" id="productsGrid">
-                    <div class="product-card animate__animated animate__fadeIn" data-product-id="1" data-category="vegetables">
-                        <div class="product-badge bestseller">Bestseller</div>
-                        <div class="product-image">
-                            <img src="https://images.pexels.com/photos/533280/pexels-photo-533280.jpeg" alt="Organic Tomatoes">
-                            <div class="product-inventory">
-                                <span class="inventory-label">In Stock:</span>
-                                <span class="inventory-value">120 kg</span>
-                            </div>
-                        </div>
-                        <div class="product-content">
-                            <div class="product-header">
-                                <h3 class="product-name">Organic Tomatoes</h3>
-                                <div class="product-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
-                                    <span>(28)</span>
-                                </div>
-                            </div>
-                            <div class="product-info">
-                                <div class="product-variety">Roma Variety</div>
-                                <div class="product-description">
-                                    Freshly harvested organic tomatoes, rich in flavor and nutrients.
-                                </div>
-                                <div class="product-origin">
-                                    <i class="fas fa-map-marker-alt"></i> Northern Field
-                                </div>
-                                <div class="product-certifications">
-                                    <span class="certification">
-                                        <i class="fas fa-certificate"></i> Organic
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="product-pricing">
-                                <div class="product-price">₱75.00 / kg</div>
-                                <div class="product-wholesale">Wholesale: ₱65.00 / kg (50+ kg)</div>
-                            </div>
-                            <div class="product-actions">
-                                <button class="btn btn-primary edit-product" data-product-id="1">
-                                    <i class="fas fa-edit"></i> Edit
-                                </button>
-                                <button class="btn btn-outline view-product" data-product-id="1">
-                                    <i class="fas fa-eye"></i> View Details
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="product-card animate__animated animate__fadeIn" data-product-id="2" data-category="vegetables">
-                        <div class="product-badge new">New</div>
-                        <div class="product-image">
-                            <img src="https://images.pexels.com/photos/594137/pexels-photo-594137.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Bell Peppers">
-                            <div class="product-inventory">
-                                <span class="inventory-label">In Stock:</span>
-                                <span class="inventory-value">85 kg</span>
-                            </div>
-                        </div>
-                        <div class="product-content">
-                            <div class="product-header">
-                                <h3 class="product-name">Bell Peppers</h3>
-                                <div class="product-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <span>(12)</span>
-                                </div>
-                            </div>
-                            <div class="product-info">
-                                <div class="product-variety">Mixed Colors</div>
-                                <div class="product-description">
-                                    Colorful bell peppers - red, yellow, and green varieties, crisp and sweet.
-                                </div>
-                                <div class="product-origin">
-                                    <i class="fas fa-map-marker-alt"></i> Northern Field
-                                </div>
-                                <div class="product-certifications">
-                                    <span class="certification">
-                                        <i class="fas fa-certificate"></i> GAP Certified
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="product-pricing">
-                                <div class="product-price">₱120.00 / kg</div>
-                                <div class="product-wholesale">Wholesale: ₱100.00 / kg (30+ kg)</div>
-                            </div>
-                            <div class="product-actions">
-                                <button class="btn btn-primary edit-product" data-product-id="2">
-                                    <i class="fas fa-edit"></i> Edit
-                                </button>
-                                <button class="btn btn-outline view-product" data-product-id="2">
-                                    <i class="fas fa-eye"></i> View Details
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="product-card animate__animated animate__fadeIn" data-product-id="3" data-category="fruits">
-                        <div class="product-badge seasonal">Seasonal</div>
-                        <div class="product-image">
-                            <img src="https://images.pexels.com/photos/2294471/pexels-photo-2294471.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Premium Mangoes">
-                            <div class="product-inventory">
-                                <span class="inventory-label">In Stock:</span>
-                                <span class="inventory-value">210 kg</span>
-                            </div>
-                        </div>
-                        <div class="product-content">
-                            <div class="product-header">
-                                <h3 class="product-name">Premium Mangoes</h3>
-                                <div class="product-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <span>(36)</span>
-                                </div>
-                            </div>
-                            <div class="product-info">
-                                <div class="product-variety">Carabao Variety</div>
-                                <div class="product-description">
-                                    Sweet and juicy premium mangoes, perfect ripeness for immediate consumption.
-                                </div>
-                                <div class="product-origin">
-                                    <i class="fas fa-map-marker-alt"></i> Orchard
-                                </div>
-                                <div class="product-certifications">
-                                    <span class="certification">
-                                        <i class="fas fa-certificate"></i> Organic
-                                    </span>
-                                    <span class="certification">
-                                        <i class="fas fa-certificate"></i> Export Quality
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="product-pricing">
-                                <div class="product-price">₱180.00 / kg</div>
-                                <div class="product-wholesale">Wholesale: ₱150.00 / kg (25+ kg)</div>
-                            </div>
-                            <div class="product-actions">
-                                <button class="btn btn-primary edit-product" data-product-id="3">
-                                    <i class="fas fa-edit"></i> Edit
-                                </button>
-                                <button class="btn btn-outline view-product" data-product-id="3">
-                                    <i class="fas fa-eye"></i> View Details
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="product-card animate__animated animate__fadeIn" data-product-id="4" data-category="fruits">
-                        <div class="product-image">
-                            <img src="https://images.pexels.com/photos/2228553/pexels-photo-2228553.jpeg" alt="Organic Avocados">
-                            <div class="product-inventory">
-                                <span class="inventory-label">In Stock:</span>
-                                <span class="inventory-value">95 kg</span>
-                            </div>
-                        </div>
-                        <div class="product-content">
-                            <div class="product-header">
-                                <h3 class="product-name">Organic Avocados</h3>
-                                <div class="product-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <span>(22)</span>
-                                </div>
-                            </div>
-                            <div class="product-info">
-                                <div class="product-variety">Hass Variety</div>
-                                <div class="product-description">
-                                    Creamy and nutritious avocados, perfect for salads and guacamole.
-                                </div>
-                                <div class="product-origin">
-                                    <i class="fas fa-map-marker-alt"></i> Orchard
-                                </div>
-                                <div class="product-certifications">
-                                    <span class="certification">
-                                        <i class="fas fa-certificate"></i> Organic
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="product-pricing">
-                                <div class="product-price">₱200.00 / kg</div>
-                                <div class="product-wholesale">Wholesale: ₱180.00 / kg (20+ kg)</div>
-                            </div>
-                            <div class="product-actions">
-                                <button class="btn btn-primary edit-product" data-product-id="4">
-                                    <i class="fas fa-edit"></i> Edit
-                                </button>
-                                <button class="btn btn-outline view-product" data-product-id="4">
-                                    <i class="fas fa-eye"></i> View Details
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="product-card animate__animated animate__fadeIn" data-product-id="5" data-category="grains">
-                        <div class="product-badge bestseller">Bestseller</div>
-                        <div class="product-image">
-                            <img src="https://images.pexels.com/photos/4110251/pexels-photo-4110251.jpeg" alt="Premium Rice">
-                            <div class="product-inventory">
-                                <span class="inventory-label">In Stock:</span>
-                                <span class="inventory-value">750 kg</span>
-                            </div>
-                        </div>
-                        <div class="product-content">
-                            <div class="product-header">
-                                <h3 class="product-name">Premium Rice</h3>
-                                <div class="product-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
-                                    <span>(45)</span>
-                                </div>
-                            </div>
-                            <div class="product-info">
-                                <div class="product-variety">Jasmine Variety</div>
-                                <div class="product-description">
-                                    Aromatic and fluffy jasmine rice, locally grown and freshly milled.
-                                </div>
-                                <div class="product-origin">
-                                    <i class="fas fa-map-marker-alt"></i> Southern Field
-                                </div>
-                                <div class="product-certifications">
-                                    <span class="certification">
-                                        <i class="fas fa-certificate"></i> GAP Certified
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="product-pricing">
-                                <div class="product-price">₱65.00 / kg</div>
-                                <div class="product-wholesale">Wholesale: ₱55.00 / kg (100+ kg)</div>
-                            </div>
-                            <div class="product-actions">
-                                <button class="btn btn-primary edit-product" data-product-id="5">
-                                    <i class="fas fa-edit"></i> Edit
-                                </button>
-                                <button class="btn btn-outline view-product" data-product-id="5">
-                                    <i class="fas fa-eye"></i> View Details
-                                </button>
-                            </div>
-                        </div>
+                    <div class="promotion-grid" id="promotionGrid">
+                        <!-- Promotion cards will be dynamically added here -->
                     </div>
                 </div>
-    
-                    <!-- Product Marketing Section -->
-                    <div class="section product-marketing">
-                        <div class="section-header">
-                            <div class="section-title">Product Marketing</div>
-                            <div class="section-actions">
-                                <button class="btn btn-primary" id="addPromotionBtn">
-                                    <i class="fas fa-plus"></i> Add Promotion
-                                </button>
-                            </div>
-                        </div>
-                        <div class="promotion-grid" id="promotionGrid">
-                            <div class="promotion-card animate__animated animate__fadeIn" data-promotion-id="1">
-                                <div class="promotion-title">Summer Veggie Sale</div>
-                                <div class="promotion-details">
-                                    Offer 20% off on all vegetables until the end of summer. Boost your sales now!
-                                </div>
-                                <div class="promotion-actions">
-                                    <button class="btn btn-primary edit-promotion" data-promotion-id="1">
-                                        <i class="fas fa-edit"></i> Edit
-                                    </button>
-                                    <button class="btn btn-outline view-promotion" data-promotion-id="1">
-                                        <i class="fas fa-eye"></i> View Details
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="promotion-card animate__animated animate__fadeIn" data-promotion-id="2">
-                                <div class="promotion-title">Mango Mania</div>
-                                <div class="promotion-details">
-                                    Buy 5kg of Premium Mangoes, get 1kg free! Limited time offer.
-                                </div>
-                                <div class="promotion-actions">
-                                    <button class="btn btn-primary edit-promotion" data-promotion-id="2">
-                                        <i class="fas fa-edit"></i> Edit
-                                    </button>
-                                    <button class="btn btn-outline view-promotion" data-promotion-id="2">
-                                        <i class="fas fa-eye"></i> View Details
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-    
-                <!-- Footer -->
-                <div class="footer">
-                    <div class="footer-content">
-                        <p>&copy; 2025 AgriGo. All rights reserved.</p>
-                        <div class="footer-links">
-                            <a href="#terms">Terms of Service</a>
-                            <a href="#privacy">Privacy Policy</a>
-                            <a href="#contact">Contact Us</a>
-                        </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="footer">
+                <div class="footer-content">
+                    <p>&copy; 2025 AgriGo. All rights reserved.</p>
+                    <div class="footer-links">
+                        <a href="#terms">Terms of Service</a>
+                        <a href="#privacy">Privacy Policy</a>
+                        <a href="#contact">Contact Us</a>
                     </div>
                 </div>
             </div>
         </div>
-    
-        <!-- Toast Container -->
-        <div class="toast-container" id="toastContainer"></div>
-    
-        <script>
-            // Utility Functions
-            const $ = (selector, context = document) => context.querySelector(selector);
-            const $$ = (selector, context = document) => Array.from(context.querySelectorAll(selector));
-            const toggleClass = (element, className) => element.classList.toggle(className);
-            const removeClass = (elements, className) => elements.forEach(el => el.classList.remove(className));
-            const addClass = (element, className) => element.classList.add(className);
+    </div>
 
-            // Toast Notification
-            function showToast(message, type = 'success', duration = 3000) {
-                const toast = document.createElement('div');
-                toast.className = `toast toast-${type}`;
-                toast.innerHTML = `${message}<i class="fas fa-times"></i>`;
-                $('#toastContainer').appendChild(toast);
-                setTimeout(() => {
-                    toast.style.animation = 'slideOut 0.3s ease';
-                    setTimeout(() => toast.remove(), 300);
-                }, duration);
-                toast.querySelector('i').addEventListener('click', () => {
-                    toast.style.animation = 'slideOut 0.3s ease';
-                    setTimeout(() => toast.remove(), 300);
-                });
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // Simulated product data
+        let products = [
+            {
+                id: 1,
+                name: "Organic Tomatoes",
+                category: "vegetables",
+                description: "Fresh, juicy organic tomatoes grown without pesticides.",
+                price: 120,
+                wholesalePrice: 100,
+                inventory: 50,
+                minOrder: 10,
+                image: "https://images.pexels.com/photos/1327838/pexels-photo-1327838.jpeg?auto=compress&cs=tinysrgb&w=600",
+                certifications: ["Organic", "GAP Certified"],
+                badge: "bestseller",
+                rating: 4.8
+            },
+            {
+                id: 2,
+                name: "Mangoes",
+                category: "fruits",
+                description: "Sweet and ripe mangoes from local orchards.",
+                price: 150,
+                wholesalePrice: 130,
+                inventory: 30,
+                minOrder: 15,
+                image: "https://images.pexels.com/photos/2294471/pexels-photo-2294471.jpeg?auto=compress&cs=tinysrgb&w=600",
+                certifications: ["Export Quality"],
+                badge: "seasonal",
+                rating: 4.5
             }
+        ];
 
-            // Toggle Sidebar
-            function toggleSidebar() {
-                const sidebar = $('#sidebar');
-                const mainContent = $('#main-content');
-                const overlay = $('#overlay');
-                toggleClass(sidebar, 'sidebar-collapsed');
-                toggleClass(mainContent, 'main-content-expanded');
-                toggleClass(overlay, 'active');
-                $('#menu-toggle i').className = sidebar.classList.contains('sidebar-collapsed') ? 'fas fa-chevron-right' : 'fas fa-chevron-left';
+        // Simulated promotion data
+        let promotions = [
+            {
+                id: 1,
+                title: "Tomato Fest",
+                description: "Get 20% off on all tomato products!",
+                discount: 20,
+                productId: 1,
+                startDate: "2025-05-01",
+                endDate: "2025-05-15"
             }
+        ];
 
-            // Mobile Menu Toggle
-            function toggleMobileMenu() {
-                const sidebar = $('#sidebar');
-                const overlay = $('#overlay');
-                toggleClass(sidebar, 'active');
-                toggleClass(overlay, 'active');
-            }
+        // Utility function to show toast notifications
+        function showToast(message, type = "success") {
+            const toastContainer = document.getElementById("toastContainer");
+            const toast = document.createElement("div");
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = `
+                ${message}
+                <i class="fas fa-times" onclick="this.parentElement.remove()"></i>
+            `;
+            toastContainer.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.add("slide-out");
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
 
-            // Close Dropdowns
-            function closeDropdowns(exclude = null) {
-                const dropdowns = $$('.notification-dropdown, .user-dropdown');
-                dropdowns.forEach(dropdown => {
-                    if (dropdown !== exclude) {
-                        removeClass([dropdown], 'show');
-                    }
-                });
-            }
+        // Function to render products
+        function renderProducts(category = "all") {
+            const productsGrid = document.getElementById("productsGrid");
+            productsGrid.innerHTML = "";
+            const filteredProducts = category === "all" ? products : products.filter(p => p.category === category);
 
-            // Logout Functionality
-            const userDropdownLogout = $("#userDropdownLogout");
-            if (userDropdownLogout)
-            userDropdownLogout.addEventListener("click", (e) => {
-                e.preventDefault();
-                showToast("Logged out successfully!", "success");
-                setTimeout(
-                () => (window.location.href = "/templates/login.html"),
-                2000
-                );
+            filteredProducts.forEach(product => {
+                const productCard = document.createElement("div");
+                productCard.className = "product-card";
+                productCard.innerHTML = `
+                    ${product.badge !== "none" ? `<div class="product-badge ${product.badge}">${product.badge.charAt(0).toUpperCase() + product.badge.slice(1)}</div>` : ""}
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}">
+                        <div class="product-inventory">
+                            <span class="inventory-label">Stock:</span>
+                            <span class="inventory-value">${product.inventory} kg</span>
+                        </div>
+                    </div>
+                    <div class="product-content">
+                        <div class="product-header">
+                            <h3 class="product-name">${product.name}</h3>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i> ${product.rating} <span>(120)</span>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <p class="product-description">${product.description}</p>
+                            <div class="product-certifications">
+                                ${product.certifications.map(cert => `<span class="certification"><i class="fas fa-leaf"></i> ${cert}</span>`).join("")}
+                            </div>
+                        </div>
+                        <div class="product-pricing">
+                            <div class="product-price">₱${product.price}/kg</div>
+                            ${product.wholesalePrice ? `<div class="product-wholesale">Wholesale: ₱${product.wholesalePrice}/kg (Min ${product.minOrder}kg)</div>` : ""}
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn btn-outline view-product" data-id="${product.id}">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                            <button class="btn btn-outline edit-product" data-id="${product.id}">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="btn btn-outline delete-product" data-id="${product.id}">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                `;
+                productsGrid.appendChild(productCard);
             });
 
-            // Filter Products
-            function filterProducts(category) {
-                const products = $$('.product-card');
-                products.forEach(product => {
-                    const productCategory = product.dataset.category;
-                    product.style.display = (category === 'all' || productCategory === category) ? 'block' : 'none';
-                    if (product.style.display === 'block') {
-                        product.classList.add('animate__animated', 'animate__fadeIn');
-                    }
-                });
-            }
+            // Add event listeners for product actions
+            document.querySelectorAll(".view-product").forEach(btn => {
+                btn.addEventListener("click", () => viewProduct(btn.dataset.id));
+            });
+            document.querySelectorAll(".edit-product").forEach(btn => {
+                btn.addEventListener("click", () => editProduct(btn.dataset.id));
+            });
+            document.querySelectorAll(".delete-product").forEach(btn => {
+                btn.addEventListener("click", () => deleteProduct(btn.dataset.id));
+            });
+        }
 
-            // Search Products
-            function searchProducts(query) {
-                const products = $$('.product-card');
-                query = query.toLowerCase();
-                products.forEach(product => {
-                    const name = product.querySelector('.product-name').textContent.toLowerCase();
-                    const variety = product.querySelector('.product-variety').textContent.toLowerCase();
-                    const origin = product.querySelector('.product-origin').textContent.toLowerCase();
-                    const certifications = product.querySelector('.product-certifications').textContent.toLowerCase();
-                    const match = name.includes(query) || variety.includes(query) || origin.includes(query) || certifications.includes(query);
-                    product.style.display = match ? 'block' : 'none';
-                    if (match) {
-                        product.classList.add('animate__animated', 'animate__fadeIn');
-                    }
-                });
-            }
+        // Function to render promotions
+        function renderPromotions() {
+            const promotionGrid = document.getElementById("promotionGrid");
+            promotionGrid.innerHTML = "";
+            promotions.forEach(promo => {
+                const product = products.find(p => p.id === promo.productId);
+                const promotionCard = document.createElement("div");
+                promotionCard.className = "promotion-card";
+                promotionCard.innerHTML = `
+                    <div class="promotion-title">${promo.title}</div>
+                    <div class="promotion-details">
+                        <p>${promo.description}</p>
+                        <p>Discount: ${promo.discount}%</p>
+                        <p>Product: ${product ? product.name : "N/A"}</p>
+                        <p>Duration: ${promo.startDate} to ${promo.endDate}</p>
+                    </div>
+                    <div class="promotion-actions">
+                        <button class="btn btn-outline view-promotion" data-id="${promo.id}">
+                            <i class="fas fa-eye"></i> View
+                        </button>
+                        <button class="btn btn-outline edit-promotion" data-id="${promo.id}">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="btn btn-outline delete-promotion" data-id="${promo.id}">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </div>
+                `;
+                promotionGrid.appendChild(promotionCard);
+            });
 
-            // Sort Products
-            function sortProducts(criteria) {
-                const productsGrid = $('#productsGrid');
-                const products = Array.from($$('.product-card', productsGrid));
-                products.sort((a, b) => {
-                    if (criteria === 'newest') {
-                        return parseInt(b.dataset.productId) - parseInt(a.dataset.productId);
-                    } else if (criteria === 'popularity') {
-                        const ratingA = parseInt(a.querySelector('.product-rating span').textContent.replace(/[()]/g, '')) || 0;
-                        const ratingB = parseInt(b.querySelector('.product-rating span').textContent.replace(/[()]/g, '')) || 0;
-                        return ratingB - ratingA;
-                    } else if (criteria === 'price-high' || criteria === 'price-low') {
-                        const priceA = parseFloat(a.querySelector('.product-price').textContent.replace(/[^\d.]/g, '')) || 0;
-                        const priceB = parseFloat(b.querySelector('.product-price').textContent.replace(/[^\d.]/g, '')) || 0;
-                        return criteria === 'price-high' ? priceB - priceA : priceA - priceB;
-                    } else if (criteria === 'inventory') {
-                        const invA = parseFloat(a.querySelector('.inventory-value').textContent) || 0;
-                        const invB = parseFloat(b.querySelector('.inventory-value').textContent) || 0;
-                        return invB - invA;
-                    }
-                    return 0;
-                });
-                productsGrid.innerHTML = '';
-                products.forEach(product => productsGrid.appendChild(product));
-            }
+            // Add event listeners for promotion actions
+            document.querySelectorAll(".view-promotion").forEach(btn => {
+                btn.addEventListener("click", () => viewPromotion(btn.dataset.id));
+            });
+            document.querySelectorAll(".edit-promotion").forEach(btn => {
+                btn.addEventListener("click", () => editPromotion(btn.dataset.id));
+            });
+            document.querySelectorAll(".delete-promotion").forEach(btn => {
+                btn.addEventListener("click", () => deletePromotion(btn.dataset.id));
+            });
+        }
 
-            // Toggle View
-            function toggleView(view) {
-                const productsGrid = $('#productsGrid');
-                const gridBtn = $('#gridViewBtn');
-                const listBtn = $('#listViewBtn');
-                if (view === 'grid') {
-                    removeClass([productsGrid], 'list-view');
-                    addClass(gridBtn, 'active');
-                    removeClass([listBtn], 'active');
-                } else {
-                    addClass(productsGrid, 'list-view');
-                    addClass(listBtn, 'active');
-                    removeClass([gridBtn], 'active');
-                }
-                localStorage.setItem('productView', view);
-            }
+        // Function to view product details
+        function viewProduct(id) {
+            const product = products.find(p => p.id == id);
+            if (product) {
+                document.getElementById("viewProductImage").src = product.image;
+                document.getElementById("viewProductName").textContent = product.name;
+                document.getElementById("viewProductCategory").textContent = product.category.charAt(0).toUpperCase() + product.category.slice(1);
+                document.getElementById("viewProductDescription").textContent = product.description || "No description available.";
+                document.getElementById("viewProductPrice").textContent = `₱${product.price}/kg`;
+                document.getElementById("viewProductWholesalePrice").textContent = product.wholesalePrice ? `₱${product.wholesalePrice}/kg` : "N/A";
+                document.getElementById("viewProductInventory").textContent = `${product.inventory} kg`;
+                document.getElementById("viewProductMinOrder").textContent = product.minOrder ? `${product.minOrder} kg` : "N/A";
+                document.getElementById("viewProductCertifications").textContent = product.certifications.join(", ") || "None";
+                document.getElementById("viewProductBadge").textContent = product.badge.charAt(0).toUpperCase() + product.badge.slice(1) || "None";
 
-            // Modal Functions
-            function openModal(modalId) {
-                const modal = $(`#${modalId}`);
-                if (!modal) return;
-                
-                addClass(modal, 'active');
-                document.body.style.overflow = 'hidden';
-                
-                // Animation
-                setTimeout(() => {
-                    const modalContent = modal.querySelector('.modal');
-                    addClass(modalContent, 'animate__animated');
-                    addClass(modalContent, 'animate__fadeInUp');
-                }, 10);
+                const modal = document.getElementById("viewProductModal");
+                modal.classList.add("active");
             }
+        }
 
-            function closeModal(modalId) {
-                const modal = $(`#${modalId}`);
-                if (!modal) return;
-                
-                const modalContent = modal.querySelector('.modal');
-                removeClass([modalContent], 'animate__fadeInUp');
-                addClass(modalContent, 'animate__fadeOutDown');
-                
-                setTimeout(() => {
-                    removeClass([modal], 'active');
-                    removeClass([modalContent], 'animate__animated');
-                    removeClass([modalContent], 'animate__fadeOutDown');
-                    document.body.style.overflow = '';
-                }, 300);
+        // Function to edit product
+        function editProduct(id) {
+            const product = products.find(p => p.id == id);
+            if (product) {
+                document.getElementById("editProductId").value = product.id;
+                document.getElementById("editProductName").value = product.name;
+                document.getElementById("editProductCategory").value = product.category;
+                document.getElementById("editProductDescription").value = product.description || "";
+                document.getElementById("editProductPrice").value = product.price;
+                document.getElementById("editProductWholesalePrice").value = product.wholesalePrice || "";
+                document.getElementById("editProductInventory").value = product.inventory;
+                document.getElementById("editProductMinOrder").value = product.minOrder || "";
+                document.getElementById("editCertOrganic").checked = product.certifications.includes("Organic");
+                document.getElementById("editCertGAP").checked = product.certifications.includes("GAP Certified");
+                document.getElementById("editCertExport").checked = product.certifications.includes("Export Quality");
+                document.getElementById(`editBadge${product.badge.charAt(0).toUpperCase() + product.badge.slice(1)}`).checked = true;
+
+                const modal = document.getElementById("editProductModal");
+                modal.classList.add("active");
             }
+        }
 
-            // File Upload Handler
-            function initFileUpload(uploadElementId, fileInputId) {
-                const uploadArea = $(`#${uploadElementId}`);
-                const fileInput = $(`#${fileInputId}`);
-                
-                if (!uploadArea || !fileInput) return;
-                
-                uploadArea.addEventListener('click', () => {
-                    fileInput.click();
-                });
-                
-                uploadArea.addEventListener('dragover', (e) => {
-                    e.preventDefault();
-                    addClass(uploadArea, 'drag-over');
-                });
-                
-                uploadArea.addEventListener('dragleave', () => {
-                    removeClass([uploadArea], 'drag-over');
-                });
-                
-                uploadArea.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    removeClass([uploadArea], 'drag-over');
-                    
-                    if (e.dataTransfer.files.length) {
-                        fileInput.files = e.dataTransfer.files;
-                        handleFileSelection(fileInput, uploadArea);
-                    }
-                });
-                
-                fileInput.addEventListener('change', () => {
-                    handleFileSelection(fileInput, uploadArea);
-                });
+        // Function to delete product
+        function deleteProduct(id) {
+            if (confirm("Are you sure you want to delete this product?")) {
+                products = products.filter(p => p.id != id);
+                renderProducts(document.querySelector(".filter-tab.active").dataset.category);
+                showToast("Product deleted successfully", "success");
             }
+        }
 
-            function handleFileSelection(fileInput, uploadArea) {
-                if (fileInput.files.length > 0) {
-                    const file = fileInput.files[0];
-                    
-                    // Image preview for product image upload
-                    if (fileInput.accept && fileInput.accept.includes('image') && file.type.match('image.*')) {
-                        const reader = new FileReader();
-                        reader.onload = (e) => {
-                            uploadArea.innerHTML = `
-                                <div class="preview-image" style="background-image: url('${e.target.result}')"></div>
-                                <div class="file-upload-info">${file.name} (${formatFileSize(file.size)})</div>
-                                <div class="remove-file"><i class="fas fa-times"></i> Remove</div>
-                            `;
-                            
-                            uploadArea.querySelector('.remove-file').addEventListener('click', (e) => {
-                                e.stopPropagation();
-                                resetFileUpload(fileInput, uploadArea, 'image');
-                            });
-                        };
-                        reader.readAsDataURL(file);
-                    } 
-                    // For non-image files (CSV, Excel)
-                    else {
-                        uploadArea.innerHTML = `
-                            <i class="fas fa-file-alt"></i>
-                            <div class="file-upload-text">${file.name}</div>
-                            <div class="file-upload-info">${formatFileSize(file.size)}</div>
-                            <div class="remove-file"><i class="fas fa-times"></i> Remove</div>
-                        `;
-                        
-                        uploadArea.querySelector('.remove-file').addEventListener('click', (e) => {
-                            e.stopPropagation();
-                            resetFileUpload(fileInput, uploadArea, 'file');
-                        });
-                    }
-                }
+        // Function to view promotion details
+        function viewPromotion(id) {
+            const promo = promotions.find(p => p.id == id);
+            if (promo) {
+                const product = products.find(p => p.id === promo.productId);
+                document.getElementById("viewPromotionTitle").textContent = promo.title;
+                document.getElementById("viewPromotionDescription").textContent = promo.description || "No description available.";
+                document.getElementById("viewPromotionDiscount").textContent = `${promo.discount}%` || "N/A";
+                document.getElementById("viewPromotionProduct").textContent = product ? product.name : "N/A";
+                document.getElementById("viewPromotionStartDate").textContent = promo.startDate;
+                document.getElementById("viewPromotionEndDate").textContent = promo.endDate;
+
+                const modal = document.getElementById("viewPromotionModal");
+                modal.classList.add("active");
             }
+        }
 
-            function resetFileUpload(fileInput, uploadArea, type) {
-                fileInput.value = '';
-                
-                if (type === 'image') {
-                    uploadArea.innerHTML = `
-                        <i class="fas fa-cloud-upload-alt"></i>
-                        <div class="file-upload-text">Drag & drop image or click to browse</div>
-                        <div class="file-upload-info">Recommended size: 800x600px, Max size: 2MB</div>
-                    `;
-                } else {
-                    uploadArea.innerHTML = `
-                        <i class="fas fa-file-import"></i>
-                        <div class="file-upload-text">Drag & drop file or click to browse</div>
-                        <div class="file-upload-info">Accepted formats: .csv, .xlsx, .xls</div>
-                    `;
-                }
+        // Function to edit promotion
+        function editPromotion(id) {
+            const promo = promotions.find(p => p.id == id);
+            if (promo) {
+                document.getElementById("editPromotionId").value = promo.id;
+                document.getElementById("editPromotionTitle").value = promo.title;
+                document.getElementById("editPromotionDescription").value = promo.description || "";
+                document.getElementById("editPromotionDiscount").value = promo.discount || "";
+                document.getElementById("editPromotionProduct").value = promo.productId;
+                document.getElementById("editPromotionStartDate").value = promo.startDate;
+                document.getElementById("editPromotionEndDate").value = promo.endDate;
+
+                const modal = document.getElementById("editPromotionModal");
+                modal.classList.add("active");
             }
+        }
 
-            function formatFileSize(bytes) {
-                if (bytes < 1024) return bytes + ' bytes';
-                else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
-                else return (bytes / 1048576).toFixed(1) + ' MB';
+        // Function to delete promotion
+        function deletePromotion(id) {
+            if (confirm("Are you sure you want to delete this promotion?")) {
+                promotions = promotions.filter(p => p.id != id);
+                renderPromotions();
+                showToast("Promotion deleted successfully", "success");
             }
+        }
 
-            // Form Validation
-            function validateProductForm() {
-                const requiredFields = ['productName', 'productCategory', 'productPrice', 'productInventory'];
-                let isValid = true;
-                
-                requiredFields.forEach(field => {
-                    const input = $(`#${field}`);
-                    if (!input) return;
-                    
-                    const formGroup = input.closest('.form-group');
-                    
-                    if (!input.value.trim()) {
-                        addClass(formGroup, 'has-error');
-                        if (!formGroup.querySelector('.error-message')) {
-                            const errorMsg = document.createElement('div');
-                            errorMsg.className = 'error-message';
-                            errorMsg.textContent = 'This field is required';
-                            formGroup.appendChild(errorMsg);
-                        }
-                        isValid = false;
-                    } else {
-                        removeClass([formGroup], 'has-error');
-                        const errorMsg = formGroup.querySelector('.error-message');
-                        if (errorMsg) errorMsg.remove();
-                    }
-                });
-                
-                return isValid;
-            }
+        // Event listeners for modals
+        document.getElementById("addProductBtn").addEventListener("click", () => {
+            document.getElementById("addProductModal").classList.add("active");
+        });
 
-            // Handle Form Submission
-            function handleProductFormSubmit() {
-                if (!validateProductForm()) {
-                    showToast('Please fill in all required fields', 'error');
-                    return;
-                }
-                
-                // Get form data
-                const formData = {
-                    name: $('#productName').value,
-                    category: $('#productCategory').value,
-                    variety: $('#productVariety').value,
-                    origin: $('#productOrigin').value,
-                    description: $('#productDescription').value,
-                    price: parseFloat($('#productPrice').value),
-                    wholesalePrice: $('#productWholesalePrice').value ? parseFloat($('#productWholesalePrice').value) : null,
-                    inventory: parseFloat($('#productInventory').value),
-                    minOrder: $('#productMinOrder').value ? parseFloat($('#productMinOrder').value) : null,
-                    certifications: Array.from($$('input[name="certifications"]:checked')).map(el => el.value),
-                    badge: $('input[name="productBadge"]:checked')?.value || ''
+        document.getElementById("closeAddProductModal").addEventListener("click", () => {
+            document.getElementById("addProductModal").classList.remove("active");
+        });
+
+        document.getElementById("cancelAddProduct").addEventListener("click", () => {
+            document.getElementById("addProductModal").classList.remove("active");
+        });
+
+        document.getElementById("submitAddProduct").addEventListener("click", (e) => {
+            e.preventDefault();
+            const form = document.getElementById("addProductForm");
+            if (form.checkValidity()) {
+                const certifications = Array.from(form.querySelectorAll('input[name="certifications"]:checked')).map(input => input.value);
+                const newProduct = {
+                    id: products.length + 1,
+                    name: form.productName.value,
+                    category: form.productCategory.value,
+                    description: form.productDescription.value,
+                    price: parseFloat(form.productPrice.value),
+                    wholesalePrice: form.productWholesalePrice.value ? parseFloat(form.productWholesalePrice.value) : null,
+                    inventory: parseFloat(form.productInventory.value),
+                    minOrder: form.productMinOrder.value ? parseFloat(form.productMinOrder.value) : null,
+                    image: form.productImage.files[0] ? URL.createObjectURL(form.productImage.files[0]) : "https://via.placeholder.com/800x600",
+                    certifications: certifications,
+                    badge: form.productBadge.value,
+                    rating: 0
                 };
-                
-                // Here you would typically send this data to your backend API
-                console.log('Product form data:', formData);
-                
-                // For demonstration, we'll just show a success message
-                showToast('Product added successfully!', 'success');
-                closeModal('addProductModal');
-                resetForm('addProductForm');
+                products.push(newProduct);
+                renderProducts(document.querySelector(".filter-tab.active").dataset.category);
+                document.getElementById("addProductModal").classList.remove("active");
+                form.reset();
+                showToast("Product added successfully", "success");
+            } else {
+                form.reportValidity();
             }
+        });
 
-            function handleImportFormSubmit() {
-                const importFile = $('#importFile');
-                if (!importFile || !importFile.files.length) {
-                    showToast('Please select a file to import', 'error');
-                    return;
+        document.getElementById("closeEditProductModal").addEventListener("click", () => {
+            document.getElementById("editProductModal").classList.remove("active");
+        });
+
+        document.getElementById("cancelEditProduct").addEventListener("click", () => {
+            document.getElementById("editProductModal").classList.remove("active");
+        });
+
+        document.getElementById("submitEditProduct").addEventListener("click", (e) => {
+            e.preventDefault();
+            const form = document.getElementById("editProductForm");
+            if (form.checkValidity()) {
+                const id = parseInt(form.productId.value);
+                const productIndex = products.findIndex(p => p.id === id);
+                if (productIndex !== -1) {
+                    const certifications = Array.from(form.querySelectorAll('input[name="certifications"]:checked')).map(input => input.value);
+                    products[productIndex] = {
+                        ...products[productIndex],
+                        name: form.productName.value,
+                        category: form.productCategory.value,
+                        description: form.productDescription.value,
+                        price: parseFloat(form.productPrice.value),
+                        wholesalePrice: form.productWholesalePrice.value ? parseFloat(form.productWholesalePrice.value) : null,
+                        inventory: parseFloat(form.productInventory.value),
+                        minOrder: form.productMinOrder.value ? parseFloat(form.productMinOrder.value) : null,
+                        image: form.productImage.files[0] ? URL.createObjectURL(form.productImage.files[0]) : products[productIndex].image,
+                        certifications: certifications,
+                        badge: form.productBadge.value
+                    };
+                    renderProducts(document.querySelector(".filter-tab.active").dataset.category);
+                    document.getElementById("editProductModal").classList.remove("active");
+                    form.reset();
+                    showToast("Product updated successfully", "success");
                 }
-                
-                const file = importFile.files[0];
-                // Here you would typically send this file to your backend API
-                console.log('Import file:', file);
-                
-                // For demonstration, we'll just show a success message
-                showToast(`Importing ${file.name}...`, 'info');
-                setTimeout(() => {
-                    showToast('Products imported successfully!', 'success');
-                    closeModal('importProductsModal');
-                }, 2000);
+            } else {
+                form.reportValidity();
             }
+        });
 
-            function resetForm(formId) {
-                const form = $(`#${formId}`);
-                if (form) form.reset();
+        document.getElementById("closeViewProductModal").addEventListener("click", () => {
+            document.getElementById("viewProductModal").classList.remove("active");
+        });
+
+        document.getElementById("closeViewProduct").addEventListener("click", () => {
+            document.getElementById("viewProductModal").classList.remove("active");
+        });
+
+        document.getElementById("importProductsBtn").addEventListener("click", () => {
+            document.getElementById("importProductsModal").classList.add("active");
+        });
+
+        document.getElementById("closeImportModal").addEventListener("click", () => {
+            document.getElementById("importProductsModal").classList.remove("active");
+        });
+
+        document.getElementById("cancelImport").addEventListener("click", () => {
+            document.getElementById("importProductsModal").classList.remove("active");
+        });
+
+        document.getElementById("submitImport").addEventListener("click", () => {
+            const fileInput = document.getElementById("importFile");
+            if (fileInput.files.length) {
+                showToast("Products imported successfully", "success");
+                document.getElementById("importProductsModal").classList.remove("active");
+            } else {
+                showToast("Please select a file to import", "error");
             }
+        });
 
-            // Initialize
-            document.addEventListener('DOMContentLoaded', () => {
-                // Sidebar Toggle
-                const menuToggle = $('#menu-toggle');
-                if (menuToggle) menuToggle.addEventListener('click', toggleSidebar);
-                
-                const mobileMenuToggle = $('#mobile-menu-toggle');
-                if (mobileMenuToggle) mobileMenuToggle.addEventListener('click', toggleMobileMenu);
-                
-                const sidebarToggleMobile = $('.sidebar-toggle-mobile');
-                if (sidebarToggleMobile) sidebarToggleMobile.addEventListener('click', toggleMobileMenu);
-                
-                const overlay = $('#overlay');
-                if (overlay) {
-                    overlay.addEventListener('click', () => {
-                        const sidebar = $('#sidebar');
-                        if (sidebar) removeClass([sidebar], 'active');
-                        removeClass([overlay], 'active');
-                        if (sidebar && !sidebar.classList.contains('sidebar-collapsed')) {
-                            toggleSidebar();
-                        }
-                    });
-                }
+        document.getElementById("addPromotionBtn").addEventListener("click", () => {
+            const select = document.getElementById("promotionProduct");
+            select.innerHTML = '<option value="">Select Product</option>';
+            products.forEach(product => {
+                select.innerHTML += `<option value="${product.id}">${product.name}</option>`;
+            });
+            document.getElementById("addPromotionModal").classList.add("active");
+        });
 
-                // Notification Dropdown
-                const notificationIcon = $('#notificationIcon');
-                if (notificationIcon) {
-                    notificationIcon.addEventListener('click', () => {
-                        const notificationDropdown = $('#notificationDropdown');
-                        if (notificationDropdown) {
-                            toggleClass(notificationDropdown, 'show');
-                            closeDropdowns(notificationDropdown);
-                        }
-                    });
-                }
+        document.getElementById("closeAddPromotionModal").addEventListener("click", () => {
+            document.getElementById("addPromotionModal").classList.remove("active");
+        });
 
-                // User Dropdown
-                const userProfile = $('#userProfile');
-                if (userProfile) {
-                    userProfile.addEventListener('click', () => {
-                        const userDropdown = $('#userDropdown');
-                        if (userDropdown) {
-                            toggleClass(userDropdown, 'show');
-                            closeDropdowns(userDropdown);
-                        }
-                    });
-                }
+        document.getElementById("cancelAddPromotion").addEventListener("click", () => {
+            document.getElementById("addPromotionModal").classList.remove("active");
+        });
 
-                // Close Dropdowns on Outside Click
-                document.addEventListener('click', (e) => {
-                    if (!e.target.closest('.notification, .user-profile')) {
-                        closeDropdowns();
-                    }
-                });
+        document.getElementById("submitAddPromotion").addEventListener("click", (e) => {
+            e.preventDefault();
+            const form = document.getElementById("addPromotionForm");
+            if (form.checkValidity()) {
+                const newPromotion = {
+                    id: promotions.length + 1,
+                    title: form.promotionTitle.value,
+                    description: form.promotionDescription.value,
+                    discount: form.promotionDiscount.value ? parseFloat(form.promotionDiscount.value) : null,
+                    productId: parseInt(form.promotionProduct.value),
+                    startDate: form.promotionStartDate.value,
+                    endDate: form.promotionEndDate.value
+                };
+                promotions.push(newPromotion);
+                renderPromotions();
+                document.getElementById("addPromotionModal").classList.remove("active");
+                form.reset();
+                showToast("Promotion added successfully", "success");
+            } else {
+                form.reportValidity();
+            }
+        });
 
-                // Filter Tabs
-                $$('.filter-tab').forEach(tab => {
-                    tab.addEventListener('click', () => {
-                        removeClass($$('.filter-tab'), 'active');
-                        addClass(tab, 'active');
-                        filterProducts(tab.dataset.filter);
-                    });
-                });
+        document.getElementById("closeEditPromotionModal").addEventListener("click", () => {
+            document.getElementById("editPromotionModal").classList.remove("active");
+        });
 
-                // Search with Debounce
-                let searchTimeout;
-                const searchInput = $('#searchInput');
-                if (searchInput) {
-                    searchInput.addEventListener('input', () => {
-                        clearTimeout(searchTimeout);
-                        searchTimeout = setTimeout(() => {
-                            searchProducts(searchInput.value);
-                        }, 300);
-                    });
-                }
+        document.getElementById("cancelEditPromotion").addEventListener("click", () => {
+            document.getElementById("editPromotionModal").classList.remove("active");
+        });
 
-                // Modal event listeners
-                const addProductBtn = $('#addProductBtn');
-                if (addProductBtn) {
-                    addProductBtn.addEventListener('click', () => {
-                        openModal('addProductModal');
-                    });
+        document.getElementById("submitEditPromotion").addEventListener("click", (e) => {
+            e.preventDefault();
+            const form = document.getElementById("editPromotionForm");
+            if (form.checkValidity()) {
+                const id = parseInt(form.promotionId.value);
+                const promoIndex = promotions.findIndex(p => p.id === id);
+                if (promoIndex !== -1) {
+                    promotions[promoIndex] = {
+                        ...promotions[promoIndex],
+                        title: form.promotionTitle.value,
+                        description: form.promotionDescription.value,
+                        discount: form.promotionDiscount.value ? parseFloat(form.promotionDiscount.value) : null,
+                        productId: parseInt(form.promotionProduct.value),
+                        startDate: form.promotionStartDate.value,
+                        endDate: form.promotionEndDate.value
+                    };
+                    renderPromotions();
+                    document.getElementById("editPromotionModal").classList.remove("active");
+                    form.reset();
+                    showToast("Promotion updated successfully", "success");
                 }
-                
-                const closeAddProductModal = $('#closeAddProductModal');
-                if (closeAddProductModal) {
-                    closeAddProductModal.addEventListener('click', () => closeModal('addProductModal'));
-                }
-                
-                const cancelAddProduct = $('#cancelAddProduct');
-                if (cancelAddProduct) {
-                    cancelAddProduct.addEventListener('click', () => closeModal('addProductModal'));
-                }
-                
-                const submitAddProduct = $('#submitAddProduct');
-                if (submitAddProduct) {
-                    submitAddProduct.addEventListener('click', handleProductFormSubmit);
-                }
-                
-                const importProductsBtn = $('#importProductsBtn');
-                if (importProductsBtn) {
-                    importProductsBtn.addEventListener('click', () => {
-                        openModal('importProductsModal');
-                    });
-                }
-                
-                const closeImportModal = $('#closeImportModal');
-                if (closeImportModal) {
-                    closeImportModal.addEventListener('click', () => closeModal('importProductsModal'));
-                }
-                
-                const cancelImport = $('#cancelImport');
-                if (cancelImport) {
-                    cancelImport.addEventListener('click', () => closeModal('importProductsModal'));
-                }
-                
-                const submitImport = $('#submitImport');
-                if (submitImport) {
-                    submitImport.addEventListener('click', handleImportFormSubmit);
-                }
-                
-                // Initialize file uploads
-                initFileUpload('productImageUpload', 'productImage');
-                initFileUpload('importFileUpload', 'importFile');
-                
-                // Template download button
-                const downloadTemplateBtn = $('#downloadTemplateBtn');
-                if (downloadTemplateBtn) {
-                    downloadTemplateBtn.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        // Here you would typically trigger a file download
-                    });
-                }
-                
-                // Close modal on outside click
-                document.addEventListener('click', (e) => {
-                    if (e.target.classList.contains('modal-overlay')) {
-                        const modalId = e.target.id;
-                        closeModal(modalId);
-                    }
-                });
-                
-                // Add input event listeners to clear errors on input
-                $$('.form-control').forEach(input => {
-                    input.addEventListener('input', () => {
-                        const formGroup = input.closest('.form-group');
-                        removeClass([formGroup], 'has-error');
-                        const errorMsg = formGroup.querySelector('.error-message');
-                        if (errorMsg) errorMsg.remove();
-                    });
-                });
+            } else {
+                form.reportValidity();
+            }
+        });
 
-                // Sort
-                const sortSelect = $('#sortSelect');
-                if (sortSelect) {
-                    sortSelect.addEventListener('change', () => {
-                        sortProducts(sortSelect.value);
-                    });
-                }
+        document.getElementById("closeViewPromotionModal").addEventListener("click", () => {
+            document.getElementById("viewPromotionModal").classList.remove("active");
+        });
 
-                // View Toggle
-                const gridViewBtn = $('#gridViewBtn');
-                const listViewBtn = $('#listViewBtn');
-                
-                if (gridViewBtn) {
-                    gridViewBtn.addEventListener('click', () => toggleView('grid'));
-                }
-                
-                if (listViewBtn) {
-                    listViewBtn.addEventListener('click', () => toggleView('list'));
-                }
-                
-                const savedView = localStorage.getItem('productView') || 'grid';
-                toggleView(savedView);
+        document.getElementById("closeViewPromotion").addEventListener("click", () => {
+            document.getElementById("viewPromotionModal").classList.remove("active");
+        });
 
-                // Dark Mode Toggle
-                const darkModeToggle = $('#darkModeToggle');
-                const themeText = $('#themeText');
-                if (darkModeToggle && themeText) {
-                    if (localStorage.getItem('theme') === 'dark') {
-                        addClass(document.body, 'dark-mode');
-                        themeText.textContent = 'Light Mode';
-                    }
-                    darkModeToggle.addEventListener('click', () => {
-                        toggleClass(document.body, 'dark-mode');
-                        const isDark = document.body.classList.contains('dark-mode');
-                        localStorage.setItem('theme', isDark ? 'dark' : 'light');
-                        themeText.textContent = isDark ? 'Light Mode' : 'Dark Mode';
-                    });
-                }
+        // Sidebar toggle
+        document.getElementById("menu-toggle").addEventListener("click", () => {
+            const sidebar = document.getElementById("sidebar");
+            const mainContent = document.getElementById("main-content");
+            sidebar.classList.toggle("sidebar-collapsed");
+            mainContent.classList.toggle("main-content-expanded");
+            const icon = document.querySelector("#menu-toggle i");
+            icon.classList.toggle("fa-chevron-left");
+            icon.classList.toggle("fa-chevron-right");
+        });
 
-                // Button Actions with Event Delegation
-                const productsGrid = $('#productsGrid');
-                if (productsGrid) {
-                    productsGrid.addEventListener('click', (e) => {
-                        const target = e.target.closest('.edit-product, .view-product');
-                        if (target) {
-                            const productId = target.dataset.productId;
-                            if (target.classList.contains('edit-product')) {
-                                showToast(`Editing product ID: ${productId}`, 'info');
-                            } else if (target.classList.contains('view-product')) {
-                                showToast(`Viewing product ID: ${productId}`, 'info');
-                            }
-                        }
-                    });
-                }
+        // Mobile menu toggle
+        document.getElementById("mobile-menu-toggle").addEventListener("click", () => {
+            const sidebar = document.getElementById("sidebar");
+            sidebar.classList.toggle("active");
+            document.getElementById("overlay").classList.toggle("active");
+        });
 
-                const productBundles = $('#productBundles');
-                if (productBundles) {
-                    productBundles.addEventListener('click', (e) => {
-                        const target = e.target.closest('.edit-bundle, .view-bundle');
-                        if (target) {
-                            const bundleId = target.dataset.bundleId;
-                            if (target.classList.contains('edit-bundle')) {
-                                showToast(`Editing bundle ID: ${bundleId}`, 'info');
-                            } else if (target.classList.contains('view-bundle')) {
-                                showToast(`Viewing bundle ID: ${bundleId}`, 'info');
-                            }
-                        }
-                    });
-                }
+        document.querySelector(".sidebar-toggle-mobile").addEventListener("click", () => {
+            const sidebar = document.getElementById("sidebar");
+            sidebar.classList.remove("active");
+            document.getElementById("overlay").classList.remove("active");
+        });
 
-                const promotionGrid = $('#promotionGrid');
-                if (promotionGrid) {
-                    promotionGrid.addEventListener('click', (e) => {
-                        const target = e.target.closest('.edit-promotion, .view-promotion');
-                        if (target) {
-                            const promotionId = target.dataset.promotionId;
-                            if (target.classList.contains('edit-promotion')) {
-                                showToast(`Editing promotion ID: ${promotionId}`, 'info');
-                            } else if (target.classList.contains('view-promotion')) {
-                                showToast(`Viewing promotion ID: ${promotionId}`, 'info');
-                            }
-                        }
-                    });
-                }
+        document.getElementById("overlay").addEventListener("click", () => {
+            const sidebar = document.getElementById("sidebar");
+            sidebar.classList.remove("active");
+            document.getElementById("overlay").classList.remove("active");
+        });
 
-                const createBundleBtn = $('#createBundleBtn');
-                if (createBundleBtn) {
-                    createBundleBtn.addEventListener('click', () => {
-                        showToast('Opening bundle creation form', 'info');
-                    });
-                }
+        // Notification dropdown
+        document.getElementById("notificationIcon").addEventListener("click", () => {
+            document.getElementById("notificationDropdown").classList.toggle("show");
+        });
 
-                const addPromotionBtn = $('#addPromotionBtn');
-                if (addPromotionBtn) {
-                    addPromotionBtn.addEventListener('click', () => {
-                        showToast('Opening promotion creation form', 'info');
-                    });
+        // User dropdown
+        document.getElementById("userProfile").addEventListener("click", () => {
+            document.getElementById("userDropdown").classList.toggle("show");
+        });
+
+        // Dark mode toggle
+        document.getElementById("darkModeToggle").addEventListener("click", () => {
+            document.body.classList.toggle("dark-mode");
+            const themeText = document.getElementById("themeText");
+            themeText.textContent = document.body.classList.contains("dark-mode") ? "Light Mode" : "Dark Mode";
+        });
+
+        // Filter tabs
+        document.querySelectorAll(".filter-tab").forEach(tab => {
+            tab.addEventListener("click", () => {
+                document.querySelector(".filter-tab.active").classList.remove("active");
+                tab.classList.add("active");
+                renderProducts(tab.dataset.category);
+            });
+        });
+
+        // View toggle
+        document.getElementById("gridViewBtn").addEventListener("click", () => {
+            document.getElementById("productsGrid").classList.remove("list-view");
+            document.getElementById("gridViewBtn").classList.add("active");
+            document.getElementById("listViewBtn").classList.remove("active");
+        });
+
+        document.getElementById("listViewBtn").addEventListener("click", () => {
+            document.getElementById("productsGrid").classList.add("list-view");
+            document.getElementById("listViewBtn").classList.add("active");
+            document.getElementById("gridViewBtn").classList.remove("active");
+        });
+
+        // Sort products
+        document.getElementById("sortBy").addEventListener("change", (e) => {
+            const [sortKey, sortOrder] = e.target.value.split("-");
+            products.sort((a, b) => {
+                if (sortKey === "name") {
+                    return sortOrder === "asc" ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
+                } else if (sortKey === "price") {
+                    return sortOrder === "asc" ? a.price - b.price : b.price - a.price;
+                } else if (sortKey === "inventory") {
+                    return sortOrder === "asc" ? a.inventory - b.inventory : b.inventory - a.inventory;
                 }
             });
-        </script>
-    </body>
+            renderProducts(document.querySelector(".filter-tab.active").dataset.category);
+        });
+
+        // Search functionality
+        document.getElementById("searchInput").addEventListener("input", (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredProducts = products.filter(p => p.name.toLowerCase().includes(searchTerm) || p.description.toLowerCase().includes(searchTerm));
+            const productsGrid = document.getElementById("productsGrid");
+            productsGrid.innerHTML = "";
+            filteredProducts.forEach(product => {
+                const productCard = document.createElement("div");
+                productCard.className = "product-card";
+                productCard.innerHTML = `
+                    ${product.badge !== "none" ? `<div class="product-badge ${product.badge}">${product.badge.charAt(0).toUpperCase() + product.badge.slice(1)}</div>` : ""}
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}">
+                        <div class="product-inventory">
+                            <span class="inventory-label">Stock:</span>
+                            <span class="inventory-value">${product.inventory} kg</span>
+                        </div>
+                    </div>
+                    <div class="product-content">
+                        <div class="product-header">
+                            <h3 class="product-name">${product.name}</h3>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i> ${product.rating} <span>(120)</span>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <p class="product-description">${product.description}</p>
+                            <div class="product-certifications">
+                                ${product.certifications.map(cert => `<span class="certification"><i class="fas fa-leaf"></i> ${cert}</span>`).join("")}
+                            </div>
+                        </div>
+                        <div class="product-pricing">
+                            <div class="product-price">₱${product.price}/kg</div>
+                            ${product.wholesalePrice ? `<div class="product-wholesale">Wholesale: ₱${product.wholesalePrice}/kg (Min ${product.minOrder}kg)</div>` : ""}
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn btn-outline view-product" data-id="${product.id}">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                            <button class="btn btn-outline edit-product" data-id="${product.id}">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="btn btn-outline delete-product" data-id="${product.id}">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                `;
+                productsGrid.appendChild(productCard);
+            });
+        });
+
+        // File upload preview
+        document.getElementById("productImage").addEventListener("change", (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const uploadText = document.querySelector("#productImageUpload .file-upload-text");
+                uploadText.textContent = file.name;
+            }
+        });
+
+        document.getElementById("editProductImage").addEventListener("change", (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const uploadText = document.querySelector("#editProductImageUpload .file-upload-text");
+                uploadText.textContent = file.name;
+            }
+        });
+
+        document.getElementById("importFile").addEventListener("change", (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const uploadText = document.querySelector("#importFileUpload .file-upload-text");
+                uploadText.textContent = file.name;
+            }
+        });
+
+        // Initialize
+        renderProducts();
+        renderPromotions();
+    </script>
+ </body>
 </html>

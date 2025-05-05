@@ -551,21 +551,6 @@
       .dark-mode .user-name {
         color: var(--dark-text);
       }
-      .role-badge {
-        font-size: 0.75rem;
-        color: var(--medium-gray);
-      }
-      .dark-mode .role-badge {
-        color: var(--dark-text-secondary);
-      }
-      .dropdown-icon {
-        margin-left: var(--spacing-sm);
-        color: var(--medium-gray);
-        transition: transform var(--transition-fast);
-      }
-      .user-profile:hover .dropdown-icon {
-        transform: rotate(180deg);
-      }
       .user-dropdown {
         position: absolute;
         top: calc(100% + 10px);
@@ -868,10 +853,13 @@
         width: 100%;
         height: 100%;
         z-index: 1000;
-        display: flex;
-        align-items: center;
+        display: none;
         justify-content: center;
+        align-items: center;
         animation: fadeIn 0.3s ease;
+      }
+      .modal.active {
+        display: flex;
       }
       .modal-overlay {
         position: absolute;
@@ -892,6 +880,7 @@
         overflow-y: auto;
         position: relative;
         animation: fadeInDown 0.3s ease;
+        margin: 0 auto;
       }
       .dark-mode .modal-content {
         background-color: var(--dark-card);
@@ -1061,8 +1050,8 @@
         margin-top: var(--spacing-md);
       }
 
-    /* Footer */
-    .footer {
+      /* Footer */
+      .footer {
         background-color: var(--white);
         padding: var(--spacing-lg) var(--spacing-xl);
         border-top: 1px solid var(--light-gray);
@@ -1153,12 +1142,12 @@
         to { transform: translateX(0); opacity: 1; }
       }
       @keyframes fadeInDown {
-        from { opacity: 0; transform: translateY(-10px); }
+        from { opacity: 0; transform: translateY(-20px); }
         to { opacity: 1; transform: translateY(0); }
       }
       @keyframes fadeOutUp {
         from { opacity: 1; transform: translateY(0); }
-        to { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 0; transform: translateY(-20px); }
       }
 
       /* Media Queries */
@@ -1210,6 +1199,13 @@
           flex-direction: column;
           gap: var(--spacing-sm);
         }
+        .modal-content {
+          width: 95%;
+          max-height: 85vh;
+        }
+        .modal-large {
+          width: 95%;
+        }
       }
       @media (max-width: 480px) {
         .notification-dropdown,
@@ -1234,6 +1230,13 @@
         }
         .search-bar {
           max-width: 100%;
+        }
+        .order-actions-footer {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .order-actions-footer .btn {
+          width: 100%;
         }
       }
     </style>
@@ -1265,7 +1268,7 @@
             <li class="nav-item">
               <a href="/templates/farmer/products.html" class="nav-link" data-tab="products">
                 <i class="fas fa-box"></i> <span>Products</span>
-      </a>
+              </a>
             </li>
             <li class="nav-item">
               <a href="#" class="nav-link active" data-tab="orders">
@@ -1425,17 +1428,17 @@
 
         // Toast Notification Function
         function showToast(message, type = "success", duration = 3000) {
-          const toastContainer = $("#toastContainer");
-          if (!toastContainer) {
+          const toastContainer = $("#toastContainer") || (() => {
             const container = document.createElement("div");
             container.id = "toastContainer";
             container.className = "toast-container";
             document.body.appendChild(container);
-          }
+            return container;
+          })();
           const toast = document.createElement("div");
           toast.className = `toast toast-${type}`;
           toast.innerHTML = `${message}<i class="fas fa-times"></i>`;
-          $("#toastContainer").appendChild(toast);
+          toastContainer.appendChild(toast);
           setTimeout(() => {
             toast.style.animation = "slideOut 0.3s ease";
             setTimeout(() => toast.remove(), 300);
@@ -1448,40 +1451,54 @@
 
         // Modal Functionality
         function createModal(title, content, size = 'medium') {
+          // Prevent multiple modals
           const existingModal = $("#customModal");
           if (existingModal) existingModal.remove();
+
           const modal = document.createElement("div");
           modal.id = "customModal";
           modal.className = `modal modal-${size}`;
           modal.innerHTML = `
-            <div class="modal-content animate__animated animate__fadeInDown">
+            <div class="modal-overlay"></div>
+            <div class="modal-content">
               <div class="modal-header">
                 <h2>${title}</h2>
                 <button class="close-modal"><i class="fas fa-times"></i></button>
               </div>
-              <div class="modal-body">
-                ${content}
-              </div>
+              <div class="modal-body">${content}</div>
             </div>
-            <div class="modal-overlay"></div>
           `;
           document.body.appendChild(modal);
-          $$(".close-modal").forEach(btn => {
-            btn.addEventListener("click", () => {
-              modal.querySelector(".modal-content").classList.replace("animate__fadeInDown", "animate__fadeOutUp");
-              setTimeout(() => modal.remove(), 300);
-            });
-          });
-          modal.querySelector(".modal-overlay").addEventListener("click", () => {
-            modal.querySelector(".modal-content").classList.replace("animate__fadeInDown", "animate__fadeOutUp");
-            setTimeout(() => modal.remove(), 300);
-          });
+          modal.classList.add("active");
           document.body.style.overflow = "hidden";
-          const restoreScrolling = () => document.body.style.overflow = "";
-          modal.addEventListener("animationend", function(e) {
-            if (e.animationName === "fadeOutUp") restoreScrolling();
-          });
-          return modal;
+
+          const closeModal = () => {
+            modal.classList.remove("active");
+            modal.querySelector(".modal-content").style.animation = "fadeOutUp 0.3s ease";
+            setTimeout(() => {
+              modal.remove();
+              document.body.style.overflow = "";
+            }, 300);
+          };
+
+          // Event listeners for closing modal
+          modal.querySelector(".close-modal").addEventListener("click", closeModal);
+          modal.querySelector(".modal-overlay").addEventListener("click", closeModal);
+
+          // Handle Escape key
+          const handleEscape = (e) => {
+            if (e.key === "Escape") closeModal();
+          };
+          document.addEventListener("keydown", handleEscape);
+
+          // Cleanup
+          modal.addEventListener("transitionend", () => {
+            if (!modal.classList.contains("active")) {
+              document.removeEventListener("keydown", handleEscape);
+            }
+          }, { once: true });
+
+          return { modal, close: closeModal };
         }
 
         // Sidebar Toggle
@@ -1561,7 +1578,7 @@
           });
         }
 
-        // Simulated Data (consistent with dashboard)
+        // Simulated Data
         const dashboardData = {
           orders: {
             pending: [
@@ -1621,29 +1638,24 @@
           }
         };
 
-        // Function to save order data to localStorage
+        // LocalStorage Functions
         function saveOrderData(orders) {
           localStorage.setItem('dashboardOrders', JSON.stringify(orders));
         }
 
-        // Function to get order data from localStorage
         function getOrderData() {
           const savedOrders = localStorage.getItem('dashboardOrders');
           return savedOrders ? JSON.parse(savedOrders) : null;
         }
 
-        // Save initial orders data to localStorage for persistence if not already saved
+        // Initialize orders data
         if (!getOrderData()) {
-          saveOrderData({
-            pending: dashboardData.orders.pending || [],
-            completed: dashboardData.orders.completed || [],
-            cancelled: dashboardData.orders.cancelled || []
-          });
+          saveOrderData(dashboardData.orders);
         } else {
           dashboardData.orders = getOrderData();
         }
 
-        // Tab functionality for Orders section
+        // Tab Functionality
         function initializeOrderTabs() {
           $$('.tab').forEach(tab => {
             tab.addEventListener('click', () => {
@@ -1652,7 +1664,6 @@
               $$('.tab-content').forEach(content => content.classList.add('hidden'));
               const tabName = tab.getAttribute('data-tab');
               $(`#${tabName}Tab`).classList.remove('hidden');
-              showToast(`Switched to ${tab.textContent} orders`, "info");
             });
           });
         }
@@ -1683,154 +1694,151 @@
                   order.status.toLowerCase() === "delivered" ? "success" :
                   order.status.toLowerCase() === "pending" ? "warning" : "danger"
                 }">${order.status}</span>
-                <button class="btn btn-primary view-order" data-order-id="${order.id}">
+                <button class="btn btn-primary view-order" data-order-id="${order.id}" data-order-type="${containerId.replace('Orders', '')}">
                   <i class="fas fa-eye"></i> View
                 </button>
               </div>
             `;
             container.appendChild(item);
           });
+        }
 
-          // View Order button event listeners
-          $$(`#${containerId} .view-order`).forEach((button) => {
-            button.addEventListener("click", () => {
-              const orderId = button.getAttribute("data-order-id");
-              const orderType = containerId.replace('Orders', '');
-              const orderData = getOrderData() || dashboardData.orders;
-              const order = orderData[orderType].find(o => o.id === orderId);
-              if (order) {
-                sessionStorage.setItem('selectedOrder', JSON.stringify(order));
-                const modalContent = `
-                  <div class="order-detail-modal">
-                    <div class="order-detail-header">
-                      <div class="order-title">${order.product}</div>
-                      <span class="badge badge-${
-                        order.status.toLowerCase() === "delivered" ? "success" :
-                        order.status.toLowerCase() === "pending" ? "warning" : "danger"
-                      }">${order.status}</span>
-                    </div>
-                    <div class="order-detail-section">
-                      <div class="detail-row">
-                        <div class="detail-label">Order ID:</div>
-                        <div class="detail-value">#${order.id}</div>
-                      </div>
-                      <div class="detail-row">
-                        <div class="detail-label">Customer:</div>
-                        <div class="detail-value">${order.customer}</div>
-                      </div>
-                      <div class="detail-row">
-                        <div class="detail-label">Date:</div>
-                        <div class="detail-value">${order.date}</div>
-                      </div>
-                      <div class="detail-row">
-                        <div class="detail-label">Total:</div>
-                        <div class="detail-value">${order.total}</div>
-                      </div>
-                    </div>
-                    <div class="order-detail-section">
-                      <h3>Product Details</h3>
-                      <div class="detail-row">
-                        <div class="detail-label">Description:</div>
-                        <div class="detail-value">${order.description || 'No description available'}</div>
-                      </div>
-                    </div>
-                    <div class="order-detail-section">
-                      <h3>Shipping Information</h3>
-                      <div class="detail-row">
-                        <div class="detail-label">Address:</div>
-                        <div class="detail-value">${order.address || 'No address provided'}</div>
-                      </div>
-                    </div>
-                    <div class="order-detail-section">
-                      <h3>Payment</h3>
-                      <div class="detail-row">
-                        <div class="detail-label">Method:</div>
-                        <div class="detail-value">${order.paymentMethod || 'Not specified'}</div>
-                      </div>
-                    </div>
-                    <div class="order-detail-section">
-                      <h3>Notes</h3>
-                      <div class="detail-value note-text">${order.notes || 'No additional notes'}</div>
-                    </div>
-                    <div class="order-actions-footer">
-                      <button class="btn btn-primary go-to-details" data-order-id="${order.id}">
-                        <i class="fas fa-external-link-alt"></i> Full Order Details
-                      </button>
-                      ${order.status === 'Pending' ? `
-                        <button class="btn btn-success mark-completed" data-order-id="${order.id}">
-                          <i class="fas fa-check"></i> Mark as Completed
-                        </button>
-                        <button class="btn btn-danger mark-cancelled" data-order-id="${order.id}">
-                          <i class="fas fa-times"></i> Cancel Order
-                        </button>
-                      ` : ''}
-                    </div>
-                  </div>
-                `;
-                const modal = createModal(`Order #${order.id} Details`, modalContent, 'large');
-                const goToDetailsBtn = modal.querySelector(".go-to-details");
-                if (goToDetailsBtn) {
-                  goToDetailsBtn.addEventListener("click", () => {
-                    showToast(`Opening full details for order #${orderId}...`, "info");
-                    setTimeout(() => {
-                      window.location.href = `/templates/farmer/order-details.html?id=${orderId}`;
-                    }, 1000);
-                  });
-                }
-                const markCompletedBtn = modal.querySelector(".mark-completed");
-                if (markCompletedBtn) {
-                  markCompletedBtn.addEventListener("click", () => {
-                    const currentOrders = getOrderData() || dashboardData.orders;
-                    const orderIndex = currentOrders.pending.findIndex(o => o.id === orderId);
-                    if (orderIndex !== -1) {
-                      const orderToMove = currentOrders.pending.splice(orderIndex, 1)[0];
-                      orderToMove.status = "Delivered";
-                      currentOrders.completed.unshift(orderToMove);
-                      saveOrderData(currentOrders);
-                      populateOrders("pendingOrders", currentOrders.pending);
-                      populateOrders("completedOrders", currentOrders.completed);
-                      modal.querySelector(".modal-content").classList.replace("animate__fadeInDown", "animate__fadeOutUp");
-                      setTimeout(() => modal.remove(), 300);
-                      showToast(`Order #${orderId} marked as completed!`, "success");
-                    }
-                  });
-                }
-                const markCancelledBtn = modal.querySelector(".mark-cancelled");
-                if (markCancelledBtn) {
-                  markCancelledBtn.addEventListener("click", () => {
-                    const currentOrders = getOrderData() || dashboardData.orders;
-                    const orderIndex = currentOrders.pending.findIndex(o => o.id === orderId);
-                    if (orderIndex !== -1) {
-                      const orderToMove = currentOrders.pending.splice(orderIndex, 1)[0];
-                      orderToMove.status = "Cancelled";
-                      currentOrders.cancelled.unshift(orderToMove);
-                      saveOrderData(currentOrders);
-                      populateOrders("pendingOrders", currentOrders.pending);
-                      populateOrders("cancelledOrders", currentOrders.cancelled);
-                      modal.querySelector(".modal-content").classList.replace("animate__fadeInDown", "animate__fadeOutUp");
-                      setTimeout(() => modal.remove(), 300);
-                      showToast(`Order #${orderId} has been cancelled.`, "warning");
-                    }
-                  });
-                }
-              } else {
-                showToast(`Error: Order #${orderId} not found`, "error");
-              }
-            });
+        // View Order Modal
+        function showOrderModal(order, orderType) {
+          const modalContent = `
+            <div class="order-detail-modal">
+              <div class="order-detail-header">
+                <div class="order-title">${order.product}</div>
+                <span class="badge badge-${
+                  order.status.toLowerCase() === "delivered" ? "success" :
+                  order.status.toLowerCase() === "pending" ? "warning" : "danger"
+                }">${order.status}</span>
+              </div>
+              <div class="order-detail-section">
+                <div class="detail-row">
+                  <div class="detail-label">Order ID:</div>
+                  <div class="detail-value">#${order.id}</div>
+                </div>
+                <div class="detail-row">
+                  <div class="detail-label">Customer:</div>
+                  <div class="detail-value">${order.customer}</div>
+                </div>
+                <div class="detail-row">
+                  <div class="detail-label">Date:</div>
+                  <div class="detail-value">${order.date}</div>
+                </div>
+                <div class="detail-row">
+                  <div class="detail-label">Total:</div>
+                  <div class="detail-value">${order.total}</div>
+                </div>
+              </div>
+              <div class="order-detail-section">
+                <h3>Product Details</h3>
+                <div class="detail-row">
+                  <div class="detail-label">Description:</div>
+                  <div class="detail-value">${order.description || 'No description available'}</div>
+                </div>
+              </div>
+              <div class="order-detail-section">
+                <h3>Shipping Information</h3>
+                <div class="detail-row">
+                  <div class="detail-label">Address:</div>
+                  <div class="detail-value">${order.address || 'No address provided'}</div>
+                </div>
+              </div>
+              <div class="order-detail-section">
+                <h3>Payment</h3>
+                <div class="detail-row">
+                  <div class="detail-label">Method:</div>
+                  <div class="detail-value">${order.paymentMethod || 'Not specified'}</div>
+                </div>
+              </div>
+              <div class="order-detail-section">
+                <h3>Notes</h3>
+                <div class="detail-value note-text">${order.notes || 'No additional notes'}</div>
+              </div>
+              <div class="order-actions-footer">
+                <button class="btn btn-primary go-to-details" data-order-id="${order.id}">
+                  <i class="fas fa-external-link-alt"></i> Full Order Details
+                </button>
+                ${order.status === 'Pending' ? `
+                  <button class="btn btn-success mark-completed" data-order-id="${order.id}" data-order-type="${orderType}">
+                    <i class="fas fa-check"></i> Mark as Completed
+                  </button>
+                  <button class="btn btn-danger mark-cancelled" data-order-id="${order.id}" data-order-type="${orderType}">
+                    <i class="fas fa-times"></i> Cancel Order
+                  </button>
+                ` : ''}
+              </div>
+            </div>
+          `;
+          const { modal, close } = createModal(`Order #${order.id} Details`, modalContent, 'large');
+
+          // Event listeners for modal actions
+          modal.querySelector(".go-to-details")?.addEventListener("click", () => {
+            close();
+            setTimeout(() => {
+              window.location.href = `/templates/farmer/order-details.html?id=${order.id}`;
+            }, 300);
+          });
+
+          modal.querySelector(".mark-completed")?.addEventListener("click", () => {
+            const currentOrders = getOrderData() || dashboardData.orders;
+            const orderIndex = currentOrders.pending.findIndex(o => o.id === order.id);
+            if (orderIndex !== -1) {
+              const orderToMove = currentOrders.pending.splice(orderIndex, 1)[0];
+              orderToMove.status = "Delivered";
+              currentOrders.completed.unshift(orderToMove);
+              saveOrderData(currentOrders);
+              populateOrders("pendingOrders", currentOrders.pending);
+              populateOrders("completedOrders", currentOrders.completed);
+              close();
+              showToast(`Order #${order.id} marked as completed!`, "success");
+            }
+          });
+
+          modal.querySelector(".mark-cancelled")?.addEventListener("click", () => {
+            const currentOrders = getOrderData() || dashboardData.orders;
+            const orderIndex = currentOrders.pending.findIndex(o => o.id === order.id);
+            if (orderIndex !== -1) {
+              const orderToMove = currentOrders.pending.splice(orderIndex, 1)[0];
+              orderToMove.status = "Cancelled";
+              currentOrders.cancelled.unshift(orderToMove);
+              saveOrderData(currentOrders);
+              populateOrders("pendingOrders", currentOrders.pending);
+              populateOrders("cancelledOrders", currentOrders.cancelled);
+              close();
+              showToast(`Order #${order.id} has been cancelled.`, "warning");
+            }
           });
         }
+
+        // Event Delegation for View Order Buttons
+        document.addEventListener("click", (e) => {
+          const viewButton = e.target.closest(".view-order");
+          if (viewButton) {
+            const orderId = viewButton.getAttribute("data-order-id");
+            const orderType = viewButton.getAttribute("data-order-type");
+            const currentOrders = getOrderData() || dashboardData.orders;
+            const order = currentOrders[orderType]?.find(o => o.id === orderId);
+            if (order) {
+              sessionStorage.setItem('selectedOrder', JSON.stringify(order));
+              showOrderModal(order, orderType);
+            } else {
+              showToast(`Error: Order #${orderId} not found`, "error");
+            }
+          }
+        });
 
         // Refresh Orders
         const refreshOrdersBtn = $("#refreshOrdersBtn");
         if (refreshOrdersBtn) {
           refreshOrdersBtn.addEventListener("click", () => {
-            showToast("Refreshing orders...", "info");
             setTimeout(() => {
               const currentOrders = getOrderData() || dashboardData.orders;
               populateOrders("pendingOrders", currentOrders.pending);
               populateOrders("completedOrders", currentOrders.completed);
               populateOrders("cancelledOrders", currentOrders.cancelled);
-              showToast("Orders refreshed successfully!", "success");
             }, 1000);
           });
         }
@@ -1851,7 +1859,7 @@
             const currentOrders = getOrderData() || dashboardData.orders;
             const filterOrders = (status, orders) => {
               if (!orders) return [];
-              const filtered = query
+              return query
                 ? orders.filter(
                     (o) =>
                       (o.product && o.product.toLowerCase().includes(query)) ||
@@ -1859,7 +1867,6 @@
                       (o.id && o.id.includes(query))
                   )
                 : orders;
-              return filtered;
             };
             populateOrders("pendingOrders", filterOrders("pending", currentOrders.pending));
             populateOrders("completedOrders", filterOrders("completed", currentOrders.completed));
@@ -1875,7 +1882,7 @@
         const addOrderBtn = $("#addOrderBtn");
         if (addOrderBtn) {
           addOrderBtn.addEventListener("click", () => {
-            const addOrderModal = createModal("Add New Order", `
+            const modalContent = `
               <div class="add-order-form">
                 <div class="form-group">
                   <label for="orderCustomer">Customer Name</label>
@@ -1917,17 +1924,18 @@
                   <button class="btn btn-outline close-modal">Cancel</button>
                 </div>
               </div>
-            `, 'large');
-            const saveOrderBtn = addOrderModal.querySelector("#saveOrderBtn");
+            `;
+            const { modal, close } = createModal("Add New Order", modalContent, 'large');
+            const saveOrderBtn = modal.querySelector("#saveOrderBtn");
             if (saveOrderBtn) {
               saveOrderBtn.addEventListener("click", () => {
-                const customer = addOrderModal.querySelector("#orderCustomer").value.trim();
-                const product = addOrderModal.querySelector("#orderProduct").value.trim();
-                const description = addOrderModal.querySelector("#orderDescription").value.trim();
-                const total = addOrderModal.querySelector("#orderTotal").value.trim();
-                const paymentMethod = addOrderModal.querySelector("#orderPayment").value;
-                const address = addOrderModal.querySelector("#orderAddress").value.trim();
-                const notes = addOrderModal.querySelector("#orderNotes").value.trim();
+                const customer = modal.querySelector("#orderCustomer").value.trim();
+                const product = modal.querySelector("#orderProduct").value.trim();
+                const description = modal.querySelector("#orderDescription").value.trim();
+                const total = modal.querySelector("#orderTotal").value.trim();
+                const paymentMethod = modal.querySelector("#orderPayment").value;
+                const address = modal.querySelector("#orderAddress").value.trim();
+                const notes = modal.querySelector("#orderNotes").value.trim();
                 if (!customer || !product || !total) {
                   showToast("Please fill in all required fields", "error");
                   return;
@@ -1954,8 +1962,7 @@
                 currentOrders.pending.unshift(newOrder);
                 saveOrderData(currentOrders);
                 populateOrders("pendingOrders", currentOrders.pending);
-                addOrderModal.querySelector(".modal-content").classList.replace("animate__fadeInDown", "animate__fadeOutUp");
-                setTimeout(() => addOrderModal.remove(), 300);
+                close();
                 showToast(`New order #${newId} added successfully!`, "success");
               });
             }

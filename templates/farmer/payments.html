@@ -1651,7 +1651,6 @@
               $$('.tab-content').forEach(content => content.classList.add('hidden'));
               const tabName = tab.getAttribute('data-tab');
               $(`#${tabName}Tab`).classList.remove('hidden');
-              showToast(`Switched to ${tab.textContent} payments`, "info");
             });
           });
         }
@@ -1756,7 +1755,6 @@
                 const goToDetailsBtn = modal.querySelector(".go-to-details");
                 if (goToDetailsBtn) {
                   goToDetailsBtn.addEventListener("click", () => {
-                    showToast(`Opening full details for payment #${paymentId}...`, "info");
                     setTimeout(() => {
                       window.location.href = `/templates/farmer/payment-details.html?id=${paymentId}`;
                     }, 1000);
@@ -1779,7 +1777,6 @@
               populatePayments("completedPayments", currentPayments.completed);
               populatePayments("pendingPayments", currentPayments.pending);
               populatePayments("failedPayments", currentPayments.failed);
-              showToast("Payments refreshed successfully!", "success");
             }, 1000);
           });
         }
@@ -1900,7 +1897,6 @@
                 populatePayments("pendingPayments", currentPayments.pending);
                 addPaymentModal.querySelector(".modal-content").classList.replace("animate__fadeInDown", "animate__fadeOutUp");
                 setTimeout(() => addPaymentModal.remove(), 300);
-                showToast(`New payment #${newId} added successfully!`, "success");
               });
             }
           });
