@@ -845,7 +845,7 @@
         color: var(--danger);
       }
 
-      /* Modal */
+      /* Modal Styles */
       .modal {
         position: fixed;
         top: 0;
@@ -853,13 +853,16 @@
         width: 100%;
         height: 100%;
         z-index: 1000;
-        display: none;
-        justify-content: center;
+        display: flex;
         align-items: center;
-        animation: fadeIn 0.3s ease;
+        justify-content: center;
+        visibility: hidden;
+        opacity: 0;
+        transition: all var(--transition-normal);
       }
       .modal.active {
-        display: flex;
+        visibility: visible;
+        opacity: 1;
       }
       .modal-overlay {
         position: absolute;
@@ -868,23 +871,27 @@
         width: 100%;
         height: 100%;
         background-color: rgba(0, 0, 0, 0.5);
-        z-index: -1;
+        z-index: 1;
       }
       .modal-content {
         background-color: var(--white);
         border-radius: var(--border-radius-md);
         box-shadow: var(--shadow-lg);
-        max-width: 90%;
-        width: 600px;
-        max-height: 90vh;
+        max-width: 600px;
+        width: 90%;
+        max-height: 80vh;
         overflow-y: auto;
         position: relative;
+        z-index: 2;
         animation: fadeInDown 0.3s ease;
-        margin: 0 auto;
+        padding: var(--spacing-md);
       }
       .dark-mode .modal-content {
         background-color: var(--dark-card);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        color: var(--dark-text);
+      }
+      .modal-large .modal-content {
+        max-width: 800px;
       }
       .modal-header {
         display: flex;
@@ -897,38 +904,23 @@
         border-bottom-color: var(--dark-border);
       }
       .modal-header h2 {
-        margin: 0;
         font-size: 1.2rem;
+        margin: 0;
         color: var(--green-primary);
       }
       .dark-mode .modal-header h2 {
         color: var(--green-primary-light);
       }
       .modal-body {
-        padding: var(--spacing-md);
-      }
-      .modal-footer {
-        padding: var(--spacing-md);
-        border-top: 1px solid var(--light-gray);
-        display: flex;
-        justify-content: flex-end;
-        gap: var(--spacing-sm);
-      }
-      .dark-mode .modal-footer {
-        border-top-color: var(--dark-border);
-      }
-      .modal-medium {
-        width: 600px;
-      }
-      .modal-large {
-        width: 800px;
+        padding: var(--spacing-lg);
       }
       .close-modal {
         background: none;
         border: none;
-        cursor: pointer;
         font-size: 1.2rem;
+        cursor: pointer;
         color: var(--medium-gray);
+        transition: color var(--transition-fast);
       }
       .dark-mode .close-modal {
         color: var(--dark-text-secondary);
@@ -940,31 +932,13 @@
         color: var(--green-primary-light);
       }
 
-      /* Form Controls for Modals */
-      .form-control {
-        width: 100%;
-        padding: var(--spacing-sm);
-        border: 1px solid var(--light-gray);
-        border-radius: var(--border-radius-sm);
-        font-size: 0.9rem;
-        color: var(--dark-gray);
-        background-color: var(--white);
-      }
-      .dark-mode .form-control {
-        border-color: var(--dark-border);
-        background-color: var(--dark-surface);
-        color: var(--dark-text);
-      }
-      .form-control:focus {
-        outline: none;
-        border-color: var(--green-primary);
-        box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.2);
-      }
+      /* Form Styles */
       .form-group {
         margin-bottom: var(--spacing-md);
       }
       .form-group label {
         display: block;
+        font-size: 0.9rem;
         font-weight: 600;
         margin-bottom: var(--spacing-xs);
         color: var(--dark-gray);
@@ -972,20 +946,50 @@
       .dark-mode .form-group label {
         color: var(--dark-text);
       }
-      .form-actions {
-        display: flex;
-        gap: var(--spacing-sm);
-        justify-content: flex-end;
+      .form-control {
+        width: 100%;
+        padding: var(--spacing-sm);
+        border: 1px solid var(--light-gray);
+        border-radius: var(--border-radius-sm);
+        font-size: 0.9rem;
+        outline: none;
+        transition: border-color var(--transition-fast);
+        background-color: var(--white);
+        color: var(--dark-gray);
+      }
+      .dark-mode .form-control {
+        border-color: var(--dark-border);
+        background-color: var(--dark-surface);
+        color: var(--dark-text);
+      }
+      .form-control:focus {
+        border-color: var(--green-primary);
+        box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.2);
+      }
+      .form-control::placeholder {
+        color: var(--medium-gray);
+        opacity: 0.7;
+      }
+      .dark-mode .form-control::placeholder {
+        color: var(--dark-text-secondary);
       }
       .form-row {
         display: flex;
         gap: var(--spacing-md);
+        flex-wrap: wrap;
       }
       .form-row .form-group {
         flex: 1;
+        min-width: 200px;
+      }
+      .form-actions {
+        display: flex;
+        gap: var(--spacing-md);
+        justify-content: flex-end;
+        margin-top: var(--spacing-lg);
       }
 
-      /* Order Detail Modal */
+      /* Order Detail Modal Styles */
       .order-detail-modal {
         display: flex;
         flex-direction: column;
@@ -998,36 +1002,37 @@
         margin-bottom: var(--spacing-md);
       }
       .order-title {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         font-weight: 600;
-        color: var(--green-primary);
+        color: var(--dark-gray);
       }
       .dark-mode .order-title {
-        color: var(--green-primary-light);
+        color: var(--dark-text);
       }
       .order-detail-section {
         margin-bottom: var(--spacing-md);
       }
       .order-detail-section h3 {
         font-size: 1rem;
+        font-weight: 600;
+        color: var(--green-primary);
         margin-bottom: var(--spacing-sm);
-        color: var(--dark-gray);
       }
       .dark-mode .order-detail-section h3 {
-        color: var(--dark-text);
+        color: var(--green-primary-light);
       }
       .detail-row {
         display: flex;
-        gap: var(--spacing-md);
         margin-bottom: var(--spacing-sm);
+        font-size: 0.9rem;
       }
       .detail-label {
+        flex: 0 0 150px;
         font-weight: 600;
-        width: 120px;
-        color: var(--dark-gray);
+        color: var(--medium-gray);
       }
       .dark-mode .detail-label {
-        color: var(--dark-text);
+        color: var(--dark-text-secondary);
       }
       .detail-value {
         flex: 1;
@@ -1037,17 +1042,22 @@
         color: var(--dark-text);
       }
       .note-text {
+        line-height: 1.6;
         font-style: italic;
-        color: var(--medium-gray);
-      }
-      .dark-mode .note-text {
-        color: var(--dark-text-secondary);
       }
       .order-actions-footer {
         display: flex;
-        gap: var(--spacing-sm);
+        gap: var(--spacing-md);
         justify-content: flex-end;
-        margin-top: var(--spacing-md);
+        margin-top: var(--spacing-lg);
+      }
+      @media (max-width: 480px) {
+        .order-actions-footer {
+          flex-direction: column;
+        }
+        .order-actions-footer .btn {
+          width: 100%;
+        }
       }
 
       /* Footer */
@@ -1141,6 +1151,10 @@
         from { transform: translateX(100%); opacity: 0; }
         to { transform: translateX(0); opacity: 1; }
       }
+      @keyframes slideOut {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+      }
       @keyframes fadeInDown {
         from { opacity: 0; transform: translateY(-20px); }
         to { opacity: 1; transform: translateY(0); }
@@ -1203,7 +1217,7 @@
           width: 95%;
           max-height: 85vh;
         }
-        .modal-large {
+        .modal-large .modal-content {
           width: 95%;
         }
       }
@@ -1230,13 +1244,6 @@
         }
         .search-bar {
           max-width: 100%;
-        }
-        .order-actions-footer {
-          flex-direction: column;
-          align-items: stretch;
-        }
-        .order-actions-footer .btn {
-          width: 100%;
         }
       }
     </style>
@@ -1758,9 +1765,6 @@
                 <div class="detail-value note-text">${order.notes || 'No additional notes'}</div>
               </div>
               <div class="order-actions-footer">
-                <button class="btn btn-primary go-to-details" data-order-id="${order.id}">
-                  <i class="fas fa-external-link-alt"></i> Full Order Details
-                </button>
                 ${order.status === 'Pending' ? `
                   <button class="btn btn-success mark-completed" data-order-id="${order.id}" data-order-type="${orderType}">
                     <i class="fas fa-check"></i> Mark as Completed
