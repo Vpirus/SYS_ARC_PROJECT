@@ -2133,13 +2133,13 @@
                                     <div class="form-col">
                                         <div class="form-group">
                                             <label class="form-label" for="promotionDiscount">Discount (%)</label>
-                                            <input type="number" step="0.01" min="0" max="100" class="form-control" id="promotionDiscount" name="promotionDiscount">
+                                            <input type="number" step="0.01" min="1" max="100" class="form-control" id="promotionDiscount" name="promotionDiscount">
                                         </div>
                                     </div>
                                     <div class="form-col">
                                         <div class="form-group">
                                             <label class="form-label" for="promotionProduct">Product *</label>
-                                            <select class="form-control" id="promotionProduct" name="promotionProduct" required>
+                                            <select id="promotionProduct" class="form-control" name="promotionProduct" required>
                                                 <option value="">Select Product</option>
                                             </select>
                                         </div>
@@ -2190,13 +2190,13 @@
                                     <div class="form-col">
                                         <div class="form-group">
                                             <label class="form-label" for="editPromotionDiscount">Discount (%)</label>
-                                            <input type="number" step="0.01" min="0" max="100" class="form-control" id="editPromotionDiscount" name="promotionDiscount">
+                                            <input type="number" step="0.01" min="1" max="100" class="form-control" id="editPromotionDiscount" name="promotionDiscount">
                                         </div>
                                     </div>
                                     <div class="form-col">
                                         <div class="form-group">
                                             <label class="form-label" for="editPromotionProduct">Product *</label>
-                                            <select class="form-control" id="editPromotionProduct" name="promotionProduct" required>
+                                            <select id="editPromotionProduct" class="form-control" name="promotionProduct" required>
                                                 <option value="">Select Product</option>
                                             </select>
                                         </div>
@@ -2322,7 +2322,7 @@
             <!-- Footer -->
             <div class="footer">
                 <div class="footer-content">
-                    <p>&copy; 2025 AgriGo. All rights reserved.</p>
+                    <p>© 2025 AgriGo. All rights reserved.</p>
                     <div class="footer-links">
                         <a href="#terms">Terms of Service</a>
                         <a href="#privacy">Privacy Policy</a>
@@ -2382,6 +2382,12 @@
             }
         ];
 
+        // Simulated user data (for restriction example)
+        const user = {
+            name: "Vicente Fernandez",
+            role: "Verified Farmer" // Change this to test restrictions (e.g., "Guest")
+        };
+
         // Utility function to show toast notifications
         function showToast(message, type = "success") {
             const toastContainer = document.getElementById("toastContainer");
@@ -2396,6 +2402,67 @@
                 toast.classList.add("slide-out");
                 setTimeout(() => toast.remove(), 300);
             }, 3000);
+        }
+
+        // Function to restrict form submissions
+        function restrictFormSubmission(formId, form) {
+            // Check user role
+            if (user.role !== "Verified Farmer") {
+                showToast("Access restricted: Only verified farmers can submit this form.", "error");
+                return false;
+            }
+
+            // Form-specific restrictions
+            if (formId === "addProductForm" || formId === "editProductForm") {
+                const productName = form.productName.value.trim();
+                const productPrice = parseFloat(form.productPrice.value);
+                if (!productName) {
+                    showToast("Product name cannot be empty.", "error");
+                    return false;
+                }
+                if (isNaN(productPrice) || productPrice <= 0) {
+                    showToast("Retail price must be greater than 0.", "error");
+                    return false;
+                }
+            } else if (formId === "importProductsModal") {
+                const fileInput = document.getElementById("importFile");
+                if (!fileInput.files.length) {
+                    showToast("Please select a file to import.", "error");
+                    return false;
+                }
+            } else if (formId === "addPromotionForm" || formId === "editPromotionForm") {
+                const productId = form.promotionProduct.value;
+                const discount = form.promotionDiscount.value ? parseFloat(form.promotionDiscount.value) : null;
+                const startDate = new Date(form.promotionStartDate.value);
+                const endDate = new Date(form.promotionEndDate.value);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0); // Normalize to midnight for comparison
+
+                if (!productId) {
+                    showToast("Please select a product for the promotion.", "error");
+                    return false;
+                }
+                if (discount !== null && (discount < 0 || discount > 100)) {
+                    showToast("Discount must be between 0 and 100.", "error");
+                    return false;
+                }
+                if (startDate < today) {
+                    showToast("Start date must be today or later.", "error");
+                    return false;
+                }
+                if (endDate <= startDate) {
+                    showToast("End date must be after start date.", "error");
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        // Function to open modal
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.add("active");
         }
 
         // Function to render products
@@ -2519,8 +2586,7 @@
                 document.getElementById("viewProductCertifications").textContent = product.certifications.join(", ") || "None";
                 document.getElementById("viewProductBadge").textContent = product.badge.charAt(0).toUpperCase() + product.badge.slice(1) || "None";
 
-                const modal = document.getElementById("viewProductModal");
-                modal.classList.add("active");
+                openModal("viewProductModal");
             }
         }
 
@@ -2541,8 +2607,7 @@
                 document.getElementById("editCertExport").checked = product.certifications.includes("Export Quality");
                 document.getElementById(`editBadge${product.badge.charAt(0).toUpperCase() + product.badge.slice(1)}`).checked = true;
 
-                const modal = document.getElementById("editProductModal");
-                modal.classList.add("active");
+                openModal("editProductModal");
             }
         }
 
@@ -2567,8 +2632,7 @@
                 document.getElementById("viewPromotionStartDate").textContent = promo.startDate;
                 document.getElementById("viewPromotionEndDate").textContent = promo.endDate;
 
-                const modal = document.getElementById("viewPromotionModal");
-                modal.classList.add("active");
+                openModal("viewPromotionModal");
             }
         }
 
@@ -2576,16 +2640,19 @@
         function editPromotion(id) {
             const promo = promotions.find(p => p.id == id);
             if (promo) {
+                const select = document.getElementById("editPromotionProduct");
+                select.innerHTML = '<option value="">Select Product</option>';
+                products.forEach(product => {
+                    select.innerHTML += `<option value="${product.id}" ${product.id === promo.productId ? 'selected' : ''}>${product.name}</option>`;
+                });
                 document.getElementById("editPromotionId").value = promo.id;
                 document.getElementById("editPromotionTitle").value = promo.title;
                 document.getElementById("editPromotionDescription").value = promo.description || "";
                 document.getElementById("editPromotionDiscount").value = promo.discount || "";
-                document.getElementById("editPromotionProduct").value = promo.productId;
                 document.getElementById("editPromotionStartDate").value = promo.startDate;
                 document.getElementById("editPromotionEndDate").value = promo.endDate;
 
-                const modal = document.getElementById("editPromotionModal");
-                modal.classList.add("active");
+                openModal("editPromotionModal");
             }
         }
 
@@ -2600,7 +2667,7 @@
 
         // Event listeners for modals
         document.getElementById("addProductBtn").addEventListener("click", () => {
-            document.getElementById("addProductModal").classList.add("active");
+            openModal("addProductModal");
         });
 
         document.getElementById("closeAddProductModal").addEventListener("click", () => {
@@ -2614,7 +2681,7 @@
         document.getElementById("submitAddProduct").addEventListener("click", (e) => {
             e.preventDefault();
             const form = document.getElementById("addProductForm");
-            if (form.checkValidity()) {
+            if (form.checkValidity() && restrictFormSubmission("addProductForm", form)) {
                 const certifications = Array.from(form.querySelectorAll('input[name="certifications"]:checked')).map(input => input.value);
                 const newProduct = {
                     id: products.length + 1,
@@ -2625,7 +2692,7 @@
                     wholesalePrice: form.productWholesalePrice.value ? parseFloat(form.productWholesalePrice.value) : null,
                     inventory: parseFloat(form.productInventory.value),
                     minOrder: form.productMinOrder.value ? parseFloat(form.productMinOrder.value) : null,
-                    image: form.productImage.files[0] ? URL.createObjectURL(form.productImage.files[0]) : "https://via.placeholder.com/800x600",
+                    image: form.productImage.files[0] ? URL.createObjectURL(form.productImage.files[0]) : "https://images.pexels.com/photos/1327838/pexels-photo-1327838.jpeg?auto=compress&cs=tinysrgb&w=600",
                     certifications: certifications,
                     badge: form.productBadge.value,
                     rating: 0
@@ -2651,7 +2718,7 @@
         document.getElementById("submitEditProduct").addEventListener("click", (e) => {
             e.preventDefault();
             const form = document.getElementById("editProductForm");
-            if (form.checkValidity()) {
+            if (form.checkValidity() && restrictFormSubmission("editProductForm", form)) {
                 const id = parseInt(form.productId.value);
                 const productIndex = products.findIndex(p => p.id === id);
                 if (productIndex !== -1) {
@@ -2688,7 +2755,7 @@
         });
 
         document.getElementById("importProductsBtn").addEventListener("click", () => {
-            document.getElementById("importProductsModal").classList.add("active");
+            openModal("importProductsModal");
         });
 
         document.getElementById("closeImportModal").addEventListener("click", () => {
@@ -2700,12 +2767,12 @@
         });
 
         document.getElementById("submitImport").addEventListener("click", () => {
-            const fileInput = document.getElementById("importFile");
-            if (fileInput.files.length) {
-                showToast("Products imported successfully", "success");
-                document.getElementById("importProductsModal").classList.remove("active");
-            } else {
-                showToast("Please select a file to import", "error");
+            if (restrictFormSubmission("importProductsModal")) {
+                const fileInput = document.getElementById("importFile");
+                if (fileInput.files.length) {
+                    showToast("Products imported successfully", "success");
+                    document.getElementById("importProductsModal").classList.remove("active");
+                }
             }
         });
 
@@ -2715,7 +2782,7 @@
             products.forEach(product => {
                 select.innerHTML += `<option value="${product.id}">${product.name}</option>`;
             });
-            document.getElementById("addPromotionModal").classList.add("active");
+            openModal("addPromotionModal");
         });
 
         document.getElementById("closeAddPromotionModal").addEventListener("click", () => {
@@ -2729,7 +2796,7 @@
         document.getElementById("submitAddPromotion").addEventListener("click", (e) => {
             e.preventDefault();
             const form = document.getElementById("addPromotionForm");
-            if (form.checkValidity()) {
+            if (form.checkValidity() && restrictFormSubmission("addPromotionForm", form)) {
                 const newPromotion = {
                     id: promotions.length + 1,
                     title: form.promotionTitle.value,
@@ -2760,7 +2827,7 @@
         document.getElementById("submitEditPromotion").addEventListener("click", (e) => {
             e.preventDefault();
             const form = document.getElementById("editPromotionForm");
-            if (form.checkValidity()) {
+            if (form.checkValidity() && restrictFormSubmission("editPromotionForm", form)) {
                 const id = parseInt(form.promotionId.value);
                 const promoIndex = promotions.findIndex(p => p.id === id);
                 if (promoIndex !== -1) {
@@ -2875,84 +2942,7 @@
             renderProducts(document.querySelector(".filter-tab.active").dataset.category);
         });
 
-        // Search functionality
-        document.getElementById("searchInput").addEventListener("input", (e) => {
-            const searchTerm = e.target.value.toLowerCase();
-            const filteredProducts = products.filter(p => p.name.toLowerCase().includes(searchTerm) || p.description.toLowerCase().includes(searchTerm));
-            const productsGrid = document.getElementById("productsGrid");
-            productsGrid.innerHTML = "";
-            filteredProducts.forEach(product => {
-                const productCard = document.createElement("div");
-                productCard.className = "product-card";
-                productCard.innerHTML = `
-                    ${product.badge !== "none" ? `<div class="product-badge ${product.badge}">${product.badge.charAt(0).toUpperCase() + product.badge.slice(1)}</div>` : ""}
-                    <div class="product-image">
-                        <img src="${product.image}" alt="${product.name}">
-                        <div class="product-inventory">
-                            <span class="inventory-label">Stock:</span>
-                            <span class="inventory-value">${product.inventory} kg</span>
-                        </div>
-                    </div>
-                    <div class="product-content">
-                        <div class="product-header">
-                            <h3 class="product-name">${product.name}</h3>
-                            <div class="product-rating">
-                                <i class="fas fa-star"></i> ${product.rating} <span>(120)</span>
-                            </div>
-                        </div>
-                        <div class="product-info">
-                            <p class="product-description">${product.description}</p>
-                            <div class="product-certifications">
-                                ${product.certifications.map(cert => `<span class="certification"><i class="fas fa-leaf"></i> ${cert}</span>`).join("")}
-                            </div>
-                        </div>
-                        <div class="product-pricing">
-                            <div class="product-price">₱${product.price}/kg</div>
-                            ${product.wholesalePrice ? `<div class="product-wholesale">Wholesale: ₱${product.wholesalePrice}/kg (Min ${product.minOrder}kg)</div>` : ""}
-                        </div>
-                        <div class="product-actions">
-                            <button class="btn btn-outline view-product" data-id="${product.id}">
-                                <i class="fas fa-eye"></i> View
-                            </button>
-                            <button class="btn btn-outline edit-product" data-id="${product.id}">
-                                <i class="fas fa-edit"></i> Edit
-                            </button>
-                            <button class="btn btn-outline delete-product" data-id="${product.id}">
-                                <i class="fas fa-trash"></i> Delete
-                            </button>
-                        </div>
-                    </div>
-                `;
-                productsGrid.appendChild(productCard);
-            });
-        });
-
-        // File upload preview
-        document.getElementById("productImage").addEventListener("change", (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                const uploadText = document.querySelector("#productImageUpload .file-upload-text");
-                uploadText.textContent = file.name;
-            }
-        });
-
-        document.getElementById("editProductImage").addEventListener("change", (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                const uploadText = document.querySelector("#editProductImageUpload .file-upload-text");
-                uploadText.textContent = file.name;
-            }
-        });
-
-        document.getElementById("importFile").addEventListener("change", (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                const uploadText = document.querySelector("#importFileUpload .file-upload-text");
-                uploadText.textContent = file.name;
-            }
-        });
-
-        // Initialize
+        // Initial render
         renderProducts();
         renderPromotions();
     </script>
