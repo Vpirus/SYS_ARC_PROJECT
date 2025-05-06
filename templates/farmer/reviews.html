@@ -136,7 +136,7 @@
       /* Sidebar */
       .sidebar {
         width: 250px;
-        background-color: var(--white);
+        background: var(--white);
         box-shadow: var(--shadow-md);
         position: fixed;
         height: 100vh;
@@ -145,7 +145,7 @@
         overflow-y: auto;
       }
       .dark-mode .sidebar {
-        background-color: var(--dark-surface);
+        background: var(--dark-surface);
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
       }
       .sidebar-collapsed {
@@ -203,19 +203,19 @@
         color: var(--dark-text);
       }
       .nav-link:hover {
-        background-color: rgba(46, 125, 50, 0.1);
+        background: rgba(46, 125, 50, 0.1);
         color: var(--green-primary);
       }
       .dark-mode .nav-link:hover {
-        background-color: rgba(76, 175, 80, 0.1);
+        background: rgba(76, 175, 80, 0.1);
       }
       .nav-link.active {
-        background-color: var(--green-primary);
+        background: var(--green-primary);
         color: var(--white);
         box-shadow: var(--shadow-sm);
       }
       .dark-mode .nav-link.active {
-        background-color: var(--green-primary-dark);
+        background: var(--green-primary-dark);
       }
       .nav-link i {
         font-size: 1.2rem;
@@ -237,7 +237,7 @@
         position: absolute;
         right: -5px;
         top: 65px;
-        background-color: var(--green-primary);
+        background: var(--green-primary);
         color: var(--white);
         border: none;
         width: 24px;
@@ -248,10 +248,10 @@
         justify-content: center;
         cursor: pointer;
         box-shadow: var(--shadow-sm);
-        transition: background-color var(--transition-fast);
+        transition: background var(--transition-fast);
       }
       .menu-toggle:hover {
-        background-color: var(--green-primary-dark);
+        background: var(--green-primary-dark);
       }
       .sidebar-toggle-mobile {
         display: none;
@@ -259,7 +259,7 @@
         cursor: pointer;
         padding: var(--spacing-md);
         text-align: center;
-        background-color: var(--green-primary);
+        background: var(--green-primary);
         color: var(--white);
         position: sticky;
         bottom: 0;
@@ -274,10 +274,10 @@
         min-height: 100vh;
         display: flex;
         flex-direction: column;
-        background-color: var(--light-gray);
+        background: var(--light-gray);
       }
       .dark-mode .main-content {
-        background-color: var(--dark-bg);
+        background: var(--dark-bg);
       }
       .main-content-expanded {
         margin-left: 70px;
@@ -297,7 +297,7 @@
 
       /* Header */
       .header {
-        background-color: var(--white);
+        background: var(--white);
         padding: var(--spacing-md) var(--spacing-lg);
         display: flex;
         align-items: center;
@@ -309,20 +309,20 @@
         height: 70px;
       }
       .dark-mode .header {
-        background-color: var(--dark-surface);
+        background: var(--dark-surface);
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
       }
       .search-bar {
         display: flex;
         align-items: center;
-        background-color: var(--light-gray);
+        background: var(--light-gray);
         border-radius: 20px;
         padding: var(--spacing-sm) var(--spacing-md);
         width: 300px;
         transition: all var(--transition-fast);
       }
       .dark-mode .search-bar {
-        background-color: var(--dark-card);
+        background: var(--dark-card);
       }
       .search-bar:focus-within {
         box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.3);
@@ -365,19 +365,19 @@
         cursor: pointer;
         padding: var(--spacing-xs);
         border-radius: var(--border-radius-circle);
-        transition: background-color var(--transition-fast);
+        transition: background var(--transition-fast);
       }
       .notification:hover {
-        background-color: rgba(0, 0, 0, 0.05);
+        background: rgba(0, 0, 0, 0.05);
       }
       .dark-mode .notification:hover {
-        background-color: rgba(255, 255, 255, 0.05);
+        background: rgba(255, 255, 255, 0.05);
       }
       .notification-count {
         position: absolute;
         top: -5px;
         right: -5px;
-        background-color: var(--harvest-yellow);
+        background: var(--harvest-yellow);
         color: var(--dark-gray);
         font-size: 0.7rem;
         width: 18px;
@@ -393,7 +393,7 @@
         top: calc(100% + 10px);
         right: -10px;
         width: 320px;
-        background-color: var(--white);
+        background: var(--white);
         border-radius: var(--border-radius-md);
         box-shadow: var(--shadow-md);
         z-index: 100;
@@ -407,7 +407,7 @@
         flex-direction: column;
       }
       .dark-mode .notification-dropdown {
-        background-color: var(--dark-card);
+        background: var(--dark-card);
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
       }
       .notification-dropdown.show {
@@ -439,16 +439,16 @@
         align-items: center;
         padding: var(--spacing-md);
         border-bottom: 1px solid var(--light-gray);
-        transition: background-color var(--transition-fast);
+        transition: background var(--transition-fast);
       }
       .dark-mode .notification-item {
         border-bottom-color: var(--dark-border);
       }
       .notification-item:hover {
-        background-color: var(--light-gray);
+        background: var(--light-gray);
       }
       .dark-mode .notification-item:hover {
-        background-color: var(--dark-surface);
+        background: var(--dark-surface);
       }
       .notification-icon {
         width: 30px;
@@ -461,15 +461,15 @@
         font-size: 1rem;
       }
       .notification-icon.warning {
-        background-color: var(--warning);
+        background: var(--warning);
         color: var(--white);
       }
       .notification-icon.success {
-        background-color: var(--success);
+        background: var(--success);
         color: var(--white);
       }
       .notification-icon.info {
-        background-color: var(--sky-blue);
+        background: var(--sky-blue);
         color: var(--white);
       }
       .notification-content p {
@@ -517,19 +517,19 @@
         cursor: pointer;
         padding: var(--spacing-sm);
         border-radius: var(--border-radius-md);
-        transition: background-color var(--transition-fast);
+        transition: background var(--transition-fast);
         position: relative;
       }
       .user-profile:hover {
-        background-color: rgba(0, 0, 0, 0.05);
+        background: rgba(0, 0, 0, 0.05);
       }
       .dark-mode .user-profile:hover {
-        background-color: rgba(255, 255, 255, 0.05);
+        background: rgba(255, 255, 255, 0.05);
       }
       .user-avatar {
         width: 35px;
         height: 35px;
-        background-color: var(--green-primary);
+        background: var(--green-primary);
         color: var(--white);
         border-radius: var(--border-radius-circle);
         display: flex;
@@ -571,7 +571,7 @@
         top: calc(100% + 10px);
         right: 0;
         width: 200px;
-        background-color: var(--white);
+        background: var(--white);
         border-radius: var(--border-radius-md);
         box-shadow: var(--shadow-md);
         z-index: 100;
@@ -581,7 +581,7 @@
         transition: all var(--transition-normal);
       }
       .dark-mode .user-dropdown {
-        background-color: var(--dark-card);
+        background: var(--dark-card);
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
       }
       .user-dropdown.show {
@@ -596,22 +596,22 @@
       }
       .user-dropdown li {
         padding: var(--spacing-sm) var(--spacing-md);
-        transition: background-color var(--transition-fast);
+        transition: background var(--transition-fast);
       }
       .user-dropdown li:hover {
-        background-color: var(--light-gray);
+        background: var(--light-gray);
       }
       .dark-mode .user-dropdown li:hover {
-        background-color: var(--dark-surface);
+        background: var(--dark-surface);
       }
       .user-dropdown li.divider {
         height: 1px;
-        background-color: var(--light-gray);
+        background: var(--light-gray);
         padding: 0;
         margin: var(--spacing-sm) 0;
       }
       .dark-mode .user-dropdown li.divider {
-        background-color: var(--dark-border);
+        background: var(--dark-border);
       }
       .user-dropdown a {
         display: flex;
@@ -638,14 +638,14 @@
         gap: var(--spacing-lg);
       }
       .section {
-        background-color: var(--white);
+        background: var(--white);
         border-radius: var(--border-radius-md);
         box-shadow: var(--shadow-sm);
         padding: var(--spacing-lg);
         margin-bottom: var(--spacing-xl);
       }
       .dark-mode .section {
-        background-color: var(--dark-card);
+        background: var(--dark-card);
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
       }
       .section-header {
@@ -685,62 +685,62 @@
         justify-content: center;
       }
       .btn-primary {
-        background-color: var(--green-primary);
+        background: var(--green-primary);
         color: var(--white);
       }
       .btn-primary:hover {
-        background-color: var(--green-primary-dark);
+        background: var(--green-primary-dark);
         transform: translateY(-2px);
       }
       .btn-secondary {
-        background-color: rgba(46, 125, 50, 0.1);
+        background: rgba(46, 125, 50, 0.1);
         color: var(--green-primary);
       }
       .btn-secondary:hover {
-        background-color: rgba(46, 125, 50, 0.2);
+        background: rgba(46, 125, 50, 0.2);
         transform: translateY(-2px);
       }
       .btn-outline {
         border: 1px solid var(--green-primary);
-        background-color: transparent;
+        background: transparent;
         color: var(--green-primary);
       }
       .btn-outline:hover {
-        background-color: rgba(46, 125, 50, 0.1);
+        background: rgba(46, 125, 50, 0.1);
         transform: translateY(-2px);
       }
       .btn-success {
-        background-color: var(--success);
+        background: var(--success);
         color: var(--white);
       }
       .btn-success:hover {
-        background-color: #388e3c;
+        background: #388e3c;
         transform: translateY(-2px);
       }
       .btn-danger {
-        background-color: var(--danger);
+        background: var(--danger);
         color: var(--white);
       }
       .btn-danger:hover {
-        background-color: #d32f2f;
+        background: #d32f2f;
         transform: translateY(-2px);
       }
       .dark-mode .btn-secondary {
-        background-color: rgba(76, 175, 80, 0.1);
+        background: rgba(76, 175, 80, 0.1);
         color: var(--green-primary-light);
       }
       .dark-mode .btn-secondary:hover {
-        background-color: rgba(76, 175, 80, 0.2);
+        background: rgba(76, 175, 80, 0.2);
       }
       .dark-mode .btn-outline {
         border-color: var(--green-primary-light);
         color: var(--green-primary-light);
       }
       .dark-mode .btn-outline:hover {
-        background-color: rgba(76, 175, 80, 0.1);
+        background: rgba(76, 175, 80, 0.1);
       }
       .btn:disabled {
-        background-color: var(--medium-gray);
+        background: var(--medium-gray);
         color: var(--light-gray);
         cursor: not-allowed;
         transform: none;
@@ -786,10 +786,10 @@
         left: 0;
         width: 100%;
         height: 2px;
-        background-color: var(--green-primary);
+        background: var(--green-primary);
       }
       .dark-mode .tab.active::after {
-        background-color: var(--green-primary-light);
+        background: var(--green-primary-light);
       }
       .tab-content {
         padding: var(--spacing-md) var(--spacing-lg);
@@ -811,11 +811,11 @@
         border: 1px solid var(--light-gray);
         border-radius: var(--border-radius-md);
         transition: all var(--transition-fast);
-        background-color: var(--white);
+        background: var(--white);
       }
       .dark-mode .review-item {
         border-color: var(--dark-border);
-        background-color: var(--dark-card);
+        background: var(--dark-card);
       }
       .review-item:hover {
         border-color: var(--green-primary);
@@ -876,19 +876,19 @@
         font-size: 0.8rem;
       }
       .badge-success {
-        background-color: rgba(46, 125, 50, 0.1);
+        background: rgba(46, 125, 50, 0.1);
         color: var(--green-primary);
       }
       .badge-warning {
-        background-color: rgba(251, 192, 45, 0.1);
+        background: rgba(251, 192, 45, 0.1);
         color: var(--harvest-yellow);
       }
       .badge-danger {
-        background-color: rgba(244, 67, 54, 0.1);
+        background: rgba(244, 67, 54, 0.1);
         color: var(--danger);
       }
 
-      /* Modal */
+      /* Modal Styles */
       .modal {
         position: fixed;
         top: 0;
@@ -899,8 +899,13 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: rgba(0, 0, 0, 0.6);
-        animation: fadeIn 0.3s ease-in-out;
+        visibility: hidden;
+        opacity: 0;
+        transition: all var(--transition-normal);
+      }
+      .modal.active {
+        visibility: visible;
+        opacity: 1;
       }
       .modal-overlay {
         position: absolute;
@@ -908,57 +913,42 @@
         left: 0;
         width: 100%;
         height: 100%;
-        z-index: -1;
-        cursor: pointer;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1;
       }
       .modal-content {
-        background-color: var(--white);
-        border-radius: var(--border-radius-lg);
+        background: var(--white);
+        border-radius: var(--border-radius-md);
         box-shadow: var(--shadow-lg);
-        width: 100%;
         max-width: 600px;
+        width: 90%;
         max-height: 80vh;
         overflow-y: auto;
         position: relative;
-        animation: slideInFromTop 0.3s ease-in-out;
+        z-index: 2;
+        animation: fadeInDown 0.3s ease;
         padding: var(--spacing-md);
       }
       .dark-mode .modal-content {
-        background-color: var(--dark-card);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        background: var(--dark-card);
+        color: var(--dark-text);
       }
-      .modal-content::-webkit-scrollbar {
-        width: 8px;
-      }
-      .modal-content::-webkit-scrollbar-track {
-        background: var(--light-gray);
-        border-radius: 4px;
-      }
-      .dark-mode .modal-content::-webkit-scrollbar-track {
-        background: var(--dark-border);
-      }
-      .modal-content::-webkit-scrollbar-thumb {
-        background: var(--green-primary);
-        border-radius: 4px;
-      }
-      .dark-mode .modal-content::-webkit-scrollbar-thumb {
-        background: var(--green-primary-light);
+      .modal-large .modal-content {
+        max-width: 800px;
       }
       .modal-header {
-        padding: var(--spacing-md) var(--spacing-lg);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: var(--spacing-md);
         border-bottom: 1px solid var(--light-gray);
-        background-color: var(--white);
-        position: sticky;
-        top: 0;
-        z-index: 10;
       }
       .dark-mode .modal-header {
         border-bottom-color: var(--dark-border);
-        background-color: var(--dark-card);
       }
       .modal-header h2 {
+        font-size: 1.2rem;
         margin: 0;
-        font-size: 1.3rem;
         color: var(--green-primary);
       }
       .dark-mode .modal-header h2 {
@@ -967,54 +957,31 @@
       .modal-body {
         padding: var(--spacing-lg);
       }
-      .modal-footer {
-        padding: var(--spacing-md) var(--spacing-lg);
-        border-top: 1px solid var(--light-gray);
-        display: flex;
-        justify-content: flex-end;
-        gap: var(--spacing-sm);
-        background-color: var(--white);
-        position: sticky;
-        bottom: 0;
-        z-index: 10;
+      .close-modal {
+        background: none;
+        border: none;
+        font-size: 1.2rem;
+        cursor: pointer;
+        color: var(--medium-gray);
+        transition: color var(--transition-fast);
       }
-      .dark-mode .modal-footer {
-        border-top-color: var(--dark-border);
-        background-color: var(--dark-card);
+      .dark-mode .close-modal {
+        color: var(--dark-text-secondary);
       }
-      .modal-medium {
-        max-width: 600px;
+      .close-modal:hover {
+        color: var(--green-primary);
       }
-      .modal-large {
-        max-width: 800px;
+      .dark-mode .close-modal:hover {
+        color: var(--green-primary-light);
       }
 
-      /* Form Controls for Modals */
-      .form-control {
-        width: 100%;
-        padding: var(--spacing-sm);
-        border: 1px solid var(--light-gray);
-        border-radius: var(--border-radius-sm);
-        font-size: 0.9rem;
-        color: var(--dark-gray);
-        background-color: var(--white);
-        transition: border-color var(--transition-fast);
-      }
-      .dark-mode .form-control {
-        border-color: var(--dark-border);
-        background-color: var(--dark-surface);
-        color: var(--dark-text);
-      }
-      .form-control:focus {
-        outline: none;
-        border-color: var(--green-primary);
-        box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.2);
-      }
+      /* Form Styles */
       .form-group {
         margin-bottom: var(--spacing-md);
       }
       .form-group label {
         display: block;
+        font-size: 0.9rem;
         font-weight: 600;
         margin-bottom: var(--spacing-xs);
         color: var(--dark-gray);
@@ -1022,20 +989,35 @@
       .dark-mode .form-group label {
         color: var(--dark-text);
       }
-      .form-actions {
-        display: flex;
-        gap: var(--spacing-sm);
-        justify-content: flex-end;
+      .form-control {
+        width: 100%;
+        padding: var(--spacing-sm);
+        border: 1px solid var(--light-gray);
+        border-radius: var(--border-radius-sm);
+        font-size: 0.9rem;
+        outline: none;
+        transition: border-color var(--transition-fast);
+        background: var(--white);
+        color: var(--dark-gray);
       }
-      .form-row {
-        display: flex;
-        gap: var(--spacing-md);
+      .dark-mode .form-control {
+        border-color: var(--dark-border);
+        background: var(--dark-surface);
+        color: var(--dark-text);
       }
-      .form-row .form-group {
-        flex: 1;
+      .form-control:focus {
+        border-color: var(--green-primary);
+        box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.2);
+      }
+      .form-control::placeholder {
+        color: var(--medium-gray);
+        opacity: 0.7;
+      }
+      .dark-mode .form-control::placeholder {
+        color: var(--dark-text-secondary);
       }
 
-      /* Review Detail Modal */
+      /* Review Detail Modal Styles */
       .review-detail-modal {
         display: flex;
         flex-direction: column;
@@ -1048,36 +1030,37 @@
         margin-bottom: var(--spacing-md);
       }
       .review-title {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         font-weight: 600;
-        color: var(--green-primary);
+        color: var(--dark-gray);
       }
       .dark-mode .review-title {
-        color: var(--green-primary-light);
+        color: var(--dark-text);
       }
       .review-detail-section {
         margin-bottom: var(--spacing-md);
       }
       .review-detail-section h3 {
         font-size: 1rem;
+        font-weight: 600;
+        color: var(--green-primary);
         margin-bottom: var(--spacing-sm);
-        color: var(--dark-gray);
       }
       .dark-mode .review-detail-section h3 {
-        color: var(--dark-text);
+        color: var(--green-primary-light);
       }
       .detail-row {
         display: flex;
-        gap: var(--spacing-md);
         margin-bottom: var(--spacing-sm);
+        font-size: 0.9rem;
       }
       .detail-label {
+        flex: 0 0 150px;
         font-weight: 600;
-        width: 120px;
-        color: var(--dark-gray);
+        color: var(--medium-gray);
       }
       .dark-mode .detail-label {
-        color: var(--dark-text);
+        color: var(--dark-text-secondary);
       }
       .detail-value {
         flex: 1;
@@ -1087,34 +1070,37 @@
         color: var(--dark-text);
       }
       .review-text-content {
-        font-size: 0.9rem;
         line-height: 1.6;
       }
       .response-text {
+        line-height: 1.6;
         font-style: italic;
-        color: var(--medium-gray);
-        margin-top: var(--spacing-sm);
-      }
-      .dark-mode .response-text {
-        color: var(--dark-text-secondary);
       }
       .review-actions-footer {
         display: flex;
-        gap: var(--spacing-sm);
+        gap: var(--spacing-md);
         justify-content: flex-end;
-        margin-top: var(--spacing-md);
+        margin-top: var(--spacing-lg);
+      }
+      @media (max-width: 480px) {
+        .review-actions-footer {
+          flex-direction: column;
+        }
+        .review-actions-footer .btn {
+          width: 100%;
+        }
       }
 
-    /* Footer */
-    .footer {
-        background-color: var(--white);
+      /* Footer */
+      .footer {
+        background: var(--white);
         padding: var(--spacing-lg) var(--spacing-xl);
         border-top: 1px solid var(--light-gray);
         margin-top: auto;
         box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
       }
       .dark-mode .footer {
-        background-color: var(--dark-surface);
+        background: var(--dark-surface);
         border-top-color: var(--dark-border);
         box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
       }
@@ -1171,15 +1157,15 @@
         animation: slideIn 0.3s ease;
       }
       .toast-success {
-        background-color: var(--success);
+        background: var(--success);
         color: var(--white);
       }
       .toast-info {
-        background-color: var(--info);
+        background: var(--info);
         color: var(--white);
       }
       .toast-error {
-        background-color: var(--danger);
+        background: var(--danger);
         color: var(--white);
       }
       .toast i {
@@ -1196,11 +1182,15 @@
         from { transform: translateX(100%); opacity: 0; }
         to { transform: translateX(0); opacity: 1; }
       }
-      @keyframes slideInFromTop {
+      @keyframes slideOut {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+      }
+      @keyframes fadeInDown {
         from { opacity: 0; transform: translateY(-20px); }
         to { opacity: 1; transform: translateY(0); }
       }
-      @keyframes slideOutToTop {
+      @keyframes fadeOutUp {
         from { opacity: 1; transform: translateY(0); }
         to { opacity: 0; transform: translateY(-20px); }
       }
@@ -1255,8 +1245,11 @@
           gap: var(--spacing-sm);
         }
         .modal-content {
-          max-width: 90%;
+          width: 95%;
           max-height: 85vh;
+        }
+        .modal-large .modal-content {
+          width: 95%;
         }
       }
       @media (max-width: 480px) {
@@ -1282,10 +1275,6 @@
         }
         .search-bar {
           max-width: 100%;
-        }
-        .modal-content {
-          max-width: 95%;
-          border-radius: var(--border-radius-md);
         }
       }
     </style>
@@ -1478,17 +1467,17 @@
 
         // Toast Notification Function
         function showToast(message, type = "success", duration = 3000) {
-          const toastContainer = $("#toastContainer");
-          if (!toastContainer) {
+          const toastContainer = $("#toastContainer") || (() => {
             const container = document.createElement("div");
             container.id = "toastContainer";
             container.className = "toast-container";
             document.body.appendChild(container);
-          }
+            return container;
+          })();
           const toast = document.createElement("div");
           toast.className = `toast toast-${type}`;
           toast.innerHTML = `${message}<i class="fas fa-times"></i>`;
-          $("#toastContainer").appendChild(toast);
+          toastContainer.appendChild(toast);
           setTimeout(() => {
             toast.style.animation = "slideOut 0.3s ease";
             setTimeout(() => toast.remove(), 300);
@@ -1501,37 +1490,77 @@
 
         // Modal Functionality
         function createModal(title, content, size = 'medium') {
+          // Remove any existing modal
           const existingModal = $("#customModal");
           if (existingModal) existingModal.remove();
+
           const modal = document.createElement("div");
           modal.id = "customModal";
           modal.className = `modal modal-${size}`;
+          modal.setAttribute("role", "dialog");
+          modal.setAttribute("aria-labelledby", "modalTitle");
+          modal.setAttribute("aria-modal", "true");
           modal.innerHTML = `
-            <div class="modal-content animate__animated animate__slideInFromTop">
-              <div class="modal-header">
-                <h2>${title}</h2>
-              </div>
-              <div class="modal-body">
-                ${content}
-              </div>
-              <div class="modal-footer">
-                <!-- Actions like Respond/Cancel are added via content -->
-              </div>
-            </div>
             <div class="modal-overlay"></div>
+            <div class="modal-content">
+              <div class="modal-header">
+                <h2 id="modalTitle">${title}</h2>
+                <button class="close-modal" aria-label="Close modal"><i class="fas fa-times"></i></button>
+              </div>
+              <div class="modal-body">${content}</div>
+            </div>
           `;
           document.body.appendChild(modal);
-          const modalOverlay = modal.querySelector(".modal-overlay");
-          modalOverlay.addEventListener("click", () => {
-            modal.querySelector(".modal-content").classList.replace("animate__slideInFromTop", "animate__slideOutToTop");
-            setTimeout(() => modal.remove(), 300);
-          });
+
+          // Focus management
+          const focusableElements = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+          const firstFocusable = focusableElements[0];
+          const lastFocusable = focusableElements[focusableElements.length - 1];
+          firstFocusable?.focus();
+
+          // Trap focus within modal
+          const trapFocus = (e) => {
+            if (e.key === "Tab") {
+              if (e.shiftKey) {
+                if (document.activeElement === firstFocusable) {
+                  e.preventDefault();
+                  lastFocusable.focus();
+                }
+              } else {
+                if (document.activeElement === lastFocusable) {
+                  e.preventDefault();
+                  firstFocusable.focus();
+                }
+              }
+            }
+          };
+
+          modal.classList.add("active");
           document.body.style.overflow = "hidden";
-          const restoreScrolling = () => document.body.style.overflow = "";
-          modal.addEventListener("animationend", function(e) {
-            if (e.animationName === "slideOutToTop") restoreScrolling();
-          });
-          return modal;
+
+          const closeModal = () => {
+            modal.classList.remove("active");
+            modal.querySelector(".modal-content").style.animation = "fadeOutUp 0.3s ease";
+            setTimeout(() => {
+              modal.remove();
+              document.body.style.overflow = "";
+              document.removeEventListener("keydown", handleEscape);
+              modal.removeEventListener("keydown", trapFocus);
+            }, 300);
+          };
+
+          // Event listeners for closing modal
+          modal.querySelector(".close-modal").addEventListener("click", closeModal);
+          modal.querySelector(".modal-overlay").addEventListener("click", closeModal);
+
+          // Handle Escape key
+          const handleEscape = (e) => {
+            if (e.key === "Escape") closeModal();
+          };
+          document.addEventListener("keydown", handleEscape);
+          modal.addEventListener("keydown", trapFocus);
+
+          return { modal, close: closeModal };
         }
 
         // Sidebar Toggle
@@ -1688,7 +1717,6 @@
               $$('.tab-content').forEach(content => content.classList.add('hidden'));
               const tabName = tab.getAttribute('data-tab');
               $(`#${tabName}Tab`).classList.remove('hidden');
-              showToast(`Switched to ${tab.textContent} reviews`, "info");
             });
           });
         }
@@ -1793,7 +1821,7 @@
                       <h3>Respond to Review</h3>
                       <div class="form-group">
                         <label for="reviewResponse">Your Response</label>
-                        <textarea id="reviewResponse" class="form-control" rows="4" placeholder="Enter your response...">${review.response || ''}</textarea>
+                        <textarea id="reviewResponse" class="form-control" rows="4" maxlength="500" placeholder="Enter your response (max 500 characters)..." aria-required="true">${review.response || ''}</textarea>
                       </div>
                     </div>
                     <div class="review-actions-footer">
@@ -1804,7 +1832,7 @@
                     </div>
                   </div>
                 `;
-                const modal = createModal(`Review #${review.id} Details`, modalContent, 'large');
+                const { modal, close } = createModal(`Review #${review.id} Details`, modalContent, 'large');
                 const saveResponseBtn = modal.querySelector(".save-response");
                 const cancelBtn = modal.querySelector(".cancel-modal");
                 if (saveResponseBtn) {
@@ -1814,6 +1842,10 @@
                       showToast("Please enter a response", "error");
                       return;
                     }
+                    if (response.length > 500) {
+                      showToast("Response must be 500 characters or less", "error");
+                      return;
+                    }
                     review.response = response;
                     review.status = review.rating >= 3 ? "Positive" : "Negative";
                     saveReviewData(reviewData.reviews);
@@ -1821,16 +1853,12 @@
                     populateReviews("positiveReviews", reviewData.reviews.filter(r => r.status === "Positive"));
                     populateReviews("negativeReviews", reviewData.reviews.filter(r => r.status === "Negative"));
                     populateReviews("pendingReviews", reviewData.reviews.filter(r => r.status === "Pending"));
-                    modal.querySelector(".modal-content").classList.replace("animate__slideInFromTop", "animate__slideOutToTop");
-                    setTimeout(() => modal.remove(), 300);
+                    close();
                     showToast(`Response to review #${reviewId} saved!`, "success");
                   });
                 }
                 if (cancelBtn) {
-                  cancelBtn.addEventListener("click", () => {
-                    modal.querySelector(".modal-content").classList.replace("animate__slideInFromTop", "animate__slideOutToTop");
-                    setTimeout(() => modal.remove(), 300);
-                  });
+                  cancelBtn.addEventListener("click", close);
                 }
               } else {
                 showToast(`Error: Review #${reviewId} not found`, "error");
