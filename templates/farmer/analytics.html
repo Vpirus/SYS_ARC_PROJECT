@@ -1,15 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AgriGo - Analytics</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&family=Roboto:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
-        :root {
+      :root {
             /* Primary Colors */
             --green-primary: #2e7d32;
             --green-primary-light: #4caf50;
@@ -1142,575 +1151,834 @@
             }
         }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="overlay" id="overlay"></div>
     <div class="container">
-        <!-- Sidebar -->
-        <div class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <img src="/templates/images/logo.png" alt="AgriGo Logo" class="logo">
-                <h2>AgriGo</h2>
-                <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
-            </div>
-            <div class="sidebar-menu">
-                <ul class="nav-list">
-                    <li class="nav-item">
-                        <a href="/templates/farmer/farmer-dashboard.html" class="nav-link" data-tab="dashboard">
-                            <i class="fas fa-home"></i> <span>Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/templates/farmer/farm.html" class="nav-link" data-tab="farm">
-                            <i class="fas fa-seedling"></i> <span>My Farm</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/templates/farmer/products.html" class="nav-link" data-tab="products">
-                            <i class="fas fa-box"></i> <span>Products</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/templates/farmer/orders.html" class="nav-link" data-tab="orders">
-                            <i class="fas fa-shopping-cart"></i> <span>Orders</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/templates/farmer/payments.html" class="nav-link" data-tab="payments">
-                            <i class="fas fa-credit-card"></i> <span>Payments</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/templates/farmer/reviews.html" class="nav-link" data-tab="reviews">
-                            <i class="fas fa-comment-alt"></i> <span>Reviews</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/templates/farmer/analytics.html" class="nav-link active" data-tab="analytics">
-                            <i class="fas fa-chart-line"></i> <span>Analytics</span>
-                        </a>
-                    </li>
+      <!-- Sidebar -->
+      <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <img
+            src="/templates/images/logo.png"
+            alt="AgriGo Logo"
+            class="logo"
+          />
+          <h2>AgriGo</h2>
+          <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+        </div>
+        <div class="sidebar-menu">
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a
+                href="/templates/farmer/farmer-dashboard.html"
+                class="nav-link"
+                data-tab="dashboard"
+              >
+                <i class="fas fa-home"></i> <span>Dashboard</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="/templates/farmer/farm.html"
+                class="nav-link"
+                data-tab="farm"
+              >
+                <i class="fas fa-seedling"></i> <span>My Farm</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="/templates/farmer/products.html"
+                class="nav-link"
+                data-tab="products"
+              >
+                <i class="fas fa-box"></i> <span>Products</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="/templates/farmer/orders.html"
+                class="nav-link"
+                data-tab="orders"
+              >
+                <i class="fas fa-shopping-cart"></i> <span>Orders</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="/templates/farmer/payments.html"
+                class="nav-link"
+                data-tab="payments"
+              >
+                <i class="fas fa-credit-card"></i> <span>Payments</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="/templates/farmer/reviews.html"
+                class="nav-link"
+                data-tab="reviews"
+              >
+                <i class="fas fa-comment-alt"></i> <span>Reviews</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="/templates/farmer/analytics.html"
+                class="nav-link active"
+                data-tab="analytics"
+              >
+                <i class="fas fa-chart-line"></i> <span>Analytics</span>
+              </a>
+            </li>
+          </ul>
+          <div class="sidebar-toggle-mobile">
+            <i class="fas fa-times"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content" id="main-content">
+        <!-- Header -->
+        <div class="header">
+          <button
+            class="mobile-menu-toggle"
+            id="mobile-menu-toggle"
+            aria-label="Mobile menu"
+          >
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Search analytics..."
+              aria-label="Search"
+            />
+          </div>
+          <div class="header-actions">
+            <div class="notification" id="notificationIcon">
+              <i class="fas fa-bell"></i>
+              <span class="notification-count">3</span>
+              <div class="notification-dropdown" id="notificationDropdown">
+                <h3>Notifications</h3>
+                <ul class="notification-list">
+                  <li class="notification-item">
+                    <div class="notification-icon success">
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="notification-content">
+                      <p>New order placed for Organic Tomatoes</p>
+                      <span class="notification-time">30 minutes ago</span>
+                    </div>
+                  </li>
+                  <li class="notification-item">
+                    <div class="notification-icon info">
+                      <i class="fas fa-info-circle"></i>
+                    </div>
+                    <div class="notification-content">
+                      <p>Product inventory low: Bell Peppers</p>
+                      <span class="notification-time">2 hours ago</span>
+                    </div>
+                  </li>
+                  <li class="notification-item">
+                    <div class="notification-icon warning">
+                      <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="notification-content">
+                      <p>Update your profile information</p>
+                      <span class="notification-time">1 day ago</span>
+                    </div>
+                  </li>
                 </ul>
-                <div class="sidebar-toggle-mobile">
-                    <i class="fas fa-times"></i>
+                <div class="notification-footer">
+                  <a href="#notifications">View all notifications</a>
                 </div>
+              </div>
             </div>
+            <div class="user-profile" id="userProfile">
+              <div class="user-avatar">VF</div>
+              <div class="user-info">
+                <div class="user-name">Vicente Fernandez</div>
+                <span class="role-badge">Verified Farmer</span>
+              </div>
+              <i class="fas fa-chevron-down dropdown-icon"></i>
+              <div class="user-dropdown" id="userDropdown">
+                <ul>
+                  <li>
+                    <a href="/templates/farmer/my-profile.html"
+                      ><i class="fas fa-user"></i> My Profile</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#settings"
+                      ><i class="fas fa-cog"></i> Account Settings</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#help"
+                      ><i class="fas fa-question-circle"></i> Help & Support</a
+                    >
+                  </li>
+                  <li class="divider"></li>
+                  <li>
+                    <a href="#" id="darkModeToggle"
+                      ><i class="fas fa-moon"></i>
+                      <span id="themeText">Dark Mode</span></a
+                    >
+                  </li>
+                  <li class="divider"></li>
+                  <li>
+                    <a href="#" id="userDropdownLogout"
+                      ><i class="fas fa-sign-out-alt"></i> Logout</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <!-- Main Content -->
-        <div class="main-content" id="main-content">
-            <!-- Header -->
-            <div class="header">
-                <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Mobile menu">
-                    <i class="fas fa-bars"></i>
+        <!-- Analytics Content -->
+        <div class="analytics-content">
+          <!-- Analytics Overview Section -->
+          <div class="section">
+            <div class="section-header">
+              <div class="section-title">Analytics Overview</div>
+              <div class="section-actions">
+                <div class="form-group">
+                  <select class="form-control" id="timeFilter">
+                    <option value="year">Last 12 Months</option>
+                    <option value="6months">Last 6 Months</option>
+                    <option value="30days">Last 30 Days</option>
+                  </select>
+                </div>
+                <button class="btn btn-outline" id="exportDataBtn">
+                  <i class="fas fa-download"></i> Export Data
                 </button>
-                <div class="search-bar">
-                    <i class="fas fa-search"></i>
-                    <input type="text" id="searchInput" placeholder="Search analytics..." aria-label="Search">
-                </div>
-                <div class="header-actions">
-                    <div class="notification" id="notificationIcon">
-                        <i class="fas fa-bell"></i>
-                        <span class="notification-count">3</span>
-                        <div class="notification-dropdown" id="notificationDropdown">
-                            <h3>Notifications</h3>
-                            <ul class="notification-list">
-                                <li class="notification-item">
-                                    <div class="notification-icon success">
-                                        <i class="fas fa-check-circle"></i>
-                                    </div>
-                                    <div class="notification-content">
-                                        <p>New order placed for Organic Tomatoes</p>
-                                        <span class="notification-time">30 minutes ago</span>
-                                    </div>
-                                </li>
-                                <li class="notification-item">
-                                    <div class="notification-icon info">
-                                        <i class="fas fa-info-circle"></i>
-                                    </div>
-                                    <div class="notification-content">
-                                        <p>Product inventory low: Bell Peppers</p>
-                                        <span class="notification-time">2 hours ago</span>
-                                    </div>
-                                </li>
-                                <li class="notification-item">
-                                    <div class="notification-icon warning">
-                                        <i class="fas fa-exclamation-triangle"></i>
-                                    </div>
-                                    <div class="notification-content">
-                                        <p>Update your profile information</p>
-                                        <span class="notification-time">1 day ago</span>
-                                    </div>
-                                </li>
-                            </ul>
-                            <div class="notification-footer">
-                                <a href="#notifications">View all notifications</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="user-profile" id="userProfile">
-                        <div class="user-avatar">VF</div>
-                        <div class="user-info">
-                            <div class="user-name">Vicente Fernandez</div>
-                            <span class="role-badge">Verified Farmer</span>
-                        </div>
-                        <i class="fas fa-chevron-down dropdown-icon"></i>
-                        <div class="user-dropdown" id="userDropdown">
-                            <ul>
-                                <li><a href="/templates/farmer/my-profile.html"><i class="fas fa-user"></i> My Profile</a></li>
-                                <li><a href="#settings"><i class="fas fa-cog"></i> Account Settings</a></li>
-                                <li><a href="#help"><i class="fas fa-question-circle"></i> Help & Support</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#" id="darkModeToggle"><i class="fas fa-moon"></i> <span id="themeText">Dark Mode</span></a></li>
-                                <li class="divider"></li>
-                                <li><a href="#" id="userDropdownLogout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+              </div>
             </div>
 
-            <!-- Analytics Content -->
-            <div class="analytics-content">
-                <!-- Analytics Overview Section -->
-                <div class="section">
-                    <div class="section-header">
-                        <div class="section-title">Analytics Overview</div>
-                        <div class="section-actions">
-                            <div class="form-group">
-                                <select class="form-control" id="timeFilter">
-                                    <option value="year">Last 12 Months</option>
-                                    <option value="6months">Last 6 Months</option>
-                                    <option value="30days">Last 30 Days</option>
-                                </select>
-                            </div>
-                            <button class="btn btn-outline" id="exportDataBtn">
-                                <i class="fas fa-download"></i> Export Data
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Sales Overview -->
-                    <div class="section">
-                        <h3>Sales Overview</h3>
-                        <div class="chart-container">
-                            <canvas id="salesChart"></canvas>
-                        </div>
-                    </div>
-
-                    <!-- Crop Performance and Order Statistics -->
-                    <div class="chart-row">
-                        <div class="section">
-                            <h3>Crop Performance</h3>
-                            <div class="chart-container">
-                                <canvas id="cropChart"></canvas>
-                            </div>
-                        </div>
-                        <div class="section">
-                            <h3>Order Statistics</h3>
-                            <div class="chart-container">
-                                <canvas id="orderChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Customer Insights -->
-                    <div class="section">
-                        <h3>Customer Insights</h3>
-                        <table class="analytics-table" id="customerTable">
-                            <thead>
-                                <tr>
-                                    <th>Customer Name</th>
-                                    <th>Total Orders</th>
-                                    <th>Total Spent</th>
-                                    <th>Last Purchase</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>John Mercado</td>
-                                    <td>15</td>
-                                    <td>₱45,000</td>
-                                    <td>2025-04-20</td>
-                                </tr>
-                                <tr>
-                                    <td>Maria Santos</td>
-                                    <td>12</td>
-                                    <td>₱38,000</td>
-                                    <td>2025-04-15</td>
-                                </tr>
-                                <tr>
-                                    <td>Pedro Cruz</td>
-                                    <td>8</td>
-                                    <td>₱25,000</td>
-                                    <td>2025-04-10</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+            <!-- Sales Overview -->
+            <div class="section">
+              <h3>Sales Overview</h3>
+              <div class="chart-container">
+                <canvas id="salesChart"></canvas>
+              </div>
             </div>
 
-            <!-- Toast Container -->
-            <div class="toast-container" id="toastContainer"></div>
-
-            <!-- Footer -->
-            <div class="footer">
-                <div class="footer-content">
-                    <p>© 2025 AgriGo. All rights reserved.</p>
-                    <div class="footer-links">
-                        <a href="#terms">Terms of Service</a>
-                        <a href="#privacy">Privacy Policy</a>
-                        <a href="#contact">Contact Us</a>
-                    </div>
+            <!-- Crop Performance and Order Statistics -->
+            <div class="chart-row">
+              <div class="section">
+                <h3>Crop Performance</h3>
+                <div class="chart-container">
+                  <canvas id="cropChart"></canvas>
                 </div>
+              </div>
+              <div class="section">
+                <h3>Order Statistics</h3>
+                <div class="chart-container">
+                  <canvas id="orderChart"></canvas>
+                </div>
+              </div>
             </div>
+
+            <!-- Customer Insights -->
+            <div class="section">
+              <h3>Customer Insights</h3>
+              <table class="analytics-table" id="customerTable">
+                <thead>
+                  <tr>
+                    <th>Customer Name</th>
+                    <th>Total Orders</th>
+                    <th>Total Spent</th>
+                    <th>Last Purchase</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>John Mercado</td>
+                    <td>15</td>
+                    <td>₱45,000</td>
+                    <td>2025-04-20</td>
+                  </tr>
+                  <tr>
+                    <td>Maria Santos</td>
+                    <td>12</td>
+                    <td>₱38,000</td>
+                    <td>2025-04-15</td>
+                  </tr>
+                  <tr>
+                    <td>Pedro Cruz</td>
+                    <td>8</td>
+                    <td>₱25,000</td>
+                    <td>2025-04-10</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
+
+        <!-- Toast Container -->
+        <div class="toast-container" id="toastContainer"></div>
+
+        <!-- Footer -->
+        <div class="footer">
+          <div class="footer-content">
+            <p>© 2025 AgriGo. All rights reserved.</p>
+            <div class="footer-links">
+              <a href="#terms">Terms of Service</a>
+              <a href="#privacy">Privacy Policy</a>
+              <a href="#contact">Contact Us</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script>
-        // Utility Functions
-        const $ = (selector, context = document) => context.querySelector(selector);
-        const $$ = (selector, context = document) => Array.from(context.querySelectorAll(selector));
-        const toggleClass = (element, className) => element?.classList.toggle(className);
-        const removeClass = (elements, className) => elements.forEach(el => el?.classList.remove(className));
-        const addClass = (element, className) => element?.classList.add(className);
+      // Utility Functions
+      const $ = (selector, context = document) =>
+        context.querySelector(selector);
+      const $$ = (selector, context = document) =>
+        Array.from(context.querySelectorAll(selector));
+      const toggleClass = (element, className) =>
+        element?.classList.toggle(className);
+      const removeClass = (elements, className) =>
+        elements.forEach((el) => el?.classList.remove(className));
+      const addClass = (element, className) =>
+        element?.classList.add(className);
 
-        // Toast Notification
-        function showToast(message, type = 'success', duration = 3000) {
-            const toast = document.createElement('div');
-            toast.className = `toast toast-${type}`;
-            toast.innerHTML = `${message}<i class="fas fa-times"></i>`;
-            $('#toastContainer')?.appendChild(toast);
-            setTimeout(() => {
-                toast.style.animation = 'slideOut 0.3s ease';
-                setTimeout(() => toast.remove(), 300);
-            }, duration);
-            toast.querySelector('i').addEventListener('click', () => {
-                toast.style.animation = 'slideOut 0.3s ease';
-                setTimeout(() => toast.remove(), 300);
-            });
+      // Toast Notification
+      function showToast(message, type = "success", duration = 3000) {
+        const toast = document.createElement("div");
+        toast.className = `toast toast-${type}`;
+        toast.innerHTML = `${message}<i class="fas fa-times"></i>`;
+        $("#toastContainer")?.appendChild(toast);
+        setTimeout(() => {
+          toast.style.animation = "slideOut 0.3s ease";
+          setTimeout(() => toast.remove(), 300);
+        }, duration);
+        toast.querySelector("i").addEventListener("click", () => {
+          toast.style.animation = "slideOut 0.3s ease";
+          setTimeout(() => toast.remove(), 300);
+        });
+      }
+
+      // Toggle Sidebar
+      function toggleSidebar() {
+        const sidebar = $("#sidebar");
+        const mainContent = $("#main-content");
+        const overlay = $("#overlay");
+        if (!sidebar || !mainContent || !overlay) return;
+        toggleClass(sidebar, "sidebar-collapsed");
+        toggleClass(mainContent, "main-content-expanded");
+        toggleClass(overlay, "active");
+        const toggleIcon = $("#menu-toggle i");
+        if (toggleIcon) {
+          toggleIcon.className = sidebar.classList.contains("sidebar-collapsed")
+            ? "fas fa-chevron-right"
+            : "fas fa-chevron-left";
         }
+      }
 
-        // Toggle Sidebar
-        function toggleSidebar() {
-            const sidebar = $('#sidebar');
-            const mainContent = $('#main-content');
-            const overlay = $('#overlay');
-            if (!sidebar || !mainContent || !overlay) return;
-            toggleClass(sidebar, 'sidebar-collapsed');
-            toggleClass(mainContent, 'main-content-expanded');
-            toggleClass(overlay, 'active');
-            const toggleIcon = $('#menu-toggle i');
-            if (toggleIcon) {
-                toggleIcon.className = sidebar.classList.contains('sidebar-collapsed') ? 'fas fa-chevron-right' : 'fas fa-chevron-left';
-            }
-        }
+      // Mobile Menu Toggle
+      function toggleMobileMenu() {
+        const sidebar = $("#sidebar");
+        const overlay = $("#overlay");
+        if (!sidebar || !overlay) return;
+        toggleClass(sidebar, "active");
+        toggleClass(overlay, "active");
+      }
 
-        // Mobile Menu Toggle
-        function toggleMobileMenu() {
-            const sidebar = $('#sidebar');
-            const overlay = $('#overlay');
-            if (!sidebar || !overlay) return;
-            toggleClass(sidebar, 'active');
-            toggleClass(overlay, 'active');
-        }
+      // Close Dropdowns
+      function closeDropdowns(exclude = null) {
+        const dropdowns = $$(".notification-dropdown, .user-dropdown");
+        dropdowns.forEach((dropdown) => {
+          if (dropdown !== exclude) {
+            removeClass([dropdown], "show");
+          }
+        });
+      }
 
-        // Close Dropdowns
-        function closeDropdowns(exclude = null) {
-            const dropdowns = $$('.notification-dropdown, .user-dropdown');
-            dropdowns.forEach(dropdown => {
-                if (dropdown !== exclude) {
-                    removeClass([dropdown], 'show');
-                }
-            });
-        }
+      // Chart Data
+      const analyticsData = {
+        year: {
+          sales: {
+            labels: [
+              "Apr",
+              "May",
+              "Jun",
+              "Jul",
+              "Aug",
+              "Sep",
+              "Oct",
+              "Nov",
+              "Dec",
+              "Jan",
+              "Feb",
+              "Mar",
+            ],
+            data: [
+              50000, 60000, 55000, 70000, 80000, 75000, 90000, 85000, 95000,
+              100000, 110000, 120000,
+            ],
+          },
+          crops: {
+            labels: ["Tomatoes", "Peppers", "Mangoes", "Rice"],
+            data: [30000, 25000, 20000, 15000],
+          },
+          orders: {
+            labels: ["Pending", "Completed", "Canceled"],
+            data: [20, 150, 10],
+          },
+        },
+        "6months": {
+          sales: {
+            labels: ["Oct", "Nov", "Dec", "Jan", "Feb", "Mar"],
+            data: [90000, 85000, 95000, 100000, 110000, 120000],
+          },
+          crops: {
+            labels: ["Tomatoes", "Peppers", "Mangoes", "Rice"],
+            data: [18000, 15000, 12000, 9000],
+          },
+          orders: {
+            labels: ["Pending", "Completed", "Canceled"],
+            data: [10, 80, 5],
+          },
+        },
+        "30days": {
+          sales: {
+            labels: ["Mar 1-10", "Mar 11-20", "Mar 21-31"],
+            data: [40000, 45000, 35000],
+          },
+          crops: {
+            labels: ["Tomatoes", "Peppers", "Mangoes", "Rice"],
+            data: [6000, 5000, 4000, 3000],
+          },
+          orders: {
+            labels: ["Pending", "Completed", "Canceled"],
+            data: [5, 25, 2],
+          },
+        },
+      };
 
-        // Chart Data
-        const analyticsData = {
-            year: {
-                sales: {
-                    labels: ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar'],
-                    data: [50000, 60000, 55000, 70000, 80000, 75000, 90000, 85000, 95000, 100000, 110000, 120000]
+      const chartColors = {
+        light: {
+          salesLine: {
+            borderColor: "#2e7d32",
+            backgroundColor: "rgba(46, 125, 50, 0.2)",
+          },
+          cropBars: [
+            "rgba(46, 125, 50, 0.8)", // Crop Green
+            "rgba(255, 152, 0, 0.8)", // Sunrise Orange
+            "rgba(3, 169, 244, 0.8)", // Water Blue
+            "rgba(212, 175, 55, 0.8)", // Wheat Gold
+            "rgba(156, 39, 176, 0.8)", // Purple
+            "rgba(233, 30, 99, 0.8)", // Pink
+          ],
+          orderPie: [
+            "rgba(255, 193, 7, 0.9)", // Warning (Pending)
+            "rgba(76, 175, 80, 0.9)", // Success (Completed)
+            "rgba(244, 67, 54, 0.9)", // Danger (Canceled)
+          ],
+          textColor: "#424242",
+          gridColor: "rgba(0, 0, 0, 0.1)",
+        },
+        dark: {
+          salesLine: {
+            borderColor: "#4caf50",
+            backgroundColor: "rgba(76, 175, 80, 0.2)",
+          },
+          cropBars: [
+            "rgba(76, 175, 80, 0.9)", // Crop Green - brighter
+            "rgba(255, 167, 38, 0.9)", // Sunrise Orange - brighter
+            "rgba(33, 150, 243, 0.9)", // Water Blue - brighter
+            "rgba(255, 215, 0, 0.9)", // Wheat Gold - brighter
+            "rgba(186, 104, 200, 0.9)", // Purple - brighter
+            "rgba(240, 98, 146, 0.9)", // Pink - brighter
+          ],
+          orderPie: [
+            "rgba(255, 214, 102, 0.9)", // Warning (Pending) - brighter
+            "rgba(129, 199, 132, 0.9)", // Success (Completed) - brighter
+            "rgba(229, 115, 115, 0.9)", // Danger (Canceled) - brighter
+          ],
+          textColor: "#e0e0e0",
+          gridColor: "rgba(255, 255, 255, 0.1)",
+        },
+      };
+
+      // Chart Initialization
+      let salesChart, cropChart, orderChart;
+
+      function initCharts(timePeriod = "year") {
+        const data = analyticsData[timePeriod];
+        const isDarkMode = document.body.classList.contains("dark-mode");
+        const colorScheme = isDarkMode ? chartColors.dark : chartColors.light;
+
+        // Sales Chart (Line)
+        const salesCtx = $("#salesChart")?.getContext("2d");
+        if (salesChart) salesChart.destroy();
+        salesChart = new Chart(salesCtx, {
+          type: "line",
+          data: {
+            labels: data.sales.labels,
+            datasets: [
+              {
+                label: "Sales (₱)",
+                data: data.sales.data,
+                borderColor: colorScheme.salesLine.borderColor,
+                backgroundColor: colorScheme.salesLine.backgroundColor,
+                fill: true,
+                tension: 0.4,
+                pointBackgroundColor: colorScheme.salesLine.borderColor,
+                pointBorderColor: isDarkMode ? "#121212" : "#ffffff",
+                pointRadius: 4,
+                pointHoverRadius: 6,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  color: colorScheme.textColor,
+                  callback: (value) => "₱" + value.toLocaleString(),
                 },
-                crops: {
-                    labels: ['Tomatoes', 'Peppers', 'Mangoes', 'Rice'],
-                    data: [30000, 25000, 20000, 15000]
-                },
-                orders: {
-                    labels: ['Pending', 'Completed', 'Canceled'],
-                    data: [20, 150, 10]
-                }
+                grid: { color: colorScheme.gridColor },
+              },
+              x: {
+                ticks: { color: colorScheme.textColor },
+                grid: { color: colorScheme.gridColor },
+              },
             },
-            '6months': {
-                sales: {
-                    labels: ['Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar'],
-                    data: [90000, 85000, 95000, 100000, 110000, 120000]
+            plugins: {
+              legend: {
+                labels: { color: colorScheme.textColor },
+              },
+              tooltip: {
+                backgroundColor: isDarkMode
+                  ? "rgba(33, 33, 33, 0.9)"
+                  : "rgba(255, 255, 255, 0.9)",
+                titleColor: isDarkMode ? "#ffffff" : "#000000",
+                bodyColor: isDarkMode ? "#e0e0e0" : "#424242",
+                borderColor: isDarkMode
+                  ? "rgba(255, 255, 255, 0.2)"
+                  : "rgba(0, 0, 0, 0.2)",
+                borderWidth: 1,
+                callbacks: {
+                  label: function (context) {
+                    return "Sales: ₱" + context.raw.toLocaleString();
+                  },
                 },
-                crops: {
-                    labels: ['Tomatoes', 'Peppers', 'Mangoes', 'Rice'],
-                    data: [18000, 15000, 12000, 9000]
-                },
-                orders: {
-                    labels: ['Pending', 'Completed', 'Canceled'],
-                    data: [10, 80, 5]
-                }
+              },
             },
-            '30days': {
-                sales: {
-                    labels: ['Mar 1-10', 'Mar 11-20', 'Mar 21-31'],
-                    data: [40000, 45000, 35000]
+          },
+        });
+
+        // Crop Chart (Bar)
+        const cropCtx = $("#cropChart")?.getContext("2d");
+        if (cropChart) cropChart.destroy();
+        cropChart = new Chart(cropCtx, {
+          type: "bar",
+          data: {
+            labels: data.crops.labels,
+            datasets: [
+              {
+                label: "Revenue (₱)",
+                data: data.crops.data,
+                backgroundColor: colorScheme.cropBars,
+                borderColor: isDarkMode ? "#121212" : "#ffffff",
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  color: colorScheme.textColor,
+                  callback: (value) => "₱" + value.toLocaleString(),
                 },
-                crops: {
-                    labels: ['Tomatoes', 'Peppers', 'Mangoes', 'Rice'],
-                    data: [6000, 5000, 4000, 3000]
+                grid: { color: colorScheme.gridColor },
+              },
+              x: {
+                ticks: { color: colorScheme.textColor },
+                grid: { color: colorScheme.gridColor },
+              },
+            },
+            plugins: {
+              legend: {
+                labels: { color: colorScheme.textColor },
+              },
+              tooltip: {
+                backgroundColor: isDarkMode
+                  ? "rgba(33, 33, 33, 0.9)"
+                  : "rgba(255, 255, 255, 0.9)",
+                titleColor: isDarkMode ? "#ffffff" : "#000000",
+                bodyColor: isDarkMode ? "#e0e0e0" : "#424242",
+                borderColor: isDarkMode
+                  ? "rgba(255, 255, 255, 0.2)"
+                  : "rgba(0, 0, 0, 0.2)",
+                borderWidth: 1,
+                callbacks: {
+                  label: function (context) {
+                    return "Revenue: ₱" + context.raw.toLocaleString();
+                  },
                 },
-                orders: {
-                    labels: ['Pending', 'Completed', 'Canceled'],
-                    data: [5, 25, 2]
-                }
-            }
+              },
+            },
+          },
+        });
+
+        // Order Chart (Pie)
+        const orderCtx = $("#orderChart")?.getContext("2d");
+        if (orderChart) orderChart.destroy();
+        orderChart = new Chart(orderCtx, {
+          type: "pie",
+          data: {
+            labels: data.orders.labels,
+            datasets: [
+              {
+                label: "Orders",
+                data: data.orders.data,
+                backgroundColor: colorScheme.orderPie,
+                borderColor: isDarkMode ? "#121212" : "#ffffff",
+                borderWidth: 2,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: "bottom",
+                labels: {
+                  color: colorScheme.textColor,
+                  padding: 20,
+                  font: {
+                    size: 12,
+                  },
+                },
+              },
+              tooltip: {
+                backgroundColor: isDarkMode
+                  ? "rgba(33, 33, 33, 0.9)"
+                  : "rgba(255, 255, 255, 0.9)",
+                titleColor: isDarkMode ? "#ffffff" : "#000000",
+                bodyColor: isDarkMode ? "#e0e0e0" : "#424242",
+                borderColor: isDarkMode
+                  ? "rgba(255, 255, 255, 0.2)"
+                  : "rgba(0, 0, 0, 0.2)",
+                borderWidth: 1,
+                callbacks: {
+                  label: function (context) {
+                    const percentage = Math.round(
+                      (context.raw /
+                        context.dataset.data.reduce((a, b) => a + b, 0)) *
+                        100
+                    );
+                    return `${context.label}: ${context.raw} (${percentage}%)`;
+                  },
+                },
+              },
+            },
+          },
+        });
+      }
+
+      // Update Charts for Theme Change
+      function updateChartsForTheme() {
+        const timePeriod = $("#timeFilter")?.value || "year";
+        initCharts(timePeriod);
+      }
+
+      // Update Charts for Dark Mode
+      function updateChartsForTheme() {
+        const isDarkMode = document.body.classList.contains("dark-mode");
+        const textColor = isDarkMode ? "var(--dark-text)" : "var(--dark-gray)";
+        const gridColor = isDarkMode
+          ? "var(--dark-border)"
+          : "var(--light-gray)";
+
+        [salesChart, cropChart, orderChart].forEach((chart) => {
+          if (chart) {
+            chart.options.scales.y.ticks.color = textColor;
+            chart.options.scales.y.grid.color = gridColor;
+            chart.options.scales.x.ticks.color = textColor;
+            chart.options.scales.x.grid.color = gridColor;
+            chart.options.plugins.legend.labels.color = textColor;
+            chart.update();
+          }
+        });
+      }
+
+      // Refresh
+      function refreshData() {
+        const timePeriod = $("#timeFilter")?.value || "year";
+        const refreshButton = $("#refreshDataBtn");
+
+        if (refreshButton) {
+          const icon = refreshButton.querySelector("i");
+          addClass(icon, "fa-spin");
+
+          // Simulate data refresh with a small delay
+          setTimeout(() => {
+            initCharts(timePeriod);
+            removeClass([icon], "fa-spin");
+            showToast("Data refreshed successfully!", "success");
+          }, 1000);
+        }
+      }
+
+      // Export Data
+      function exportData() {
+        const timePeriod = $("#timeFilter")?.value || "year";
+        const data = {
+          timePeriod,
+          sales: analyticsData[timePeriod].sales,
+          crops: analyticsData[timePeriod].crops,
+          orders: analyticsData[timePeriod].orders,
+          customers: Array.from($$("#customerTable tbody tr")).map((row) => ({
+            name: row.cells[0].textContent,
+            totalOrders: row.cells[1].textContent,
+            totalSpent: row.cells[2].textContent,
+            lastPurchase: row.cells[3].textContent,
+          })),
         };
+        const blob = new Blob([JSON.stringify(data, null, 2)], {
+          type: "application/json",
+        });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `analytics-data-${timePeriod}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast("Analytics data exported successfully!", "success");
+      }
 
-        // Chart Initialization
-        let salesChart, cropChart, orderChart;
+      // Search Functionality
+      function handleSearch() {
+        const searchInput = $("#searchInput");
+        searchInput?.addEventListener("input", function () {
+          const query = this.value.toLowerCase().trim();
+          const customerRows = $$("#customerTable tbody tr");
+          const cropLabels = analyticsData.year.crops.labels;
 
-        function initCharts(timePeriod = 'year') {
-            const data = analyticsData[timePeriod];
+          // Filter customer table
+          customerRows.forEach((row) => {
+            const name = row.cells[0].textContent.toLowerCase();
+            row.style.display = name.includes(query) || !query ? "" : "none";
+          });
 
-            // Sales Chart (Line)
-            const salesCtx = $('#salesChart')?.getContext('2d');
-            if (salesChart) salesChart.destroy();
-            salesChart = new Chart(salesCtx, {
-                type: 'line',
-                data: {
-                    labels: data.sales.labels,
-                    datasets: [{
-                        label: 'Sales (₱)',
-                        data: data.sales.data,
-                        borderColor: 'var(--green-primary)',
-                        backgroundColor: 'rgba(46, 125, 50, 0.2)',
-                        fill: true,
-                        tension: 0.4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: { color: document.body.classList.contains('dark-mode') ? 'var(--dark-text)' : 'var(--dark-gray)' },
-                            grid: { color: document.body.classList.contains('dark-mode') ? 'var(--dark-border)' : 'var(--light-gray)' }
-                        },
-                        x: {
-                            ticks: { color: document.body.classList.contains('dark-mode') ? 'var(--dark-text)' : 'var(--dark-gray)' },
-                            grid: { color: document.body.classList.contains('dark-mode') ? 'var(--dark-border)' : 'var(--light-gray)' }
-                        }
-                    },
-                    plugins: {
-                        legend: { labels: { color: document.body.classList.contains('dark-mode') ? 'var(--dark-text)' : 'var(--dark-gray)' } }
-                    }
-                }
-            });
+          // Filter crop chart
+          const filteredCrops = cropLabels.map((label, i) => ({
+            label,
+            data:
+              label.toLowerCase().includes(query) || !query
+                ? analyticsData.year.crops.data[i]
+                : 0,
+          }));
+          cropChart.data.labels = filteredCrops.map((c) => c.label);
+          cropChart.data.datasets[0].data = filteredCrops.map((c) => c.data);
+          cropChart.update();
+        });
+      }
 
-            // Crop Chart (Bar)
-            const cropCtx = $('#cropChart')?.getContext('2d');
-            if (cropChart) cropChart.destroy();
-            cropChart = new Chart(cropCtx, {
-                type: 'bar',
-                data: {
-                    labels: data.crops.labels,
-                    datasets: [{
-                        label: 'Revenue (₱)',
-                        data: data.crops.data,
-                        backgroundColor: ['var(--crop-green)', 'var(--sunrise-orange)', 'var(--water-blue)', 'var(--wheat-gold)']
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: { color: document.body.classList.contains('dark-mode') ? 'var(--dark-text)' : 'var(--dark-gray)' },
-                            grid: { color: document.body.classList.contains('dark-mode') ? 'var(--dark-border)' : 'var(--light-gray)' }
-                        },
-                        x: {
-                            ticks: { color: document.body.classList.contains('dark-mode') ? 'var(--dark-text)' : 'var(--dark-gray)' },
-                            grid: { color: document.body.classList.contains('dark-mode') ? 'var(--dark-border)' : 'var(--light-gray)' }
-                        }
-                    },
-                    plugins: {
-                        legend: { labels: { color: document.body.classList.contains('dark-mode') ? 'var(--dark-text)' : 'var(--dark-gray)' } }
-                    }
-                }
-            });
+      // Initialize Event Listeners
+      document.addEventListener("DOMContentLoaded", function () {
+        // Sidebar and Menu
+        $("#menu-toggle")?.addEventListener("click", toggleSidebar);
+        $("#mobile-menu-toggle")?.addEventListener("click", toggleMobileMenu);
+        $(".sidebar-toggle-mobile")?.addEventListener(
+          "click",
+          toggleMobileMenu
+        );
+        $("#overlay")?.addEventListener("click", toggleMobileMenu);
 
-            // Order Chart (Pie)
-            const orderCtx = $('#orderChart')?.getContext('2d');
-            if (orderChart) orderChart.destroy();
-            orderChart = new Chart(orderCtx, {
-                type: 'pie',
-                data: {
-                    labels: data.orders.labels,
-                    datasets: [{
-                        label: 'Orders',
-                        data: data.orders.data,
-                        backgroundColor: ['var(--warning)', 'var(--success)', 'var(--danger)']
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { 
-                            position: 'bottom',
-                            labels: { color: document.body.classList.contains('dark-mode') ? 'var(--dark-text)' : 'var(--dark-gray)' }
-                        }
-                    }
-                }
-            });
-        }
+        // Dropdowns
+        $("#notificationIcon")?.addEventListener("click", function (e) {
+          e.stopPropagation();
+          toggleClass($("#notificationDropdown"), "show");
+          closeDropdowns($("#notificationDropdown"));
+        });
 
-        // Update Charts for Dark Mode
-        function updateChartsForTheme() {
-            const isDarkMode = document.body.classList.contains('dark-mode');
-            const textColor = isDarkMode ? 'var(--dark-text)' : 'var(--dark-gray)';
-            const gridColor = isDarkMode ? 'var(--dark-border)' : 'var(--light-gray)';
+        $("#userProfile")?.addEventListener("click", function (e) {
+          e.stopPropagation();
+          toggleClass($("#userDropdown"), "show");
+          closeDropdowns($("#userDropdown"));
+        });
 
-            [salesChart, cropChart, orderChart].forEach(chart => {
-                if (chart) {
-                    chart.options.scales.y.ticks.color = textColor;
-                    chart.options.scales.y.grid.color = gridColor;
-                    chart.options.scales.x.ticks.color = textColor;
-                    chart.options.scales.x.grid.color = gridColor;
-                    chart.options.plugins.legend.labels.color = textColor;
-                    chart.update();
-                }
-            });
-        }
+        document.addEventListener("click", closeDropdowns);
+
+        // Initialize Charts
+        initCharts("year");
+
+        // Time Filter
+        $("#timeFilter")?.addEventListener("change", function () {
+          initCharts(this.value);
+          showToast(
+            `Showing data for ${this.options[this.selectedIndex].text}`,
+            "info"
+          );
+        });
 
         // Export Data
-        function exportData() {
-            const timePeriod = $('#timeFilter')?.value || 'year';
-            const data = {
-                timePeriod,
-                sales: analyticsData[timePeriod].sales,
-                crops: analyticsData[timePeriod].crops,
-                orders: analyticsData[timePeriod].orders,
-                customers: Array.from($$('#customerTable tbody tr')).map(row => ({
-                    name: row.cells[0].textContent,
-                    totalOrders: row.cells[1].textContent,
-                    totalSpent: row.cells[2].textContent,
-                    lastPurchase: row.cells[3].textContent
-                }))
-            };
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `analytics-data-${timePeriod}.json`;
-            a.click();
-            URL.revokeObjectURL(url);
-            showToast('Analytics data exported successfully!', 'success');
-        }
+        $("#exportDataBtn")?.addEventListener("click", exportData);
 
-        // Search Functionality
-        function handleSearch() {
-            const searchInput = $('#searchInput');
-            searchInput?.addEventListener('input', function() {
-                const query = this.value.toLowerCase().trim();
-                const customerRows = $$('#customerTable tbody tr');
-                const cropLabels = analyticsData.year.crops.labels;
-
-                // Filter customer table
-                customerRows.forEach(row => {
-                    const name = row.cells[0].textContent.toLowerCase();
-                    row.style.display = name.includes(query) || !query ? '' : 'none';
-                });
-
-                // Filter crop chart
-                const filteredCrops = cropLabels.map((label, i) => ({
-                    label,
-                    data: label.toLowerCase().includes(query) || !query ? analyticsData.year.crops.data[i] : 0
-                }));
-                cropChart.data.labels = filteredCrops.map(c => c.label);
-                cropChart.data.datasets[0].data = filteredCrops.map(c => c.data);
-                cropChart.update();
-            });
-        }
-
-        // Initialize Event Listeners
-        document.addEventListener('DOMContentLoaded', function() {
-            // Sidebar and Menu
-            $('#menu-toggle')?.addEventListener('click', toggleSidebar);
-            $('#mobile-menu-toggle')?.addEventListener('click', toggleMobileMenu);
-            $('.sidebar-toggle-mobile')?.addEventListener('click', toggleMobileMenu);
-            $('#overlay')?.addEventListener('click', toggleMobileMenu);
-
-            // Dropdowns
-            $('#notificationIcon')?.addEventListener('click', function(e) {
-                e.stopPropagation();
-                toggleClass($('#notificationDropdown'), 'show');
-                closeDropdowns($('#notificationDropdown'));
-            });
-
-            $('#userProfile')?.addEventListener('click', function(e) {
-                e.stopPropagation();
-                toggleClass($('#userDropdown'), 'show');
-                closeDropdowns($('#userDropdown'));
-            });
-
-            document.addEventListener('click', closeDropdowns);
-
-            // Initialize Charts
-            initCharts('year');
-
-            // Time Filter
-            $('#timeFilter')?.addEventListener('change', function() {
-                initCharts(this.value);
-                showToast(`Showing data for ${this.options[this.selectedIndex].text}`, 'info');
-            });
-
-            // Export Data
-            $('#exportDataBtn')?.addEventListener('click', exportData);
-
-            // Dark Mode Toggle
-            $('#darkModeToggle')?.addEventListener('click', function(e) {
-                e.preventDefault();
-                toggleClass(document.body, 'dark-mode');
-                const themeText = $('#themeText');
-                if (themeText) {
-                    themeText.textContent = document.body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode';
-                }
-                localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-                updateChartsForTheme();
-            });
-
-            // Initialize Dark Mode
-            if (localStorage.getItem('darkMode') === 'true') {
-                addClass(document.body, 'dark-mode');
-                $('#themeText').textContent = 'Light Mode';
-                updateChartsForTheme();
-            }
-
-            // Logout Button
-            $('#userDropdownLogout')?.addEventListener('click', function(e) {
-                e.preventDefault();
-                if (confirm('Are you sure you want to logout?')) {
-                    showToast('Logged out successfully', 'info');
-                    setTimeout(() => {
-                        window.location.href = '/login.html';
-                    }, 1500);
-                }
-            });
-
-            // Initialize Search
-            handleSearch();
+        // Dark Mode Toggle
+        $("#darkModeToggle")?.addEventListener("click", function (e) {
+          e.preventDefault();
+          toggleClass(document.body, "dark-mode");
+          const themeText = $("#themeText");
+          if (themeText) {
+            themeText.textContent = document.body.classList.contains(
+              "dark-mode"
+            )
+              ? "Light Mode"
+              : "Dark Mode";
+          }
+          localStorage.setItem(
+            "darkMode",
+            document.body.classList.contains("dark-mode")
+          );
+          updateChartsForTheme();
         });
+
+        // Initialize Dark Mode
+        if (localStorage.getItem("darkMode") === "true") {
+          addClass(document.body, "dark-mode");
+          $("#themeText").textContent = "Light Mode";
+          updateChartsForTheme();
+        }
+
+        // Logout Button
+        $("#userDropdownLogout")?.addEventListener("click", function (e) {
+          e.preventDefault();
+          if (confirm("Are you sure you want to logout?")) {
+            showToast("Logged out successfully", "info");
+            setTimeout(() => {
+              window.location.href = "/login.html";
+            }, 1500);
+          }
+        });
+
+        // Initialize Search
+        handleSearch();
+      });
     </script>
-</body>
+  </body>
 </html>
