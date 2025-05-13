@@ -1009,7 +1009,6 @@
       </a>
       <div class="bx bx-menu" id="menu-icon"></div>
       <ul class="navbar">
-        <i class="fas fa-search"></i>
         <li><a href="shop.html"><i class="fas fa-shopping-basket"></i> Shop</a></li>
         <li><a href="orders.html"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
         <li><a href="wishlist.html"><i class="fas fa-heart"></i> My Wishlist</a></li>
@@ -1047,11 +1046,11 @@
         </div>
       </div>
     </header>
-
+  
     <!-- Welcome Section -->
     <section class="welcome-section">
       <div class="welcome-content">
-        <h1>Welcome back, <span>John!</span></h1>
+        <h1>Welcome back, <span id="welcomeUserName">John!</span></h1>
         <p>
           Explore fresh local produce from farms near you. Find the best organic
           products and support local farmers in your community.
@@ -1068,7 +1067,7 @@
         />
       </div>
     </section>
-
+  
     <!-- Dashboard Grid -->
     <div class="dashboard-grid">
       <!-- Main Content -->
@@ -1099,7 +1098,7 @@
               </div>
               <div class="order-status status-delivered">Delivered</div>
             </div>
-
+  
             <!-- Order 2 -->
             <div class="order-card">
               <div class="order-info">
@@ -1119,7 +1118,7 @@
               </div>
               <div class="order-status status-transit">In Transit</div>
             </div>
-
+  
             <!-- Order 3 -->
             <div class="order-card">
               <div class="order-info">
@@ -1141,7 +1140,7 @@
             </div>
           </div>
         </div>
-
+  
         <!-- Recommended Products -->
         <div class="recommended-products">
           <div class="section-header">
@@ -1152,7 +1151,7 @@
             <!-- Product 1 -->
             <div class="product-card" data-product-id="1">
               <div class="product-image">
-                <img src="https://images.pexels.com/photos/2252584/pexels-photo-2252584.jpeg" alt="Fresh Tomatoes">
+                <img src="https://images.pexels.com/photos/29479888/pexels-photo-29479888/free-photo-of-fresh-red-tomatoes-bounty-in-coimbatore-market.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Fresh Tomatoes">
               </div>
               <div class="product-content">
                 <h3 class="product-title">Fresh Tomatoes</h3>
@@ -1165,11 +1164,11 @@
                 </div>
               </div>
             </div>
-
+  
             <!-- Product 2 -->
             <div class="product-card" data-product-id="2">
               <div class="product-image">
-                <img src="https://images.pexels.com/photos/39341/spinach-vegetables-leaves-green-39341.jpeg" alt="Organic Spinach">
+                <img src="https://images.pexels.com/photos/8852027/pexels-photo-8852027.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Organic Spinach">
               </div>
               <div class="product-content">
                 <h3 class="product-title">Organic Spinach</h3>
@@ -1182,11 +1181,11 @@
                 </div>
               </div>
             </div>
-
+  
             <!-- Product 3 -->
             <div class="product-card" data-product-id="3">
               <div class="product-image">
-                <img src="https://images.pexels.com/photos/264537/pexels-photo-264537.jpeg" alt="Organic Brown Rice">
+                <img src="https://images.pexels.com/photos/4110257/pexels-photo-4110257.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Organic Brown Rice">
               </div>
               <div class="product-content">
                 <h3 class="product-title">Organic Brown Rice</h3>
@@ -1199,7 +1198,7 @@
                 </div>
               </div>
             </div>
-
+  
             <!-- Product 4 -->
             <div class="product-card" data-product-id="4">
               <div class="product-image">
@@ -1219,7 +1218,7 @@
           </div>
         </div>
       </div>
-
+  
       <!-- Sidebar -->
       <div class="sidebar">
         <!-- Profile Card -->
@@ -1245,7 +1244,7 @@
           </div>
           <button class="btn btn-outline profile-action" id="editProfileBtn">Edit Profile</button>
         </div>
-
+  
         <!-- Quick Links -->
         <div class="quick-links">
           <div class="section-header">
@@ -1259,7 +1258,7 @@
             <li><a href="settings.html"><i class="fas fa-cog"></i> Account Settings</a></li>
           </ul>
         </div>
-
+  
         <!-- Special Offers -->
         <div class="special-offers">
           <div class="section-header">
@@ -1279,7 +1278,7 @@
         </div>
       </div>
     </div>
-
+  
     <!-- Edit Profile Modal -->
     <div class="modal" id="editProfileModal">
       <div class="modal-content">
@@ -1309,10 +1308,10 @@
         </div>
       </div>
     </div>
-
+  
     <!-- Toast Notification -->
     <div class="toast-notification" id="toast"></div>
-
+  
     <!-- Footer -->
     <footer>
       <div class="footer">
@@ -1327,7 +1326,7 @@
               <li><a href="#">Contact</a></li>
             </ul>
           </div>
-
+  
           <div class="list">
             <h4>Support</h4>
             <ul>
@@ -1338,7 +1337,7 @@
               <li><a href="#">Community</a></li>
             </ul>
           </div>
-
+  
           <div class="list">
             <h4>Contact Info</h4>
             <ul>
@@ -1348,7 +1347,7 @@
               <li><a href="#">www.agrigo.com</a></li>
             </ul>
           </div>
-
+  
           <div class="list">
             <h4>Connect</h4>
             <div class="social">
@@ -1360,12 +1359,12 @@
           </div>
         </div>
       </div>
-
+  
       <div class="end-text">
         <p>© 2025 AgriGo. All Rights Reserved.</p>
       </div>
     </footer>
-
+  
     <!-- JavaScript -->
     <script>
       document.addEventListener("DOMContentLoaded", () => {
@@ -1373,47 +1372,92 @@
         const $ = (selector) => document.querySelector(selector);
         const $$ = (selector) => document.querySelectorAll(selector);
         const toggleClass = (element, className) => element?.classList.toggle(className);
-
+  
+        // Load User Profile
+        const loadUserProfile = () => {
+          const userProfile = JSON.parse(localStorage.getItem("userProfile") || '{"name":"John Doe", "email":"john.doe@example.com", "phone":"+63 912 345 6789"}');
+          
+          if (userProfile) {
+            // Update profile name in the sidebar
+            const profileNameElement = $(".profile-name");
+            if (profileNameElement) {
+              profileNameElement.textContent = userProfile.name;
+            }
+            
+            // Update welcome message
+            const welcomeUserName = $("#welcomeUserName");
+            if (welcomeUserName) {
+              welcomeUserName.textContent = userProfile.name.split(" ")[0] + "!";
+            }
+            
+            // Update form fields
+            if ($("#profileName")) $("#profileName").value = userProfile.name;
+            if ($("#profileEmail")) $("#profileEmail").value = userProfile.email;
+            if ($("#profilePhone")) $("#profilePhone").value = userProfile.phone || "";
+          }
+        };
+  
         // Toast Notification
         const showToast = (message, duration = 3000) => {
           const toast = $("#toast");
+          if (!toast) return;
+          
           toast.textContent = message;
           toast.classList.add("show");
           setTimeout(() => toast.classList.remove("show"), duration);
         };
-
+  
         // Cart Management
         const loadCart = () => {
           const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
-          $("#cart").setAttribute("data-totalitems", cartItems.length);
+          const cartElement = $("#cart");
+          if (cartElement) {
+            cartElement.setAttribute("data-totalitems", cartItems.length);
+          }
         };
-
+  
         const addToCart = (productId) => {
           const productCard = $(`.product-card[data-product-id="${productId}"]`);
-          const title = productCard.querySelector(".product-title").textContent;
-          const price = productCard.querySelector(".product-price").textContent.split(" ")[0];
+          if (!productCard) return;
+          
+          const title = productCard.querySelector(".product-title")?.textContent || "Product";
+          const priceElement = productCard.querySelector(".product-price");
+          const price = priceElement ? priceElement.textContent.split(" ")[0] : "₱0.00";
+          
           const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
           cartItems.push({ id: productId, title, price });
           localStorage.setItem("cartItems", JSON.stringify(cartItems));
           loadCart();
           showToast(`${title} added to your cart!`);
         };
-
+  
         // Wishlist Management
         const loadWishlist = () => {
           const wishlistItems = JSON.parse(localStorage.getItem("wishlistItems") || "[]");
-          $("#wishlistCount").textContent = wishlistItems.length;
+          const wishlistCountElement = $("#wishlistCount");
+          
+          if (wishlistCountElement) {
+            wishlistCountElement.textContent = wishlistItems.length;
+          }
+          
           $$(".wishlist-btn").forEach((btn) => {
             const productId = btn.dataset.productId;
-            btn.classList.toggle("active", wishlistItems.some((item) => item.id === productId));
+            if (wishlistItems.some((item) => item.id === productId)) {
+              btn.classList.add("active");
+            } else {
+              btn.classList.remove("active");
+            }
           });
         };
-
+  
         const toggleWishlist = (productId) => {
           const productCard = $(`.product-card[data-product-id="${productId}"]`);
-          const title = productCard.querySelector(".product-title").textContent;
+          if (!productCard) return;
+          
+          const title = productCard.querySelector(".product-title")?.textContent || "Product";
           let wishlistItems = JSON.parse(localStorage.getItem("wishlistItems") || "[]");
           const exists = wishlistItems.some((item) => item.id === productId);
+          
           if (exists) {
             wishlistItems = wishlistItems.filter((item) => item.id !== productId);
             showToast(`${title} removed from wishlist`);
@@ -1421,10 +1465,11 @@
             wishlistItems.push({ id: productId, title });
             showToast(`${title} added to wishlist`);
           }
+          
           localStorage.setItem("wishlistItems", JSON.stringify(wishlistItems));
           loadWishlist();
         };
-
+  
         // Menu Toggle
         const menu = $("#menu-icon");
         const navbar = $(".navbar");
@@ -1433,24 +1478,41 @@
             menu.classList.toggle("bx-x");
             navbar.classList.toggle("open");
           };
+          
           window.onscroll = () => {
             menu.classList.remove("bx-x");
             navbar.classList.remove("open");
           };
         }
-
+  
         // Profile Dropdown Toggle
         const profileToggle = $("#profile-toggle");
         const profileMenu = $("#profile-menu");
         if (profileToggle && profileMenu) {
-          profileToggle.addEventListener("click", () => toggleClass(profileMenu, "active"));
+          profileToggle.addEventListener("click", (e) => {
+            e.preventDefault();
+            toggleClass(profileMenu, "active");
+          });
+          
           window.addEventListener("click", (e) => {
             if (!profileToggle.contains(e.target) && !profileMenu.contains(e.target)) {
               profileMenu.classList.remove("active");
             }
           });
         }
-
+  
+        // My Profile Link
+        const myProfileLink = $("#myProfileLink");
+        if (myProfileLink) {
+          myProfileLink.addEventListener("click", (e) => {
+            e.preventDefault();
+            const editProfileModal = $("#editProfileModal");
+            if (editProfileModal) {
+              editProfileModal.style.display = "block";
+            }
+          });
+        }
+  
         // Add to Cart Buttons
         $$(".add-to-cart").forEach((button) => {
           button.addEventListener("click", () => {
@@ -1458,7 +1520,7 @@
             addToCart(productId);
           });
         });
-
+  
         // Wishlist Buttons
         $$(".wishlist-btn").forEach((button) => {
           button.addEventListener("click", (e) => {
@@ -1467,75 +1529,129 @@
             toggleWishlist(productId);
           });
         });
-
+  
         // Copy Offer Code
         const copyIcon = $(".copy-code");
         if (copyIcon) {
           copyIcon.addEventListener("click", () => {
-            const offerCode = $(".offer-code span").textContent;
-            navigator.clipboard.writeText(offerCode);
-            showToast("Promo code copied to clipboard!");
+            const offerCodeElement = $(".offer-code span");
+            if (!offerCodeElement) return;
+            
+            const offerCode = offerCodeElement.textContent;
+            navigator.clipboard.writeText(offerCode)
+              .then(() => {
+                showToast("Promo code copied to clipboard!");
+              })
+              .catch(err => {
+                console.error('Failed to copy: ', err);
+                showToast("Failed to copy promo code!");
+              });
           });
         }
-
+  
         // Shop Now (Special Offer)
-        $(".shop-offer").addEventListener("click", () => {
-          localStorage.setItem("appliedPromo", "FRESH15");
-          window.location.href = "shop.html";
-        });
-
-        // Edit Profile
+        const shopOfferBtn = $(".shop-offer");
+        if (shopOfferBtn) {
+          shopOfferBtn.addEventListener("click", () => {
+            localStorage.setItem("appliedPromo", "FRESH15");
+            window.location.href = "shop.html";
+          });
+        }
+  
+        // Edit Profile Modal
         const editProfileModal = $("#editProfileModal");
-        $("#editProfileBtn").addEventListener("click", () => {
-          editProfileModal.style.display = "block";
-        });
-
-        $("#closeEditProfileModal").addEventListener("click", () => {
-          editProfileModal.style.display = "none";
-        });
-
-        $("#cancelEditProfileBtn").addEventListener("click", () => {
-          editProfileModal.style.display = "none";
-        });
-
-        $("#saveProfileBtn").addEventListener("click", () => {
-          const name = $("#profileName").value;
-          const email = $("#profileEmail").value;
-          const phone = $("#profilePhone").value;
-          if (!name || !email) {
-            showToast("Name and email are required!", 4000);
-            return;
-          }
-          localStorage.setItem("userProfile", JSON.stringify({ name, email, phone }));
-          $(".profile-name").textContent = name;
-          showToast("Profile updated successfully!");
-          editProfileModal.style.display = "none";
-        });
-
-        // Logout
-        $("#logoutBtn").addEventListener("click", (e) => {
-          e.preventDefault();
-          localStorage.removeItem("cartItems");
-          localStorage.removeItem("wishlistItems");
-          localStorage.removeItem("userProfile");
-          localStorage.removeItem("appliedPromo");
-          showToast("Logged out successfully!");
-          setTimeout(() => {
-            window.location.href = "login.html";
-          }, 2000);
-        });
-
-        // Close Modal on Outside Click
-        window.addEventListener("click", (event) => {
-          if (event.target === editProfileModal) {
+        const editProfileBtn = $("#editProfileBtn");
+        const closeEditProfileModal = $("#closeEditProfileModal");
+        const cancelEditProfileBtn = $("#cancelEditProfileBtn");
+        const saveProfileBtn = $("#saveProfileBtn");
+        
+        if (editProfileBtn && editProfileModal) {
+          editProfileBtn.addEventListener("click", () => {
+            editProfileModal.style.display = "block";
+          });
+        }
+  
+        if (closeEditProfileModal && editProfileModal) {
+          closeEditProfileModal.addEventListener("click", () => {
             editProfileModal.style.display = "none";
-          }
-        });
-
-        // Initialize Cart and Wishlist
+          });
+        }
+  
+        if (cancelEditProfileBtn && editProfileModal) {
+          cancelEditProfileBtn.addEventListener("click", () => {
+            editProfileModal.style.display = "none";
+          });
+        }
+  
+        if (saveProfileBtn && editProfileModal) {
+          saveProfileBtn.addEventListener("click", () => {
+            const nameInput = $("#profileName");
+            const emailInput = $("#profileEmail");
+            const phoneInput = $("#profilePhone");
+            
+            if (!nameInput || !emailInput) {
+              showToast("Error: Form fields not found");
+              return;
+            }
+            
+            const name = nameInput.value;
+            const email = emailInput.value;
+            const phone = phoneInput ? phoneInput.value : "";
+            
+            if (!name || !email) {
+              showToast("Name and email are required!", 4000);
+              return;
+            }
+            
+            localStorage.setItem("userProfile", JSON.stringify({ name, email, phone }));
+            
+            // Update profile name in the sidebar
+            const profileNameElement = $(".profile-name");
+            if (profileNameElement) {
+              profileNameElement.textContent = name;
+            }
+            
+            // Update welcome message
+            const welcomeUserName = $("#welcomeUserName");
+            if (welcomeUserName) {
+              welcomeUserName.textContent = name.split(" ")[0] + "!";
+            }
+            
+            showToast("Profile updated successfully!");
+            editProfileModal.style.display = "none";
+          });
+        }
+  
+        // Logout
+        const logoutBtn = $("#logoutBtn");
+        if (logoutBtn) {
+          logoutBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            localStorage.removeItem("cartItems");
+            localStorage.removeItem("wishlistItems");
+            localStorage.removeItem("userProfile");
+            localStorage.removeItem("appliedPromo");
+            showToast("Logged out successfully!");
+            setTimeout(() => {
+              window.location.href = "login.html";
+            }, 2000);
+          });
+        }
+  
+        // Close Modal on Outside Click
+        if (editProfileModal) {
+          window.addEventListener("click", (event) => {
+            if (event.target === editProfileModal) {
+              editProfileModal.style.display = "none";
+            }
+          });
+        }
+  
+        // Initialize
+        loadUserProfile();
         loadCart();
         loadWishlist();
       });
     </script>
   </body>
-</html>
+  </html>
